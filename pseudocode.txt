@@ -1,0 +1,25 @@
+$url = "https://api.openstreetmap.org/api/0.6/way/{$way_id}/full";
+$xml_response = http_get($url);
+/**
+ * XML Structure:
+ * <osm ....>
+ *   <node id="{nid}" lat="{lat}" lon="{lon}"/>
+ *   <way id="{wid}"/>
+ *     <nd ref="{nid}"/>
+ *     <tag k="{key}" v="{value}"/>
+ *   </way>
+ * </osm>
+
+$node_data = [];
+foreach ($xml_response['osm'] as $data} {
+    if ($way_data->type == 'node') {
+      $node_id = $data->id;
+      $node_data[$node_id] = [$data->lat, $data->lon];
+    }
+}
+foreach ($xml_response['osm']['way'] as $data} {
+    if ($data->type == 'nd') {
+      $node_id = $data->ref;
+      $canves->addpoint($node_data[$node_id]);
+    }
+}
