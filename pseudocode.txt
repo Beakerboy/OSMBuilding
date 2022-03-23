@@ -18,6 +18,9 @@ foreach ($xml_response['osm'] as $data} {
     }
 }
 foreach ($xml_response['osm']['way'] as $data} {
+    // Verify the last node id matches the first to ensure it is closed.
+    // Verify that there are no "collisions" between walls.
+    // Verify that it is a building
     if ($data->type == 'nd') {
       $node_id = $data->ref;
       $canves->addpoint($node_data[$node_id]);
