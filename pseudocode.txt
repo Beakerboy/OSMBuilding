@@ -17,6 +17,10 @@ foreach ($xml_response['osm'] as $data} {
       $node_data[$node_id] = [$data->lat, $data->lon];
     }
 }
+
+// Rotate the lat-lon values to place the first node at 0,0
+// This will make it basically Cartesian.
+
 foreach ($xml_response['osm']['way'] as $data} {
     // Verify the last node id matches the first to ensure it is closed.
     // Verify that there are no "collisions" between walls.
