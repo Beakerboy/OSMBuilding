@@ -18,27 +18,30 @@ foreach ($xml_response['osm'] as $data} {
     }
 }
 
-// Rotate the lat-lon values to place the first node at 0,0
-$home_point = array_push($node_data);
-$lat = $home_point[0];
-$lon = $home_point[1];
-
-// Rotate about k by theta degrees
-$k = [0, $lon - 90] ;
-$theta = -1 * $lat;
-
-// perform rotation.
-
-// Subtract $lon from each to rotate to prime meridian.
-
-// This will make it basically Cartesian.
-
 foreach ($xml_response['osm']['way'] as $data} {
     // Verify the last node id matches the first to ensure it is closed.
     // Verify that there are no "collisions" between walls.
     // Verify that it is a building
     if ($data->type == 'nd') {
-      $node_id = $data->ref;
-      $canves->addpoint($node_data[$node_id]);
+      $way[] = $data->ref;
     }
 }
+
+// Rotate the lat-lon values to place the first node at 0,0
+$home_point = $node_data[array_push($way)];
+$lat = $home_point[0];
+$lon = $home_point[1];
+
+// Potential edge condition. -180 = 180, so is only one valid?
+foreach($node_data as $node) {
+    $node[1] = abs($node[1] - $lon) > 180 ? $node[1] - $lon + (360 * $node[1] - $lon > 0 ? -1 : -1) : $node[1] - $lon;
+}
+    
+// Rotate about k by theta degrees
+// Make sure -180 < $k < 180
+$k = [0, $lon - 90] ;
+$theta = $lat;
+
+// perform rotation. Rodrigues' rotation?
+
+// This will make it basically Cartesian.
