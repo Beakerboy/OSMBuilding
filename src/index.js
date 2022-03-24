@@ -1,19 +1,19 @@
-import * as THREE from "https://cdn.skypack.dev/pin/three@v0.138.1-reCevIfO2moyjiiuoEbR/mode=imports/optimized/three.js";
+import * from "https://cdn.skypack.dev/pin/three@v0.138.1-reCevIfO2moyjiiuoEbR/mode=imports/optimized/three.js";
 import { OrbitControls } from "https://cdn.skypack.dev/pin/three@v0.138.1-reCevIfO2moyjiiuoEbR/mode=raw/examples/jsm/controls/OrbitControls.js";
 var camera;
 var renderer;
 var controls;
 function init() {
-  var scene = new THREE.Scene();
+  var scene = new Scene();
   console.log(scene);
-  camera = new THREE.PerspectiveCamera(
+  camera = new PerspectiveCamera(
     50,
     document.documentElement.clientWidth /
       document.documentElement.clientHeight,
     0.1,
     1000
   );
-  renderer = new THREE.WebGLRenderer({
+  renderer = new WebGLRenderer({
     alpha: false
   });
   renderer.setSize(
@@ -24,7 +24,7 @@ function init() {
   renderer.domElement.style.zIndex = 1;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
-  const shape = new THREE.Shape();
+  const shape = new Shape();
   shape.moveTo( 0,0 );
   shape.lineTo(-0.00334221071354316, 0.00214606248974563)
 shape.lineTo(-0.0102992676390634, -0.00863984195985584)
@@ -127,17 +127,17 @@ shape.lineTo(0, 0)
     depth: .01,
     bevelEnabled: false,
   };
-  var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-  var material = new THREE.MeshLambertMaterial({
+  var geometry = new ExtrudeGeometry(shape, extrudeSettings);
+  var material = new MeshLambertMaterial({
     color: 0x0064ff,
     emissive: 0x1111111
   });
 
-  shape[0] = new THREE.Mesh(geometry, material);
+  shape[0] = new Mesh(geometry, material);
   shape[0].position.set(0, 0, 0);
   scene.add(shape[0]);
 
-  var pointLight = new THREE.PointLight(0x888888);
+  var pointLight = new PointLight(0x888888);
   pointLight.position.set(0, 0, 500);
   scene.add(pointLight);
   camera.position.set(0, -.2, .05); // x y z
