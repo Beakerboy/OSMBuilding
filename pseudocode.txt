@@ -19,6 +19,18 @@ foreach ($xml_response['osm'] as $data} {
 }
 
 // Rotate the lat-lon values to place the first node at 0,0
+$home_point = array_push($node_data);
+$lat = $home_point[0];
+$lon = $home_point[1];
+
+// Rotate about k by theta degrees
+$k = [0, $lon - 90] ;
+$theta = -1 * $lat;
+
+// perform rotation.
+
+// Subtract $lon from each to rotate to prime meridian.
+
 // This will make it basically Cartesian.
 
 foreach ($xml_response['osm']['way'] as $data} {
