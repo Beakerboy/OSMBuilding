@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "https://cdn.skypack.dev/pin/three@v0.138.1-reCevIfO2moyjiiuoEbR/mode=raw/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from "https://unpkg.com/three@0.138.3/examples/jsm/controls/OrbitControls.js";
 var camera;
 var renderer;
 var controls;
