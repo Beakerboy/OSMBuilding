@@ -124,7 +124,7 @@ shape.lineTo(0, 0);
 
   const extrudeSettings = {
     steps: 2,
-    depth: .01,
+    depth: 0.01,
     bevelEnabled: false,
   };
   var geometry = new ExtrudeGeometry(shape, extrudeSettings);
@@ -140,7 +140,7 @@ shape.lineTo(0, 0);
   var pointLight = new PointLight(0x888888);
   pointLight.position.set(0, 0, 500);
   scene.add(pointLight);
-  camera.position.set(0, -.2, .05); // x y z
+  camera.position.set(0, -0.2, 0.05); // x y z
   
   controls = new OrbitControls( camera, renderer.domElement );
   function render() {
