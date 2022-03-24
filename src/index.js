@@ -27,6 +27,7 @@ function init() {
 }
 
 function createScene() {
+  var shapes = [];
   shapes = buildStructure();
   scene.add(shapes[0]);
 
