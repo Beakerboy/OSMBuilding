@@ -4,8 +4,6 @@ var camera;
 var renderer;
 var controls;
 function init() {
-  var scene = new THREE.Scene();
-  console.log(scene);
   camera = new THREE.PerspectiveCamera(
     50,
     document.documentElement.clientWidth /
@@ -29,6 +27,8 @@ function init() {
 function createScene() {
   var shapes = [];
   shapes = buildStructure();
+
+  var scene = new THREE.Scene();
   scene.add(shapes[0]);
 
   var pointLight = new THREE.PointLight(0x888888);
