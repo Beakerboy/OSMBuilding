@@ -16,7 +16,7 @@ function init() {
   });
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight
+    document.documentElement.clientHeight * 0.8
   );
   renderer.domElement.style.position = "absolute";
   renderer.domElement.style.zIndex = 1;
