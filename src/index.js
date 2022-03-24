@@ -16,10 +16,10 @@ function init() {
   });
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight * 0.8
+    document.documentElement.clientHeight
   );
   renderer.domElement.style.position = "absolute";
-  renderer.domElement.style.zIndex = 1;
+  renderer.domElement.style.zIndex = 0;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
 }
