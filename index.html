@@ -8,9 +8,14 @@
 
 <body>
 	<div id="app"></div>
-
-	<script type="module" src="src/index.js">
-	</script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.138.3/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module" src="src/index.js" />
 </body>
 
 </html>
