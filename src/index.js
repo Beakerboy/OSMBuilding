@@ -1,4 +1,4 @@
-import THREE from "three";
+import * as THREE from "three";
 import { OrbitControls } from "https://cdn.skypack.dev/pin/three@v0.138.1-reCevIfO2moyjiiuoEbR/mode=raw/examples/jsm/controls/OrbitControls.js";
 var camera;
 var renderer;
