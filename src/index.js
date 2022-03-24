@@ -123,9 +123,9 @@ shape.lineTo(0.0003433086933032, 0.000522616160266608);
 shape.lineTo(0, 0);
 
   const extrudeSettings = {
-    steps: 2,
     depth: 0.01,
     bevelEnabled: false,
+    steps: 2
   };
   var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
