@@ -167,7 +167,7 @@ async function buildStructure() {
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
   
   // Filter to all ways
-  const elements = inner_xml_data.getElementsByTagName("way");
+  const innerElements = inner_xml_data.getElementsByTagName("way");
     // with a building part tag ...
   
   //foreach (elements as way) {
