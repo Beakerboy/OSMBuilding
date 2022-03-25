@@ -209,12 +209,15 @@ function createShape(elements, xml_data, home_lat, home_lon) {
     const circ = 2 * Math.PI * R;  // Circumference
     if (i === 0) {
       shape.moveTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+      console.log("MOVE");
     } else {
       // 1 meter per unit.
       // Better to rotate instead of translate.
       shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+      console.log("LINE");
     }
   }
+  console.log("RETURN");
   return shape;
 }
 
