@@ -168,8 +168,11 @@ async function buildStructure() {
   const innerElements = inner_xml_data.getElementsByTagName("way");
     // with a building part tag ...
   console.log("INNER ELEMENTS: " + innerElements.length);
+  var k = 0;
   for (let j = 0; j < innerElements.length; j++) {
-    console.log(innerElements[j]);
+    if (innerElements[j].querySelector('[k="building:part"]')) {
+      console.log(innerElements[j]);
+      k++;
     // building_levels = ;
     // building_min_level = ;
     // shape = new THREE.Shape();
@@ -179,8 +182,9 @@ async function buildStructure() {
     // };
     // geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     // shapes.push(new THREE.Mesh(geometry, material));
+    }
   }
-
+  console.log("BUILDING PARTS: " + k);
   return shapes
 }
 
