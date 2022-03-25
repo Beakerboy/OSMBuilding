@@ -140,10 +140,9 @@ async function buildStructure() {
     }
   }
   // Extrude the outline to the correct height.
-  const extrudeSettings = {
-    depth: 3,
+  var extrudeSettings = {
     bevelEnabled: false,
-    steps: 2
+    depth: 3,
   };
   var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
@@ -169,10 +168,17 @@ async function buildStructure() {
   const innerElements = inner_xml_data.getElementsByTagName("way");
     // with a building part tag ...
   console.log("INNER ELEMENTS: " + innerElements.length);
-  for (let j = 0; i < innerElements.length; i++) {
+  for (let j = 0; j < innerElements.length; j++) {
     console.log(innerElements[j]);
-    //shape = new THREE.Shape();
-    //shapes.push(shape);
+    // building_levels = ;
+    // building_min_levels = ;
+    // shape = new THREE.Shape();
+    // extrudeSettings = {
+    //   bevelEnabled: false,
+    //   depth: 3 * building_levels,
+    // };
+    // geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    // shapes.push(new THREE.Mesh(geometry, material));
   }
 
   return shapes
