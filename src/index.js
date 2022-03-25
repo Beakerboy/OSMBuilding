@@ -62,7 +62,7 @@ async function getData() {
       }
     }
   };
-  const way_id = "579354478";
+  const way_id = "1031882447";
   let response = await fetch(apis.get_way.url(way_id));
   let res = await response.text();
   console.log("response: " + res);
