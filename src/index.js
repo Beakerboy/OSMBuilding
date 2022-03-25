@@ -52,7 +52,7 @@ function createScene() {
   render();
 }
 
-function getData() {
+async function getData() {
   let apis = {
     get_way: {
       api:"https://api.openstreetmap.org/api/0.6/way/",
@@ -63,8 +63,8 @@ function getData() {
     }
   };
   const way_id = "579354478";
-  let response = fetch(apis.get_way.url(way_id));
-  return response.text();
+  let response = await fetch(apis.get_way.url(way_id));
+  return await response.text();
 }
 
 /**
