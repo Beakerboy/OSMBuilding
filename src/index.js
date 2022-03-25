@@ -3,6 +3,10 @@ import { OrbitControls } from "https://unpkg.com/three@0.138.3/examples/jsm/cont
 var camera;
 var renderer;
 var controls;
+
+/**
+ * Initialize the screen
+ */
 function init() {
   camera = new THREE.PerspectiveCamera(
     50,
@@ -24,6 +28,9 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
+/**
+ * Create the scene
+ */
 function createScene() {
   var shapes = [];
   shapes = buildStructure();
@@ -45,6 +52,13 @@ function createScene() {
   render();
 }
 
+/**
+ * Build the structure
+ *
+ * Query OSM for the way data of the specified object
+ * Convert the lat/lon data to cartesian coordinates.
+ * Create a shape and extrude to the correct height.
+ */
 function buildStructure() {
   let apis = {
     get_way: {
