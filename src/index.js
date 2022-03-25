@@ -31,9 +31,9 @@ function init() {
 /**
  * Create the scene
  */
-function createScene() {
+async function createScene() {
   var shapes = [];
-  shapes = buildStructure();
+  shapes = await buildStructure();
 
   var scene = new THREE.Scene();
   scene.add(shapes[0]);
@@ -52,14 +52,7 @@ function createScene() {
   render();
 }
 
-/**
- * Build the structure
- *
- * Query OSM for the way data of the specified object
- * Convert the lat/lon data to cartesian coordinates.
- * Create a shape and extrude to the correct height.
- */
-function buildStructure() {
+async function getData() {
   let apis = {
     get_way: {
       api:"https://api.openstreetmap.org/api/0.6/way/",
@@ -71,8 +64,19 @@ function buildStructure() {
   };
   const way_id = "579354478";
   let response = await fetch(apis.get_way.url(way_id));
-  let data = await response.text();
-  var xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+  return await response.text();
+}
+
+/**
+ * Build the structure
+ *
+ * Query OSM for the way data of the specified object
+ * Convert the lat/lon data to cartesian coordinates.
+ * Create a shape and extrude to the correct height.
+ */
+async function buildStructure() {
+  let data = await getData();
+  let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   const elements = xml_data.getElementsByTagName("node");
   const shape = new THREE.Shape();
   var home_lon = 0;
