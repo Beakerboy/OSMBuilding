@@ -186,6 +186,7 @@ async function buildStructure() {
       };
       geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
       shapes.push(new THREE.Mesh(geometry, material));
+      console.log("added inner mesh " j);
     }
   }
   
