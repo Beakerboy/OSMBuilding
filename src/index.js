@@ -174,7 +174,7 @@ async function buildStructure() {
 
   var k = 0;
   var nodes_in_way = []
-  for (let j = 0; j < innerElements.length; j++) {
+  for (let j = 0; j < innerWays.length; j++) {
     if (innerWays[j].querySelector('[k="building:part"]')) {
       nodes_in_way = innerWays[j].getElementsByTagName("nd");
       shape = createShape(nodes_in_way, inner_xml_data, home_lat, home_lon);
