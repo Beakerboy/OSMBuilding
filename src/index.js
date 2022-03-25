@@ -78,17 +78,20 @@ async function getData() {
  */
 async function buildStructure() {
   let data = await getData();
-  console.log("data: " + data);
+
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-  console.log("xml_data: " + xml_data);
-  const elements = xml_data.getElementsByTagName("node");
-  console.log("elements: " + elements.length);
+
+  const elements = xml_data.getElementsByTagName("nd");
+  const nodes = xml_data.getElementsByTagName("node");
+
   const shape = new THREE.Shape();
   var home_lon = 0;
   var home_lat = 0;
   for (let i = 0; i < elements.length; i++) {
-    var lat = elements[i].getAttribute("lat");
-    var lon = elements[i].getAttribute("lon");
+    var ref = elements[i].getAttribute("ref");
+    var node = nodes.querySelector('[id="' + ref + '"]');
+    var lat = node.getAttribute("lat");
+    var lon = node.getAttribute("lon");
     if (i === 0) {
       const home_lat = lat;
       const home_lon = lon;
