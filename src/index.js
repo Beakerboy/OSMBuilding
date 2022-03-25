@@ -31,9 +31,9 @@ function init() {
 /**
  * Create the scene
  */
-function createScene() {
+async function createScene() {
   var shapes = [];
-  shapes = buildStructure();
+  shapes = await buildStructure();
 
   var scene = new THREE.Scene();
   scene.add(shapes[0]);
@@ -76,8 +76,8 @@ async function getData() {
  * Convert the lat/lon data to cartesian coordinates.
  * Create a shape and extrude to the correct height.
  */
-function buildStructure() {
-  let data = getData();
+async function buildStructure() {
+  let data = await getData();
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   const elements = xml_data.getElementsByTagName("node");
   console.log("elements: " + elements.length);
