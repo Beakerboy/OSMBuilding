@@ -87,6 +87,9 @@ async function buildStructure() {
   const shape = new THREE.Shape();
   var home_lon = 0;
   var home_lat = 0;
+
+  // The way is a list of <nd ref=""> tags.
+  // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
