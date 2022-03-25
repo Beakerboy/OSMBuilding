@@ -89,7 +89,7 @@ async function buildStructure() {
   const elements = xml_data.getElementsByTagName("nd");
   
   // Check that it is a closed way
-  let first = elemants[0];
+  let first = elements[0];
   let last = elements[elements.length - 1];
   var first_ref = first.getAttribute("ref");
   var last_ref = last.getAttribute("ref");
