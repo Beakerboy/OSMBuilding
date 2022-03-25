@@ -122,9 +122,14 @@ async function buildStructure() {
   return shapes
 }
 
-init();
-createScene();
-window.addEventListener("resize", resize, false);
+  init();
+  createScene();
+  window.addEventListener("resize", resize, false);
+
+  const input = document.querySelector('way_id');
+  input.addEventListener('change', (e) => {  
+    createScene();  
+  });
 
 function resize() {
   camera.aspect =
@@ -134,6 +139,5 @@ function resize() {
   renderer.setSize(
     document.documentElement.clientWidth,
     document.documentElement.clientHeight
-  );
-
+  ); 
 }
