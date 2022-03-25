@@ -20,11 +20,11 @@ function init() {
   });
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight
+    document.documentElement.clientHeight-20
   );
   renderer.domElement.style.position = "absolute";
   renderer.domElement.style.zIndex = 0;
-  renderer.domElement.style.top = 0;
+  renderer.domElement.style.top = 20;
   document.body.appendChild(renderer.domElement);
 }
 
