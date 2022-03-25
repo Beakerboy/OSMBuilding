@@ -224,6 +224,13 @@ function createShape(elements, xml_data, home_lat, home_lon) {
   return shape;
 }
 
+function calculateWayHeight(way) {
+  var height = 3;
+  // query <tag k="height" v="x"> and get x
+  // If height does not exist query <tag k="building:levels" v="x"> and get x and multiply by 3
+  return height
+}
+
   init();
   createScene();
   window.addEventListener("resize", resize, false);
