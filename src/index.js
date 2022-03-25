@@ -80,6 +80,7 @@ function buildStructure() {
   let data = getData();
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   const elements = xml_data.getElementsByTagName("node");
+  console.log("elements: " + elements.length);
   const shape = new THREE.Shape();
   var home_lon = 0;
   var home_lat = 0;
