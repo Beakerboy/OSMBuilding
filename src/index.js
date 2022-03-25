@@ -56,10 +56,8 @@ function buildStructure() {
     }
   };
   const way_id = "579354478";
-  var xml_data = fetch(apis.get_way.url(way_id))
-    .then(response => response.text())
-    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-    .then(data => console.log(data));
+  var response = fetch(apis.get_way.url(way_id));
+  var xml_data = new window.DOMParser().parseFromString(response.text(), "text/xml"))
   const elements = xml_data.getElementsByTagName("node");
   const shape = new THREE.Shape();
   var home_lon = 0;
