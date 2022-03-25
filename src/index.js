@@ -63,7 +63,7 @@ async function createScene() {
   var pointLight = new THREE.PointLight(0x888888);
   pointLight.position.set(0, 0, 500);
   scene.add(pointLight);
-  camera.position.set(0, -20, 5); // x y z
+  camera.position.set(0, -200, 50); // x y z
   
   controls = new OrbitControls( camera, renderer.domElement );
   function render() {
