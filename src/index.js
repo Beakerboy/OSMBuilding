@@ -171,11 +171,11 @@ async function buildStructure() {
   for (let j = 0; j < innerElements.length; j++) {
     console.log(innerElements[j]);
     // building_levels = ;
-    // building_min_levels = ;
+    // building_min_level = ;
     // shape = new THREE.Shape();
     // extrudeSettings = {
     //   bevelEnabled: false,
-    //   depth: 3 * building_levels,
+    //   depth: 3 * building_levels - building_min_level,
     // };
     // geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     // shapes.push(new THREE.Mesh(geometry, material));
