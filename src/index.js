@@ -5,6 +5,22 @@ var renderer;
 var controls;
 var scene = new THREE.Scene();
 
+  let apis = {
+    get_way: {
+      api:"https://api.openstreetmap.org/api/0.6/way/",
+      parameters:"/full",
+      url: (way_id) => {
+        return apis.get_way.api + way_id + apis.get_way.parameters
+      }
+    }
+    bounding: {
+      api:"https://api.openstreetmap.org/api/0.6/map?bbox=",
+      url: (left, bottom, right, top) => {
+        return apis.bounding.api + left + "," + bottom + "," + right + "," + top;
+      }
+    }
+  };
+
 /**
  * Initialize the screen
  */
@@ -56,25 +72,9 @@ async function createScene() {
 }
 
 async function getData() {
-  let apis = {
-    get_way: {
-      api:"https://api.openstreetmap.org/api/0.6/way/",
-      parameters:"/full",
-      url: (way_id) => {
-        return apis.get_way.api + way_id + apis.get_way.parameters
-      }
-    }
-    bounding: {
-      api:"https://api.openstreetmap.org/api/0.6/map?bbox=",
-      url: (left, bottom, right, top) => {
-        return apis.bounding.api + left + "," + bottom + "," + right + "," + top;
-      }
-    }
-  };
   const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.get_way.url(way_id));
   let res = await response.text();
-  console.log("response: " + res);
   return res;
 }
 
@@ -111,11 +111,15 @@ async function buildStructure() {
 
   // The way is a list of <nd ref=""> tags.
   // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+  var lats = [];
+  var lons = [];
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
     var lat = node.getAttribute("lat");
     var lon = node.getAttribute("lon");
+    lats.push(lat);
+    lons.push(lon);
     if (i === 0) {
       home_lat = lat;
       home_lon = lon;
@@ -143,13 +147,27 @@ async function buildStructure() {
 
   var shapes = [];
   shapes[0] = new THREE.Mesh(geometry, material);
-  shapes[0].position.set(0, 0, 0);
   
   // Get all building parts within the building
   // Get max and min lat and log from the building
+  const left = min(lons);
+  const bottom = min(lats);
+  const right = max(lons);
+  const top = max(lats);
+  
   // Get all objects in that area.
-  // Filter to all ways with a building part tag
-  // Create each shape and add to shapes[];
+  let data = await getInnerData(left, bottom, right, top);
+  let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+  
+  // Filter to all ways
+  const elements = xml_data.getElementsByTagName("way");
+    // with a building part tag ...
+  
+  //foreach (elements as way) {
+  //   Create each shape
+  //   shapes.push(shape);
+  //}
+
   return shapes
 }
 
