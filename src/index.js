@@ -171,6 +171,9 @@ async function buildStructure() {
     if (innerElements[j].querySelector('[k="building:part"]')) {
       k++;
       var building_levels = 1;
+      // height
+      // min_height
+      // roof_height
       var building_min_level = 0;
       shape = new THREE.Shape();
       extrudeSettings = {
