@@ -6,17 +6,17 @@ var controls;
 var scene = new THREE.Scene();
 
   let apis = {
-    get_way: {
-      api:"https://api.openstreetmap.org/api/0.6/way/",
-      parameters:"/full",
-      url: (way_id) => {
-        return apis.get_way.api + way_id + apis.get_way.parameters
-      }
-    },
     bounding: {
       api:"https://api.openstreetmap.org/api/0.6/map?bbox=",
       url: (left, bottom, right, top) => {
         return apis.bounding.api + left + "," + bottom + "," + right + "," + top;
+      }
+    },
+    get_way: {
+      api:"https://api.openstreetmap.org/api/0.6/way/",
+      parameters:"/full",
+      url: (way_id) => {
+        return apis.get_way.api + way_id + apis.get_way.parameters;
       }
     }
   };
@@ -49,10 +49,11 @@ function init() {
  * Create the scene
  */
 async function createScene() {
+  var shapes = [];
+
   while(scene.children.length > 0){ 
     scene.remove(scene.children[0]); 
   }
-  var shapes = [];
   shapes = await buildStructure();
 
   for (let i = 0; i < shapes.length; i++) {
@@ -163,11 +164,11 @@ async function buildStructure() {
   const bottom = Math.min(...lats);
   const right = Math.max(...lons);
   const top = Math.max(...lats);
-  
+
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
-  
+
   // Filter to all ways
   const innerWays = inner_xml_data.getElementsByTagName("way");
 
