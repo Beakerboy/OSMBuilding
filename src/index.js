@@ -62,7 +62,7 @@ async function getData() {
       }
     }
   };
-  const way_id = document.getElementById('app').value;
+  const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.get_way.url(way_id));
   let res = await response.text();
   console.log("response: " + res);
