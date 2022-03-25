@@ -31,7 +31,7 @@ function init() {
 /**
  * Create the scene
  */
-async function createScene() {
+function createScene() {
   var shapes = [];
   shapes = await buildStructure();
 
@@ -74,7 +74,7 @@ async function getData() {
  * Convert the lat/lon data to cartesian coordinates.
  * Create a shape and extrude to the correct height.
  */
-async function buildStructure() {
+function buildStructure() {
   let data = await getData();
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   const elements = xml_data.getElementsByTagName("node");
@@ -82,8 +82,8 @@ async function buildStructure() {
   var home_lon = 0;
   var home_lat = 0;
   for (let i = 0; i < elements.length; i++) {
-    lat = elements[i].getAttribute("lat");
-    lon = elements[i].getAttribute("lon");
+    var lat = elements[i].getAttribute("lat");
+    var lon = elements[i].getAttribute("lon");
     if (i === 0) {
       const home_lat = lat;
       const home_lon = lon;
