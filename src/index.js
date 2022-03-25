@@ -172,9 +172,11 @@ async function buildStructure() {
   const innerElements = inner_xml_data.getElementsByTagName("way");
 
   var k = 0;
+  var nodes_in_way = []
   for (let j = 0; j < innerElements.length; j++) {
     if (innerElements[j].querySelector('[k="building:part"]')) {
-      shape = createShape(innerElements[j], inner_xml_data, home_lat, home_lon);
+      nodes_in_way = innerElements[j].getElementsByTagName("nd");
+      shape = createShape(nodes_in_way, inner_xml_data, home_lat, home_lon);
       k++;
       var building_levels = j;
       // height
