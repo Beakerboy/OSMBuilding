@@ -229,7 +229,7 @@ function calculateWayHeight(way) {
   if (xml_data.querySelector('[k="height"]').getAttribute('v') !== null) {
     // if the buiilding part has a helght tag, use it.
     height = xml_data.querySelector('[k="height"]').getAttribute('v');
-  } else (xml_data.querySelector('[k="building:levels"]').getAttribute('v') !== null) {
+  } elseif (xml_data.querySelector('[k="building:levels"]').getAttribute('v') !== null) {
     // if not, use building:levels and 3 meters per level.
     height = 3 * xml_data.querySelector('[k="building:levels"]').getAttribute('v');
   }
