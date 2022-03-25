@@ -131,7 +131,6 @@ async function buildStructure() {
       home_lat = lat;
       home_lon = lon;
       shape.moveTo(0, 0);
-      console.log("shape.moveTo(0, 0)")
     } else {
       // 1 meter per unit.
       // Better to rotate instead of translate.
@@ -169,11 +168,12 @@ async function buildStructure() {
   // Filter to all ways
   const innerElements = inner_xml_data.getElementsByTagName("way");
     // with a building part tag ...
-  
-  //foreach (elements as way) {
-  //   Create each shape
-  //   shapes.push(shape);
-  //}
+  console.log("INNER ELEMENTS: " + innerElements.length);
+  for (let j = 0; i < innerElements.length; i++) {
+    console.log(innerElements[j]);
+    //shape = new THREE.Shape();
+    //shapes.push(shape);
+  }
 
   return shapes
 }
