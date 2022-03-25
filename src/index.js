@@ -67,10 +67,11 @@ function buildStructure() {
     lat = elements[i].getAttribute("lat");
     lon = elements[i].getAttribute("lon");
     if (i === 0) {
-      home_lon = lon
-      shape.moveTo(lat, 0);
+      const home_lat = lat;
+      const home_lon = lon;
+      shape.moveTo(0, 0);
     } else {
-      shape.lineTo(lat, lon - home_lon);
+      shape.lineTo(lat - home_lat, lon - home_lon);
     }
   }
   const extrudeSettings = {
