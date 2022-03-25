@@ -64,6 +64,12 @@ async function getData() {
         return apis.get_way.api + way_id + apis.get_way.parameters
       }
     }
+    bounding: {
+      api:"https://api.openstreetmap.org/api/0.6/map?bbox=",
+      url: (left, bottom, right, top) => {
+        return apis.bounding.api + left + "," + bottom + "," + right + "," + top;
+      }
+    }
   };
   const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.get_way.url(way_id));
@@ -83,7 +89,7 @@ async function buildStructure() {
   let data = await getData();
 
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-  // Check that it is a building
+  // Check that it is a building (<tag k="building" v="*"/> exists)
   // To Do.
   
   const elements = xml_data.getElementsByTagName("nd");
@@ -138,6 +144,12 @@ async function buildStructure() {
   var shapes = [];
   shapes[0] = new THREE.Mesh(geometry, material);
   shapes[0].position.set(0, 0, 0);
+  
+  // Get all building parts within the building
+  // Get max and min lat and log from the building
+  // Get all objects in that area.
+  // Filter to all ways with a building part tag
+  // Create each shape and add to shapes[];
   return shapes
 }
 
