@@ -56,6 +56,7 @@ async function createScene() {
   shapes = await buildStructure();
 
   for (let i = 0; i < shapes.length; i++) {
+    console.log("adding " + shapes.length + " shapes");
     scene.add(shapes[i]);
   }
 
