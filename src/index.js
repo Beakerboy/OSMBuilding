@@ -96,8 +96,8 @@ async function buildStructure() {
     var lat = node.getAttribute("lat");
     var lon = node.getAttribute("lon");
     if (i === 0) {
-      const home_lat = lat;
-      const home_lon = lon;
+      home_lat = lat;
+      home_lon = lon;
       shape.moveTo(0, 0);
       console.log("shape.moveTo(0, 0)")
     } else {
