@@ -171,13 +171,13 @@ async function buildStructure() {
   var k = 0;
   for (let j = 0; j < innerElements.length; j++) {
     if (innerElements[j].querySelector('[k="building:part"]')) {
+      shape = createShape(innerElements[j], inner_xml_data, home_lat, home_lon)
       // k++;
-      var building_levels = 1;
+      var building_levels = 2;
       // height
       // min_height
       // roof_height
       var building_min_level = 0;
-      shape = new THREE.Shape();
       extrudeSettings = {
         bevelEnabled: false,
         depth: 3 * building_levels - building_min_level,
@@ -186,13 +186,32 @@ async function buildStructure() {
       shapes.push(new THREE.Mesh(geometry, material));
     }
   }
-  console.log("BUILDING PARTS: " + k);
   
   // Add the outer building if no building parts have been rendered.
   if (k > 0) {
     //pop first element off to remove main building.
   }
   return shapes
+}
+
+function createShape(elements, xml_data, home_lat, home_lon) {
+  const shape = new THREE.Shape();
+  for (let i = 0; i < elements.length; i++) {
+    var ref = elements[i].getAttribute("ref");
+    var node = xml_data.querySelector('[id="' + ref + '"]');
+    var lat = node.getAttribute("lat");
+    var lon = node.getAttribute("lon");
+    if (i === 0) {
+      shape.moveTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+    } else {
+      // 1 meter per unit.
+      // Better to rotate instead of translate.
+      const R = 6371 * 1000;   // Earth radius in m
+      const circ = 2 * Math.PI * R;  // Circumference
+      shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+    }
+  }
+  return shape;
 }
 
   init();
