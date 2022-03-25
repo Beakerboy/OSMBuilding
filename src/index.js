@@ -203,13 +203,13 @@ function createShape(elements, xml_data, home_lat, home_lon) {
     var node = xml_data.querySelector('[id="' + ref + '"]');
     var lat = node.getAttribute("lat");
     var lon = node.getAttribute("lon");
+    const R = 6371 * 1000;   // Earth radius in m
+    const circ = 2 * Math.PI * R;  // Circumference
     if (i === 0) {
       shape.moveTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
     } else {
       // 1 meter per unit.
       // Better to rotate instead of translate.
-      const R = 6371 * 1000;   // Earth radius in m
-      const circ = 2 * Math.PI * R;  // Circumference
       shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
     }
   }
