@@ -65,8 +65,8 @@ async function getData() {
   const way_id = "579354478";
   let response = await fetch(apis.get_way.url(way_id));
   let res = await response.text();
-  console.log(res)
-  return res
+  console.log("response: " + res);
+  return res;
 }
 
 /**
@@ -78,7 +78,9 @@ async function getData() {
  */
 async function buildStructure() {
   let data = await getData();
+  console.log("data: " + data);
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+  console.log("xml_data: " + xml_data);
   const elements = xml_data.getElementsByTagName("node");
   console.log("elements: " + elements.length);
   const shape = new THREE.Shape();
