@@ -169,23 +169,18 @@ async function buildStructure() {
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
   
   // Filter to all ways
-  const innerElements = inner_xml_data.getElementsByTagName("way");
+  const innerWays = inner_xml_data.getElementsByTagName("way");
 
   var k = 0;
   var nodes_in_way = []
   for (let j = 0; j < innerElements.length; j++) {
-    if (innerElements[j].querySelector('[k="building:part"]')) {
-      nodes_in_way = innerElements[j].getElementsByTagName("nd");
+    if (innerWays[j].querySelector('[k="building:part"]')) {
+      nodes_in_way = innerWays[j].getElementsByTagName("nd");
       shape = createShape(nodes_in_way, inner_xml_data, home_lat, home_lon);
       k++;
-      var building_levels = j;
-      // height
-      // min_height
-      // roof_height
-      var building_min_level = 0;
       extrudeSettings = {
         bevelEnabled: false,
-        depth: 3 * (building_levels - building_min_level),
+        depth: 3 * calculateWayHeight(innerWays[j]),
       };
       geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
       shapes.push(new THREE.Mesh(geometry, material));
@@ -224,10 +219,20 @@ function createShape(elements, xml_data, home_lat, home_lon) {
   return shape;
 }
 
+/**
+ * Given a way in XML format, determine its height
+ * Default to 3 meters unless building:levels or height are specified.
+ */
 function calculateWayHeight(way) {
   var height = 3;
-  // query <tag k="height" v="x"> and get x
-  // If height does not exist query <tag k="building:levels" v="x"> and get x and multiply by 3
+  
+  if (xml_data.querySelector('[k="height"]').getAttribute('v') !== null) {
+    // if the buiilding part has a helght tag, use it.
+    height = xml_data.querySelector('[k="height"]').getAttribute('v');
+  } else (xml_data.querySelector('[k="building:levels"]').getAttribute('v') !== null) {
+    // if not, use building:levels and 3 meters per level.
+    height = 3 * xml_data.querySelector('[k="building:levels"]').getAttribute('v');
+  }
   return height
 }
 
