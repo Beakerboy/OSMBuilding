@@ -83,8 +83,20 @@ async function buildStructure() {
   let data = await getData();
 
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-
+  // Check that it is a building
+  // To Do.
+  
   const elements = xml_data.getElementsByTagName("nd");
+  
+  // Check that it is a closed way
+  let first = elemants[0];
+  let last = elements[elements.length - 1];
+  var first_ref = first.getAttribute("ref");
+  var last_ref = last.getAttribute("ref");
+  if(first_ref !== last_ref) {
+    return 0;
+  }
+  
   const nodes = xml_data.getElementsByTagName("node");
 
   const shape = new THREE.Shape();
