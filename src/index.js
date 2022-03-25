@@ -101,12 +101,16 @@ async function buildStructure() {
       shape.moveTo(0, 0);
       console.log("shape.moveTo(0, 0)")
     } else {
-      shape.lineTo((lat - home_lat) * 1000, (lon - home_lon) * 1000);
-      console.log("shape.lineTo(" + (lat - home_lat) * 1000 +", " + (lon - home_lon) * 1000 + ")");
+      // 1 meter per unit.
+      // Better to rotate instead of translate.
+      const R = 6371 * 1000;   // Earth radius in m
+      const circ = 2 * Math.PI * R;  // Circumference
+      shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
     }
   }
+  // Extrude the outline to the correct height.
   const extrudeSettings = {
-    depth: 0.01,
+    depth: 3,
     bevelEnabled: false,
     steps: 2
   };
