@@ -151,7 +151,6 @@ async function buildStructure() {
   });
 
   var shapes = [];
-  shapes[0] = new THREE.Mesh(geometry, material);
   
   // Get all building parts within the building
   // Get max and min lat and log from the building
@@ -166,25 +165,28 @@ async function buildStructure() {
   
   // Filter to all ways
   const innerElements = inner_xml_data.getElementsByTagName("way");
-    // with a building part tag ...
-  console.log("INNER ELEMENTS: " + innerElements.length);
+
   var k = 0;
   for (let j = 0; j < innerElements.length; j++) {
     if (innerElements[j].querySelector('[k="building:part"]')) {
-      console.log(innerElements[j]);
       k++;
-    // building_levels = ;
-    // building_min_level = ;
-    // shape = new THREE.Shape();
-    // extrudeSettings = {
-    //   bevelEnabled: false,
-    //   depth: 3 * building_levels - building_min_level,
-    // };
-    // geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    // shapes.push(new THREE.Mesh(geometry, material));
+      var building_levels = 1;
+      var building_min_level = 0;
+      shape = new THREE.Shape();
+      extrudeSettings = {
+        bevelEnabled: false,
+        depth: 3 * building_levels - building_min_level,
+      };
+      geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      shapes.push(new THREE.Mesh(geometry, material));
     }
   }
   console.log("BUILDING PARTS: " + k);
+  
+  // Add the outer building if no building parts have been rendered.
+  if (k === 0) {
+    shapes[0] = new THREE.Mesh(geometry, material);
+  }
   return shapes
 }
 
