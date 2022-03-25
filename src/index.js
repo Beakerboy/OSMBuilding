@@ -169,7 +169,7 @@ async function buildStructure() {
   var k = 0;
   for (let j = 0; j < innerElements.length; j++) {
     if (innerElements[j].querySelector('[k="building:part"]')) {
-      k++;
+      // k++;
       var building_levels = 1;
       // height
       // min_height
