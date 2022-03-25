@@ -200,6 +200,7 @@ async function buildStructure() {
 
 function createShape(elements, xml_data, home_lat, home_lon) {
   const shape = new THREE.Shape();
+  console.log(elements);
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
