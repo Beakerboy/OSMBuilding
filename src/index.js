@@ -112,7 +112,7 @@ async function buildStructure() {
   
   const nodes = xml_data.getElementsByTagName("node");
 
-  const shape = new THREE.Shape();
+  var shape = new THREE.Shape();
   var home_lon = 0;
   var home_lat = 0;
 
