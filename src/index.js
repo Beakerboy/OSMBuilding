@@ -3,6 +3,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.138.3/examples/jsm/cont
 var camera;
 var renderer;
 var controls;
+var scene = new THREE.Scene();
 
 /**
  * Initialize the screen
@@ -32,10 +33,12 @@ function init() {
  * Create the scene
  */
 async function createScene() {
+  while(scene.children.length > 0){ 
+    scene.remove(scene.children[0]); 
+  }
   var shapes = [];
   shapes = await buildStructure();
 
-  var scene = new THREE.Scene();
   scene.add(shapes[0]);
 
   var pointLight = new THREE.PointLight(0x888888);
