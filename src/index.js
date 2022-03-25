@@ -64,7 +64,9 @@ async function getData() {
   };
   const way_id = "579354478";
   let response = await fetch(apis.get_way.url(way_id));
-  return await response.text();
+  let res = await response.text();
+  console.log(res)
+  return res
 }
 
 /**
