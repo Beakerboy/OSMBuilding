@@ -175,7 +175,7 @@ async function buildStructure() {
     if (innerElements[j].querySelector('[k="building:part"]')) {
       shape = createShape(innerElements[j], inner_xml_data, home_lat, home_lon);
       k++;
-      var building_levels = 2;
+      var building_levels = j;
       // height
       // min_height
       // roof_height
