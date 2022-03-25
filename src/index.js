@@ -133,7 +133,7 @@ async function buildStructure() {
   createScene();
   window.addEventListener("resize", resize, false);
 
-  const input = document.querySelector('way_id');
+  const input = document.querySelector('[id="way_id"]');
   input.addEventListener('change', (e) => {  
     createScene();  
   });
