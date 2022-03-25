@@ -55,7 +55,9 @@ async function createScene() {
   var shapes = [];
   shapes = await buildStructure();
 
-  scene.add(shapes[0]);
+  for (let i = 0; i < shapes.length; i++) {
+    scene.add(shapes[i]);
+  }
 
   var pointLight = new THREE.PointLight(0x888888);
   pointLight.position.set(0, 0, 500);
@@ -171,8 +173,8 @@ async function buildStructure() {
   var k = 0;
   for (let j = 0; j < innerElements.length; j++) {
     if (innerElements[j].querySelector('[k="building:part"]')) {
-      shape = createShape(innerElements[j], inner_xml_data, home_lat, home_lon)
-      // k++;
+      shape = createShape(innerElements[j], inner_xml_data, home_lat, home_lon);
+      k++;
       var building_levels = 2;
       // height
       // min_height
@@ -180,7 +182,7 @@ async function buildStructure() {
       var building_min_level = 0;
       extrudeSettings = {
         bevelEnabled: false,
-        depth: 3 * building_levels - building_min_level,
+        depth: 3 * (building_levels - building_min_level),
       };
       geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
       shapes.push(new THREE.Mesh(geometry, material));
