@@ -12,7 +12,7 @@ var scene = new THREE.Scene();
       url: (way_id) => {
         return apis.get_way.api + way_id + apis.get_way.parameters
       }
-    }
+    },
     bounding: {
       api:"https://api.openstreetmap.org/api/0.6/map?bbox=",
       url: (left, bottom, right, top) => {
