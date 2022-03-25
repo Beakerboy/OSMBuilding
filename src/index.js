@@ -70,8 +70,10 @@ function buildStructure() {
       const home_lat = lat;
       const home_lon = lon;
       shape.moveTo(0, 0);
+      console.log("shape.moveTo(0, 0)")
     } else {
       shape.lineTo((lat - home_lat) * 1000, (lon - home_lon) * 1000);
+      console.log("shape.lineTo(" + (lat - home_lat) * 1000 +", " + (lon - home_lon) * 1000 + ")");
     }
   }
   const extrudeSettings = {
