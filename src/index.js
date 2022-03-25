@@ -139,6 +139,7 @@ async function buildStructure() {
       shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
     }
   }
+
   // Extrude the outline to the correct height.
   var extrudeSettings = {
     bevelEnabled: false,
@@ -151,6 +152,7 @@ async function buildStructure() {
   });
 
   var shapes = [];
+  shapes.push(new THREE.Mesh(geometry, material));
   
   // Get all building parts within the building
   // Get max and min lat and log from the building
@@ -187,8 +189,8 @@ async function buildStructure() {
   console.log("BUILDING PARTS: " + k);
   
   // Add the outer building if no building parts have been rendered.
-  if (k === 0) {
-    shapes[0] = new THREE.Mesh(geometry, material);
+  if (k > 0) {
+    //pop first element off to remove main building.
   }
   return shapes
 }
