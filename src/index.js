@@ -89,7 +89,7 @@ async function buildStructure() {
   var home_lat = 0;
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
-    var node = nodes.querySelector('[id="' + ref + '"]');
+    var node = xml_data.querySelector('[id="' + ref + '"]');
     var lat = node.getAttribute("lat");
     var lon = node.getAttribute("lon");
     if (i === 0) {
