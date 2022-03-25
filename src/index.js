@@ -58,7 +58,7 @@ function buildStructure() {
   const way_id = "579354478";
   fetch(apis.get_way.url(way_id))
     .then(response => response.text())
-    .then(str => new window.DOMPrser().parseFromString(str, "text/xml"))
+    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
     .then(data => console.log(data));
   const shape = new THREE.Shape();
   shape.moveTo( 0,0 );
