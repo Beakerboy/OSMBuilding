@@ -78,6 +78,13 @@ async function getData() {
   return res;
 }
 
+async function getInnerData(left, bottom, right, top) {
+  const way_id = document.getElementById('way_id').value;
+  let response = await fetch(apis.bounding.url(left, bottom, right, top));
+  let res = await response.text();
+  return res;
+}
+
 /**
  * Build the structure
  *
@@ -150,10 +157,10 @@ async function buildStructure() {
   
   // Get all building parts within the building
   // Get max and min lat and log from the building
-  const left = min(lons);
-  const bottom = min(lats);
-  const right = max(lons);
-  const top = max(lats);
+  const left = Math.min(...lons);
+  const bottom = Math.min(...lats);
+  const right = Math.max(...lons);
+  const top = Math.max(...lats);
   
   // Get all objects in that area.
   let data = await getInnerData(left, bottom, right, top);
