@@ -71,7 +71,7 @@ function buildStructure() {
       const home_lon = lon;
       shape.moveTo(0, 0);
     } else {
-      shape.lineTo(lat - home_lat, lon - home_lon);
+      shape.lineTo((lat - home_lat) * 1000, (lon - home_lon) * 1000);
     }
   }
   const extrudeSettings = {
