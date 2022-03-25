@@ -188,9 +188,9 @@ async function buildStructure() {
     }
   }
   
-  // Add the outer building if no building parts have been rendered.
+  // only include the outer building if no building parts have been rendered.
   if (k > 0) {
-    //pop first element off to remove main building.
+    shapes.shift();
   }
   return shapes
 }
