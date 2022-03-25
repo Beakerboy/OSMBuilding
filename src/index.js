@@ -227,10 +227,10 @@ function createShape(elements, xml_data, home_lat, home_lon) {
 function calculateWayHeight(way) {
   var height = 3;
   
-  if (way.querySelector('[k="height"]').getAttribute('v') !== null) {
+  if (way.querySelector('[k="height"]') !== null) {
     // if the buiilding part has a helght tag, use it.
     height = way.querySelector('[k="height"]').getAttribute('v');
-  } else if (way.querySelector('[k="building:levels"]').getAttribute('v') !== null) {
+  } else if (way.querySelector('[k="building:levels"]') !== null) {
     // if not, use building:levels and 3 meters per level.
     height = 3 * way.querySelector('[k="building:levels"]').getAttribute('v');
   }
