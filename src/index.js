@@ -56,13 +56,14 @@ function buildStructure() {
     }
   };
   const way_id = "579354478";
-  fetch(apis.get_way.url(way_id))
+  data = fetch(apis.get_way.url(way_id))
     .then(response => response.text())
     .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
     .then(data => console.log(data));
-  const elements = document.getElementsByTagName("node");
+  const elements = data.getElementsByTagName("node");
   const shape = new THREE.Shape();
-  const home_lon = 0;
+  var home_lon = 0;
+  var home_lat = 0;
   for (let i = 0; i < elements.length; i++) {
     lat = elements[i].getAttribute("lat");
     lon = elements[i].getAttribute("lon");
