@@ -46,6 +46,20 @@ function createScene() {
 }
 
 function buildStructure() {
+  let apis = {
+    get_way: {
+      api:"https://api.openstreetmap.org/api/0.6/way/",
+      parameters:"/full",
+      url: (way_id) => {
+        return apis.get_way.api + way_id + apis.get_way.parameters
+      }
+    }
+  };
+  const way_id = "579354478";
+  fetch(apis.get_way.url(way_id))
+    .then(response => response.text())
+    .then(str => new window.DOMPrser().parseFromString(str, "text/xml"))
+    .then(data => console.log(data));
   const shape = new THREE.Shape();
   shape.moveTo( 0,0 );
   shape.lineTo(-0.00334221071354316, 0.00214606248974563);
