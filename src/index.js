@@ -33,7 +33,7 @@ function init() {
  */
 function createScene() {
   var shapes = [];
-  shapes = await buildStructure();
+  shapes = buildStructure();
 
   var scene = new THREE.Scene();
   scene.add(shapes[0]);
@@ -52,7 +52,7 @@ function createScene() {
   render();
 }
 
-async function getData() {
+function getData() {
   let apis = {
     get_way: {
       api:"https://api.openstreetmap.org/api/0.6/way/",
@@ -63,8 +63,8 @@ async function getData() {
     }
   };
   const way_id = "579354478";
-  let response = await fetch(apis.get_way.url(way_id));
-  return await response.text();
+  let response = fetch(apis.get_way.url(way_id));
+  return response.text();
 }
 
 /**
@@ -75,7 +75,7 @@ async function getData() {
  * Create a shape and extrude to the correct height.
  */
 function buildStructure() {
-  let data = await getData();
+  let data = getData();
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   const elements = xml_data.getElementsByTagName("node");
   const shape = new THREE.Shape();
