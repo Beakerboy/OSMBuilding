@@ -60,10 +60,10 @@ async function createScene() {
     console.log("adding " + shapes.length + " shapes");
     scene.add(shapes[i]);
   }
-
-  var pointLight = new THREE.PointLight(0x888888);
-  pointLight.position.set(0, 0, 500);
-  scene.add(pointLight);
+  addLights();
+  // var pointLight = new THREE.PointLight(0x888888);
+  // pointLight.position.set(0, 0, 500);
+  // scene.add(pointLight);
   camera.position.set(0, -200, 50); // x y z
   
   controls = new OrbitControls( camera, renderer.domElement );
@@ -73,6 +73,36 @@ async function createScene() {
     renderer.render(scene, camera);
   }
   render();
+}
+
+function addLights() {
+  var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+  hemiLight.color.setHSV( 0.6, 0.75, 0.5 );
+  hemiLight.groundColor.setHSV( 0.095, 0.5, 0.5 );
+  hemiLight.position.set( 0, 500, 0 );
+  scene.add( hemiLight );
+
+  var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+  dirLight.position.set( -1, 0.75, 1 );
+  dirLight.position.multiplyScalar( 50);
+  dirLight.name = "dirlight";
+   // dirLight.shadowCameraVisible = true;
+
+   scene.add( dirLight );
+
+   dirLight.castShadow = true;
+   dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024*2;
+
+   var d = 300;
+
+   dirLight.shadowCameraLeft = -d;
+   dirLight.shadowCameraRight = d;
+   dirLight.shadowCameraTop = d;
+   dirLight.shadowCameraBottom = -d;
+
+   dirLight.shadowCameraFar = 3500;
+   dirLight.shadowBias = -0.0001;
+   dirLight.shadowDarkness = 0.35;
 }
 
 async function getData() {
@@ -152,7 +182,7 @@ async function buildStructure() {
   };
   var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
-    color: 0x0064ff,
+    color: 0xffffff,
     emissive: 0x1111111
   });
 
