@@ -101,6 +101,7 @@ async function buildStructure() {
 
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
   // Check that it is a building (<tag k="building" v="*"/> exists)
+  // Or that it is a building part.
   // To Do.
   
   const elements = xml_data.getElementsByTagName("nd");
@@ -157,7 +158,9 @@ async function buildStructure() {
 
   var shapes = [];
   shapes.push(new THREE.Mesh(geometry, material));
-  
+
+  // if it was a building:part, no need to get sub-parts
+  // if (is_building) {
   // Get all building parts within the building
   // Get max and min lat and log from the building
   const left = Math.min(...lons);
@@ -221,6 +224,12 @@ function createShape(elements, xml_data, home_lat, home_lon) {
   }
   console.log("RETURN");
   return shape;
+}
+
+/**
+ * Create the 3D render of a roof.
+ */
+function createRoof(elements, xml_data, home_lat, home_lon) {
 }
 
 /**
