@@ -141,7 +141,7 @@ async function buildStructure() {
   const nodes = xml_data.getElementsByTagName("node");
 
   var building = new THREE.Shape();
-  var ref = elements[i].getAttribute("ref");
+  var ref = elements[0].getAttribute("ref");
   var node = xml_data.querySelector('[id="' + ref + '"]');
   const home_lon = node.getAttribute("lon");
   const home_lat = node.getAttribute("lat");
