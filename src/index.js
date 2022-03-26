@@ -49,17 +49,11 @@ function init() {
  * Create the scene
  */
 async function createScene() {
-  var shapes = [];
-
   while(scene.children.length > 0){ 
     scene.remove(scene.children[0]); 
   }
-  shapes = await buildStructure();
+  buildStructure();
 
-  for (let i = 0; i < shapes.length; i++) {
-    console.log("adding " + shapes.length + " shapes");
-    scene.add(shapes[i]);
-  }
   addLights();
   // var pointLight = new THREE.PointLight(0x888888);
   // pointLight.position.set(0, 0, 500);
@@ -130,9 +124,8 @@ async function buildStructure() {
   let data = await getData();
 
   let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-  // Check that it is a building (<tag k="building" v="*"/> exists)
+  // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
   // Or that it is a building part.
-  // To Do.
   
   const elements = xml_data.getElementsByTagName("nd");
   
@@ -147,31 +140,32 @@ async function buildStructure() {
   
   const nodes = xml_data.getElementsByTagName("node");
 
-  var shape = new THREE.Shape();
-  var home_lon = 0;
-  var home_lat = 0;
+  var building = new THREE.Shape();
+  var ref = elements[i].getAttribute("ref");
+  var node = xml_data.querySelector('[id="' + ref + '"]');
+  const home_lon = node.getAttribute("lon");
+  const home_lat = node.getAttribute("lat");
 
+  // if it is a building, query all ways within the bounding box and reder the building parts.
   // The way is a list of <nd ref=""> tags.
   // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
   var lats = [];
   var lons = [];
   for (let i = 0; i < elements.length; i++) {
-    var ref = elements[i].getAttribute("ref");
-    var node = xml_data.querySelector('[id="' + ref + '"]');
-    var lat = node.getAttribute("lat");
-    var lon = node.getAttribute("lon");
+    ref = elements[i].getAttribute("ref");
+    node = xml_data.querySelector('[id="' + ref + '"]');
+    lat = node.getAttribute("lat");
+    lon = node.getAttribute("lon");
     lats.push(lat);
     lons.push(lon);
     if (i === 0) {
-      home_lat = lat;
-      home_lon = lon;
-      shape.moveTo(0, 0);
+      building.moveTo(0, 0);
     } else {
       // 1 meter per unit.
       // Better to rotate instead of translate.
       const R = 6371 * 1000;   // Earth radius in m
       const circ = 2 * Math.PI * R;  // Circumference
-      shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+      building.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
     }
   }
 
@@ -180,14 +174,11 @@ async function buildStructure() {
     bevelEnabled: false,
     depth: 3,
   };
-  var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  var building_geometry = new THREE.ExtrudeGeometry(building, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
     emissive: 0x1111111
   });
-
-  var shapes = [];
-  shapes.push(new THREE.Mesh(geometry, material));
 
   // if it was a building:part, no need to get sub-parts
   // if (is_building) {
@@ -209,8 +200,7 @@ async function buildStructure() {
   var nodes_in_way = []
   for (let j = 0; j < innerWays.length; j++) {
     if (innerWays[j].querySelector('[k="building:part"]')) {
-      nodes_in_way = innerWays[j].getElementsByTagName("nd");
-      shape = createShape(nodes_in_way, inner_xml_data, home_lat, home_lon);
+      shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
       k++;
       extrudeSettings = {
         bevelEnabled: false,
@@ -220,21 +210,29 @@ async function buildStructure() {
 
       // todo: Add the mesh to the scene instead of this.
       // set the position to compensate for min_height.
-      shapes.push(new THREE.Mesh(geometry, material));
-      console.log("added inner mesh " + j);
+      mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(0, 0, calculateWayMinHeight(innerWays[j]));
+      scene.add(mesh));
     }
   }
   
-  // only include the outer building if no building parts have been rendered.
-  if (k > 0) {
-    shapes.shift();
+ // Add the main building if no parts were rendered.
+  if (k === 0) {
+    scene.add(new THREE.Mesh(building_geometry, material));
   }
-  return shapes
+
 }
 
-function createShape(elements, xml_data, home_lat, home_lon) {
+/**
+ * Create the shape of a given way.
+ *
+ * way DOM tree of the way to render
+ * xml_data the DOM tree of all the data in the region
+ */
+function createShape(way, xml_data, home_lat, home_lon) {
+  // createBuilding()
+  elements = way.getElementsByTagName("nd");
   const shape = new THREE.Shape();
-  console.log(elements);
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
@@ -244,15 +242,12 @@ function createShape(elements, xml_data, home_lat, home_lon) {
     const circ = 2 * Math.PI * R;  // Circumference
     if (i === 0) {
       shape.moveTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
-      console.log("MOVE");
     } else {
       // 1 meter per unit.
       // Better to rotate instead of translate.
       shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
-      console.log("LINE");
     }
   }
-  console.log("RETURN");
   return shape;
 }
 
@@ -276,7 +271,20 @@ function calculateWayHeight(way) {
     // if not, use building:levels and 3 meters per level.
     height = 3 * way.querySelector('[k="building:levels"]').getAttribute('v');
   }
-  return height
+  
+  return height - calculateWayMinHeight(way);
+}
+
+function calculateWayMinHeight(way) {
+  var min_height = 0;
+  if (way.querySelector('[k="min_height"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    min_height = way.querySelector('[k="min_height"]').getAttribute('v');
+  } else if (way.querySelector('[k="building:min_level"]') !== null) {
+    // if not, use building:min_level and 3 meters per level.
+    min_height = 3 * way.querySelector('[k="building:min_level"]').getAttribute('v');
+  }
+  return min_height;
 }
 
   init();
