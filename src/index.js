@@ -208,11 +208,11 @@ async function buildStructure() {
         bevelEnabled: false,
         depth: 3 * calculateWayHeight(innerWays[j]),
       };
-      geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
       // todo: Add the mesh to the scene instead of this.
       // set the position to compensate for min_height.
-      mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(0, 0, calculateWayMinHeight(innerWays[j]));
       scene.add(mesh);
     }
