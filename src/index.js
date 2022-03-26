@@ -151,6 +151,8 @@ async function buildStructure() {
   // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
   var lats = [];
   var lons = [];
+  var lat = 0;
+  var lon = 0;
   for (let i = 0; i < elements.length; i++) {
     ref = elements[i].getAttribute("ref");
     node = xml_data.querySelector('[id="' + ref + '"]');
