@@ -202,7 +202,7 @@ async function buildStructure() {
   var nodes_in_way = []
   for (let j = 0; j < innerWays.length; j++) {
     if (innerWays[j].querySelector('[k="building:part"]')) {
-      shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
+      var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
       k++;
       extrudeSettings = {
         bevelEnabled: false,
