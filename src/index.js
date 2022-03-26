@@ -233,13 +233,15 @@ async function buildStructure() {
  */
 function createShape(way, xml_data, home_lat, home_lon) {
   // createBuilding()
-  elements = way.getElementsByTagName("nd");
+  const elements = way.getElementsByTagName("nd");
   const shape = new THREE.Shape();
+  var lat = 0;
+  var lon = 0;
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
-    var lat = node.getAttribute("lat");
-    var lon = node.getAttribute("lon");
+    lat = node.getAttribute("lat");
+    lon = node.getAttribute("lon");
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
     if (i === 0) {
