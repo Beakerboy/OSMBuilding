@@ -212,7 +212,7 @@ async function buildStructure() {
       // set the position to compensate for min_height.
       mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(0, 0, calculateWayMinHeight(innerWays[j]));
-      scene.add(mesh));
+      scene.add(mesh);
     }
   }
   
