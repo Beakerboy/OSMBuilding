@@ -77,8 +77,8 @@ async function createScene() {
 
 function addLights() {
   var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-  hemiLight.color.setHSV( 0.6, 0.75, 0.5 );
-  hemiLight.groundColor.setHSV( 0.095, 0.5, 0.5 );
+  //hemiLight.color.setHSV( 0.6, 0.75, 0.5 );
+  //hemiLight.groundColor.setHSV( 0.095, 0.5, 0.5 );
   hemiLight.position.set( 0, 500, 0 );
   scene.add( hemiLight );
 
