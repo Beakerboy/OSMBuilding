@@ -184,6 +184,9 @@ async function buildStructure() {
         depth: 3 * calculateWayHeight(innerWays[j]),
       };
       geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+      // todo: Add the mesh to the scene instead of this.
+      // set the position to compensate for min_height.
       shapes.push(new THREE.Mesh(geometry, material));
       console.log("added inner mesh " + j);
     }
