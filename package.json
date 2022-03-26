@@ -5,4 +5,7 @@
     "type": "git",
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
   },
+  "dependencies": {
+    "three": "^0.138.3"
+  }
 }
