@@ -269,6 +269,20 @@ function createShape(way, xml_data, home_lat, home_lon) {
  * Create the 3D render of a roof.
  */
 function createRoof(elements, xml_data, home_lat, home_lon) {
+  // const roof_type = get the type;
+  // Flat - Do Nothing
+  // if (roof_type === "dome") {
+  //   find largest circle within the way
+  //   R, x, y
+  //   const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2*pi, pi/2 );
+  //   const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+  //   // Adjust the dome height if needed.
+  //   geometry.scale(roof:height/R);
+  //   const roof = new THREE.Mesh( geometry, material );
+  // } else if (roof_type === "skillion") {
+  // }
+  //   scene.add( roof );
+  
 }
 
 /**
