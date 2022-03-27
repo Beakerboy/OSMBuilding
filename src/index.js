@@ -199,21 +199,31 @@ async function buildStructure() {
   const innerWays = inner_xml_data.getElementsByTagName("way");
 
   var k = 0;
-  var nodes_in_way = []
+  var nodes_in_way = [];
+  var height = 0;
+  var min_height = 0;
+  var extrusion_height = 0;
   for (let j = 0; j < innerWays.length; j++) {
     if (innerWays[j].querySelector('[k="building:part"]')) {
+      height = calculateWayHeight(innerWays[j]);
+      min_height = calculateWayMinHeight(innerWays[j]);
+      extrusion_height = height - min_height;
+
+      // If we have a multi-polygon, create the outer shape
+      // then punch out all the inner shapes.
       var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
       k++;
       extrudeSettings = {
         bevelEnabled: false,
-        depth: calculateWayHeight(innerWays[j]),
+        depth: extrusion_height,
       };
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-      // todo: Add the mesh to the scene instead of this.
-      // set the position to compensate for min_height.
+      // Create the mesh.
       var mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(0, 0, calculateWayMinHeight(innerWays[j]));
+
+      // Change the position to compensate for the min_height
+      mesh.position.set(0, 0, min_height);
       scene.add(mesh);
     }
   }
@@ -276,7 +286,7 @@ function calculateWayHeight(way) {
     height = 3 * way.querySelector('[k="building:levels"]').getAttribute('v');
   }
   
-  return height - calculateWayMinHeight(way);
+  return height;
 }
 
 function calculateWayMinHeight(way) {
