@@ -206,7 +206,7 @@ async function buildStructure() {
       k++;
       extrudeSettings = {
         bevelEnabled: false,
-        depth: 3 * calculateWayHeight(innerWays[j]),
+        depth: calculateWayHeight(innerWays[j]),
       };
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
@@ -280,6 +280,7 @@ function calculateWayHeight(way) {
 }
 
 function calculateWayMinHeight(way) {
+  
   var min_height = 0;
   if (way.querySelector('[k="building:min_height"]') !== null) {
     // if the buiilding part has a min_helght tag, use it.
