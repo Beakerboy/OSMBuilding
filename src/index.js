@@ -281,9 +281,9 @@ function calculateWayHeight(way) {
 
 function calculateWayMinHeight(way) {
   var min_height = 0;
-  if (way.querySelector('[k="min_height"]') !== null) {
+  if (way.querySelector('[k="building:min_height"]') !== null) {
     // if the buiilding part has a min_helght tag, use it.
-    min_height = way.querySelector('[k="min_height"]').getAttribute('v');
+    min_height = way.querySelector('[k="building:min_height"]').getAttribute('v');
   } else if (way.querySelector('[k="building:min_level"]') !== null) {
     // if not, use building:min_level and 3 meters per level.
     min_height = 3 * way.querySelector('[k="building:min_level"]').getAttribute('v');
