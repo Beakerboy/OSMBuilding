@@ -225,6 +225,8 @@ async function buildStructure() {
       // Change the position to compensate for the min_height
       mesh.position.set(0, 0, min_height);
       scene.add(mesh);
+
+      // createRoof()
     }
   }
   
@@ -269,7 +271,7 @@ function createShape(way, xml_data, home_lat, home_lon) {
  * Create the 3D render of a roof.
  */
 function createRoof(elements, xml_data, home_lat, home_lon) {
-  // const roof_type = get the type;
+  // const roof_type = ;
   // Flat - Do Nothing
   // if (roof_type === "dome") {
   //   find largest circle within the way
@@ -280,6 +282,8 @@ function createRoof(elements, xml_data, home_lat, home_lon) {
   //   geometry.scale(roof:height/R);
   //   const roof = new THREE.Mesh( geometry, material );
   // } else if (roof_type === "skillion") {
+  // } else if (roof_type === "hipped") {
+       // use straight skeleton algorithm.
   // }
   //   scene.add( roof );
   
