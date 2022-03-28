@@ -202,7 +202,7 @@ async function buildStructure() {
   const right = Math.max(...lons);
   const top = Math.max(...lats);
 
-  helper_size = max(right - left, top - bottom) / .9;
+  helper_size = Math.max(right - left, top - bottom) / .9;
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
