@@ -246,7 +246,6 @@ async function buildStructure() {
  // Add the main building if no parts were rendered.
   if (k === 0) {
     const building_mesh = new THREE.Mesh(building_geometry, material);
-    building_mesh.rotation.x = -1 * Math.PI / 2;
     scene.add(building_mesh);
   }
 }
