@@ -5,6 +5,7 @@ var renderer;
 var controls;
 var scene = new THREE.Scene();
 var home;
+var helper_size;
 
   let apis = {
     bounding: {
@@ -57,7 +58,8 @@ async function createScene() {
   buildStructure();
 
   addLights();
-  const helper = new THREE.GridHelper(160, 10);
+  // Calulate the helper size from the model.
+  const helper = new THREE.GridHelper(helper_size, 10);
   scene.add(helper);
   camera.position.set(0, 0, 200); // x y z
   
@@ -200,6 +202,7 @@ async function buildStructure() {
   const right = Math.max(...lons);
   const top = Math.max(...lats);
 
+  helper_size = max(right - left, top - bottom) / .9;
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
