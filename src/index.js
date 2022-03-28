@@ -55,9 +55,7 @@ async function createScene() {
   buildStructure();
 
   addLights();
-  // var pointLight = new THREE.PointLight(0x888888);
-  // pointLight.position.set(0, 0, 500);
-  // scene.add(pointLight);
+
   camera.position.set(0, -200, 50); // x y z
   
   controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -71,8 +69,6 @@ async function createScene() {
 
 function addLights() {
   var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-  //hemiLight.color.setHSV( 0.6, 0.75, 0.5 );
-  //hemiLight.groundColor.setHSV( 0.095, 0.5, 0.5 );
   hemiLight.position.set( 0, 500, 0 );
   scene.add( hemiLight );
 
@@ -99,6 +95,9 @@ function addLights() {
    dirLight.shadowDarkness = 0.35;
 }
 
+/**
+ * Fetch way data from OSM
+ */
 async function getData() {
   const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.get_way.url(way_id));
@@ -106,6 +105,9 @@ async function getData() {
   return res;
 }
 
+/**
+ * Fetch way data from OSM
+ */
 async function getInnerData(left, bottom, right, top) {
   const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.bounding.url(left, bottom, right, top));
@@ -234,7 +236,6 @@ async function buildStructure() {
   if (k === 0) {
     scene.add(new THREE.Mesh(building_geometry, material));
   }
-
 }
 
 /**
