@@ -202,7 +202,7 @@ async function buildStructure() {
   const right = Math.max(...lons);
   const top = Math.max(...lats);
 
-  helper_size = Math.max(right - left, top - bottom) / .9;
+  helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / .9;
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
@@ -236,8 +236,8 @@ async function buildStructure() {
 
       // Change the position to compensate for the min_height
       mesh.rotation.x = Math.PI / 2;
-      mesh.position.set(0, 0, min_height);
-      scene.add(mesh);
+      mesh.position.set( 0, min_height, 0 );
+      scene.add( mesh );
 
       // createRoof()
     }
@@ -246,7 +246,7 @@ async function buildStructure() {
  // Add the main building if no parts were rendered.
   if (k === 0) {
     const building_mesh = new THREE.Mesh(building_geometry, material);
-    building_mesh.rotation.x = Math.PI / 2;
+    building_mesh.rotation.x = -1 * Math.PI / 2;
     scene.add(building_mesh);
   }
 }
@@ -342,7 +342,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
-  roof.rotation.x = Math.PI / 2;
+  roof.rotation.x = -1 * Math.PI / 2;
   scene.add( roof );
 }
 
