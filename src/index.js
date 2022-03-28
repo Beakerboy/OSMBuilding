@@ -332,6 +332,9 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   } else if (roof_type === "skillion") {
   } else if (roof_type === "hipped") {
        // use straight skeleton algorithm.
+  } else if (roof_type === "pyramidal") {
+    const center = centroid(way, xml_data);
+    // create sloped pieces up to the center from each edge.
   }
   scene.add( roof );
 }
