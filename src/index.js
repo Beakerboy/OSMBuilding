@@ -235,7 +235,7 @@ async function buildStructure() {
       var mesh = new THREE.Mesh(geometry, material);
 
       // Change the position to compensate for the min_height
-      mesh.rotation.x = Math.PI / 2;
+      mesh.rotation.x = -1 * Math.PI / 2;
       mesh.position.set( 0, min_height, 0 );
       scene.add( mesh );
 
