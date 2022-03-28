@@ -190,7 +190,7 @@ async function buildStructure() {
   };
   var building_geometry = new THREE.ExtrudeGeometry(building, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
-    color: 0xffffff,
+    color: 0xeeeeee,
     emissive: 0x1111111
   });
 
@@ -342,7 +342,6 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
-  roof.rotation.x = -1 * Math.PI / 2;
   scene.add( roof );
 }
 
