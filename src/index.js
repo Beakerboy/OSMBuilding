@@ -49,14 +49,16 @@ function init() {
  * Create the scene
  */
 async function createScene() {
+ 
   while(scene.children.length > 0){ 
     scene.remove(scene.children[0]); 
   }
   buildStructure();
 
   addLights();
-
-  camera.position.set(0, -200, 50); // x y z
+  const helper = new THREE.GridHelper(160, 10);
+  scene.add(helper);
+  camera.position.set(0, 0, 200); // x y z
   
   controls = new THREE.OrbitControls( camera, renderer.domElement );
   function render() {
@@ -68,6 +70,9 @@ async function createScene() {
 }
 
 function addLights() {
+  const ambientLight = new THREE.AmbientLight( 0xcccccc, 0.2 );
+  scene.add( ambientLight );
+  
   var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
   hemiLight.position.set( 0, 500, 0 );
   scene.add( hemiLight );
