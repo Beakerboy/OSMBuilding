@@ -4,6 +4,7 @@ var camera;
 var renderer;
 var controls;
 var scene = new THREE.Scene();
+var home;
 
   let apis = {
     bounding: {
@@ -152,6 +153,7 @@ async function buildStructure() {
   var node = xml_data.querySelector('[id="' + ref + '"]');
   const home_lon = node.getAttribute("lon");
   const home_lat = node.getAttribute("lat");
+  home = [home_lat, home_lon];
 
   // if it is a building, query all ways within the bounding box and reder the building parts.
   // The way is a list of <nd ref=""> tags.
@@ -274,25 +276,64 @@ function createShape(way, xml_data, home_lat, home_lon) {
 }
 
 /**
+ * Rotate a way to reposition the home point onto 0,0
+ */
+function repositionWay(way, xml_data) {
+  
+}
+
+/**
+ * Find the center of a closed way
+ *
+ * Need to compensate for edge cases
+ *  - ways that cross the date line
+ * way DOM tree of the way to render
+ * xml_data the DOM tree of all the data in the region
+ */
+function centeroid(way, xml_data) {
+  const elements = xml_data.getElementsByTagName("nd");
+  var lat_sum = 0;
+  var lon_sum = 0;
+  for (let i = 0; i < elements.length; i++) {
+    ref = elements[i].getAttribute("ref");
+    node = xml_data.querySelector('[id="' + ref + '"]');
+    lat_sum += node.getAttribute("lat");
+    lon_sum += node.getAttribute("lon");
+  }
+  const center = [lat_sum / elements.length - home[0], lon_sum / elements.length - home[1]];
+}
+
+/**
  * Create the 3D render of a roof.
  */
-function createRoof(elements, xml_data, home_lat, home_lon) {
-  // const roof_type = ;
+function createRoof(way, xml_data, home_lat, home_lon) {
+  var roof_shape = "flat";
+  var roof_height = 0;
+  if (way.querySelector('[k="roof:shape"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
+  }
+  if (way.querySelector('[k="roof:height"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    roof_height = way.querySelector('[k="roof:height"]').getAttribute('v');
+  }
   // Flat - Do Nothing
-  // if (roof_type === "dome") {
+  if (roof_type === "dome") {
   //   find largest circle within the way
   //   R, x, y
-  //   const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2*pi, pi/2 );
-  //   const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2*pi, pi/2 );
+    const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
   //   // Adjust the dome height if needed.
   //   geometry.scale(roof:height/R);
-  //   const roof = new THREE.Mesh( geometry, material );
-  // } else if (roof_type === "skillion") {
-  // } else if (roof_type === "hipped") {
+    const roof = new THREE.Mesh( geometry, material );
+    const elevation = calculateWayHeight(way);
+    const center = centroid(way, xml_data);
+    roof.position(center[1], center[0], elevation);
+  } else if (roof_type === "skillion") {
+  } else if (roof_type === "hipped") {
        // use straight skeleton algorithm.
-  // }
-  //   scene.add( roof );
-  
+  }
+  scene.add( roof );
 }
 
 /**
