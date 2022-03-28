@@ -59,7 +59,8 @@ async function createScene() {
 
   addLights();
   // Calulate the helper size from the model.
-  const helper = new THREE.GridHelper(helper_size, 10);
+  const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+  helper.rotation.x = Math.PI / 2;
   scene.add(helper);
   camera.position.set(0, 0, 200); // x y z
   
@@ -235,11 +236,10 @@ async function buildStructure() {
       var mesh = new THREE.Mesh(geometry, material);
 
       // Change the position to compensate for the min_height
-      mesh.rotation.x = -1 * Math.PI / 2;
-      mesh.position.set( 0, min_height, 0 );
+      mesh.position.set( 0, 0, min_height);
       scene.add( mesh );
 
-      // createRoof()
+      createRoof(innerWays[j]);
     }
   }
   
