@@ -232,6 +232,7 @@ async function buildStructure() {
       var mesh = new THREE.Mesh(geometry, material);
 
       // Change the position to compensate for the min_height
+      mesh.rotation.x = Math.PI / 2;
       mesh.position.set(0, 0, min_height);
       scene.add(mesh);
 
@@ -241,7 +242,9 @@ async function buildStructure() {
   
  // Add the main building if no parts were rendered.
   if (k === 0) {
-    scene.add(new THREE.Mesh(building_geometry, material));
+    const building_mesh = new THREE.Mesh(building_geometry, material);
+    building_mesh.rotation.x = Math.PI / 2;
+    scene.add(building_mesh);
   }
 }
 
@@ -336,6 +339,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
+  roof.rotation.x = Math.PI / 2;
   scene.add( roof );
 }
 
