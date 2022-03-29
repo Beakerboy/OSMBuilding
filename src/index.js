@@ -301,14 +301,14 @@ function centroid(way, xml_data) {
   const elements = way.getElementsByTagName("nd");
   var lat_sum = 0;
   var lon_sum = 0;
+  console.log("Centroid calc nodes: " + elements.length);
   for (let i = 0; i < elements.length; i++) {
     ref = elements[i].getAttribute("ref");
     node = xml_data.querySelector('[id="' + ref + '"]');
     lat_sum += node.getAttribute("lat");
     lon_sum += node.getAttribute("lon");
   }
-  const center = [lat_sum / elements.length - home[0], lon_sum / elements.length - home[1]];
-  return center;
+  return repositionPoint([lat_sum / elements.length, lon_sum / elements.length]);
 }
 
 /**
