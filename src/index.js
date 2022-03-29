@@ -286,7 +286,7 @@ function repositionWay(way, xml_data) {
  * way DOM tree of the way to render
  * xml_data the DOM tree of all the data in the region
  */
-function centeroid(way, xml_data) {
+function centroid(way, xml_data) {
   const elements = xml_data.getElementsByTagName("nd");
   var lat_sum = 0;
   var lon_sum = 0;
