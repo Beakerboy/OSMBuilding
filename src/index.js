@@ -335,14 +335,13 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   //   find largest circle within the way
   //   R, x, y
     const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
-    const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
   //   // Adjust the dome height if needed.
   //   geometry.scale(roof:height/R);
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
-    roof.position.set(center[1], center[0], elevation);
-    console.log("Created Dome: \nCenter: " + center + "\nElevation: " + elevation + "\nHeight: " + roof_height)
+    roof.position.set(center[0, center[1], elevation);
     scene.add( roof );
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
