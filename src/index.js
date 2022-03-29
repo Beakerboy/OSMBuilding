@@ -297,7 +297,7 @@ function repositionPoint(lat_lon) {
  * xml_data the DOM tree of all the data in the region
  */
 function centroid(way, xml_data) {
-  const elements = xml_data.getElementsByTagName("nd");
+  const elements = way.getElementsByTagName("nd");
   var lat_sum = 0;
   var lon_sum = 0;
   for (let i = 0; i < elements.length; i++) {
