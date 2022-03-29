@@ -225,8 +225,8 @@ async function buildStructure() {
       var mesh = new THREE.Mesh(geometry, material);
 
       // Change the position to compensate for the min_height
-      mesh.position.set( 0, 0, min_height);
       mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set( 0, min_height, 0);
       scene.add( mesh );
 
       createRoof(innerWays[j], inner_xml_data);
@@ -348,9 +348,8 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
-    roof.rotation.x = -Math.PI / 2;
-    roof.position.set(center[0], center[1], elevation);
-    roof.rotation.x = -Math.PI / 2;
+    roof.rotation.x = -Math.PI;
+    roof.position.set(center[0], elevation, center[1]);
     scene.add( roof );
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
