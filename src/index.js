@@ -311,6 +311,7 @@ function centroid(way, xml_data) {
     console.log("lat: " + lat + " lon: " + lon);
     lat_sum += lat;
     lon_sum += lon;
+    console.log("SUM lat: " + lat_sum + " lon: " + lon_sum);
   }
   const center = [lat_sum / elements.length, lon_sum / elements.length];
   console.log("Center: " + center);
