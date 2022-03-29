@@ -58,11 +58,7 @@ async function createScene() {
   buildStructure();
 
   addLights();
-  // Calulate the helper size from the model.
-  console.log("Helper Size: " + helper_size);
-  const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-
-  scene.add(helper);
+ 
   camera.position.set(0, 0, 200); // x y z
   
   controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -192,6 +188,8 @@ async function buildStructure() {
   home = [home_lat, home_lon];
   
   helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / .9;
+  const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+  scene.add(helper);
   
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
