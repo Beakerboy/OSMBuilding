@@ -276,9 +276,16 @@ function createShape(way, xml_data) {
 function repositionPoint(lat_lon) {
   const R = 6371 * 1000;   // Earth radius in m
   const circ = 2 * Math.PI * R;  // Circumference
-  const lat = lat_lon[0];
-  const lon = lat_lon[1];
-  return [(lat - home[0]) * circ / 360, (lon - home[1]) * circ / 360]
+  const phi = 90 - lat_lon[0];
+  const theta = lat_lon[1] - home[1];
+  const theta_prime = home[0] / 180 * Math.PI;
+  const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
+  const y = R * Math.cos(phi / 180 * Math.PI);
+  const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
+  const abs = Math.sqrt(z**2 + y**2);
+  const arg = Math.atan(y / z);
+  
+  return [x, Math.sin(arg) * abs];
 }
 
 /**
