@@ -301,11 +301,16 @@ function centroid(way, xml_data) {
   const elements = way.getElementsByTagName("nd");
   var lat_sum = 0;
   var lon_sum = 0;
+  var lat = 0;
+  var lon = 0;
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
-    lat_sum += node.getAttribute("lat");
-    lon_sum += node.getAttribute("lon");
+    lat = node.getAttribute("lat");
+    lon = node.getAttribute("lon");
+    console.log("lat: " + lat + " lon: " + lon);
+    lat_sum += lat;
+    lon_sum += lon;
   }
   const center = [lat_sum / elements.length, lon_sum / elements.length];
   console.log("Center: " + center);
