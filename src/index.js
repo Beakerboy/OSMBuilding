@@ -336,9 +336,9 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   //   R, x, y
     const R = calculateWayRadius(way, xml_data);
     const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+    // Adjust the dome height if needed.
+    geometry.scale.z = (roof_height / R);
     const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
-  //   // Adjust the dome height if needed.
-  //   geometry.scale(roof:height/R);
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
