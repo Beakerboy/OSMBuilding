@@ -261,7 +261,6 @@ function createShape(way, xml_data) {
     lat = node.getAttribute("lat");
     lon = node.getAttribute("lon");
     var points = repositionPoint([lat, lon]);
-    console.log(points);
     if (i === 0) {
       shape.moveTo(points[0], points[1]);
     } else {
