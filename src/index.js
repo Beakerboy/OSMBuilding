@@ -59,8 +59,9 @@ async function createScene() {
 
   addLights();
   // Calulate the helper size from the model.
+  console.log("Helper Size: " + helper_size);
   const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-  helper.rotation.x = Math.PI / 2;
+
   scene.add(helper);
   camera.position.set(0, 0, 200); // x y z
   
