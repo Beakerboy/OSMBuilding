@@ -186,10 +186,13 @@ async function buildStructure() {
   const right = Math.max(...lons);
   const top = Math.max(...lats);
 
+  // Set the "home point", the lat lon to center the structure.
   const home_lon = (left + right) / 2;
   const home_lat = (top + bottom) / 2;
   home = [home_lat, home_lon];
+  
   helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / .9;
+  
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
   let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
@@ -248,7 +251,7 @@ async function buildStructure() {
  * way DOM tree of the way to render
  * xml_data the DOM tree of all the data in the region
  */
-function createShape(way, xml_data, home_lat, home_lon) {
+function createShape(way, xml_data) {
   // createBuilding()
   const elements = way.getElementsByTagName("nd");
   const shape = new THREE.Shape();
@@ -259,24 +262,25 @@ function createShape(way, xml_data, home_lat, home_lon) {
     var node = xml_data.querySelector('[id="' + ref + '"]');
     lat = node.getAttribute("lat");
     lon = node.getAttribute("lon");
-    const R = 6371 * 1000;   // Earth radius in m
-    const circ = 2 * Math.PI * R;  // Circumference
+    var points = repositionPoint([lat, lon]);
     if (i === 0) {
-      shape.moveTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+      shape.moveTo(points[0], points[1]);
     } else {
-      // 1 meter per unit.
-      // Better to rotate instead of translate.
-      shape.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
+      shape.lineTo(points[0], points[1]);
     }
   }
   return shape;
 }
 
 /**
- * Rotate a way to reposition the home point onto 0,0
+ * Rotate lat/lon to reposition the home point onto 0,0.
  */
-function repositionWay(way, xml_data) {
-  
+function repositionPoint(lat_lon) {
+  const R = 6371 * 1000;   // Earth radius in m
+  const circ = 2 * Math.PI * R;  // Circumference
+  const lat = lat_lon[0];
+  const lon = lat_lon[1];
+  return [(lat - home[0]) * circ / 360, (lon - home[1]) * circ / 360]
 }
 
 /**
