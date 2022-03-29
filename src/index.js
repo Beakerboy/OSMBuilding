@@ -318,7 +318,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   if (roof_shape === "dome") {
   //   find largest circle within the way
   //   R, x, y
-    const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2*pi, pi/2 );
+    const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
     const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
   //   // Adjust the dome height if needed.
   //   geometry.scale(roof:height/R);
