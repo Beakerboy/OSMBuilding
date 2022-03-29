@@ -260,8 +260,8 @@ function createShape(way, xml_data) {
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
-    lat = node.getAttribute("lat");
-    lon = node.getAttribute("lon");
+    lat = parseFloat(node.getAttribute("lat"));
+    lon = parseFloat(node.getAttribute("lon"));
     var points = repositionPoint([lat, lon]);
     if (i === 0) {
       shape.moveTo(points[0], points[1]);
@@ -307,15 +307,12 @@ function centroid(way, xml_data) {
   for (let i = 0; i < elements.length; i++) {
     var ref = elements[i].getAttribute("ref");
     var node = xml_data.querySelector('[id="' + ref + '"]');
-    lat = node.getAttribute("lat");
-    lon = node.getAttribute("lon");
-    console.log("lat: " + lat + " lon: " + lon);
+    lat = parseFloat(node.getAttribute("lat"));
+    lon = parseFloat(node.getAttribute("lon"));
     lat_sum += lat;
     lon_sum += lon;
-    console.log("SUM lat: " + lat_sum + " lon: " + lon_sum);
   }
   const center = [lat_sum / elements.length, lon_sum / elements.length];
-  console.log("Center: " + center);
   return repositionPoint(center);
 }
 
