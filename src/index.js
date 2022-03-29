@@ -225,7 +225,7 @@ async function buildStructure() {
       mesh.position.set( 0, 0, min_height);
       scene.add( mesh );
 
-      createRoof(innerWays[j]);
+      createRoof(innerWays[j], inner_xml_data);
     }
   }
   
