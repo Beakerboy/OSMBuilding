@@ -341,7 +341,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
       roof_height = R;
     }
     console.log("Scale Factor: " + roof_height / R);
-    geometry.scale(1, 1, roof_height / R);
+    geometry.scale(1, roof_height / R, 1);
     const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
