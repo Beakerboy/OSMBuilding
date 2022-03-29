@@ -349,7 +349,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
     roof.rotation.x = -Math.PI;
-    roof.position.set(center[0], elevation, center[1]);
+    roof.position.set(center[0], elevation, -1 * center[1]);
     scene.add( roof );
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
