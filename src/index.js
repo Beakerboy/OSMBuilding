@@ -323,7 +323,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     roof_height = way.querySelector('[k="roof:height"]').getAttribute('v');
   }
   // Flat - Do Nothing
-  if (roof_type === "dome") {
+  if (roof_shape === "dome") {
   //   find largest circle within the way
   //   R, x, y
     const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2*pi, pi/2 );
@@ -334,10 +334,10 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
     roof.position(center[1], center[0], elevation);
-  } else if (roof_type === "skillion") {
-  } else if (roof_type === "hipped") {
+  } else if (roof_shape === "skillion") {
+  } else if (roof_shape === "hipped") {
        // use straight skeleton algorithm.
-  } else if (roof_type === "pyramidal") {
+  } else if (roof_shape === "pyramidal") {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
