@@ -207,7 +207,8 @@ async function buildStructure() {
     if (innerWays[j].querySelector('[k="building:part"]')) {
       height = calculateWayHeight(innerWays[j]);
       min_height = calculateWayMinHeight(innerWays[j]);
-      extrusion_height = height - min_height;
+      roof_height = calculateRoofHeight(innerWays[j]);
+      extrusion_height = height - min_height - roof_height;
 
       // If we have a multi-polygon, create the outer shape
       // then punch out all the inner shapes.
@@ -367,7 +368,6 @@ function calculateWayHeight(way) {
 }
 
 function calculateWayMinHeight(way) {
-  
   var min_height = 0;
   if (way.querySelector('[k="min_height"]') !== null) {
     // if the buiilding part has a min_helght tag, use it.
@@ -377,6 +377,18 @@ function calculateWayMinHeight(way) {
     min_height = 3 * way.querySelector('[k="building:min_level"]').getAttribute('v');
   }
   return min_height;
+}
+
+function calculateRoofHeight(way) {
+  var height = 0;
+  if (way.querySelector('[k="roof:height"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    height = way.querySelector('[k="roof:height"]').getAttribute('v');
+  } else if (way.querySelector('[k="roof:levels"]') !== null) {
+    // if not, use building:min_level and 3 meters per level.
+    min_height = 3 * way.querySelector('[k="roof:levels"]').getAttribute('v');
+  }
+  return height;
 }
 
   init();
