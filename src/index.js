@@ -300,6 +300,7 @@ function centroid(way, xml_data) {
     lon_sum += node.getAttribute("lon");
   }
   const center = [lat_sum / elements.length - home[0], lon_sum / elements.length - home[1]];
+  return center;
 }
 
 /**
@@ -327,7 +328,6 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
-    console.log("Center: " + center);
     roof.position(center[1], center[0], elevation);
     scene.add( roof );
   } else if (roof_shape === "skillion") {
