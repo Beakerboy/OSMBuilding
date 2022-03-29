@@ -418,7 +418,7 @@ function calculateWayRadius(way, xml_data) {
   const top = Math.max(...lats);
 
   // Set the "home point", the lat lon to center the structure.
-  return Math.min(right - left, top - bottom);
+  return Math.min(right - left, top - bottom) / 2;
 }
 
   init();
