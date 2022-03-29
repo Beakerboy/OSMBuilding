@@ -340,10 +340,10 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     if (roof_height === 0) {
       roof_height = R;
     }
+    console.log("Scale Factor: " + roof_height / R);
+    geometry.scale(1, 1, roof_height / R);
     const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
     const roof = new THREE.Mesh( geometry, material );
-    console.log("Scale Factor: " + roof_height / R);
-    roof.scale(1, 1, roof_height / R);
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
     roof.rotation.x = -Math.PI / 2;
