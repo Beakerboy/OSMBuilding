@@ -154,9 +154,6 @@ async function buildStructure() {
   var building = new THREE.Shape();
   var ref = elements[0].getAttribute("ref");
   var node = xml_data.querySelector('[id="' + ref + '"]');
-  const home_lon = node.getAttribute("lon");
-  const home_lat = node.getAttribute("lat");
-  home = [home_lat, home_lon];
 
   // if it is a building, query all ways within the bounding box and reder the building parts.
   // The way is a list of <nd ref=""> tags.
@@ -172,23 +169,8 @@ async function buildStructure() {
     lon = node.getAttribute("lon");
     lats.push(lat);
     lons.push(lon);
-    if (i === 0) {
-      building.moveTo(0, 0);
-    } else {
-      // 1 meter per unit.
-      // Better to rotate instead of translate.
-      const R = 6371 * 1000;   // Earth radius in m
-      const circ = 2 * Math.PI * R;  // Circumference
-      building.lineTo((lat - home_lat) * circ / 360, (lon - home_lon) * circ / 360);
-    }
   }
 
-  // Extrude the outline to the correct height.
-  var extrudeSettings = {
-    bevelEnabled: false,
-    depth: 3,
-  };
-  var building_geometry = new THREE.ExtrudeGeometry(building, extrudeSettings);
   var material = new THREE.MeshLambertMaterial({
     color: 0xeeeeee,
     emissive: 0x1111111
@@ -203,6 +185,9 @@ async function buildStructure() {
   const right = Math.max(...lons);
   const top = Math.max(...lats);
 
+  const home_lon = (left + right) / 2;
+  const home_lat = (top + bottom) / 2;
+  home = [home_lat, home_lon];
   helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / .9;
   // Get all objects in that area.
   let innerData = await getInnerData(left, bottom, right, top);
@@ -245,7 +230,13 @@ async function buildStructure() {
   
  // Add the main building if no parts were rendered.
   if (k === 0) {
-    const building_mesh = new THREE.Mesh(building_geometry, material);
+    var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
+    extrudeSettings = {
+        bevelEnabled: false,
+        depth: calculateWayHeight(xml_data),
+      };
+    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    const building_mesh = new THREE.Mesh(geometry, material);
     scene.add(building_mesh);
   }
 }
@@ -334,6 +325,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
     roof.position(center[1], center[0], elevation);
+    scene.add( roof );
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
        // use straight skeleton algorithm.
@@ -341,7 +333,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
-  scene.add( roof );
+  
 }
 
 /**
