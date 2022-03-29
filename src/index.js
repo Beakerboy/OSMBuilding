@@ -323,23 +323,24 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   var roof_shape = "flat";
   var roof_height = 0;
   if (way.querySelector('[k="roof:shape"]') !== null) {
-    // if the buiilding part has a min_helght tag, use it.
+    // if the buiilding part has a min_height tag, use it.
     roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
   }
   if (way.querySelector('[k="roof:height"]') !== null) {
-    // if the buiilding part has a min_helght tag, use it.
+    // if the buiilding part has a min_height tag, use it.
     roof_height = way.querySelector('[k="roof:height"]').getAttribute('v');
   }
   // Flat - Do Nothing
   if (roof_shape === "dome") {
   //   find largest circle within the way
   //   R, x, y
-    const geometry = new THREE.SphereGeometry( roof_height, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+    const R = calculateWayRadius(way, xml_data);
+    const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
     const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
   //   // Adjust the dome height if needed.
   //   geometry.scale(roof:height/R);
     const roof = new THREE.Mesh( geometry, material );
-    const elevation = calculateWayHeight(way);
+    const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
     roof.rotation.x = -Math.PI / 2;
     roof.position.set(center[0], center[1], elevation);
@@ -394,6 +395,30 @@ function calculateRoofHeight(way) {
     min_height = 3 * way.querySelector('[k="roof:levels"]').getAttribute('v');
   }
   return height;
+}
+
+function calculateWayRadius(way, xml_data) {
+  const elements = way.getElementsByTagName("nd");
+  var lats = [];
+  var lons = [];
+  var lat = 0;
+  var lon = 0;
+  for (let i = 0; i < elements.length; i++) {
+    ref = elements[i].getAttribute("ref");
+    node = xml_data.querySelector('[id="' + ref + '"]');
+    lat = node.getAttribute("lat");
+    lon = node.getAttribute("lon");
+    var point = repositionPoint([lat, lon]);
+    lats.push(point[0]);
+    lons.push(point[1]);
+  }
+  const left = Math.min(...lons);
+  const bottom = Math.min(...lats);
+  const right = Math.max(...lons);
+  const top = Math.max(...lats);
+
+  // Set the "home point", the lat lon to center the structure.
+  return Math.min(right - left, top - bottom);
 }
 
   init();
