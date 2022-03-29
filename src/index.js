@@ -336,6 +336,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
     roof.position.set(center[1], center[0], elevation);
+    console.log("Created Dome: \nCenter: " + center + "\nElevation: " + elevation + "\nHeight: " + roof_height)
     scene.add( roof );
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
