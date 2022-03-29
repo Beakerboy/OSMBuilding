@@ -341,7 +341,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way);
     const center = centroid(way, xml_data);
-    roof.rotate.x = -Math.PI / 2;
+    roof.rotation.x = -Math.PI / 2;
     roof.position.set(center[0], center[1], elevation);
     scene.add( roof );
   } else if (roof_shape === "skillion") {
