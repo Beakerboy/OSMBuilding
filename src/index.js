@@ -501,7 +501,7 @@ function getMaterial(way) {
     } );
   } else {
     material = new THREE.MeshLambertMaterial({
-      color: white,
+      color: 0xffffff,
       emissive: 0x1111111
     });
   }
@@ -544,12 +544,12 @@ function getRoofMaterial(way) {
     } );
   } else if (material_name === "concrete"){
     material = new THREE.MeshLambertMaterial({
-      color: grey,
+      color: 0x555555,
       emissive: 0x1111111
     });
   } else {
     material = new THREE.MeshLambertMaterial({
-      color: black,
+      color: 0x000000,
       emissive: 0x1111111
     });
   }
