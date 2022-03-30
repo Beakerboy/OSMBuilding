@@ -438,15 +438,16 @@ function getMaterial(way) {
     // if the buiilding part has a designated material tag, use it.
     color = way.querySelector('[k="colour"]').getAttribute('v');
   }
+  var material;
   if (material_name === 'glass') {
-    const material = new THREE.MeshPhysicalMaterial( { 
+    material = new THREE.MeshPhysicalMaterial( { 
       color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
     } );
   } else {
-    const material = new THREE.MeshLambertMaterial({
+    material = new THREE.MeshLambertMaterial({
       color: 0xeeeeee,
       emissive: 0x1111111
     });
@@ -471,15 +472,16 @@ function getRoofMaterial(way) {
     // if the buiilding part has a designated material tag, use it.
     color = way.querySelector('[k="roof:colour"]').getAttribute('v');
   }
+  var material;
   if (material_name === 'glass') {
-    const material = new THREE.MeshPhysicalMaterial( { 
+    material = new THREE.MeshPhysicalMaterial( { 
       color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
     } );
   } else {
-    const material = new THREE.MeshLambertMaterial({
+    material = new THREE.MeshLambertMaterial({
       color: 0xeeeeee,
       emissive: 0x1111111
     });
