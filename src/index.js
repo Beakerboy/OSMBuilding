@@ -547,6 +547,11 @@ function getRoofMaterial(way) {
       color: 0x555555,
       emissive: 0x1111111
     });
+  } else if (material_name ==="marble") {
+    material = new THREE.MeshLambertMaterial({
+      color: 0xffffff,
+      emissive: 0x1111111
+    });
   } else {
     material = new THREE.MeshLambertMaterial({
       color: 0x000000,
