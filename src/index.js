@@ -217,7 +217,7 @@ async function buildStructure() {
 
       // Create the mesh.
       // Todo: Use an array of materials to render the roof the appropriate color.
-      var mesh = new THREE.Mesh(geometry, getMaterial(innerWays[j]));
+      var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
 
       // Change the position to compensate for the min_height
       mesh.rotation.x = -Math.PI / 2;
@@ -446,6 +446,12 @@ function getMaterial(way) {
       reflectivity: .1409,
       clearcoat: 1
     } );
+  } else if (material_name === 'copper') {
+    material = new THREE.MeshLambertMaterial( { 
+      color: 0x0f754f,
+      emissive: 0x00000,
+      reflectivity: 0
+    } );
   } else {
     material = new THREE.MeshLambertMaterial({
       color: 0xeeeeee,
@@ -479,6 +485,12 @@ function getRoofMaterial(way) {
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
+    } );
+  } else if (material_name === 'copper') {
+    material = new THREE.MeshLambertMaterial( { 
+      color: 0x0f754f,
+      emissive: 0x00000,
+      reflectivity: 0
     } );
   } else {
     material = new THREE.MeshLambertMaterial({
