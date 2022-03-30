@@ -393,9 +393,9 @@ function createRoof(way, xml_data, home_lat, home_lon) {
         new THREE.Vector3(-1, 1, -1),//d
         new THREE.Vector3(1, -1, -1),//c
         new THREE.Vector3(-1, -1, 1),//f
-      ]
-      geometry.setFromPoints(points)
-      geometry.computeVertexNormals()
+      ];
+      //geometry.setFromPoints(points);
+      //geometry.computeVertexNormals();
     }
   } else if (roof_shape === "pyramidal") {
     const center = centroid(way, xml_data);
