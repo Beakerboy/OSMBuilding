@@ -367,7 +367,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     if (elements.length === 4) {
       // find the longest edge
       // bisect the angle of longest and opposite
-      let geometry = new THREE.BufferGeometry()
+      //let geometry = new THREE.BufferGeometry()
       const points = [
         // Face 1&2 if wall != no
         new THREE.Vector3(-1, 1, -1),//c
