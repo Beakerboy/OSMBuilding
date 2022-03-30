@@ -517,11 +517,6 @@ function getRoofMaterial(way) {
   createScene();
   window.addEventListener("resize", resize, false);
 
-  const input = document.querySelector('[id="way_id"]');
-  input.addEventListener('change', (e) => {  
-    createScene();  
-  });
-
 function resize() {
   camera.aspect =
     document.documentElement.clientWidth /
