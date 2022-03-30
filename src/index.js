@@ -109,7 +109,7 @@ async function getData() {
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split("&")
-      .foreach(function (item) {
+      .forEach(function (item) {
         tmp = item.split("=");
         if (tmp[0] === "type") {
           type = decodeURIComponent(tmp[1]);
