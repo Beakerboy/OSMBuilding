@@ -80,7 +80,7 @@ function addLights() {
 
   var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
   dirLight.position.set( -1, 0.75, 1 );
-  dirLight.position.multiplyScalar( 50);
+  dirLight.position.multiplyScalar( 1000 );
   dirLight.name = "dirlight";
    // dirLight.shadowCameraVisible = true;
 
