@@ -428,17 +428,17 @@ function calculateWayRadius(way, xml_data) {
  * This is complicated by inheritance
  */
 function getMaterial(way) {
-  var material = "";
+  var material_name = "";
   var color = "white";
   if (way.querySelector('[k="building:material"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
-    material = way.querySelector('[k="building:material"]').getAttribute('v');
+    material_name = way.querySelector('[k="building:material"]').getAttribute('v');
   }
   if (way.querySelector('[k="colour"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
     color = way.querySelector('[k="colour"]').getAttribute('v');
   }
-  if (material === 'glass') {
+  if (material_name === 'glass') {
     const material = new THREE.MeshPhysicalMaterial( { 
       color: 0x00374a,
       emissive: 0x011d57,
@@ -461,17 +461,17 @@ function getMaterial(way) {
  * This is complicated by inheritance
  */
 function getRoofMaterial(way) {
-  var material = "";
+  var material_name = "";
   var color = "white";
   if (way.querySelector('[k="roof:material"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
-    material = way.querySelector('[k="roof:material"]').getAttribute('v');
+    material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
   }
   if (way.querySelector('[k="roof:colour"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
     color = way.querySelector('[k="roof:colour"]').getAttribute('v');
   }
-  if (material === 'glass') {
+  if (material_name === 'glass') {
     const material = new THREE.MeshPhysicalMaterial( { 
       color: 0x00374a,
       emissive: 0x011d57,
