@@ -495,8 +495,8 @@ function getMaterial(way) {
     } );
   } else if (material_name === 'bronze') {
     material = new THREE.MeshPhysicalMaterial( {
-      color:cd7f32,
-      emissive 0x000000,
+      color: 0xcd7f32,
+      emissive: 0x000000,
       metalness: 1,
       roughness: .127
     } );
@@ -550,8 +550,8 @@ function getRoofMaterial(way) {
     } );
   } else if (material_name === 'bronze') {
     material = new THREE.MeshPhysicalMaterial( {
-      color:cd7f32,
-      emissive 0x000000,
+      color:0xcd7f32,
+      emissive: 0x000000,
       metalness: 1,
       roughness: .127
     } );
