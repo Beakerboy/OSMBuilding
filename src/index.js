@@ -127,7 +127,6 @@ async function getData() {
  * Fetch way data from OSM
  */
 async function getInnerData(left, bottom, right, top) {
-  const way_id = document.getElementById('way_id').value;
   let response = await fetch(apis.bounding.url(left, bottom, right, top));
   let res = await response.text();
   return res;
