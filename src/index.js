@@ -511,6 +511,13 @@ function getMaterial(way) {
       emissive: 0x00000,
       reflectivity: 0
     } );
+  } else if (material_name === 'stainless_steel') {
+    material = new THREE.MeshPhysicalMaterial( {
+      color: 0x444444,
+      emissive: 0x000000,
+      metalness: 1,
+      roughness: .127
+    } );
   } else if (material_name === "brick"){
     material = new THREE.MeshLambertMaterial({
       color: 0xcb4154,
