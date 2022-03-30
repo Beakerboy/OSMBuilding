@@ -488,12 +488,15 @@ function getMaterial(way) {
   }
   var material;
   if (material_name === 'glass') {
+    if (color === "") {
+      color = "0x00374a";
+    }
     material = new THREE.MeshPhysicalMaterial( { 
-      color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
     } );
+    material.color = color;
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( { 
       color: 0xa1c7b6,
@@ -501,10 +504,13 @@ function getMaterial(way) {
       reflectivity: 0
     } );
   } else {
+    if (color === "") {
+      color = "white";
+    }
     material = new THREE.MeshLambertMaterial({
-      color: 0xeeeeee,
       emissive: 0x1111111
     });
+    material.color = color;
   }
   return material;
 }
@@ -517,7 +523,7 @@ function getMaterial(way) {
  */
 function getRoofMaterial(way) {
   var material_name = "";
-  var color = "white";
+  var color = "";
   if (way.querySelector('[k="roof:material"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
     material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
@@ -528,12 +534,15 @@ function getRoofMaterial(way) {
   }
   var material;
   if (material_name === 'glass') {
+    if (color === "") {
+      color = "0x00374a";
+    }
     material = new THREE.MeshPhysicalMaterial( { 
-      color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
     } );
+    material.color = color;
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( { 
       color: 0xa1c7b6,
@@ -541,10 +550,13 @@ function getRoofMaterial(way) {
       reflectivity: 0
     } );
   } else {
+    if (color === "") {
+      color = "black";
+    }
     material = new THREE.MeshLambertMaterial({
-      color: 0xeeeeee,
       emissive: 0x1111111
     });
+    material.color = color;
   }
   return material;
 }
