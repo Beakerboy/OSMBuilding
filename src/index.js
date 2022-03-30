@@ -360,40 +360,40 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   } else if (roof_shape === "hipped") {
        // use straight skeleton algorithm.
   } else if (roof_shape === "gabled") {
-    const elements = way.getElementsByTagName("nd");
-    if (elements.length > 4) {
+    //const elements = way.getElementsByTagName("nd");
+    //if (elements.length > 4) {
       // iterate through the way points and remove any 180degree.
-    }
-    if (elements.length === 4) {
+    //}
+    //if (elements.length === 4) {
       // find the longest edge
       // bisect the angle of longest and opposite
       //let geometry = new THREE.BufferGeometry()
-      const points = [
+      //const points = [
         // Face 1&2 if wall != no
-        new THREE.Vector3(-1, 1, -1),//c
-        new THREE.Vector3(-1, -1, 1),//b
-        new THREE.Vector3(1, 1, 1),//f
+        //new THREE.Vector3(-1, 1, -1),//c
+        //new THREE.Vector3(-1, -1, 1),//b
+        //new THREE.Vector3(1, 1, 1),//f
 
-        new THREE.Vector3(1, 1, 1),//a 
-        new THREE.Vector3(1, -1, -1),//e 
-        new THREE.Vector3(-1, 1, -1),//d
+        //new THREE.Vector3(1, 1, 1),//a 
+        //new THREE.Vector3(1, -1, -1),//e 
+        //new THREE.Vector3(-1, 1, -1),//d
         //roof
-        new THREE.Vector3(-1, -1, 1),//a
-        new THREE.Vector3(1, -1, -1),//b 
-        new THREE.Vector3(1, 1, 1),//f
+        //new THREE.Vector3(-1, -1, 1),//a
+        //new THREE.Vector3(1, -1, -1),//b 
+        //new THREE.Vector3(1, 1, 1),//f
 
-        new THREE.Vector3(-1, 1, -1),//a
-        new THREE.Vector3(1, -1, -1),//e
-        new THREE.Vector3(-1, -1, 1),//f
+        //new THREE.Vector3(-1, 1, -1),//a
+        //new THREE.Vector3(1, -1, -1),//e
+        //new THREE.Vector3(-1, -1, 1),//f
         
-        new THREE.Vector3(-1, -1, 1),//d
-        new THREE.Vector3(1, -1, -1),//e
-        new THREE.Vector3(1, 1, 1),//f
+        //new THREE.Vector3(-1, -1, 1),//d
+        //new THREE.Vector3(1, -1, -1),//e
+        //new THREE.Vector3(1, 1, 1),//f
 
-        new THREE.Vector3(-1, 1, -1),//d
-        new THREE.Vector3(1, -1, -1),//c
-        new THREE.Vector3(-1, -1, 1),//f
-      ];
+        //new THREE.Vector3(-1, 1, -1),//d
+        //new THREE.Vector3(1, -1, -1),//c
+        //new THREE.Vector3(-1, -1, 1),//f
+      //];
       //geometry.setFromPoints(points);
       //geometry.computeVertexNormals();
     }
@@ -401,7 +401,6 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
   }
-  
 }
 
 /**
@@ -483,7 +482,7 @@ function getMaterial(way) {
     material_name = way.querySelector('[k="building:material"]').getAttribute('v');
   }
   if (way.querySelector('[k="colour"]') !== null) {
-    // if the buiilding part has a designated material tag, use it.
+    // if the buiilding part has a designated colour tag, use it.
     color = way.querySelector('[k="colour"]').getAttribute('v');
   }
   var material;
@@ -496,10 +495,11 @@ function getMaterial(way) {
       reflectivity: .1409,
       clearcoat: 1
     } );
-    material.color = color;
   } else if (material_name === 'copper') {
+    if (color === "") {
+      color = "0xa1c7b6";
+    }
     material = new THREE.MeshLambertMaterial( { 
-      color: 0xa1c7b6,
       emissive: 0x00000,
       reflectivity: 0
     } );
@@ -510,8 +510,8 @@ function getMaterial(way) {
     material = new THREE.MeshLambertMaterial({
       emissive: 0x1111111
     });
-    material.color = color;
   }
+  material.color = color;
   return material;
 }
 
@@ -529,7 +529,7 @@ function getRoofMaterial(way) {
     material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
   }
   if (way.querySelector('[k="roof:colour"]') !== null) {
-    // if the buiilding part has a designated material tag, use it.
+    // if the buiilding part has a designated mroof:colour tag, use it.
     color = way.querySelector('[k="roof:colour"]').getAttribute('v');
   }
   var material;
@@ -542,7 +542,6 @@ function getRoofMaterial(way) {
       reflectivity: .1409,
       clearcoat: 1
     } );
-    material.color = color;
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( { 
       color: 0xa1c7b6,
@@ -556,7 +555,6 @@ function getRoofMaterial(way) {
     material = new THREE.MeshLambertMaterial({
       emissive: 0x1111111
     });
-    material.color = color;
   } else {
     if (color === "") {
       color = "black";
@@ -564,8 +562,8 @@ function getRoofMaterial(way) {
     material = new THREE.MeshLambertMaterial({
       emissive: 0x1111111
     });
-    material.color = color;
   }
+  material.color = color;
   return material;
 }
 
