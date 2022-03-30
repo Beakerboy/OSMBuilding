@@ -487,31 +487,27 @@ function getMaterial(way) {
   }
   var material;
   if (material_name === 'glass') {
-    if (color === "") {
-      color = "0x00374a";
-    }
-    material = new THREE.MeshPhysicalMaterial( { 
+    material = new THREE.MeshPhysicalMaterial( {
+      color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
     } );
   } else if (material_name === 'copper') {
-    if (color === "") {
-      color = "0xa1c7b6";
-    }
-    material = new THREE.MeshLambertMaterial( { 
+    material = new THREE.MeshLambertMaterial( {
+      color: 0xa1c7b6,
       emissive: 0x00000,
       reflectivity: 0
     } );
   } else {
-    if (color === "") {
-      color = "white";
-    }
     material = new THREE.MeshLambertMaterial({
+      color: white,
       emissive: 0x1111111
     });
   }
-  material.color = new THREE.Color(color);
+  if (color !== "") {
+    material.color = new THREE.Color(color);
+  }
   return material;
 }
 
@@ -534,10 +530,8 @@ function getRoofMaterial(way) {
   }
   var material;
   if (material_name === 'glass') {
-    if (color === "") {
-      color = "0x00374a";
-    }
-    material = new THREE.MeshPhysicalMaterial( { 
+    material = new THREE.MeshPhysicalMaterial( {
+      color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
@@ -549,21 +543,19 @@ function getRoofMaterial(way) {
       reflectivity: 0
     } );
   } else if (material_name === "concrete"){
-    if (color === "") {
-      color = "grey";
-    }
     material = new THREE.MeshLambertMaterial({
+      color: grey,
       emissive: 0x1111111
     });
   } else {
-    if (color === "") {
-      color = "black";
-    }
     material = new THREE.MeshLambertMaterial({
+      color: black,
       emissive: 0x1111111
     });
   }
-  material.color = color;
+  if (color !== "") {
+    material.color = new THREE.Color(color);
+  }
   return material;
 }
 
