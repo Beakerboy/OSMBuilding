@@ -477,7 +477,7 @@ function calculateWayRadius(way, xml_data) {
  */
 function getMaterial(way) {
   var material_name = "";
-  var color = "white";
+  var color = "";
   if (way.querySelector('[k="building:material"]') !== null) {
     // if the buiilding part has a designated material tag, use it.
     material_name = way.querySelector('[k="building:material"]').getAttribute('v');
