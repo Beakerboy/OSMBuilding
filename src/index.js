@@ -472,7 +472,7 @@ function getRoofMaterial(way) {
     color = way.querySelector('[k="roof:colour"]').getAttribute('v');
   }
   if (material === 'glass') {
-    const material = new THREE.MeshBasicMaterial( { 
+    const material = new THREE.MeshPhysicalMaterial( { 
       color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: .1409,
