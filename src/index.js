@@ -549,6 +549,14 @@ function getRoofMaterial(way) {
       emissive: 0x00000,
       reflectivity: 0
     } );
+  } else if (material_name === "concrete"){
+    if (color === "") {
+      color = "grey";
+    }
+    material = new THREE.MeshLambertMaterial({
+      emissive: 0x1111111
+    });
+    material.color = color;
   } else {
     if (color === "") {
       color = "black";
