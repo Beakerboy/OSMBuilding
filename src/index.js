@@ -511,7 +511,7 @@ function getMaterial(way) {
       emissive: 0x1111111
     });
   }
-  material.color = color;
+  material.color = new THREE.Color(color);
   return material;
 }
 
