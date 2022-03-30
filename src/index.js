@@ -43,7 +43,7 @@ function init() {
   );
   renderer.domElement.style.position = "absolute";
   renderer.domElement.style.zIndex = 0;
-  renderer.domElement.style.top = 20;
+  renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
 }
 
