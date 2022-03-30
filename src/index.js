@@ -418,8 +418,9 @@ function calculateWayHeight(way) {
     height = 3 * way.querySelector('[k="building:levels"]').getAttribute('v');
   } else if (way.querySelector('[k="building:part"]') !== null) {
     if (way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
-    // a roof has no height by default.
-    height = 0;
+      // a roof has no height by default.
+      height = 0;
+    }
   }
   
   return height;
