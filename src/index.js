@@ -348,7 +348,6 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     if (roof_height === 0) {
       roof_height = R;
     }
-    console.log("Scale Factor: " + roof_height / R);
     geometry.scale(1, roof_height / R, 1);
     material = getRoofMaterial(way);
     const roof = new THREE.Mesh( geometry, material );
@@ -360,6 +359,44 @@ function createRoof(way, xml_data, home_lat, home_lon) {
   } else if (roof_shape === "skillion") {
   } else if (roof_shape === "hipped") {
        // use straight skeleton algorithm.
+  } else if (roof_shape === "gabled") {
+    const elements = way.getElementsByTagName("nd");
+    if (elements.length > 4) {
+      // iterate through the way points and remove any 180degree.
+    }
+    if (elements.length === 4) {
+      // find the longest edge
+      // bisect the angle of longest and opposite
+      let geometry = new THREE.BufferGeometry()
+      const points = [
+        // Face 1&2 if wall != no
+        new THREE.Vector3(-1, 1, -1),//c
+        new THREE.Vector3(-1, -1, 1),//b
+        new THREE.Vector3(1, 1, 1),//f
+
+        new THREE.Vector3(1, 1, 1),//a 
+        new THREE.Vector3(1, -1, -1),//e 
+        new THREE.Vector3(-1, 1, -1),//d
+        //roof
+        new THREE.Vector3(-1, -1, 1),//a
+        new THREE.Vector3(1, -1, -1),//b 
+        new THREE.Vector3(1, 1, 1),//f
+
+        new THREE.Vector3(-1, 1, -1),//a
+        new THREE.Vector3(1, -1, -1),//e
+        new THREE.Vector3(-1, -1, 1),//f
+        
+        new THREE.Vector3(-1, -1, 1),//d
+        new THREE.Vector3(1, -1, -1),//e
+        new THREE.Vector3(1, 1, 1),//f
+
+        new THREE.Vector3(-1, 1, -1),//d
+        new THREE.Vector3(1, -1, -1),//c
+        new THREE.Vector3(-1, -1, 1),//f
+      ]
+      geometry.setFromPoints(points)
+      geometry.computeVertexNormals()
+    }
   } else if (roof_shape === "pyramidal") {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
