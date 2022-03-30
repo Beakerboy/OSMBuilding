@@ -448,7 +448,7 @@ function getMaterial(way) {
     } );
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( { 
-      color: 0x0f754f,
+      color: 0xa1c7b6,
       emissive: 0x00000,
       reflectivity: 0
     } );
