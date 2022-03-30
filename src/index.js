@@ -489,6 +489,12 @@ function getMaterial(way) {
   if (way.querySelector('[k="colour"]') !== null) {
     // if the buiilding part has a designated colour tag, use it.
     color = way.querySelector('[k="colour"]').getAttribute('v');
+  } else if (way.querySelector('[k="building:colour"]') !== null) {
+    // if the buiilding part has a designated colour tag, use it.
+    color = way.querySelector('[k="building:colour"]').getAttribute('v');
+  } else if (way.querySelector('[k="building:facade:colour"]') !== null) {
+    // if the buiilding part has a designated colour tag, use it.
+    color = way.querySelector('[k="building:facade:colour"]').getAttribute('v');
   }
   var material;
   if (material_name === 'glass') {
