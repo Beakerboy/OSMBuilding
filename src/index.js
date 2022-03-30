@@ -168,11 +168,6 @@ async function buildStructure() {
     lons.push(lon);
   }
 
-  var material = new THREE.MeshLambertMaterial({
-    color: 0xeeeeee,
-    emissive: 0x1111111
-  });
-
   // if it was a building:part, no need to get sub-parts
   // if (is_building) {
   // Get all building parts within the building
@@ -222,7 +217,7 @@ async function buildStructure() {
 
       // Create the mesh.
       // Todo: Use an array of materials to render the roof the appropriate color.
-      var mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(geometry, getMaterial(innerWays[j]));
 
       // Change the position to compensate for the min_height
       mesh.rotation.x = -Math.PI / 2;
@@ -329,7 +324,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
   }
   if (way.querySelector('[k="roof:height"]') !== null) {
-    // if the buiilding part has a min_height tag, use it.
+    // if the building part has a min_height tag, use it.
     roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
   }
   // Flat - Do Nothing
@@ -344,7 +339,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
     }
     console.log("Scale Factor: " + roof_height / R);
     geometry.scale(1, roof_height / R, 1);
-    const material = new THREE.MeshBasicMaterial( { color: 0xeeeeee } );
+    material = getRoofMaterial(way);
     const roof = new THREE.Mesh( geometry, material );
     const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
     const center = centroid(way, xml_data);
@@ -425,6 +420,71 @@ function calculateWayRadius(way, xml_data) {
 
   // Set the "home point", the lat lon to center the structure.
   return Math.min(right - left, top - bottom) / 2;
+}
+
+/**
+ * Get the THREE.material for a given way
+ *
+ * This is complicated by inheritance
+ */
+function getMaterial(way) {
+  var material = "";
+  var color = "white";
+  if (way.querySelector('[k="building:material"]') !== null) {
+    // if the buiilding part has a designated material tag, use it.
+    material = way.querySelector('[k="building:material"]').getAttribute('v');
+  }
+  if (way.querySelector('[k="colour"]') !== null) {
+    // if the buiilding part has a designated material tag, use it.
+    color = way.querySelector('[k="colour"]').getAttribute('v');
+  }
+  if (material === 'glass') {
+    const material = new THREE.MeshBasicMaterial( { 
+      color: 0x00374a,
+      emissive: 0x011d57,
+      reflectivity: .1409,
+      clearcoat: 1
+    } );
+  } else {
+    const material = new THREE.MeshLambertMaterial({
+      color: 0xeeeeee,
+      emissive: 0x1111111
+    });
+  }
+  return material;
+}
+
+
+/**
+ * Get the THREE.material for a given way
+ *
+ * This is complicated by inheritance
+ */
+function getRoofMaterial(way) {
+  var material = "";
+  var color = "white";
+  if (way.querySelector('[k="roof:material"]') !== null) {
+    // if the buiilding part has a designated material tag, use it.
+    material = way.querySelector('[k="roof:material"]').getAttribute('v');
+  }
+  if (way.querySelector('[k="roof:colour"]') !== null) {
+    // if the buiilding part has a designated material tag, use it.
+    color = way.querySelector('[k="roof:colour"]').getAttribute('v');
+  }
+  if (material === 'glass') {
+    const material = new THREE.MeshBasicMaterial( { 
+      color: 0x00374a,
+      emissive: 0x011d57,
+      reflectivity: .1409,
+      clearcoat: 1
+    } );
+  } else {
+    const material = new THREE.MeshLambertMaterial({
+      color: 0xeeeeee,
+      emissive: 0x1111111
+    });
+  }
+  return material;
 }
 
   init();
