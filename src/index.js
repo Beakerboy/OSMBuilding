@@ -493,6 +493,13 @@ function getMaterial(way) {
       reflectivity: .1409,
       clearcoat: 1
     } );
+  } else if (material_name === 'bronze') {
+    material = new THREE.MeshPhysicalMaterial( {
+      color:cd7f32,
+      emissive 0x000000,
+      metalness: 1,
+      roughness: .127
+    } );
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( {
       color: 0xa1c7b6,
@@ -540,6 +547,13 @@ function getRoofMaterial(way) {
       emissive: 0x011d57,
       reflectivity: .1409,
       clearcoat: 1
+    } );
+  } else if (material_name === 'bronze') {
+    material = new THREE.MeshPhysicalMaterial( {
+      color:cd7f32,
+      emissive 0x000000,
+      metalness: 1,
+      roughness: .127
     } );
   } else if (material_name === 'copper') {
     material = new THREE.MeshLambertMaterial( { 
