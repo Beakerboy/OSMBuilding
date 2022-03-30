@@ -396,7 +396,7 @@ function createRoof(way, xml_data, home_lat, home_lon) {
       //];
       //geometry.setFromPoints(points);
       //geometry.computeVertexNormals();
-    }
+    //}
   } else if (roof_shape === "pyramidal") {
     const center = centroid(way, xml_data);
     // create sloped pieces up to the center from each edge.
