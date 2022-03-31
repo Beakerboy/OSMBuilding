@@ -592,7 +592,7 @@ function getRoofMaterial(way) {
   } else if (material_name === 'stainless_steel') {
     material = new THREE.MeshPhysicalMaterial( {
       color: 0xaaaaaa,
-      emissive: 0x000000,
+      emissive: 0xaaaaaa,
       metalness: 1,
       roughness: .127
     } );
