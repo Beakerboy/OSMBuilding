@@ -8,4 +8,33 @@ function Building(Dom) {
     outer,  // way or multi-polygon
     node_list, // associative array of nodes to x,y
     my = {};
+  
+  /**
+   * Factory method
+   */
+  this.create = function(type, id) {
+    // Get XML
+    // Convert to DOM
+    if (type === "way") {
+      // return new SimpleBuilding(id);
+    } else if(type === "relation") {
+      // grab the relation object with ref = id;
+      // get the object's tag = type . attribute('v')
+      if (value === "building") {
+        // A building relation contains an outer way and all the parts
+        // return new RelationBuilding(id);
+      } else if (type === "multipolygon") {
+        // return new MultiBuilding(id);
+      } else {
+        // error
+      }
+    } else {
+      //error
+    }
+  }
+
+  /**
+   * Is a point inside the building
+   */
+  // this.isPointInside(x, y)
 }
