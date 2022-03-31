@@ -20,7 +20,7 @@ var helper_size;
       url: (relation_id) => {
         return apis.get_relation.api + relation_id + apis.get_relation.parameters;
       }
-    }
+    },
     get_way: {
       api:"https://api.openstreetmap.org/api/0.6/way/",
       parameters:"/full",
