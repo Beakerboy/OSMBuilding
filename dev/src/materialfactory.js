@@ -26,6 +26,8 @@ function getMaterial(way) {
   const material = getBaseMaterial(material_name);
   if (color !== "") {
     material.color = new THREE.Color(color);
+  } else {
+    material.color = new THREE.Color("white");
   }
   return material;
 }
@@ -49,6 +51,8 @@ function getRoofMaterial(way) {
   const material = getBaseMaterial(material_name);
   if (color !== "") {
     material.color = new THREE.Color(color);
+  } else {
+    material.color = new THREE.Color("black");
   }
   return material;
 }
@@ -99,7 +103,6 @@ function getBaseMaterial(material_name) {
     });
   } else {
     material = new THREE.MeshLambertMaterial({
-      color: 0x000000,
       emissive: 0x1111111
     });
   }
