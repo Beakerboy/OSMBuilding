@@ -60,6 +60,20 @@ async function createScene() {
   while(scene.children.length > 0){ 
     scene.remove(scene.children[0]); 
   }
+    var type = "way";
+  var id = 66418809;
+  if (window.location.search.substr(1) !== null) {
+    window.location.search.substr(1).split("&")
+      .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === "type") {
+          type = decodeURIComponent(tmp[1]);
+        } else if (tmp[0] === "id") {
+          id = decodeURIComponent(tmp[1]);
+        }
+      });
+  }
+  building = new SimpleBuilding(id);
   buildStructure();
 
   addLights();
