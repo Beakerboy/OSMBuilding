@@ -26,7 +26,7 @@ function getMaterial(way) {
   const material = getBaseMaterial(material_name);
   if (color !== "") {
     material.color = new THREE.Color(color);
-  } else {
+  } else if (material_name === ""){
     material.color = new THREE.Color("white");
   }
   return material;
@@ -51,7 +51,7 @@ function getRoofMaterial(way) {
   const material = getBaseMaterial(material_name);
   if (color !== "") {
     material.color = new THREE.Color(color);
-  } else {
+  } else if (material_name === "") {
     material.color = new THREE.Color("black");
   }
   return material;
