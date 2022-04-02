@@ -3,7 +3,7 @@
  *
  * The DOM should be a "Full" xml export from OSM of either a way or relationship.
  */
-function Building(id) {
+class Building {
   var parts, // a list of all the ways that are to be rendered.
     outer,  // way or multi-polygon
     node_list, // associative array of nodes to x,y
@@ -12,11 +12,11 @@ function Building(id) {
   /**
    * Factory method
    */
-  this.create = function(type, id) {
+  static create(type, id) {
     // Get XML
     // Convert to DOM
     if (type === "way") {
-      // return new SimpleBuilding(id);
+      return new SimpleBuilding(id);
     } else if(type === "relation") {
       // grab the relation object with ref = id;
       // get the object's tag = type . attribute('v')
