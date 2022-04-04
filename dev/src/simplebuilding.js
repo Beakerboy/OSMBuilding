@@ -19,7 +19,7 @@ class SimpleBuilding {
         var lons = [];
         var lat = 0;
         var lon = 0;
-        for (let i = 0; i < elements.length; i++) {
+        for (i = 0; i < elements.length; i++) {
           ref = elements[i].getAttribute("ref");
           node = xml_data.querySelector('[id="' + ref + '"]');
           lat = node.getAttribute("lat");
@@ -40,7 +40,7 @@ class SimpleBuilding {
         const home_lat = (top + bottom) / 2;
         home = [home_lat, home_lon];
   
-        helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / .9;
+        helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
   
@@ -98,20 +98,21 @@ class SimpleBuilding {
           building_mesh.rotation.x = -Math.PI / 2;
           scene.add(building_mesh);
         }
-      });
-    // get full way data from OSM
-    // get bounding box data from OSM
-    // Transform lat-lon to x-y.
-    // This.nodeList = all nodes
-    // discard nodes not within the main building way.
+      }
+      // get full way data from OSM
+      // get bounding box data from OSM
+      // Transform lat-lon to x-y.
+      // This.nodeList = all nodes
+      // discard nodes not within the main building way.
 
-    // ways = get all ways.
-    // foreach ways as way
-    //   discard any ways that contain missing nodes
-    //   or are not building parts.
-    } else {
-      console.log("XML Not Valid")
-    }
+      // ways = get all ways.
+      // foreach ways as way
+      //   discard any ways that contain missing nodes
+      //   or are not building parts.
+      } else {
+        console.log("XML Not Valid")
+      }
+    });
   }
 
   /**
