@@ -1,5 +1,26 @@
+/**
+ *
+ */
 class SimpleBuilding {
+  // The building ID
+  id;
 
+  // The lat and lon of the (0, 0)
+  home;
+
+  // The list of nodes used within the parts.
+  // lat and lon have been converted to cartesian
+  nodelist;
+
+  // The part that defines the outer bounds of the building
+  outer;
+
+  // An array of building parts
+  parts;
+
+  /**
+   *
+   */
   constructor(way_id) {
     this.id = way_id;
     this.getData().then(function (xml_data) {
@@ -180,6 +201,20 @@ class SimpleBuilding {
     return true;
   }
 
+  /**
+   * the width of this part
+   */
+  width() {
+  
+  }
+
+  /**
+   * the depth of this part
+   */
+  depth() {
+  
+  }
+  
   /**
    * Discard any nodes that are not within the building
    */
