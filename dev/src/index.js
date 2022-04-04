@@ -50,17 +50,7 @@ function init() {
   renderer.domElement.style.zIndex = 0;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
-}
-
-/**
- * Create the scene
- */
-async function createScene() {
- 
-  while(scene.children.length > 0){ 
-    scene.remove(scene.children[0]); 
-  }
-    var type = "way";
+  var type = "way";
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split("&")
@@ -73,8 +63,14 @@ async function createScene() {
         }
       });
   }
-  building = new SimpleBuilding(id);
+  building = new Building(type, id);
+}
 
+/**
+ * Create the scene
+ */
+function createScene() {
+  building.render();
   addLights();
  
   camera.position.set(0, 0, 200); // x y z
