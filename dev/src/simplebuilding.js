@@ -69,7 +69,7 @@ class SimpleBuilding {
           k++;
           extrudeSettings = {
             bevelEnabled: false,
-            depth: extrusion_height,
+            depth: extrusion_height
           };
           var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
@@ -91,7 +91,7 @@ class SimpleBuilding {
         var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
         extrudeSettings = {
             bevelEnabled: false,
-            depth: calculateWayHeight(xml_data),
+            depth: calculateWayHeight(xml_data)
           };
         var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
         const building_mesh = new THREE.Mesh(geometry, material);
