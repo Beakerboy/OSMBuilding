@@ -98,17 +98,16 @@ class SimpleBuilding {
           building_mesh.rotation.x = -Math.PI / 2;
           scene.add(building_mesh);
         }
-      }
-      // get full way data from OSM
-      // get bounding box data from OSM
-      // Transform lat-lon to x-y.
-      // This.nodeList = all nodes
-      // discard nodes not within the main building way.
+        // get full way data from OSM
+        // get bounding box data from OSM
+        // Transform lat-lon to x-y.
+        // This.nodeList = all nodes
+        // discard nodes not within the main building way.
 
-      // ways = get all ways.
-      // foreach ways as way
-      //   discard any ways that contain missing nodes
-      //   or are not building parts.
+        // ways = get all ways.
+        // foreach ways as way
+        //   discard any ways that contain missing nodes
+        //   or are not building parts.
       } else {
         console.log("XML Not Valid")
       }
