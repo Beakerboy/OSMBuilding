@@ -148,11 +148,8 @@ class Building {
     } else {
       restPath = apis.get_relation.url(this.id);
     }
-    console.log(restPath);
-    let response = fetch(restPath).then(function (response) {
-      console.log(response);
-      let res = response.text().then(function(text) {
-        // console.log(text);
+    fetch(restPath).then(function (response) {
+      response.text().then(function(text) {
         return text;
       });
     });
