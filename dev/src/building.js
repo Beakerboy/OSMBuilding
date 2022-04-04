@@ -96,6 +96,11 @@ class Building {
     }
   }
 
+  addPart(way_xml) {
+    let way = new WayPart(way_xml);
+    this.parts.add(way);
+  }
+
   /**
    * Is this point inside this building?
    *
