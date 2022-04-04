@@ -88,7 +88,7 @@ class Building {
    * Render this building.
    */
   render() {
-    for (i = 0; i < this.parts.length; i++){
+    for (let i = 0; i < this.parts.length; i++){
       this.parts.render();
     }
     if (this.parts.length === 0) {
@@ -137,9 +137,9 @@ class Building {
    */
   async getData() {
     if (this.type === "way") {
-      restPath = apis.get_way.url(this.id);
+      let restPath = apis.get_way.url(this.id);
     } else {
-      restPath = apis.get_relation.url(this.id);
+      let restPath = apis.get_relation.url(this.id);
     }
     console.log(restPath);
     let response = fetch(restPath).then(function (response) {
