@@ -3,24 +3,24 @@
  */
 class Building {
   // The building ID
-  id;
+  id = 0;
 
   //The parent type
-  type;
+  type = "";
 
   // The lat and lon of the (0, 0)
-  home;
+  home = [];
 
   // The list of nodes used within the parts.
   // lat and lon have been converted to cartesian
-  nodelist;
+  nodelist = {};
 
   // The part that defines the outer bounds of the building
   // multipolygon or way
   outer;
 
   // An array of building parts
-  parts;
+  parts = [];
 
   // Default children parameters
   defaults = {};
@@ -141,7 +141,7 @@ class Building {
    * Fetch way data from OSM
    */
   async getData() {
-    let reatpath = "";
+    let restpath = "";
     if (this.type === "way") {
       restPath = apis.get_way.url(this.id);
     } else {
