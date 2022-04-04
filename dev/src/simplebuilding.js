@@ -2,9 +2,7 @@ class SimpleBuilding {
 
   constructor(way_id) {
     this.id = way_id;
-    this.getData().then(function (data) {
-    
-      let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    this.getData().then(function (xml_data) {
       if (this.isValidData(xml_data)) {
         const nodes = xml_data.getElementsByTagName("node");
 
@@ -30,74 +28,74 @@ class SimpleBuilding {
 
         // Get all building parts within the building
         // Get max and min lat and log from the building
-        const left = Math.min(...lons);
-        const bottom = Math.min(...lats);
-        const right = Math.max(...lons);
-        const top = Math.max(...lats);
+        const this.left = Math.min(...lons);
+        const this.bottom = Math.min(...lats);
+        const this.right = Math.max(...lons);
+        const this.top = Math.max(...lats);
 
         // Set the "home point", the lat lon to center the structure.
-        const home_lon = (left + right) / 2;
-        const home_lat = (top + bottom) / 2;
+        const home_lon = (this.left + this.right) / 2;
+        const home_lat = (this.top + this.bottom) / 2;
         home = [home_lat, home_lon];
   
-        helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+        helper_size = Math.max(this.right - this.left, this.top - this.bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
   
         // Get all objects in that area.
-        let innerData = getInnerData(left, bottom, right, top);
-        let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
+        this.getInnerData().then(function(inner_xml_data) {
 
-        // Filter to all ways
-        const innerWays = inner_xml_data.getElementsByTagName("way");
+          // Filter to all ways
+          const innerWays = inner_xml_data.getElementsByTagName("way");
 
-        var k = 0;
-        var nodes_in_way = [];
-        var height = 0;
-        var min_height = 0;
-        var extrusion_height = 0;
-        for (j = 0; j < innerWays.length; j++) {
-          if (innerWays[j].querySelector('[k="building:part"]')) {
-            height = calculateWayHeight(innerWays[j]);
-            min_height = calculateWayMinHeight(innerWays[j]);
-            roof_height = calculateRoofHeight(innerWays[j]);
-            extrusion_height = height - min_height - roof_height;
+          var k = 0;
+          var nodes_in_way = [];
+          var height = 0;
+          var min_height = 0;
+          var extrusion_height = 0;
+          for (j = 0; j < innerWays.length; j++) {
+            if (innerWays[j].querySelector('[k="building:part"]')) {
+              height = calculateWayHeight(innerWays[j]);
+              min_height = calculateWayMinHeight(innerWays[j]);
+              roof_height = calculateRoofHeight(innerWays[j]);
+              extrusion_height = height - min_height - roof_height;
 
-            // If we have a multi-polygon, create the outer shape
-            // then punch out all the inner shapes.
-            var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
-            k++;
+              // If we have a multi-polygon, create the outer shape
+              // then punch out all the inner shapes.
+              var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
+              k++;
+              extrudeSettings = {
+                bevelEnabled: false,
+                depth: extrusion_height
+              };
+              var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+              // Create the mesh.
+              // Todo: Use an array of materials to render the roof the appropriate color.
+              var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
+
+              // Change the position to compensate for the min_height
+              mesh.rotation.x = -Math.PI / 2;
+              mesh.position.set( 0, min_height, 0);
+              scene.add( mesh );
+
+              createRoof(innerWays[j], inner_xml_data);
+            }
+          }
+  
+         // Add the main building if no parts were rendered.
+          if (k === 0) {
+            var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
             extrudeSettings = {
               bevelEnabled: false,
-              depth: extrusion_height
+              depth: calculateWayHeight(xml_data)
             };
             var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-            // Create the mesh.
-            // Todo: Use an array of materials to render the roof the appropriate color.
-            var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
-
-            // Change the position to compensate for the min_height
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set( 0, min_height, 0);
-            scene.add( mesh );
-
-            createRoof(innerWays[j], inner_xml_data);
+            const building_mesh = new THREE.Mesh(geometry, material);
+            building_mesh.rotation.x = -Math.PI / 2;
+            scene.add(building_mesh);
           }
-        }
-  
-       // Add the main building if no parts were rendered.
-        if (k === 0) {
-          var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
-          extrudeSettings = {
-            bevelEnabled: false,
-            depth: calculateWayHeight(xml_data)
-          };
-          var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-          const building_mesh = new THREE.Mesh(geometry, material);
-          building_mesh.rotation.x = -Math.PI / 2;
-          scene.add(building_mesh);
-        }
+        });
         // get full way data from OSM
         // get bounding box data from OSM
         // Transform lat-lon to x-y.
@@ -134,7 +132,18 @@ class SimpleBuilding {
       console.log(response);
       let res = response.text().then(function(text) {
         console.log(text);
-        return text;
+        return new window.DOMParser().parseFromString(text, "text/xml");
+      });
+    });
+  }
+
+  /**
+   * Fetch way data from OSM
+   */
+  async function getInnerData() {
+    let response = fetch(apis.bounding.url(left, bottom, right, top)).then(function(response) {
+      let res = response.text().then(function(text) {
+        return new window.DOMParser().parseFromString(text, "text/xml");
       });
     });
   }
