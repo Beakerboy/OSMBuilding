@@ -1,5 +1,3 @@
-//import * as THREE from "three";
-//import { OrbitControls } from "https://unpkg.com/three@0.138.3/examples/jsm/controls/OrbitControls.js";
 var camera;
 var renderer;
 var controls;
@@ -62,6 +60,20 @@ async function createScene() {
   while(scene.children.length > 0){ 
     scene.remove(scene.children[0]); 
   }
+    var type = "way";
+  var id = 66418809;
+  if (window.location.search.substr(1) !== null) {
+    window.location.search.substr(1).split("&")
+      .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === "type") {
+          type = decodeURIComponent(tmp[1]);
+        } else if (tmp[0] === "id") {
+          id = decodeURIComponent(tmp[1]);
+        }
+      });
+  }
+  building = new SimpleBuilding(id);
   buildStructure();
 
   addLights();
@@ -479,148 +491,6 @@ function calculateWayRadius(way, xml_data) {
 
   // Set the "home point", the lat lon to center the structure.
   return Math.min(right - left, top - bottom) / 2;
-}
-
-/**
- * Get the THREE.material for a given way
- *
- * This is complicated by inheritance
- */
-function getMaterial(way) {
-  var material_name = "";
-  var color = "";
-  if (way.querySelector('[k="building:facade:material"]') !== null) {
-    // if the buiilding part has a designated material tag, use it.
-    material_name = way.querySelector('[k="building:facade:material"]').getAttribute('v');
-  } else if (way.querySelector('[k="building:material"]') !== null) {
-    // if the buiilding part has a designated material tag, use it.
-    material_name = way.querySelector('[k="building:material"]').getAttribute('v');
-  }
-  if (way.querySelector('[k="colour"]') !== null) {
-    // if the buiilding part has a designated colour tag, use it.
-    color = way.querySelector('[k="colour"]').getAttribute('v');
-  } else if (way.querySelector('[k="building:colour"]') !== null) {
-    // if the buiilding part has a designated colour tag, use it.
-    color = way.querySelector('[k="building:colour"]').getAttribute('v');
-  } else if (way.querySelector('[k="building:facade:colour"]') !== null) {
-    // if the buiilding part has a designated colour tag, use it.
-    color = way.querySelector('[k="building:facade:colour"]').getAttribute('v');
-  }
-  var material;
-  if (material_name === 'glass') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color: 0x00374a,
-      emissive: 0x011d57,
-      reflectivity: .1409,
-      clearcoat: 1
-    } );
-  } else if (material_name === 'bronze') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color: 0xcd7f32,
-      emissive: 0x000000,
-      metalness: 1,
-      roughness: .127
-    } );
-  } else if (material_name === 'copper') {
-    material = new THREE.MeshLambertMaterial( {
-      color: 0xa1c7b6,
-      emissive: 0x00000,
-      reflectivity: 0
-    } );
-  } else if (material_name === 'stainless_steel') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color: 0xaaaaaa,
-      emissive: 0xaaaaaa,
-      metalness: 1,
-      roughness: .127
-    } );
-  } else if (material_name === "brick"){
-    material = new THREE.MeshLambertMaterial({
-      color: 0xcb4154,
-      emissive: 0x1111111
-    });
-  } else {
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      emissive: 0x1111111
-    });
-  }
-  if (color !== "") {
-    material.color = new THREE.Color(color);
-  }
-  return material;
-}
-
-
-/**
- * Get the THREE.material for a given way
- *
- * This is complicated by inheritance
- */
-function getRoofMaterial(way) {
-  var material_name = "";
-  var color = "";
-  if (way.querySelector('[k="roof:material"]') !== null) {
-    // if the buiilding part has a designated material tag, use it.
-    material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
-  }
-  if (way.querySelector('[k="roof:colour"]') !== null) {
-    // if the buiilding part has a designated mroof:colour tag, use it.
-    color = way.querySelector('[k="roof:colour"]').getAttribute('v');
-  }
-  var material;
-  if (material_name === 'glass') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color: 0x00374a,
-      emissive: 0x011d57,
-      reflectivity: .1409,
-      clearcoat: 1
-    } );
-  } else if (material_name === 'bronze') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color:0xcd7f32,
-      emissive: 0x000000,
-      metalness: 1,
-      roughness: .127
-    } );
-  } else if (material_name === 'copper') {
-    material = new THREE.MeshLambertMaterial( { 
-      color: 0xa1c7b6,
-      emissive: 0x00000,
-      reflectivity: 0
-    } );
-  } else if (material_name === 'stainless_steel') {
-    material = new THREE.MeshPhysicalMaterial( {
-      color: 0xaaaaaa,
-      emissive: 0xaaaaaa,
-      metalness: 1,
-      roughness: .127
-    } );
-  } else if (material_name === "brick"){
-    material = new THREE.MeshLambertMaterial({
-      color: 0xcb4154,
-      emissive: 0x1111111
-    });
-  } else if (material_name === "concrete"){
-    material = new THREE.MeshLambertMaterial({
-      color: 0x555555,
-      emissive: 0x1111111
-    });
-  } else if (material_name ==="marble") {
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      emissive: 0x1111111
-    });
-  } else {
-    material = new THREE.MeshLambertMaterial({
-      color: 0x000000,
-      emissive: 0x1111111
-    });
-  }
-  if (color !== "") {
-    material.color = new THREE.Color(color);
-  }
-  return material;
 }
 
   init();
