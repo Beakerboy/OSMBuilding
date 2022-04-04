@@ -2,9 +2,7 @@ class SimpleBuilding {
 
   constructor(way_id) {
     this.id = way_id;
-    let data = this.getData();
-    while (data === null) {
-    }
+    let data = this.getData()
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     if (this.isValidData(xml_data)) {
       const nodes = xml_data.getElementsByTagName("node");
@@ -128,12 +126,14 @@ class SimpleBuilding {
   /**
    * Fetch way data from OSM
    */
-  async getData() {
+  getData() {
     let restPath = apis.get_way.url(this.id);
     console.log(restPath);
-    let response = await fetch(restPath);
-    let res = await response.text();
-    return res;
+    let response = await fetch(restPath).then(function (response) {
+      let res = await response.text().then(function(text) {
+        return text;
+      }
+    }
   }
 
   /**
