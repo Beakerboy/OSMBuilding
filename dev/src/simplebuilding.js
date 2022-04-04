@@ -132,8 +132,8 @@ class SimpleBuilding {
     let response = fetch(restPath).then(function (response) {
       let res = response.text().then(function(text) {
         return text;
-      }
-    }
+      });
+    });
   }
 
   /**
