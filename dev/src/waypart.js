@@ -202,6 +202,15 @@ class WayPart {
     return true;
   }
 
+  render() {
+  }
+
+  renderBuilding() {
+  }
+
+  renderRoof() {
+  }
+
   /**
    * the width of this part
    */
