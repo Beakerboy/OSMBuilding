@@ -22,6 +22,9 @@ class Building {
   // An array of building parts
   parts;
 
+  // Default children parameters
+  defaults = {};
+
   /**
    *
    */
