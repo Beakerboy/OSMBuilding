@@ -141,7 +141,7 @@ class SimpleBuilding {
   /**
    * Fetch way data from OSM
    */
-  async function getInnerData() {
+  async getInnerData() {
     let response = fetch(apis.bounding.url(this.left, this.bottom, this.right, this.top)).then(function(response) {
       let res = response.text().then(function(text) {
         return new window.DOMParser().parseFromString(text, "text/xml");
