@@ -34,8 +34,8 @@ class Building() {
   
     this.getData().then(function (xml_data) {
       if (this.isValidData(xml_data)) {
-        // if (we have a multipolygon or way) {
-        //  this.outer = BuildingPart.create(xml_data);
+        if (this.type === "way") {
+          this.outer = BuildingPart.create(xml_data);
         //  create bounding box
         //  inner_xml = get elements within the box
         //  pair nodes to all within outer
@@ -52,7 +52,7 @@ class Building() {
         //       parts[] = part;
         //     }
         //   }
-        // }
+        }
       }
     });
   }
