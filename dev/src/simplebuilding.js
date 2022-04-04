@@ -2,8 +2,10 @@ class SimpleBuilding {
 
   constructor(way_id) {
     this.id = way_id;
-    let data = this.getData()
-    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    this.getData().then((data) = {
+      this.data = data;
+    });
+    let xml_data = new window.DOMParser().parseFromString(this.data, "text/xml");
     if (this.isValidData(xml_data)) {
       const nodes = xml_data.getElementsByTagName("node");
 
