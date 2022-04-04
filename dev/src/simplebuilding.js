@@ -140,6 +140,7 @@ class SimpleBuilding {
   isValidData(xml_data) {
     // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
     // Or that it is a building part.
+    console.log(xml_data);
     const elements = xml_data.getElementsByTagName("nd");
   
     // Check that it is a closed way
