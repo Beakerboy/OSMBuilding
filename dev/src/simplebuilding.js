@@ -129,7 +129,9 @@ class SimpleBuilding {
    * Fetch way data from OSM
    */
   async getData() {
-    let response = await fetch(apis.get_way.url(this.id));
+    let restPath = apis.get_way.url(this.id);
+    console.log(restPath);
+    let response = await fetch(restPath);
     let res = await response.text();
     return res;
   }
