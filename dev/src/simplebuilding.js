@@ -1,7 +1,7 @@
 /**
  *
  */
-class SimpleBuilding {
+class SimpleBuilding() {
   // The building ID
   id;
 
