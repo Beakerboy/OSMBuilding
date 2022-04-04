@@ -32,7 +32,8 @@ class Building {
     this.id = type_id;
     this.type = type;
   
-    this.getData().then(function (xml_data) {
+    this.getData().then(function (text) {
+      let xml_data = new window.DOMParser().parseFromString(text, "text/xml");
       if (this.isValidData(xml_data)) {
         if (this.type === "way") {
           this.outer = BuildingPart.create(xml_data);
@@ -151,8 +152,8 @@ class Building {
     let response = fetch(restPath).then(function (response) {
       console.log(response);
       let res = response.text().then(function(text) {
-        console.log(text);
-        return new window.DOMParser().parseFromString(text, "text/xml");
+        // console.log(text);
+        return text;
       });
     });
   }
