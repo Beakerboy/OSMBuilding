@@ -136,10 +136,11 @@ class Building {
    * Fetch way data from OSM
    */
   async getData() {
+    let reatpath = "";
     if (this.type === "way") {
-      let restPath = apis.get_way.url(this.id);
+      restPath = apis.get_way.url(this.id);
     } else {
-      let restPath = apis.get_relation.url(this.id);
+      restPath = apis.get_relation.url(this.id);
     }
     console.log(restPath);
     let response = fetch(restPath).then(function (response) {
