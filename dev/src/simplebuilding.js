@@ -135,6 +135,7 @@ class SimpleBuilding {
 
   /**
    * validate that we have the ID of a building way.
+   */
   isValidData(xml_data) {
     // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
     // Or that it is a building part.
