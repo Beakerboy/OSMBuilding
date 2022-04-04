@@ -38,6 +38,7 @@ class SimpleBuilding {
         const home_lat = (this.top + this.bottom) / 2;
         home = [home_lat, home_lon];
   
+        // Move this to index.js?
         helper_size = Math.max(this.right - this.left, this.top - this.bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
