@@ -109,6 +109,9 @@ class SimpleBuilding {
     // foreach ways as way
     //   discard any ways that contain missing nodes
     //   or are not building parts.
+    } else {
+      console.log("XML Not Valid")
+    }
   }
 
   /**
