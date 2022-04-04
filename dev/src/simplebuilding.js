@@ -2,7 +2,7 @@ class SimpleBuilding {
 
   constructor(way_id) {
     this.id = way_id;
-    this.getData().then((data) = {
+    this.getData().then(function (data) {
       this.data = data;
     });
     let xml_data = new window.DOMParser().parseFromString(this.data, "text/xml");
