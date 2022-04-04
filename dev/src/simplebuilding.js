@@ -56,7 +56,7 @@ class SimpleBuilding {
       var height = 0;
       var min_height = 0;
       var extrusion_height = 0;
-      for (let j = 0; j < innerWays.length; j++) {
+      for (j = 0; j < innerWays.length; j++) {
         if (innerWays[j].querySelector('[k="building:part"]')) {
           height = calculateWayHeight(innerWays[j]);
           min_height = calculateWayMinHeight(innerWays[j]);
