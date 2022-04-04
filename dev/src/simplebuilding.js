@@ -129,8 +129,8 @@ class SimpleBuilding {
   getData() {
     let restPath = apis.get_way.url(this.id);
     console.log(restPath);
-    let response = await fetch(restPath).then(function (response) {
-      let res = await response.text().then(function(text) {
+    let response = fetch(restPath).then(function (response) {
+      let res = response.text().then(function(text) {
         return text;
       }
     }
