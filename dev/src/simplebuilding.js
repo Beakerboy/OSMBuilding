@@ -28,10 +28,10 @@ class SimpleBuilding {
 
         // Get all building parts within the building
         // Get max and min lat and log from the building
-        const this.left = Math.min(...lons);
-        const this.bottom = Math.min(...lats);
-        const this.right = Math.max(...lons);
-        const this.top = Math.max(...lats);
+        this.left = Math.min(...lons);
+        this.bottom = Math.min(...lats);
+        this.right = Math.max(...lons);
+        this.top = Math.max(...lats);
 
         // Set the "home point", the lat lon to center the structure.
         const home_lon = (this.left + this.right) / 2;
@@ -141,7 +141,7 @@ class SimpleBuilding {
    * Fetch way data from OSM
    */
   async function getInnerData() {
-    let response = fetch(apis.bounding.url(left, bottom, right, top)).then(function(response) {
+    let response = fetch(apis.bounding.url(this.left, this.bottom, this.right, this.top)).then(function(response) {
       let res = response.text().then(function(text) {
         return new window.DOMParser().parseFromString(text, "text/xml");
       });
