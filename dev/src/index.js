@@ -123,28 +123,6 @@ function addLights() {
 /**
  * Fetch way data from OSM
  */
-async function getData() {
-  var type = "way";
-  var id = 66418809;
-  if (window.location.search.substr(1) !== null) {
-    window.location.search.substr(1).split("&")
-      .forEach(function (item) {
-        tmp = item.split("=");
-        if (tmp[0] === "type") {
-          type = decodeURIComponent(tmp[1]);
-        } else if (tmp[0] === "id") {
-          id = decodeURIComponent(tmp[1]);
-        }
-      });
-  }
-  let response = await fetch(apis.get_way.url(id));
-  let res = await response.text();
-  return res;
-}
-
-/**
- * Fetch way data from OSM
- */
 async function getInnerData(left, bottom, right, top) {
   let response = await fetch(apis.bounding.url(left, bottom, right, top));
   let res = await response.text();
