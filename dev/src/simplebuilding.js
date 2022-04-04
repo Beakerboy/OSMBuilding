@@ -130,7 +130,9 @@ class SimpleBuilding {
     let restPath = apis.get_way.url(this.id);
     console.log(restPath);
     let response = fetch(restPath).then(function (response) {
+      console.log(response);
       let res = response.text().then(function(text) {
+        console.log(text);
         return text;
       });
     });
