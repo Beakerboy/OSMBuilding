@@ -25,62 +25,24 @@ class SimpleBuilding {
           lats.push(lat);
           lons.push(lon);
         }
-
-        // Get all building parts within the building
-        // Get max and min lat and log from the building
-        this.left = Math.min(...lons);
-        this.bottom = Math.min(...lats);
-        this.right = Math.max(...lons);
-        this.top = Math.max(...lats);
-
-        // Set the "home point", the lat lon to center the structure.
-        const home_lon = (this.left + this.right) / 2;
-        const home_lat = (this.top + this.bottom) / 2;
-        home = [home_lat, home_lon];
+        this.setHome();
   
-        // Move this to index.js?
-        helper_size = Math.max(this.right - this.left, this.top - this.bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
-        const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-        scene.add(helper);
+        this.addGrid();
   
         // Get all objects in that area.
         this.getInnerData().then(function(inner_xml_data) {
+          this.inner_xml_data = inner_xml_data;
+          // Create a list of all nodes
+          //this.nodelist = createNodelist(inner_xml_data);
 
           // Filter to all ways
           const innerWays = inner_xml_data.getElementsByTagName("way");
 
           var k = 0;
-          var nodes_in_way = [];
-          var height = 0;
-          var min_height = 0;
-          var extrusion_height = 0;
           for (j = 0; j < innerWays.length; j++) {
             if (innerWays[j].querySelector('[k="building:part"]')) {
-              height = calculateWayHeight(innerWays[j]);
-              min_height = calculateWayMinHeight(innerWays[j]);
-              roof_height = calculateRoofHeight(innerWays[j]);
-              extrusion_height = height - min_height - roof_height;
-
-              // If we have a multi-polygon, create the outer shape
-              // then punch out all the inner shapes.
-              var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
+              createAndRenderPart(innerWays[j]);
               k++;
-              extrudeSettings = {
-                bevelEnabled: false,
-                depth: extrusion_height
-              };
-              var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-              // Create the mesh.
-              // Todo: Use an array of materials to render the roof the appropriate color.
-              var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
-
-              // Change the position to compensate for the min_height
-              mesh.rotation.x = -Math.PI / 2;
-              mesh.position.set( 0, min_height, 0);
-              scene.add( mesh );
-
-              createRoof(innerWays[j], inner_xml_data);
             }
           }
   
@@ -97,20 +59,43 @@ class SimpleBuilding {
             scene.add(building_mesh);
           }
         });
-        // get full way data from OSM
-        // get bounding box data from OSM
-        // Transform lat-lon to x-y.
-        // This.nodeList = all nodes
-        // discard nodes not within the main building way.
-
-        // ways = get all ways.
-        // foreach ways as way
-        //   discard any ways that contain missing nodes
-        //   or are not building parts.
       } else {
         console.log("XML Not Valid")
       }
     });
+  }
+
+  /**
+   * We should really make an array of building types and have a render function
+   */
+  createAndRenderPart(way) {
+    height = calculateWayHeight(way);
+    min_height = calculateWayMinHeight(way);
+    roof_height = calculateRoofHeight(way);
+    extrusion_height = height - min_height - roof_height;
+    var shape = createShape(way, this.inner_xml_data, home[0], home[1]);
+    extrudeSettings = {
+      bevelEnabled: false,
+      depth: extrusion_height
+    };
+    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+    // Create the mesh.
+    // Todo: Use an array of materials to render the roof the appropriate color.
+    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(way), getMaterial(way)]);
+
+    // Change the position to compensate for the min_height
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set( 0, min_height, 0);
+    scene.add( mesh );
+
+    createRoof(way, this.inner_xml_data);
+  }
+
+  /**
+   * Render this building.
+   */
+  render() {
   }
 
   /**
@@ -123,6 +108,32 @@ class SimpleBuilding {
 
   }
 
+  /**
+   * Determine the lat and lon of the "home" position
+   */
+  setHome() {
+    // Get max and min lat and log from the building
+    this.left = Math.min(...lons);
+    this.bottom = Math.min(...lats);
+    this.right = Math.max(...lons);
+    this.top = Math.max(...lats);
+
+    // Set the "home point", the lat lon to center the structure.
+    const home_lon = (this.left + this.right) / 2;
+    const home_lat = (this.top + this.bottom) / 2;
+    this.home = [home_lat, home_lon];
+  }
+
+  /**
+   * Add the gridHelper to the scene
+   */
+  addGrid() {
+    // Move this to index.js?
+    helper_size = Math.max(this.right - this.left, this.top - this.bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+    const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+    scene.add(helper);
+  }
+  
   /**
    * Fetch way data from OSM
    */
