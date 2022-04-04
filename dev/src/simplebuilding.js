@@ -147,7 +147,7 @@ class SimpleBuilding {
     // Or that it is a building part.
     console.log(xml_data);
     const elements = xml_data.getElementsByTagName("nd");
-  
+
     // Check that it is a closed way
     let first = elements[0];
     let last = elements[elements.length - 1];
@@ -168,5 +168,4 @@ class SimpleBuilding {
     //     unset (this.nodelist[i]);
     //   }
   }
-  
 }
