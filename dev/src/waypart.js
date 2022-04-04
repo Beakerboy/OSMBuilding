@@ -1,7 +1,7 @@
 /**
  *
  */
-class SimpleBuilding() {
+class WayPart() {
   // The building ID
   id;
 
