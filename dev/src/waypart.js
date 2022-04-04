@@ -1,7 +1,7 @@
 /**
  *
  */
-class WayPart() {
+class WayPart {
   // The building ID
   id;
 
