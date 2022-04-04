@@ -13,6 +13,7 @@ class SimpleBuilding {
   nodelist;
 
   // The part that defines the outer bounds of the building
+  // multipolygon or way
   outer;
 
   // An array of building parts
