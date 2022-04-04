@@ -88,6 +88,12 @@ class Building() {
    * Render this building.
    */
   render() {
+    for (i=0; i < this.parts.length; i++){
+      this.parts.render();
+    }
+    if (this.parts.length === 0) {
+      this.outer.render();
+    }
   }
 
   /**
