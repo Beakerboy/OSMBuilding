@@ -66,7 +66,7 @@ class Building {
 
             // If we have a multi-polygon, create the outer shape
             // then punch out all the inner shapes.
-            var shape = Building.createShape(innerWays[j], inner_xml_data);
+            var shape = this.createShape(innerWays[j], inner_xml_data);
             k++;
             extrudeSettings = {
               bevelEnabled: false,
@@ -160,7 +160,7 @@ class Building {
    * way DOM tree of the way to render
    * xml_data the DOM tree of all the data in the region
    */
-   static createShape(way, xml_data) {
+   createShape(way, xml_data) {
     const elements = way.getElementsByTagName("nd");
     const shape = new THREE.Shape();
     var lat = 0;
@@ -170,7 +170,7 @@ class Building {
       var node = xml_data.querySelector('[id="' + ref + '"]');
       lat = parseFloat(node.getAttribute("lat"));
       lon = parseFloat(node.getAttribute("lon"));
-      var points = Building.repositionPoint([lat, lon]);
+      var points = this.repositionPoint([lat, lon]);
       if (i === 0) {
         shape.moveTo(points[0], points[1]);
       } else {
@@ -183,7 +183,7 @@ class Building {
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
    */
-  function repositionPoint(lat_lon) {
+  repositionPoint(lat_lon) {
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
     const phi = 90 - lat_lon[0];
