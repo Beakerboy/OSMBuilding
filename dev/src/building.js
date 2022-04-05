@@ -97,7 +97,7 @@ class Building {
         this.nodelist[id] = this.repositionPoint([lat, lon]);
       }
       console.log(this.nodelist);
-      this.addParts(left, bottom, right, top);
+      this.addParts();
 
       const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
       const helper = new THREE.GridHelper(helper_size, helper_size / 10);
@@ -126,15 +126,9 @@ class Building {
     }
   }
 
-  addParts(left, bottom, right, top) {
+  addParts() {
     // Filter to all ways
     const innerWays = this.inner_xml_data.getElementsByTagName("way");
-
-    var k = 0;
-    var nodes_in_way = [];
-    var height = 0;
-    var min_height = 0;
-    var extrusion_height = 0;
     for (let j = 0; j < innerWays.length; j++) {
       if (innerWays[j].querySelector('[k="building:part"]')) {
         this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
