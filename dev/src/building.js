@@ -173,9 +173,12 @@ class Building {
    * Fetch way data from OSM
    */
   static async getData(id) {
+    console.log("in get data");
     let restPath = apis.get_way.url(id);
+    console.log(restPath);
     let response = await fetch(restPath);
     let text = await response.text();
+    console.log(text);
     return text;
   }
 
