@@ -83,7 +83,7 @@ class Building {
       const home_lon = (left + right) / 2;
       const home_lat = (top + bottom) / 2;
       this.home = [home_lat, home_lon];
-      const node_list = xml_data.getElementsByTagName("nd");
+      const node_list = this.inner_xml_data.getElementsByTagName("node");
       let id = 0;
       for(let j = 0;  j < node_list.length; j++) {
         node = node_list[j];
