@@ -45,7 +45,7 @@ class Building {
         scene.add(helper);
   
         // Get all objects in that area.
-        let innerData = getInnerData(left, bottom, right, top);
+        let innerData = Building.getInnerData(left, bottom, right, top);
         let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
 
         // Filter to all ways
@@ -131,6 +131,15 @@ class Building {
     let response = await fetch(restPath);
     let text = await response.text();
     return text;
+  }
+
+  /**
+   * Fetch way data from OSM
+   */
+  static async getInnerData(left, bottom, right, top) {
+    let response = await fetch(apis.bounding.url(left, bottom, right, top));
+    let res = await response.text();
+    return res;
   }
 
   /**
