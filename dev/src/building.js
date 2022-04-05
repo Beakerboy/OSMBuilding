@@ -1,105 +1,117 @@
-/**
- *
- */
 class Building {
-  // The building ID
-  id = 0;
 
-  //The parent type
-  type = "";
-
-  // The lat and lon of the (0, 0)
-  home = [];
-
-  // The list of nodes used within the parts.
-  // lat and lon have been converted to cartesian
-  nodelist = {};
-
-  // The part that defines the outer bounds of the building
-  // multipolygon or way
-  outer;
-
-  // An array of building parts
-  parts = [];
-
-  // Default children parameters
-  defaults = {};
-
-  /**
-   *
-   */
-  constructor(type, type_id) {
-    this.id = type_id;
-    this.type = type;
-  
-    this.getData().then(function (text) {
-      let xml_data = new window.DOMParser().parseFromString(text, "text/xml");
+  constructor(way_id) {
+    this.id = way_id;
+    this.getData().then(function (data) {
+    
+      let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
       if (this.isValidData(xml_data)) {
-        if (this.type === "way") {
-          this.outer = BuildingPart.create(xml_data);
-        //  create bounding box
-        //  inner_xml = get elements within the box
-        //  pair nodes to all within outer
-        //  innerParts = query inner_xml for inner parts (ways, relations and multipolygons)
-        //  foreach (innerParts as part) {
-        //    parts[] = part;
-        //  }
-        // } else {
-        //   query xml_data for inner parts
-        //   foreach (innerpart as part) {
-        //     if (part is a relation) {
-        //       queryall on its id and add them to
-        //     } else {
-        //       parts[] = part;
-        //     }
-        //   }
+        const nodes = xml_data.getElementsByTagName("node");
+
+        var building = new THREE.Shape();
+        var ref = elements[0].getAttribute("ref");
+        var node = xml_data.querySelector('[id="' + ref + '"]');
+
+        // if it is a building, query all ways within the bounding box and reder the building parts.
+        // The way is a list of <nd ref=""> tags.
+        // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+        var lats = [];
+        var lons = [];
+        var lat = 0;
+        var lon = 0;
+        for (i = 0; i < elements.length; i++) {
+          ref = elements[i].getAttribute("ref");
+          node = xml_data.querySelector('[id="' + ref + '"]');
+          lat = node.getAttribute("lat");
+          lon = node.getAttribute("lon");
+          lats.push(lat);
+          lons.push(lon);
         }
+
+        // Get all building parts within the building
+        // Get max and min lat and log from the building
+        const left = Math.min(...lons);
+        const bottom = Math.min(...lats);
+        const right = Math.max(...lons);
+        const top = Math.max(...lats);
+
+        // Set the "home point", the lat lon to center the structure.
+        const home_lon = (left + right) / 2;
+        const home_lat = (top + bottom) / 2;
+        home = [home_lat, home_lon];
+  
+        helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+        const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+        scene.add(helper);
+  
+        // Get all objects in that area.
+        let innerData = getInnerData(left, bottom, right, top);
+        let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
+
+        // Filter to all ways
+        const innerWays = inner_xml_data.getElementsByTagName("way");
+
+        var k = 0;
+        var nodes_in_way = [];
+        var height = 0;
+        var min_height = 0;
+        var extrusion_height = 0;
+        for (j = 0; j < innerWays.length; j++) {
+          if (innerWays[j].querySelector('[k="building:part"]')) {
+            height = calculateWayHeight(innerWays[j]);
+            min_height = calculateWayMinHeight(innerWays[j]);
+            roof_height = calculateRoofHeight(innerWays[j]);
+            extrusion_height = height - min_height - roof_height;
+
+            // If we have a multi-polygon, create the outer shape
+            // then punch out all the inner shapes.
+            var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
+            k++;
+            extrudeSettings = {
+              bevelEnabled: false,
+              depth: extrusion_height
+            };
+            var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+            // Create the mesh.
+            // Todo: Use an array of materials to render the roof the appropriate color.
+            var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
+
+            // Change the position to compensate for the min_height
+            mesh.rotation.x = -Math.PI / 2;
+            mesh.position.set( 0, min_height, 0);
+            scene.add( mesh );
+
+            createRoof(innerWays[j], inner_xml_data);
+          }
+        }
+  
+       // Add the main building if no parts were rendered.
+        if (k === 0) {
+          var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
+          extrudeSettings = {
+            bevelEnabled: false,
+            depth: calculateWayHeight(xml_data)
+          };
+          var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+          const building_mesh = new THREE.Mesh(geometry, material);
+          building_mesh.rotation.x = -Math.PI / 2;
+          scene.add(building_mesh);
+        }
+        // get full way data from OSM
+        // get bounding box data from OSM
+        // Transform lat-lon to x-y.
+        // This.nodeList = all nodes
+        // discard nodes not within the main building way.
+
+        // ways = get all ways.
+        // foreach ways as way
+        //   discard any ways that contain missing nodes
+        //   or are not building parts.
+      } else {
+        console.log("XML Not Valid")
       }
     });
-  }
-
-  /**
-   * We should really make an array of building types and have a render function
-   */
-  createAndRenderPart(way) {
-    height = calculateWayHeight(way);
-    min_height = calculateWayMinHeight(way);
-    roof_height = calculateRoofHeight(way);
-    extrusion_height = height - min_height - roof_height;
-    var shape = createShape(way, this.inner_xml_data, home[0], home[1]);
-    extrudeSettings = {
-      bevelEnabled: false,
-      depth: extrusion_height
-    };
-    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-    // Create the mesh.
-    // Todo: Use an array of materials to render the roof the appropriate color.
-    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(way), getMaterial(way)]);
-
-    // Change the position to compensate for the min_height
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, min_height, 0);
-    scene.add( mesh );
-
-    createRoof(way, this.inner_xml_data);
-  }
-
-  /**
-   * Render this building.
-   */
-  render() {
-    for (let i = 0; i < this.parts.length; i++){
-      this.parts.render();
-    }
-    if (this.parts.length === 0) {
-      this.outer.render();
-    }
-  }
-
-  addPart(way_xml) {
-    let way = new WayPart(way_xml);
-    this.parts.add(way);
   }
 
   /**
@@ -113,55 +125,16 @@ class Building {
   }
 
   /**
-   * Determine the lat and lon of the "home" position
-   */
-  setHome() {
-    // Get max and min lat and log from the building
-    this.left = Math.min(...lons);
-    this.bottom = Math.min(...lats);
-    this.right = Math.max(...lons);
-    this.top = Math.max(...lats);
-
-    // Set the "home point", the lat lon to center the structure.
-    const home_lon = (this.left + this.right) / 2;
-    const home_lat = (this.top + this.bottom) / 2;
-    this.home = [home_lat, home_lon];
-  }
-
-  /**
-   * Add the gridHelper to the scene
-   */
-  addGrid() {
-    // Move this to index.js?
-    helper_size = Math.max(this.right - this.left, this.top - this.bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
-    const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-    scene.add(helper);
-  }
-  
-  /**
    * Fetch way data from OSM
    */
   async getData() {
-    let restPath = "";
-    if (this.type === "way") {
-      restPath = apis.get_way.url(this.id);
-    } else {
-      restPath = apis.get_relation.url(this.id);
-    }
-    fetch(restPath).then(function (response) {
-      response.text().then(function(text) {
-        return text;
-      });
-    });
-  }
-
-  /**
-   * Fetch way data from OSM
-   */
-  async getInnerData() {
-    let response = fetch(apis.bounding.url(this.left, this.bottom, this.right, this.top)).then(function(response) {
+    let restPath = apis.get_way.url(this.id);
+    console.log(restPath);
+    let response = fetch(restPath).then(function (response) {
+      console.log(response);
       let res = response.text().then(function(text) {
-        return new window.DOMParser().parseFromString(text, "text/xml");
+        console.log(text);
+        return text;
       });
     });
   }
@@ -170,30 +143,21 @@ class Building {
    * validate that we have the ID of a building way.
    */
   isValidData(xml_data) {
-    if (this.type === "way" ) {
-      
-    } else {
-      // check that it is either a multipolygon or building relation
+    // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
+    // Or that it is a building part.
+    console.log(xml_data);
+    const elements = xml_data.getElementsByTagName("nd");
+    // Check that it is a closed way
+    let first = elements[0];
+    let last = elements[elements.length - 1];
+    var first_ref = first.getAttribute("ref");
+    var last_ref = last.getAttribute("ref");
+    if(first_ref !== last_ref) {
+      return false;
     }
     return true;
   }
 
-  /**
-   * the width of the building
-   */
-  width() {
-    // if we have a way or multipolygon, this.outer defines the size
-    // if we have a building relationship, there can be parts that are outside the outer way.
-  }
-
-  /**
-   * the depth of this building
-   */
-  depth() {
-    // if we have a way or multipolygon, this.outer defines the size
-    // if we have a building relationship, there can be parts that are outside the outer way.
-  }
-  
   /**
    * Discard any nodes that are not within the building
    */
