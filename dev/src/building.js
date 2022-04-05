@@ -1,4 +1,12 @@
 class Building {
+  // Latitude and longitude that transitioned to (0, 0)
+  home = [];
+
+  parts = [];
+
+  outer;
+
+  id = 0;
   static async create(id) {
     const data = await Building.getData(id);
     return new Building(data);
@@ -6,6 +14,7 @@ class Building {
 
   constructor(data) {
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    
     if (Building.isValidData(xml_data)) {
         const node_list = xml_data.getElementsByTagName("node");
         // convert the node_list to a associative array
@@ -27,7 +36,6 @@ class Building {
           lats.push(lat);
           lons.push(lon);
         }
-
         // Get all building parts within the building
         // Get max and min lat and log from the building
         const left = Math.min(...lons);
@@ -43,52 +51,12 @@ class Building {
         const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
-  
-        // Get all objects in that area.
-        let innerData = Building.getInnerData(left, bottom, right, top);
-        let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
 
-        // Filter to all ways
-        const innerWays = inner_xml_data.getElementsByTagName("way");
-
-        var k = 0;
-        var nodes_in_way = [];
-        var height = 0;
-        var min_height = 0;
-        var extrusion_height = 0;
-        for (let j = 0; j < innerWays.length; j++) {
-          if (innerWays[j].querySelector('[k="building:part"]')) {
-            height = calculateWayHeight(innerWays[j]);
-            min_height = calculateWayMinHeight(innerWays[j]);
-            roof_height = calculateRoofHeight(innerWays[j]);
-            extrusion_height = height - min_height - roof_height;
-
-            // If we have a multi-polygon, create the outer shape
-            // then punch out all the inner shapes.
-            var shape = this.createShape(innerWays[j], inner_xml_data);
-            k++;
-            extrudeSettings = {
-              bevelEnabled: false,
-              depth: extrusion_height
-            };
-            var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-            // Create the mesh.
-            // Todo: Use an array of materials to render the roof the appropriate color.
-            var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
-
-            // Change the position to compensate for the min_height
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set( 0, min_height, 0);
-            scene.add( mesh );
-
-            createRoof(innerWays[j], inner_xml_data);
-          }
-        }
+        this.addParts();
   
        // Add the main building if no parts were rendered.
         if (k === 0) {
-          var shape = this.createShape(xml_data, inner_xml_data, home_lat, home_lon);
+          var shape = this.createShape(xml_data, xml_data);
           extrudeSettings = {
             bevelEnabled: false,
             depth: calculateWayHeight(xml_data)
@@ -110,6 +78,50 @@ class Building {
         //   or are not building parts.
     } else {
       console.log("XML Not Valid")
+    }
+  }
+
+  async addParts() {
+    // Get all objects in that area.
+    let innerData = await Building.getInnerData(left, bottom, right, top);
+    let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
+
+    // Filter to all ways
+    const innerWays = inner_xml_data.getElementsByTagName("way");
+
+    var k = 0;
+    var nodes_in_way = [];
+    var height = 0;
+    var min_height = 0;
+    var extrusion_height = 0;
+    for (let j = 0; j < innerWays.length; j++) {
+      if (innerWays[j].querySelector('[k="building:part"]')) {
+        height = calculateWayHeight(innerWays[j]);
+        min_height = calculateWayMinHeight(innerWays[j]);
+        roof_height = calculateRoofHeight(innerWays[j]);
+        extrusion_height = height - min_height - roof_height;
+
+        // If we have a multi-polygon, create the outer shape
+        // then punch out all the inner shapes.
+        var shape = this.createShape(innerWays[j], inner_xml_data);
+        k++;
+        extrudeSettings = {
+          bevelEnabled: false,
+          depth: extrusion_height
+        };
+        var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+        // Create the mesh.
+        // Todo: Use an array of materials to render the roof the appropriate color.
+        var mesh = new THREE.Mesh(geometry, [getRoofMaterial(innerWays[j]), getMaterial(innerWays[j])]);
+
+        // Change the position to compensate for the min_height
+        mesh.rotation.x = -Math.PI / 2;
+        mesh.position.set( 0, min_height, 0);
+        scene.add( mesh );
+
+        this.createRoof(innerWays[j], inner_xml_data);
+      }
     }
   }
 
