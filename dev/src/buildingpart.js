@@ -114,43 +114,44 @@ class BuildingPart {
    * Create the 3D render of a roof.
    */
   createRoof() {
-  var roof_shape = "flat";
-  var roof_height = 0;
-  if (way.querySelector('[k="roof:shape"]') !== null) {
-    // if the buiilding part has a min_height tag, use it.
-    roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
-  }
-  if (way.querySelector('[k="roof:height"]') !== null) {
-    // if the building part has a min_height tag, use it.
-    roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
-  }
-  // Flat - Do Nothing
-  if (roof_shape === "dome") {
-  //   find largest circle within the way
-  //   R, x, y
-    const R = calculateWayRadius(way, xml_data);
-    const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
-    // Adjust the dome height if needed.
-    if (roof_height === 0) {
-      roof_height = R;
+    var roof_shape = "flat";
+    var roof_height = 0;
+    var way = this.way;
+    if (this.way.querySelector('[k="roof:shape"]') !== null) {
+      // if the buiilding part has a min_height tag, use it.
+      roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
     }
-    geometry.scale(1, roof_height / R, 1);
-    material = getRoofMaterial(way);
-    const roof = new THREE.Mesh( geometry, material );
-    const elevation = calculateWayHeight(way) - calculateRoofHeight(way);
-    const center = centroid(way, xml_data);
-    roof.rotation.x = -Math.PI;
-    roof.position.set(center[0], elevation, -1 * center[1]);
-    scene.add( roof );
-  } else if (roof_shape === "skillion") {
-  } else if (roof_shape === "hipped") {
+    if (this.way.querySelector('[k="roof:height"]') !== null) {
+      // if the building part has a min_height tag, use it.
+      roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
+    }
+    // Flat - Do Nothing
+    if (roof_shape === "dome") {
+    //   find largest circle within the way
+    //   R, x, y
+      const R = calculateWayRadius(way, xml_data);
+      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+      // Adjust the dome height if needed.
+      if (roof_height === 0) {
+        roof_height = R;
+      }
+      geometry.scale(1, roof_height / R, 1);
+      material = getRoofMaterial(this.way);
+      const roof = new THREE.Mesh( geometry, material );
+      const elevation = calculateWayHeight(this.way) - calculateRoofHeight(way);
+      const center = centroid(way, xml_data);
+      roof.rotation.x = -Math.PI;
+      roof.position.set(center[0], elevation, -1 * center[1]);
+      scene.add( roof );
+    } else if (roof_shape === "skillion") {
+    } else if (roof_shape === "hipped") {
        // use straight skeleton algorithm.
-  } else if (roof_shape === "gabled") {
-    //const elements = way.getElementsByTagName("nd");
-    //if (elements.length > 4) {
-      // iterate through the way points and remove any 180degree.
-    //}
-    //if (elements.length === 4) {
+    } else if (roof_shape === "gabled") {
+      //const elements = way.getElementsByTagName("nd");
+      //if (elements.length > 4) {
+        // iterate through the way points and remove any 180degree.
+      //}
+      //if (elements.length === 4) {
       // find the longest edge
       // bisect the angle of longest and opposite
       //let geometry = new THREE.BufferGeometry()
@@ -183,9 +184,9 @@ class BuildingPart {
       //geometry.setFromPoints(points);
       //geometry.computeVertexNormals();
     //}
-    } else if (roof_shape === "pyramidal") {
-      const center = centroid(way, xml_data);
-      // create sloped pieces up to the center from each edge.
+      } else if (roof_shape === "pyramidal") {
+        const center = centroid(way, xml_data);
+        // create sloped pieces up to the center from each edge.
+      }
     }
   }
-}
