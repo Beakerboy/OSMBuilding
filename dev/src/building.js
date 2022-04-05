@@ -14,49 +14,76 @@ class Building {
   nodelist;
   static async create(id) {
     const data = await Building.getData(id);
-    return new Building(data);
+    const way_nodes = xml_data.getElementsByTagName("nd");
+    this.outer = xml_data;
+    // if it is a building, query all ways within the bounding box and reder the building parts.
+    // The way is a list of <nd ref=""> tags.
+    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+    var lats = [];
+    var lons = [];
+    var lat = 0;
+    var lon = 0;
+    var node;
+    var ref;
+    for (let i = 0; i < way_nodes.length; i++) {
+      ref = way_nodes[i].getAttribute("ref");
+      node = xml_data.querySelector('[id="' + ref + '"]');
+      lat = node.getAttribute("lat");
+      lon = node.getAttribute("lon");
+      lats.push(lat);
+      lons.push(lon);
+    }
+    // Get all building parts within the building
+    // Get max and min lat and log from the building
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
+
+    const innerData = await Building.getInnerData(left, bottom, right, top);
+    return new Building(data, innerData);
   }
 
-  constructor(data) {
+  constructor(data, innerData) {
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-    
+    this.innerData = innerData;
     if (Building.isValidData(xml_data)) {
-      const way_nodes = xml_data.getElementsByTagName("nd");
-      this.outer = xml_data;
-      // if it is a building, query all ways within the bounding box and reder the building parts.
-      // The way is a list of <nd ref=""> tags.
-      // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
-      var lats = [];
-      var lons = [];
-      var lat = 0;
-      var lon = 0;
-      var node;
-      var ref;
-      for (let i = 0; i < way_nodes.length; i++) {
-        ref = way_nodes[i].getAttribute("ref");
-        node = xml_data.querySelector('[id="' + ref + '"]');
-        lat = node.getAttribute("lat");
-        lon = node.getAttribute("lon");
-        lats.push(lat);
-        lons.push(lon);
-      }
-      // Get all building parts within the building
-      // Get max and min lat and log from the building
-      const left = Math.min(...lons);
-      const bottom = Math.min(...lats);
-      const right = Math.max(...lons);
-      const top = Math.max(...lats);
-
+       this.outer = xml_data;
+    // if it is a building, query all ways within the bounding box and reder the building parts.
+    // The way is a list of <nd ref=""> tags.
+    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+    var lats = [];
+    var lons = [];
+    var lat = 0;
+    var lon = 0;
+    var node;
+    var ref;
+    for (let i = 0; i < way_nodes.length; i++) {
+      ref = way_nodes[i].getAttribute("ref");
+      node = xml_data.querySelector('[id="' + ref + '"]');
+      lat = node.getAttribute("lat");
+      lon = node.getAttribute("lon");
+      lats.push(lat);
+      lons.push(lon);
+    }
+    // Get all building parts within the building
+    // Get max and min lat and log from the building
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
       // Set the "home point", the lat lon to center the structure.
       const home_lon = (left + right) / 2;
       const home_lat = (top + bottom) / 2;
       this.home = [home_lat, home_lon];
-  
+      
+
+      this.addParts(left, bottom, right, top);
+      
       const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
       const helper = new THREE.GridHelper(helper_size, helper_size / 10);
       scene.add(helper);
-
-      this.addParts(left, bottom, right, top);
+      
       this.render();
     } else {
       console.log("XML Not Valid")
@@ -81,10 +108,8 @@ class Building {
     }
   }
 
-  async addParts(left, bottom, right, top) {
-    // Get all objects in that area.
-    let innerData = await Building.getInnerData(left, bottom, right, top);
-    let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
+  addParts(left, bottom, right, top) {
+    let inner_xml_data = new window.DOMParser().parseFromString(this.innerData, "text/xml");
     this.nodelist = inner_xml_data;
 
     // Filter to all ways
