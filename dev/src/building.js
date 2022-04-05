@@ -15,7 +15,9 @@ class Building {
   // the list of all nodes with lat/lon coordinates.
   nodelist;
   static async create(id) {
+    console.log("in create");
     const data = await Building.getData(id);
+    console.log("got data1");
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
     this.outer = xml_data;
@@ -44,6 +46,7 @@ class Building {
     const top = Math.max(...lats);
 
     const innerData = await Building.getInnerData(left, bottom, right, top);
+    console.log("got data2");
     return new Building(data, innerData);
   }
 
