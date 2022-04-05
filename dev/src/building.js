@@ -57,8 +57,6 @@ class Building {
       scene.add(helper);
 
       this.addParts(left, bottom, right, top);
-  
-      this.render();
     } else {
       console.log("XML Not Valid")
     }
