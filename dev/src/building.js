@@ -2,6 +2,7 @@ class Building {
 
   constructor(way_id) {
     this.id = way_id;
+    this.home = [0, 0];
     this.getData().then(function (data) {
     
       let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
