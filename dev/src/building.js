@@ -6,11 +6,9 @@ class Building {
     
       let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
       if (Building.isValidData(xml_data)) {
-        const nodes = xml_data.getElementsByTagName("node");
-
-        var ref = nodes[0].getAttribute("ref");
-        var node = xml_data.querySelector('[id="' + ref + '"]');
-
+        const node_list = xml_data.getElementsByTagName("node");
+        // convert the node_list to a associative array
+        const way_nodes = xml_data.getElementsByTagName("nd");
         // if it is a building, query all ways within the bounding box and reder the building parts.
         // The way is a list of <nd ref=""> tags.
         // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
@@ -18,8 +16,8 @@ class Building {
         var lons = [];
         var lat = 0;
         var lon = 0;
-        for (let i = 0; i < nodes.length; i++) {
-          ref = nodes[i].getAttribute("ref");
+        for (let i = 0; i < way_nodes.length; i++) {
+          ref = way_nodes[i].getAttribute("ref");
           node = xml_data.querySelector('[id="' + ref + '"]');
           lat = node.getAttribute("lat");
           lon = node.getAttribute("lon");
