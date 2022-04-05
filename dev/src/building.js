@@ -91,10 +91,8 @@ class Building {
         lat = node.getAttribute("lat");
         lon = node.getAttribute("lon");
         // todo, check if point is within the border.
-        console.log("id: " + id);
         this.nodelist[id] = this.repositionPoint([lat, lon]);
       }
-      console.log(this.nodelist);
       this.addParts();
 
       const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
@@ -169,7 +167,6 @@ class Building {
   static isValidData(xml_data) {
     // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
     // Or that it is a building part.
-    console.log(xml_data);
     const elements = xml_data.getElementsByTagName("nd");
     // Check that it is a closed way
     let first = elements[0];
