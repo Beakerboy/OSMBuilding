@@ -73,7 +73,7 @@ async function createScene() {
         }
       });
   }
-  building = new Building(id);
+  building = Building.create(id);
 
   addLights();
  
