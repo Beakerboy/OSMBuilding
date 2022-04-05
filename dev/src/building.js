@@ -96,13 +96,13 @@ class Building {
         // todo, check if point is within the border.
         this.nodelist[id] = this.repositionPoint([lat, lon]);
       }
+      console.log(this.nodelist);
       this.addParts(left, bottom, right, top);
 
       const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
       const helper = new THREE.GridHelper(helper_size, helper_size / 10);
       scene.add(helper);
 
-      this.isReady = true;
     } else {
       console.log("XML Not Valid")
     }
