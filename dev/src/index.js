@@ -74,7 +74,6 @@ async function createScene() {
       });
   }
   building = new Building(id);
-  buildStructure();
 
   addLights();
  
