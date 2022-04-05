@@ -33,7 +33,6 @@ var building = {};
  * Initialize the screen
  */
 function init() {
-  building.isReady = false;
   var type = "way";
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
@@ -47,7 +46,9 @@ function init() {
         }
       });
   }
-  building = Building.create(id);
+  Building.create(id).then(function(myObj){
+      myObj.render();
+  });
   camera = new THREE.PerspectiveCamera(
     50,
     document.documentElement.clientWidth /
@@ -82,9 +83,6 @@ function createScene() {
 
     renderer.render(scene, camera);
   }
-  while (!building.isReady) {
-  }
-  building.render();
   render();
 }
 
