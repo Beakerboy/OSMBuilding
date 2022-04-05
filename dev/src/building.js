@@ -91,6 +91,7 @@ class Building {
         lat = node.getAttribute("lat");
         lon = node.getAttribute("lon");
         // todo, check if point is within the border.
+        console.log("id: " + id);
         this.nodelist[id] = this.repositionPoint([lat, lon]);
       }
       console.log(this.nodelist);
