@@ -81,7 +81,7 @@ function createScene() {
 
     renderer.render(scene, camera);
   }
-  building.render();
+  //building.render();
   render();
 }
 
