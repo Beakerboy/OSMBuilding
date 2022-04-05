@@ -16,6 +16,8 @@ class Building {
         var lons = [];
         var lat = 0;
         var lon = 0;
+        var node;
+        var ref;
         for (let i = 0; i < way_nodes.length; i++) {
           ref = way_nodes[i].getAttribute("ref");
           node = xml_data.querySelector('[id="' + ref + '"]');
@@ -35,9 +37,9 @@ class Building {
         // Set the "home point", the lat lon to center the structure.
         const home_lon = (left + right) / 2;
         const home_lat = (top + bottom) / 2;
-        home = [home_lat, home_lon];
+        const home = [home_lat, home_lon];
   
-        helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+        const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
   
