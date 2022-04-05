@@ -73,7 +73,7 @@ async function createScene() {
         }
       });
   }
-  building = new SimpleBuilding(id);
+  building = new Building(id);
   buildStructure();
 
   addLights();
