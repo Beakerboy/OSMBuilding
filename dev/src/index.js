@@ -4,7 +4,7 @@ var controls;
 var scene = new THREE.Scene();
 var home;
 var helper_size;
-var building;
+var building = {};
 
   let apis = {
     bounding: {
@@ -33,6 +33,7 @@ var building;
  * Initialize the screen
  */
 function init() {
+  building.isReady = false;
   var type = "way";
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
