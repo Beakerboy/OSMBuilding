@@ -1,5 +1,7 @@
 class Building {
-  home = []
+  // The latitude and longitude of (0, 0)
+  home = [];
+
   constructor(way_id) {
     this.id = way_id;
     this.getData().then(function (data) {
