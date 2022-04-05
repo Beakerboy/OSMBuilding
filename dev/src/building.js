@@ -18,7 +18,7 @@ class Building {
         var lons = [];
         var lat = 0;
         var lon = 0;
-        for (i = 0; i < nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) {
           ref = nodes[i].getAttribute("ref");
           node = xml_data.querySelector('[id="' + ref + '"]');
           lat = node.getAttribute("lat");
@@ -55,7 +55,7 @@ class Building {
         var height = 0;
         var min_height = 0;
         var extrusion_height = 0;
-        for (j = 0; j < innerWays.length; j++) {
+        for (let j = 0; j < innerWays.length; j++) {
           if (innerWays[j].querySelector('[k="building:part"]')) {
             height = calculateWayHeight(innerWays[j]);
             min_height = calculateWayMinHeight(innerWays[j]);
