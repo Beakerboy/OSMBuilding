@@ -81,7 +81,9 @@ function createScene() {
 
     renderer.render(scene, camera);
   }
-  //building.render();
+  while (!building.isReady) {
+  }
+  building.render();
   render();
 }
 
