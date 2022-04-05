@@ -1,12 +1,12 @@
 class Building {
+  static async create(id) {
+    const data = await Building.getData(id);
+    return new Building(data);
+  }
 
-  constructor(way_id) {
-    this.id = way_id;
-    this.home = [0, 0];
-    this.getData().then(function (data) {
-    
-      let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-      if (Building.isValidData(xml_data)) {
+  constructor(data) {
+    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    if (Building.isValidData(xml_data)) {
         const node_list = xml_data.getElementsByTagName("node");
         // convert the node_list to a associative array
         const way_nodes = xml_data.getElementsByTagName("nd");
@@ -108,10 +108,9 @@ class Building {
         // foreach ways as way
         //   discard any ways that contain missing nodes
         //   or are not building parts.
-      } else {
-        console.log("XML Not Valid")
-      }
-    });
+    } else {
+      console.log("XML Not Valid")
+    }
   }
 
   /**
@@ -127,8 +126,8 @@ class Building {
   /**
    * Fetch way data from OSM
    */
-  async getData() {
-    let restPath = apis.get_way.url(this.id);
+  static async getData(id) {
+    let restPath = apis.get_way.url(id);
     let response = await fetch(restPath);
     let text = await response.text();
     return text;
