@@ -72,7 +72,7 @@ class BuildingPart {
 
     // Create the mesh.
     // Todo: Use an array of materials to render the roof the appropriate color.
-    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(way), getMaterial(way)]);
+    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
