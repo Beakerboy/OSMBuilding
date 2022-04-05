@@ -272,33 +272,6 @@ async function buildStructure() {
 }
 
 /**
- * Create the shape of a given way.
- *
- * way DOM tree of the way to render
- * xml_data the DOM tree of all the data in the region
- */
-function createShape(way, xml_data) {
-  // createBuilding()
-  const elements = way.getElementsByTagName("nd");
-  const shape = new THREE.Shape();
-  var lat = 0;
-  var lon = 0;
-  for (let i = 0; i < elements.length; i++) {
-    var ref = elements[i].getAttribute("ref");
-    var node = xml_data.querySelector('[id="' + ref + '"]');
-    lat = parseFloat(node.getAttribute("lat"));
-    lon = parseFloat(node.getAttribute("lon"));
-    var points = repositionPoint([lat, lon]);
-    if (i === 0) {
-      shape.moveTo(points[0], points[1]);
-    } else {
-      shape.lineTo(points[0], points[1]);
-    }
-  }
-  return shape;
-}
-
-/**
  * Rotate lat/lon to reposition the home point onto 0,0.
  */
 function repositionPoint(lat_lon) {
