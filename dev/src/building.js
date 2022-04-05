@@ -88,7 +88,7 @@ class Building {
   
        // Add the main building if no parts were rendered.
         if (k === 0) {
-          var shape = createShape(xml_data, inner_xml_data, home_lat, home_lon);
+          var shape = this.createShape(xml_data, inner_xml_data, home_lat, home_lon);
           extrudeSettings = {
             bevelEnabled: false,
             depth: calculateWayHeight(xml_data)
