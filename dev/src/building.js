@@ -5,11 +5,10 @@ class Building {
     this.getData().then(function (data) {
     
       let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-      //if (this.isValidData(xml_data)) {
+      if (Building.isValidData(xml_data)) {
         const nodes = xml_data.getElementsByTagName("node");
 
-        var building = new THREE.Shape();
-        var ref = elements[0].getAttribute("ref");
+        var ref = nodes[0].getAttribute("ref");
         var node = xml_data.querySelector('[id="' + ref + '"]');
 
         // if it is a building, query all ways within the bounding box and reder the building parts.
@@ -19,8 +18,8 @@ class Building {
         var lons = [];
         var lat = 0;
         var lon = 0;
-        for (i = 0; i < elements.length; i++) {
-          ref = elements[i].getAttribute("ref");
+        for (i = 0; i < nodes.length; i++) {
+          ref = nodes[i].getAttribute("ref");
           node = xml_data.querySelector('[id="' + ref + '"]');
           lat = node.getAttribute("lat");
           lon = node.getAttribute("lon");
@@ -108,9 +107,9 @@ class Building {
         // foreach ways as way
         //   discard any ways that contain missing nodes
         //   or are not building parts.
-     // } else {
-      //  console.log("XML Not Valid")
-      //}
+      } else {
+        console.log("XML Not Valid")
+      }
     });
   }
 
@@ -142,7 +141,7 @@ class Building {
   /**
    * validate that we have the ID of a building way.
    */
-  isValidData(xml_data) {
+  static isValidData(xml_data) {
     // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
     // Or that it is a building part.
     console.log(xml_data);
