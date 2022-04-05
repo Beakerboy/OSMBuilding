@@ -272,24 +272,6 @@ async function buildStructure() {
 }
 
 /**
- * Rotate lat/lon to reposition the home point onto 0,0.
- */
-function repositionPoint(lat_lon) {
-  const R = 6371 * 1000;   // Earth radius in m
-  const circ = 2 * Math.PI * R;  // Circumference
-  const phi = 90 - lat_lon[0];
-  const theta = lat_lon[1] - home[1];
-  const theta_prime = home[0] / 180 * Math.PI;
-  const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
-  const y = R * Math.cos(phi / 180 * Math.PI);
-  const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
-  const abs = Math.sqrt(z**2 + y**2);
-  const arg = Math.atan(y / z) - theta_prime;
-  
-  return [x, Math.sin(arg) * abs];
-}
-
-/**
  * Find the center of a closed way
  *
  * Need to compensate for edge cases
