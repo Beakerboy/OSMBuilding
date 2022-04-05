@@ -1,5 +1,5 @@
 class Building {
-
+  home = []
   constructor(way_id) {
     this.id = way_id;
     this.getData().then(function (data) {
@@ -37,7 +37,7 @@ class Building {
         // Set the "home point", the lat lon to center the structure.
         const home_lon = (left + right) / 2;
         const home_lat = (top + bottom) / 2;
-        const home = [home_lat, home_lon];
+        this.home = [home_lat, home_lon];
   
         const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
@@ -64,7 +64,7 @@ class Building {
 
             // If we have a multi-polygon, create the outer shape
             // then punch out all the inner shapes.
-            var shape = createShape(innerWays[j], inner_xml_data, home_lat, home_lon);
+            var shape = Building.createShape(innerWays[j], inner_xml_data);
             k++;
             extrudeSettings = {
               bevelEnabled: false,
@@ -150,6 +150,50 @@ class Building {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Create the shape of a given way.
+   *
+   * way DOM tree of the way to render
+   * xml_data the DOM tree of all the data in the region
+   */
+   static createShape(way, xml_data) {
+    const elements = way.getElementsByTagName("nd");
+    const shape = new THREE.Shape();
+    var lat = 0;
+    var lon = 0;
+    for (let i = 0; i < elements.length; i++) {
+      var ref = elements[i].getAttribute("ref");
+      var node = xml_data.querySelector('[id="' + ref + '"]');
+      lat = parseFloat(node.getAttribute("lat"));
+      lon = parseFloat(node.getAttribute("lon"));
+      var points = Building.repositionPoint([lat, lon]);
+      if (i === 0) {
+        shape.moveTo(points[0], points[1]);
+      } else {
+        shape.lineTo(points[0], points[1]);
+      }
+    }
+    return shape;
+    }
+
+  /**
+   * Rotate lat/lon to reposition the home point onto 0,0.
+   */
+  function repositionPoint(lat_lon) {
+    const R = 6371 * 1000;   // Earth radius in m
+    const circ = 2 * Math.PI * R;  // Circumference
+    const phi = 90 - lat_lon[0];
+    const theta = lat_lon[1] - this.home[1];
+    const theta_prime = this.home[0] / 180 * Math.PI;
+    const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
+    const y = R * Math.cos(phi / 180 * Math.PI);
+    const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
+    const abs = Math.sqrt(z**2 + y**2);
+    const arg = Math.atan(y / z) - theta_prime;
+  
+    return [x, Math.sin(arg) * abs];
   }
 
   /**
