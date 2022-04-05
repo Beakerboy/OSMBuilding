@@ -5,7 +5,7 @@ class Building {
     this.getData().then(function (data) {
     
       let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-      if (this.isValidData(xml_data)) {
+      //if (this.isValidData(xml_data)) {
         const nodes = xml_data.getElementsByTagName("node");
 
         var building = new THREE.Shape();
@@ -108,9 +108,9 @@ class Building {
         // foreach ways as way
         //   discard any ways that contain missing nodes
         //   or are not building parts.
-      } else {
-        console.log("XML Not Valid")
-      }
+     // } else {
+      //  console.log("XML Not Valid")
+      //}
     });
   }
 
