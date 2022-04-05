@@ -22,7 +22,7 @@ class Building {
     
     if (Building.isValidData(xml_data)) {
       const way_nodes = xml_data.getElementsByTagName("nd");
-      this.outer = xml_data.getElementsByTagName("way");
+      this.outer = xml_data;
       // if it is a building, query all ways within the bounding box and reder the building parts.
       // The way is a list of <nd ref=""> tags.
       // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
