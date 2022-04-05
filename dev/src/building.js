@@ -52,7 +52,7 @@ class Building {
         const helper = new THREE.GridHelper(helper_size, helper_size / 10);
         scene.add(helper);
 
-        this.addParts();
+        this.addParts(left, bottom, right, top);
   
        // Add the main building if no parts were rendered.
         if (k === 0) {
@@ -81,7 +81,7 @@ class Building {
     }
   }
 
-  async addParts() {
+  async addParts(left, bottom, right, top) {
     // Get all objects in that area.
     let innerData = await Building.getInnerData(left, bottom, right, top);
     let inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
