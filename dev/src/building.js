@@ -5,7 +5,7 @@ class Building {
   // the parts
   parts = [];
 
-  // the way of the outer building parimeter
+  // the way (xml Element) of the outer building parimeter
   outer;
 
   id = 0;
