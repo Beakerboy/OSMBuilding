@@ -9,6 +9,8 @@ class Building {
   outer;
 
   id = 0;
+  
+  isReady = false;
 
   // the list of all nodes with lat/lon coordinates.
   nodelist;
@@ -73,19 +75,18 @@ class Building {
     const bottom = Math.min(...lats);
     const right = Math.max(...lons);
     const top = Math.max(...lats);
-      // Set the "home point", the lat lon to center the structure.
-      const home_lon = (left + right) / 2;
-      const home_lat = (top + bottom) / 2;
-      this.home = [home_lat, home_lon];
-      
+    // Set the "home point", the lat lon to center the structure.
+    const home_lon = (left + right) / 2;
+    const home_lat = (top + bottom) / 2;
+    this.home = [home_lat, home_lon];
 
-      this.addParts(left, bottom, right, top);
-      
-      const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
-      const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-      scene.add(helper);
-      
-      this.render();
+    this.addParts(left, bottom, right, top);
+
+    const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+    const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+    scene.add(helper);
+
+    this.isReady = true;
     } else {
       console.log("XML Not Valid")
     }
