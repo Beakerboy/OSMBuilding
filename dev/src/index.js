@@ -85,6 +85,7 @@ async function createScene() {
 
     renderer.render(scene, camera);
   }
+  building.render();
   render();
 }
 
