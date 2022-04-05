@@ -8,12 +8,15 @@ class Building {
   // the way (xml Element) of the outer building parimeter
   outer;
 
+  // DOM Tree of all elements to render
+  inner_xml_data;
+
   id = 0;
   
   isReady = false;
 
   // the list of all nodes with lat/lon coordinates.
-  nodelist;
+  nodelist = [];
   static async create(id) {
     console.log("in create");
     const data = await Building.getData(id);
@@ -53,44 +56,53 @@ class Building {
   constructor(data, innerData) {
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
-    this.innerData = innerData;
+    this.inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
     if (Building.isValidData(xml_data)) {
        this.outer = xml_data;
-    // if it is a building, query all ways within the bounding box and reder the building parts.
-    // The way is a list of <nd ref=""> tags.
-    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
-    var lats = [];
-    var lons = [];
-    var lat = 0;
-    var lon = 0;
-    var node;
-    var ref;
-    for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute("ref");
-      node = xml_data.querySelector('[id="' + ref + '"]');
-      lat = node.getAttribute("lat");
-      lon = node.getAttribute("lon");
-      lats.push(lat);
-      lons.push(lon);
-    }
-    // Get all building parts within the building
-    // Get max and min lat and log from the building
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-    // Set the "home point", the lat lon to center the structure.
-    const home_lon = (left + right) / 2;
-    const home_lat = (top + bottom) / 2;
-    this.home = [home_lat, home_lon];
+      // if it is a building, query all ways within the bounding box and reder the building parts.
+      // The way is a list of <nd ref=""> tags.
+      // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+      var lats = [];
+      var lons = [];
+      var lat = 0;
+      var lon = 0;
+      var node;
+      var ref;
+      for (let i = 0; i < way_nodes.length; i++) {
+        ref = way_nodes[i].getAttribute("ref");
+        node = xml_data.querySelector('[id="' + ref + '"]');
+        lat = node.getAttribute("lat");
+        lon = node.getAttribute("lon");
+        lats.push(lat);
+        lons.push(lon);
+      }
+      // Get all building parts within the building
+      // Get max and min lat and log from the building
+      const left = Math.min(...lons);
+      const bottom = Math.min(...lats);
+      const right = Math.max(...lons);
+      const top = Math.max(...lats);
+      // Set the "home point", the lat lon to center the structure.
+      const home_lon = (left + right) / 2;
+      const home_lat = (top + bottom) / 2;
+      this.home = [home_lat, home_lon];
+      const node_list = xml_data.getElementsByTagName("nd");
+      let id = 0;
+      for(let j = 0;  j < node_list.length; j++) {
+        node = node_list[j];
+        id = node.getAttribute("id");
+        lat = node.getAttribute("lat");
+        lon = node.getAttribute("lon");
+        // todo, check if point is within the border.
+        this.nodelist[id] = this.repositionPoint([lat, lon]);
+      }
+      this.addParts(left, bottom, right, top);
 
-    this.addParts(left, bottom, right, top);
+      const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
+      const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+      scene.add(helper);
 
-    const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
-    const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-    scene.add(helper);
-
-    this.isReady = true;
+      this.isReady = true;
     } else {
       console.log("XML Not Valid")
     }
@@ -99,7 +111,7 @@ class Building {
   render() {
     if (this.parts.length > 0) {
        for (let i = 0; i < this.parts.length; i++) {
-         this.renderPart(this.parts[i]);
+         this.parts[i].render();
        }
     } else {
       var shape = this.createShape(this.outer);
@@ -115,11 +127,8 @@ class Building {
   }
 
   addParts(left, bottom, right, top) {
-    let inner_xml_data = new window.DOMParser().parseFromString(this.innerData, "text/xml");
-    this.nodelist = inner_xml_data;
-
     // Filter to all ways
-    const innerWays = inner_xml_data.getElementsByTagName("way");
+    const innerWays = this.inner_xml_data.getElementsByTagName("way");
 
     var k = 0;
     var nodes_in_way = [];
@@ -128,36 +137,9 @@ class Building {
     var extrusion_height = 0;
     for (let j = 0; j < innerWays.length; j++) {
       if (innerWays[j].querySelector('[k="building:part"]')) {
-        this.parts.push(innerWays[j]);
+        this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
       }
     }
-  }
-
-  renderPart(way) {
-    let height = calculateWayHeight(way);
-    let min_height = calculateWayMinHeight(way);
-    let roof_height = calculateRoofHeight(way);
-    let extrusion_height = height - min_height - roof_height;
-
-    // If we have a multi-polygon, create the outer shape
-    // then punch out all the inner shapes.
-    var shape = this.createShape(way);
-    let extrudeSettings = {
-      bevelEnabled: false,
-      depth: extrusion_height
-    };
-    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-    // Create the mesh.
-    // Todo: Use an array of materials to render the roof the appropriate color.
-    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(way), getMaterial(way)]);
-
-    // Change the position to compensate for the min_height
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, min_height, 0);
-    scene.add( mesh );
-
-    this.createRoof(way, this.nodelist);
   }
 
   /**
