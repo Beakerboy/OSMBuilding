@@ -52,6 +52,7 @@ class Building {
 
   constructor(data, innerData) {
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    const way_nodes = xml_data.getElementsByTagName("nd");
     this.innerData = innerData;
     if (Building.isValidData(xml_data)) {
        this.outer = xml_data;
