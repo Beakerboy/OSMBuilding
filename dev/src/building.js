@@ -2,11 +2,15 @@ class Building {
   // Latitude and longitude that transitioned to (0, 0)
   home = [];
 
+  // the parts
   parts = [];
 
+  // the way of the outer building parimeter
   outer;
 
   id = 0;
+
+  // the list of all nodes with lat/lon coordinates.
   nodelist;
   static async create(id) {
     const data = await Building.getData(id);
@@ -66,10 +70,10 @@ class Building {
          this.renderPart(this.parts[i]);
        }
     } else {
-      var shape = this.createShape(xml_data);
+      var shape = this.createShape(this.outer);
       extrudeSettings = {
         bevelEnabled: false,
-        depth: calculateWayHeight(xml_data)
+        depth: calculateWayHeight(this.outer)
       };
       var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
       const building_mesh = new THREE.Mesh(geometry, material);
