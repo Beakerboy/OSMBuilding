@@ -11,7 +11,7 @@ class BuildingPart {
     this.roof_height = calculateRoofHeight(way);
   }
 
-  calculateRadius(xml_data) {
+  calculateRadius() {
     const elements = this.way.getElementsByTagName("nd");
     var lats = [];
     var lons = [];
@@ -19,10 +19,9 @@ class BuildingPart {
     var lon = 0;
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
-      node = xml_data.querySelector('[id="' + ref + '"]');
+      node = this.nodelist[ref];
       lat = node.getAttribute("lat");
       lon = node.getAttribute("lon");
-      var point = repositionPoint([lat, lon]);
       lats.push(point[0]);
       lons.push(point[1]);
     }
