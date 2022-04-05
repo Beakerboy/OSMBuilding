@@ -48,9 +48,11 @@ class BuildingPart {
     var lon_sum = 0;
     var lat = 0;
     var lon = 0;
+    var ref;
+    var node;
     for (let i = 0; i < elements.length; i++) {
-      var ref = elements[i].getAttribute("ref");
-      var node = xml_data.querySelector('[id="' + ref + '"]');
+      ref = elements[i].getAttribute("ref");
+      node = xml_data.querySelector('[id="' + ref + '"]');
       lat = parseFloat(node.getAttribute("lat"));
       lon = parseFloat(node.getAttribute("lon"));
       lat_sum += lat;
@@ -90,14 +92,14 @@ class BuildingPart {
    * way DOM tree of the way to render
    * xml_data the DOM tree of all the data in the region
    */
-   createShape() {
+  createShape() {
     const elements = this.way.getElementsByTagName("nd");
     const shape = new THREE.Shape();
-    var lat = 0;
-    var lon = 0;
+    var ref;
+    var node = [];
     for (let i = 0; i < elements.length; i++) {
-      var ref = elements[i].getAttribute("ref");
-      var node = this.nodelist[ref];
+      ref = elements[i].getAttribute("ref");
+      node = this.nodelist[ref];
       if (i === 0) {
         shape.moveTo(node[0], node[1]);
       } else {
@@ -105,7 +107,7 @@ class BuildingPart {
       }
     }
     return shape;
-    }
+  }
 
   /**
    * Create the 3D render of a roof.
