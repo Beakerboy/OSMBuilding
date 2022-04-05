@@ -14,6 +14,7 @@ class Building {
   nodelist;
   static async create(id) {
     const data = await Building.getData(id);
+    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
     this.outer = xml_data;
     // if it is a building, query all ways within the bounding box and reder the building parts.
