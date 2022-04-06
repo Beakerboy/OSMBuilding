@@ -152,9 +152,9 @@ class BuildingPart {
       for (let i = 0; i < elements.length - 1; i++) {
         node = this.nodelist[elements[i].getAttribute("ref")];
         next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
-        positions.push(node[0], elevation, node[1]);
-        positions.push(center[0], this.roof_height + elevation, center[1]);
-        positions.push(next_node[0], elevation, next_node[1]);
+        positions.push(node[0], elevation, -node[1]);
+        positions.push(center[0], this.roof_height + elevation, -center[1]);
+        positions.push(next_node[0], elevation, -next_node[1]);
       }
       const geometry = new THREE.BufferGeometry();
       const positionNumComponents = 3;
