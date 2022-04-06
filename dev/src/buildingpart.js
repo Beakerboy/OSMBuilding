@@ -43,8 +43,8 @@ class BuildingPart {
    */
   centroid(xml_data) {
     const elements = way.getElementsByTagName("nd");
-    var lat_sum = 0;
-    var lon_sum = 0;
+    var lats = [];
+    var lons = [];
     var lat = 0;
     var lon = 0;
     var ref;
@@ -54,10 +54,14 @@ class BuildingPart {
       node = xml_data.querySelector('[id="' + ref + '"]');
       lat = parseFloat(node.getAttribute("lat"));
       lon = parseFloat(node.getAttribute("lon"));
-      lat_sum += lat;
-      lon_sum += lon;
+      lats.push(point[0]);
+      lons.push(point[1]);
     }
-    const center = [lat_sum / elements.length, lon_sum / elements.length];
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
+    const center = [(top + bottom) / 2, (left + right) / 2];
     return repositionPoint(center);
   }
 
@@ -127,7 +131,7 @@ class BuildingPart {
     if (roof_shape === "dome") {
     //   find largest circle within the way
     //   R, x, y
-      const R = calculateWayRadius(way, xml_data);
+      const R = calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
       if (roof_height === 0) {
