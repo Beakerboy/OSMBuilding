@@ -134,7 +134,7 @@ class BuildingPart {
       geometry.scale(1, roof_height / R, 1);
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
-      const elevation = this.calculateWayHeight() - this.calculateRoofHeight();
+      const elevation = this.calculateHeight() - this.calculateRoofHeight();
       const center = this.centroid();
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
@@ -145,7 +145,7 @@ class BuildingPart {
     } else if (roof_shape === "pyramidal") {
       const center = this.centroid();
       const elements = this.way.getElementsByTagName("nd");
-      const elevation = this.calculateWayHeight() - this.calculateRoofHeight();
+      const elevation = this.calculateHeight() - this.calculateRoofHeight();
       var vertices = [];
       var node;
       var next_node;
@@ -153,7 +153,7 @@ class BuildingPart {
         node = this.nodelist[elements[i].getAttribute("ref")];
         next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
         vertices += {pos: [node[0], elevation, node[1]]};
-        vertices += {pos: [center[0], roof_height, center[1]]};
+        vertices += {pos: [center[0], this.roof_height, center[1]]};
         vertices += {pos: [next_node[0], elevation, next_node[1]]};
       }
       const positions = [];
