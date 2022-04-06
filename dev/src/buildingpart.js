@@ -22,8 +22,8 @@ class BuildingPart {
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
       node = this.nodelist[ref];
-      lat = node.getAttribute("lat");
-      lon = node.getAttribute("lon");
+      lat = node[0];
+      lon = node[1];
       lats.push(point[0]);
       lons.push(point[1]);
     }
