@@ -189,7 +189,7 @@ class BuildingPart {
       }
     }
   
-    return height;
+    return parseFloat(height);
   }
 
   calculateMinHeight() {
@@ -201,7 +201,7 @@ class BuildingPart {
       // if not, use building:min_level and 3 meters per level.
       min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
     }
-    return min_height;
+    return parseFloat(min_height);
   }
 
   calculateRoofHeight() {
@@ -213,6 +213,6 @@ class BuildingPart {
       // if not, use building:min_level and 3 meters per level.
       min_height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
     }
-    return height;
+    return parseFloat(height);
   }
 }
