@@ -146,20 +146,17 @@ class BuildingPart {
       const center = this.centroid();
       const elements = this.way.getElementsByTagName("nd");
       const elevation = this.calculateHeight() - this.calculateRoofHeight();
-      var vertices = [];
+      const positions = [];
       var node;
       var next_node;
       for (let i = 0; i < elements.length - 1; i++) {
         node = this.nodelist[elements[i].getAttribute("ref")];
         next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
-        vertices += {pos: [node[0], elevation, node[1]]};
-        vertices += {pos: [center[0], this.roof_height, center[1]]};
-        vertices += {pos: [next_node[0], elevation, next_node[1]]};
+        positions.push([node[0], elevation, node[1]]);
+        positions.push([center[0], this.roof_height, center[1]]);
+        positions.push([next_node[0], elevation, next_node[1]]);
       }
-      const positions = [];
-      for (const vertex of vertices) {
-        positions.push(...vertex.pos);
-      }
+
       const geometry = new THREE.BufferGeometry();
       const positionNumComponents = 3;
       geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
