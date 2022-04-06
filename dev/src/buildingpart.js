@@ -154,7 +154,7 @@ class BuildingPart {
         next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
         console.log(node);
         console.log(next_node);
-        console log([elevation, this.roof_height]);
+        console.log([elevation, this.roof_height]);
         positions.push([node[0], elevation, node[1]]);
         positions.push([center[0], this.roof_height, center[1]]);
         positions.push([next_node[0], elevation, next_node[1]]);
