@@ -92,8 +92,11 @@ class BuildingPart {
     // then punch out all the inner shapes.
     var shape = this.createShape();
     let extrudeSettings = {
-      bevelEnabled: false,
-      depth: extrusion_height
+      bevelEnabled: true,
+      depth: extrusion_height,
+      bevelThickness: 3,
+      bevelSize: 5,
+      bevelOffset: -4
     };
     var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
