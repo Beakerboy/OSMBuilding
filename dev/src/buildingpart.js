@@ -220,7 +220,7 @@ class BuildingPart {
       height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
       // if not, use building:min_level and 3 meters per level.
-      min_height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
+      height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
     }
     return parseFloat(height);
   }
