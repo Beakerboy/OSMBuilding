@@ -7,6 +7,22 @@ class BuildingPart {
   // array of Cartesian coordinates of every node.
   nodelist = [];
 
+  height;
+  min_height;
+  roof_height;
+
+  // skillion roof, angle can be given instead of height.
+  roof_angle;
+
+  // the angle at which the roof is facing.
+  roof_direction;
+
+  // across or along the main direction.
+  roof_orientation = "along";
+
+  /**
+   * should the parent pass in a list of defaults as well?
+   */
   constructor(way, nodelist) {
     this.way = way;
     this.nodelist = nodelist;
@@ -150,6 +166,9 @@ class BuildingPart {
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
     } else if (roof_shape === "skillion") {
+      // if (height is missing) {
+      //   calculate height from the angle
+      // }
     } else if (roof_shape === "hipped") {
     } else if (roof_shape === "gabled") {
     } else if (roof_shape === "pyramidal") {
