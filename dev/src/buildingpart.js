@@ -156,13 +156,13 @@ class BuildingPart {
         positions.push([center[0], this.roof_height + elevation, center[1]]);
         positions.push([next_node[0], elevation, next_node[1]]);
       }
-      console.log(positions);
+      //console.log(positions);
       const geometry = new THREE.BufferGeometry();
-      const positionNumComponents = 3;
-      geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
-      material = getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
-      scene.add( roof );
+      ////const positionNumComponents = 3;
+      //geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+      //material = getRoofMaterial(this.way);
+      //const roof = new THREE.Mesh( geometry, material );
+      //scene.add( roof );
     }
   }
   
