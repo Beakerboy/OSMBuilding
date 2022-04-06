@@ -170,6 +170,8 @@ class BuildingPart {
       const positionNumComponents = 3;
       geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
       material = getRoofMaterial(this.way);
+      // ToDo - add points correctly so only one face needs to be rendered.
+      geometry.setAttribute("side", THREE.DoubleSide);
       geometry.computeVertexNormals();
       const roof = new THREE.Mesh( geometry, material );
       scene.add( roof );
