@@ -1,6 +1,10 @@
 class BuildingPart {
+  // DOM of the building part way
+  way;
 
   hasRoof = false;
+
+  // array of Cartesian coordinates of every node.
   nodelist = [];
 
   constructor(way, nodelist) {
