@@ -136,7 +136,7 @@ class BuildingPart {
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = calculateWayHeight(this.way) - calculateRoofHeight(way);
-      const center = centroid();
+      const center = this.centroid();
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
