@@ -15,17 +15,13 @@ class BuildingPart {
     const elements = this.way.getElementsByTagName("nd");
     var lats = [];
     var lons = [];
-    var lat = 0;
-    var lon = 0;
     let ref = 0;
     var node;
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
       node = this.nodelist[ref];
-      lat = node[0];
-      lon = node[1];
-      lats.push(point[0]);
-      lons.push(point[1]);
+      lats.push(node[0]);
+      lons.push(node[1]);
     }
     const left = Math.min(...lons);
     const bottom = Math.min(...lats);
