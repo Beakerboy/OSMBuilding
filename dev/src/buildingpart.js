@@ -39,28 +39,24 @@ class BuildingPart {
    *  - ways that cross the date line
    * xml_data the DOM tree of all the data in the region
    */
-  centroid(xml_data) {
-    const elements = way.getElementsByTagName("nd");
+  centroid() {
+    const elements = this.way.getElementsByTagName("nd");
     var lats = [];
     var lons = [];
-    var lat = 0;
-    var lon = 0;
     var ref;
     var node;
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
-      node = xml_data.querySelector('[id="' + ref + '"]');
-      lat = parseFloat(node.getAttribute("lat"));
-      lon = parseFloat(node.getAttribute("lon"));
-      lats.push(point[0]);
-      lons.push(point[1]);
+      node = this.nodelist[ref];
+      lats.push(node[0]);
+      lons.push(node[1]);
     }
     const left = Math.min(...lons);
     const bottom = Math.min(...lats);
     const right = Math.max(...lons);
     const top = Math.max(...lats);
     const center = [(top + bottom) / 2, (left + right) / 2];
-    return repositionPoint(center);
+    return center;
   }
 
   render() {
@@ -117,6 +113,7 @@ class BuildingPart {
     var roof_shape = "flat";
     var roof_height = 0;
     var way = this.way;
+    var material;
     if (this.way.querySelector('[k="roof:shape"]') !== null) {
       // if the buiilding part has a min_height tag, use it.
       roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
@@ -139,7 +136,7 @@ class BuildingPart {
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = calculateWayHeight(this.way) - calculateRoofHeight(way);
-      const center = centroid(way, xml_data);
+      const center = centroid();
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
