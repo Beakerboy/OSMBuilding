@@ -131,7 +131,7 @@ class BuildingPart {
     if (roof_shape === "dome") {
     //   find largest circle within the way
     //   R, x, y
-      const R = calculateRadius();
+      const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
       if (roof_height === 0) {
