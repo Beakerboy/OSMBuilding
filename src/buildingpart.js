@@ -189,7 +189,7 @@ class BuildingPart {
       height = this.way.querySelector('[k="height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="building:levels"]') !== null) {
       // if not, use building:levels and 3 meters per level.
-      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v'); + this.calculateRoofHeight();
+      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v') + this.calculateRoofHeight();
     } else if (this.way.querySelector('[k="building:part"]') !== null) {
       if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
         // a roof has no building part by default.
