@@ -95,7 +95,6 @@ class BuildingPart {
     var node = [];
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
-      console.log(ref);
       node = this.nodelist[ref];
       if (i === 0) {
         shape.moveTo(node[0], node[1]);
