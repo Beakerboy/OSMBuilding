@@ -17,6 +17,8 @@ class BuildingPart {
     var lons = [];
     var lat = 0;
     var lon = 0;
+    let ref = 0;
+    var node;
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute("ref");
       node = this.nodelist[ref];
