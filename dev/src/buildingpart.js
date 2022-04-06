@@ -6,9 +6,9 @@ class BuildingPart {
   constructor(way, nodelist) {
     this.way = way;
     this.nodelist = nodelist;
-    this.height = calculateWayHeight(way);
-    this.min_height = calculateWayMinHeight(way);
-    this.roof_height = calculateRoofHeight(way);
+    this.height = calculateHeight();
+    this.min_height = calculateMinHeight();
+    this.roof_height = calculateRoofHeight();
   }
 
   calculateRadius() {
@@ -185,4 +185,51 @@ class BuildingPart {
         // create sloped pieces up to the center from each edge.
       }
     }
+  
+/**
+ * Given a way in XML format, determine its height
+ * Default to 3 meters unless building:levels or height are specified.
+ */
+function calculateHeight() {
+  var height = 3;
+  
+  if (this.way.querySelector('[k="height"]') !== null) {
+    // if the buiilding part has a helght tag, use it.
+    height = this.way.querySelector('[k="height"]').getAttribute('v');
+  } else if (this.way.querySelector('[k="building:levels"]') !== null) {
+    // if not, use building:levels and 3 meters per level.
+    height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v');
+  } else if (this.way.querySelector('[k="building:part"]') !== null) {
+    if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
+      // a roof has no height by default.
+      height = 0;
+    }
+  }
+  
+  return height;
+}
+
+function calculateMinHeight() {
+  var min_height = 0;
+  if (this.way.querySelector('[k="min_height"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    min_height = this.way.querySelector('[k="min_height"]').getAttribute('v');
+  } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
+    // if not, use building:min_level and 3 meters per level.
+    min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
+  }
+  return min_height;
+}
+
+function calculateRoofHeight() {
+  var height = 0;
+  if (this.way.querySelector('[k="roof:height"]') !== null) {
+    // if the buiilding part has a min_helght tag, use it.
+    height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
+  } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
+    // if not, use building:min_level and 3 meters per level.
+    min_height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
+  }
+  return height;
+}
   }
