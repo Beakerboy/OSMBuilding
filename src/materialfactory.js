@@ -66,6 +66,11 @@ function getBaseMaterial(material_name) {
       reflectivity: .1409,
       clearcoat: 1
     } );
+  } else if (material_name === "grass"){
+    material = new THREE.MeshLambertMaterial({
+      color: 0x7ec850,
+      emissive: 0x000000
+    });
   } else if (material_name === 'bronze') {
     material = new THREE.MeshPhysicalMaterial( {
       color:0xcd7f32,
