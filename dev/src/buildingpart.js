@@ -6,9 +6,9 @@ class BuildingPart {
   constructor(way, nodelist) {
     this.way = way;
     this.nodelist = nodelist;
-    this.height = calculateHeight();
-    this.min_height = calculateMinHeight();
-    this.roof_height = calculateRoofHeight();
+    this.height = this.calculateHeight();
+    this.min_height = this.calculateMinHeight();
+    this.roof_height = this.calculateRoofHeight();
   }
 
   calculateRadius() {
@@ -134,57 +134,40 @@ class BuildingPart {
       geometry.scale(1, roof_height / R, 1);
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
-      const elevation = calculateWayHeight(this.way) - calculateRoofHeight(way);
+      const elevation = this.calculateWayHeight() - this.calculateRoofHeight();
       const center = this.centroid();
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
     } else if (roof_shape === "skillion") {
     } else if (roof_shape === "hipped") {
-       // use straight skeleton algorithm.
     } else if (roof_shape === "gabled") {
-      //const elements = way.getElementsByTagName("nd");
-      //if (elements.length > 4) {
-        // iterate through the way points and remove any 180degree.
-      //}
-      //if (elements.length === 4) {
-      // find the longest edge
-      // bisect the angle of longest and opposite
-      //let geometry = new THREE.BufferGeometry()
-      //const points = [
-        // Face 1&2 if wall != no
-        //new THREE.Vector3(-1, 1, -1),//c
-        //new THREE.Vector3(-1, -1, 1),//b
-        //new THREE.Vector3(1, 1, 1),//f
-
-        //new THREE.Vector3(1, 1, 1),//a 
-        //new THREE.Vector3(1, -1, -1),//e 
-        //new THREE.Vector3(-1, 1, -1),//d
-        //roof
-        //new THREE.Vector3(-1, -1, 1),//a
-        //new THREE.Vector3(1, -1, -1),//b 
-        //new THREE.Vector3(1, 1, 1),//f
-
-        //new THREE.Vector3(-1, 1, -1),//a
-        //new THREE.Vector3(1, -1, -1),//e
-        //new THREE.Vector3(-1, -1, 1),//f
-        
-        //new THREE.Vector3(-1, -1, 1),//d
-        //new THREE.Vector3(1, -1, -1),//e
-        //new THREE.Vector3(1, 1, 1),//f
-
-        //new THREE.Vector3(-1, 1, -1),//d
-        //new THREE.Vector3(1, -1, -1),//c
-        //new THREE.Vector3(-1, -1, 1),//f
-      //];
-      //geometry.setFromPoints(points);
-      //geometry.computeVertexNormals();
-    //}
-      } else if (roof_shape === "pyramidal") {
-        //const center = centroid(way, xml_data);
-        // create sloped pieces up to the center from each edge.
+    } else if (roof_shape === "pyramidal") {
+      const center = this.centroid();
+      const elements = this.way.getElementsByTagName("nd");
+      const elevation = this.calculateWayHeight() - this.calculateRoofHeight();
+      var vertices = [];
+      var node;
+      var next_node;
+      for (let i = 0; i < elements.length - 1; i++) {
+        node = this.nodelist[elements[i].getAttribute("ref")];
+        next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
+        vertices += {pos: [node[0], elevation, node[1]]};
+        vertices += {pos: [center[0], roof_height, center[1]]};
+        vertices += {pos: [next_node[0], elevation, next_node[1]]};
       }
+      const positions = [];
+      for (const vertex of vertices) {
+        positions.push(...vertex.pos);
+      }
+      const geometry = new THREE.BufferGeometry();
+      const positionNumComponents = 3;
+      geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+      material = getRoofMaterial(this.way);
+      const roof = new THREE.Mesh( geometry, material );
+      scene.add( roof );
     }
+  }
   
   /**
    * Given a way in XML format, determine its height
