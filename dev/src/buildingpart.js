@@ -15,6 +15,10 @@ class BuildingPart {
     this.roof_height = this.calculateRoofHeight();
   }
 
+  /**
+   * Calculate the radius of a circle that can fit within
+   * this way.
+   */
   calculateRadius() {
     const elements = this.way.getElementsByTagName("nd");
     var lats = [];
@@ -41,7 +45,6 @@ class BuildingPart {
    *
    * Need to compensate for edge cases
    *  - ways that cross the date line
-   * xml_data the DOM tree of all the data in the region
    */
   centroid() {
     const elements = this.way.getElementsByTagName("nd");
@@ -63,6 +66,9 @@ class BuildingPart {
     return center;
   }
 
+  /**
+   * Render the building part
+   */
   render() {
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
