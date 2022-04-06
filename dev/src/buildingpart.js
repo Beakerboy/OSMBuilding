@@ -186,50 +186,50 @@ class BuildingPart {
       }
     }
   
-/**
- * Given a way in XML format, determine its height
- * Default to 3 meters unless building:levels or height are specified.
- */
-function calculateHeight() {
-  var height = 3;
-  
-  if (this.way.querySelector('[k="height"]') !== null) {
-    // if the buiilding part has a helght tag, use it.
-    height = this.way.querySelector('[k="height"]').getAttribute('v');
-  } else if (this.way.querySelector('[k="building:levels"]') !== null) {
-    // if not, use building:levels and 3 meters per level.
-    height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v');
-  } else if (this.way.querySelector('[k="building:part"]') !== null) {
-    if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
-      // a roof has no height by default.
-      height = 0;
+  /**
+   * Given a way in XML format, determine its height
+   * Default to 3 meters unless building:levels or height are specified.
+   */
+  calculateHeight() {
+    var height = 3;
+
+    if (this.way.querySelector('[k="height"]') !== null) {
+      // if the buiilding part has a helght tag, use it.
+      height = this.way.querySelector('[k="height"]').getAttribute('v');
+    } else if (this.way.querySelector('[k="building:levels"]') !== null) {
+      // if not, use building:levels and 3 meters per level.
+      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v');
+    } else if (this.way.querySelector('[k="building:part"]') !== null) {
+      if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
+        // a roof has no height by default.
+        height = 0;
+      }
     }
-  }
   
-  return height;
-}
+    return height;
+  }
 
-function calculateMinHeight() {
-  var min_height = 0;
-  if (this.way.querySelector('[k="min_height"]') !== null) {
-    // if the buiilding part has a min_helght tag, use it.
-    min_height = this.way.querySelector('[k="min_height"]').getAttribute('v');
-  } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
-    // if not, use building:min_level and 3 meters per level.
-    min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
+  calculateMinHeight() {
+    var min_height = 0;
+    if (this.way.querySelector('[k="min_height"]') !== null) {
+      // if the buiilding part has a min_helght tag, use it.
+      min_height = this.way.querySelector('[k="min_height"]').getAttribute('v');
+    } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
+      // if not, use building:min_level and 3 meters per level.
+      min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
+    }
+    return min_height;
   }
-  return min_height;
-}
 
-function calculateRoofHeight() {
-  var height = 0;
-  if (this.way.querySelector('[k="roof:height"]') !== null) {
-    // if the buiilding part has a min_helght tag, use it.
-    height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
-  } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
-    // if not, use building:min_level and 3 meters per level.
-    min_height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
+  calculateRoofHeight() {
+    var height = 0;
+    if (this.way.querySelector('[k="roof:height"]') !== null) {
+      // if the buiilding part has a min_helght tag, use it.
+      height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
+    } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
+      // if not, use building:min_level and 3 meters per level.
+      min_height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
+    }
+    return height;
   }
-  return height;
 }
-  }
