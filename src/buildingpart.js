@@ -179,8 +179,7 @@ class BuildingPart {
   }
   
   /**
-   * Given a way in XML format, determine its height
-   * Default to 3 meters unless building:levels or height are specified.
+   * The full height of the part in meters, roof and building.
    */
   calculateHeight() {
     var height = 3;
@@ -190,15 +189,15 @@ class BuildingPart {
       height = this.way.querySelector('[k="height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="building:levels"]') !== null) {
       // if not, use building:levels and 3 meters per level.
-      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v');
+      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v'); + this.calculateRoofHeight();
     } else if (this.way.querySelector('[k="building:part"]') !== null) {
       if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
-        // a roof has no height by default.
+        // a roof has no building part by default.
         height = 0;
       }
     }
   
-    return parseFloat(height);
+    return BuildingPart.normalizeLength(height);
   }
 
   calculateMinHeight() {
@@ -210,9 +209,12 @@ class BuildingPart {
       // if not, use building:min_level and 3 meters per level.
       min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
     }
-    return parseFloat(min_height);
+    return BuildingPart.normalizeLength(min_height);
   }
 
+  /**
+   * the height in meters that the roof extends above the main building
+   */
   calculateRoofHeight() {
     var height = 0;
     if (this.way.querySelector('[k="roof:height"]') !== null) {
@@ -222,6 +224,21 @@ class BuildingPart {
       // if not, use building:min_level and 3 meters per level.
       height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
     }
-    return parseFloat(height);
+    return BuildingPart.normalizeLength(height);
+  }
+
+  /**
+   * convert an string of length units in various format to
+   * a float in meters.
+   */
+  static normalizeLength(length) {
+    // if feet and inches {
+    //   feet = parseFloat(feet_substr);
+    //   inches = parseFloat(inch_substr);
+    //   return (feet + inches / 12) * 0.3048;
+    // } else if (includes an 'm') {
+    //   return parseFloat(substr);
+    // }
+    return parseFloat(length);
   }
 }
