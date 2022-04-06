@@ -184,7 +184,7 @@ class BuildingPart {
       //geometry.computeVertexNormals();
     //}
       } else if (roof_shape === "pyramidal") {
-        const center = centroid(way, xml_data);
+        //const center = centroid(way, xml_data);
         // create sloped pieces up to the center from each edge.
       }
     }
