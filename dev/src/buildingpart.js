@@ -173,25 +173,14 @@ class BuildingPart {
     } else if (roof_shape === "gabled") {
     } else if (roof_shape === "pyramidal") {
       const center = this.centroid();
-      const elements = this.way.getElementsByTagName("nd");
-      const elevation = this.calculateHeight() - this.calculateRoofHeight();
-      const positions = [];
-      var node;
-      var next_node;
-      for (let i = 0; i < elements.length - 1; i++) {
-        node = this.nodelist[elements[i].getAttribute("ref")];
-        next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
-        positions.push(node[0], elevation, -node[1]);
-        positions.push(center[0], this.roof_height + elevation, -center[1]);
-        positions.push(next_node[0], elevation, -next_node[1]);
-      }
-      const geometry = new THREE.BufferGeometry();
-      const positionNumComponents = 3;
-      geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+      const shape = this.createShape();
+      const options = {
+        center: center,
+        depth: this.height
+      };
+      const geometry = new PyramidGeometry(shape, options);
+
       material = getRoofMaterial(this.way);
-      // ToDo - add points correctly so only one face needs to be rendered.
-      material.side = THREE.DoubleSide;
-      geometry.computeVertexNormals();
       const roof = new THREE.Mesh( geometry, material );
       scene.add( roof );
     }
