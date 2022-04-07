@@ -15,34 +15,60 @@ class PyramidGeometry extends THREE.BufferGeometry {
     const scope = this;
 
     const verticesArray = [];
+    const indices = [];
     const uvArray = [];
 
     addShape( shape );
 
     // build geometry
 
+    this.setIndex( indices );
     this.setAttribute( 'position', new Float32BufferAttribute( verticesArray, 3 ) );
-    this.setAttribute( 'uv', new Float32BufferAttribute( uvArray, 2 ) );
 
     this.computeVertexNormals();
 
     function addShape( shape ) {
-      const placeholder = [];
+      const verticesArray = [];
 
       // options
+      const curveSegments = options.curveSegments !== undefined ? options.curveSegments : 12;
       let depth = options.depth !== undefined ? options.depth : 1;
-      const uvgen = options.UVGenerator !== undefined ? options.UVGenerator : WorldUVGenerator;
+      let center = options.center !== undefined ? options.center : [0, 0];
 
       // Variables initialization
       const shapePoints = shape.extractPoints( curveSegments );
       let vertices = shapePoints.shape;
+      let groupStart = 0;
       const reverse = ! THREE.ShapeUtils.isClockWise( vertices );
       if ( reverse ) {
         vertices = vertices.reverse();
       }
+     
+
+      // An Array of Indices [[a,b,d], [b,c,d]] 
       const faces = THREE.ShapeUtils.triangulateShape(vertices);
+
+      for (let i=0; i < vertices.length / 2; i++) {
+          verticesArray.push(vertices[i * 2], vertices[i * 2 + 1], 0);
+      }
+      for (let k = 0; k < faces.length; k++) {
+        indices.push(...faces[k]);
+      }
+     
+      // add a group for the base
+      scope.addGroup(groupStart, verticesArray.length / 3, 0);
+      groupStart += verticesArray.length / 3;
+
       // Add the center point to the list of vertices.
-      // create the index list.
+      vertices.push(...center, depth);
+      // create the index list for the side
+      const basePoints = vertices.length / 2;
+      for (let j = 0; j < basePoints - 1; j++) {
+        indices.push(j, basePoints, j + 1);
+      }
+      indices.push(basePoints - 1, 0, j + 1);
+      // add a group for the side.
+      scope.addGroup(groupStart, basePoints, 1);
     }
   }
 }
