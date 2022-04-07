@@ -30,8 +30,9 @@ class PyramidGeometry extends THREE.BufferGeometry {
       const placeholder = [];
 
       // options
+      const curveSegments = options.curveSegments !== undefined ? options.curveSegments : 12;
       let depth = options.depth !== undefined ? options.depth : 1;
-      const uvgen = options.UVGenerator !== undefined ? options.UVGenerator : WorldUVGenerator;
+      let center = options.center !== undefined ? options.center : [0, 0];
 
       // Variables initialization
       const shapePoints = shape.extractPoints( curveSegments );
@@ -40,8 +41,13 @@ class PyramidGeometry extends THREE.BufferGeometry {
       if ( reverse ) {
         vertices = vertices.reverse();
       }
+     
+
+      // An Array of Indices [[a,b,d], [b,c,d]] 
       const faces = THREE.ShapeUtils.triangulateShape(vertices);
+
       // Add the center point to the list of vertices.
+      vertices.push(center);
       // create the index list.
     }
   }
