@@ -176,12 +176,14 @@ class BuildingPart {
       const shape = this.createShape();
       const options = {
         center: center,
-        depth: this.height
+        depth: this.roof_height
       };
       const geometry = new PyramidGeometry(shape, options);
 
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.height - this.roof_height, 0);
       scene.add( roof );
     }
   }
