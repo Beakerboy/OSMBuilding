@@ -103,7 +103,7 @@ class BuildingPart {
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.set( 0, this.min_height, 0);
-    //scene.add( mesh );
+    ///scene.add( mesh );
 
     this.createRoof();
   }
