@@ -10,8 +10,6 @@ class PyramidGeometry extends THREE.BufferGeometry {
       options: options
     };
 
-    shapes = Array.isArray( shapes ) ? shapes : [ shapes ];
-
     const scope = this;
 
     const verticesArray = [];
