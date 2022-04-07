@@ -59,12 +59,14 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
       // Add the center point to the list of vertices.
       vertices.push(...center, depth);
+
       // create the index list for the side
+      // basePoints is the index of the center point as well.
       const basePoints = vertices.length / 2;
       for (let j = 0; j < basePoints - 1; j++) {
         indices.push(j, basePoints, j + 1);
       }
-      indices.push(basePoints - 1, 0, j + 1);
+      indices.push(basePoints - 1, basePoints, 0);
       // add a group for the side.
       scope.addGroup(groupStart, basePoints, 1);
     }
