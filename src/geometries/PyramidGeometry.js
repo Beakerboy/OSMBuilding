@@ -16,7 +16,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     const verticesArray = [];
     const indices = [];
-    //const normalsArray = [];
+    const normalsArray = [];
     const uvArray = [];
 
     // options
@@ -32,8 +32,8 @@ class PyramidGeometry extends THREE.BufferGeometry {
     console.log(vertices);
     console.log("end");
     let groupStart = 0;
-    const reverse = ! THREE.ShapeUtils.isClockWise( vertices );
-    if ( reverse ) {
+    const reverse = THREE.ShapeUtils.isClockWise(vertices);
+    if (reverse) {
       vertices = vertices.reverse();
     }
 
