@@ -27,7 +27,8 @@ class Building {
     return building;
   }
 
-  constructor(data, innerData) {
+  constructor(id, innerData) {
+    this.id = id;
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
     this.inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
@@ -185,7 +186,6 @@ class Building {
     const data = await Building.getWayData(id);
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
-    this.outer = xml_data;
     // if it is a building, query all ways within the bounding box and reder the building parts.
     // The way is a list of <nd ref=""> tags.
     // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
@@ -226,6 +226,33 @@ class Building {
   static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
     console.log(data);
+    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    const relation = xml_data.getElementByID(id);
+    const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
+    
+    if(relation_type = "multipolygon") {
+      let parts = xml_data.getElementByTagName("member");
+      //<member type="way" ref="8821713" role="outer"/>
+      //<member type="way" ref="28315757" role="inner"/>
+    } else if (relation_type = "building") {
+      //<member type="way" ref="443679945" role="part"/>
+      let parts = xml_data.getElementByTagName("member");
+      var member_type = "";
+      var member_id = 0;
+      var member_data;
+      for (let i = 0; i < parts.length; i++) {
+        member_type = parts[i].getAttribute("type");
+        if (member_type === "relationship") {
+          console.log("iteration not yet supported");
+          member_id = parts[i].getAttribute("ref);
+          member_data = await Building.getRelationData(ref);
+          // Add member data to xml_data;
+        }
+      }
+      return new Building(id, xml_data);
+    }
+    
+    
   }
   /**
    * Discard any nodes that are not within the building
