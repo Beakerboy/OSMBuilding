@@ -17,37 +17,14 @@ class Building {
 
   // the list of all nodes with lat/lon coordinates.
   nodelist = [];
-  static async create(id) {
-    const data = await Building.getData(id);
-    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-    const way_nodes = xml_data.getElementsByTagName("nd");
-    this.outer = xml_data;
-    // if it is a building, query all ways within the bounding box and reder the building parts.
-    // The way is a list of <nd ref=""> tags.
-    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
-    var lats = [];
-    var lons = [];
-    var lat = 0;
-    var lon = 0;
-    var node;
-    var ref;
-    for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute("ref");
-      node = xml_data.querySelector('[id="' + ref + '"]');
-      lat = node.getAttribute("lat");
-      lon = node.getAttribute("lon");
-      lats.push(lat);
-      lons.push(lon);
+  static async create(type, id) {
+    var building;
+    if (type === "way") {
+      building = await createWayBuilding(id);
+    } else {
+      building = await createRelationBuilding(id);
     }
-    // Get all building parts within the building
-    // Get max and min lat and log from the building
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-
-    const innerData = await Building.getInnerData(left, bottom, right, top);
-    return new Building(data, innerData);
+    return building;
   }
 
   constructor(data, innerData) {
@@ -138,8 +115,15 @@ class Building {
   /**
    * Fetch way data from OSM
    */
-  static async getData(id) {
+  static async getWayData(id) {
     let restPath = apis.get_way.url(id);
+    let response = await fetch(restPath);
+    let text = await response.text();
+    return text;
+  }
+
+  static async getRelationData(id) {
+    let restPath = apis.get_relation.url(id);
     let response = await fetch(restPath);
     let text = await response.text();
     return text;
@@ -190,6 +174,49 @@ class Building {
     return [x, Math.sin(arg) * abs];
   }
 
+  async createWayBuilding(id) {
+    const data = await Building.getWayData(id);
+    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    const way_nodes = xml_data.getElementsByTagName("nd");
+    this.outer = xml_data;
+    // if it is a building, query all ways within the bounding box and reder the building parts.
+    // The way is a list of <nd ref=""> tags.
+    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+    var lats = [];
+    var lons = [];
+    var lat = 0;
+    var lon = 0;
+    var node;
+    var ref;
+    for (let i = 0; i < way_nodes.length; i++) {
+      ref = way_nodes[i].getAttribute("ref");
+      node = xml_data.querySelector('[id="' + ref + '"]');
+      lat = node.getAttribute("lat");
+      lon = node.getAttribute("lon");
+      lats.push(lat);
+      lons.push(lon);
+    }
+    // Get all building parts within the building
+    // Get max and min lat and log from the building
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
+
+    const innerData = await Building.getInnerData(left, bottom, right, top);
+    return new Building(data, innerData);
+  }
+
+  /**
+   * Create a building when given a relation ID.
+   *
+   * This could either define a building relation, which links all the building parts together
+   * or a multiploygon.
+   */
+  async createRelationBuilding(id) {
+    const data = await Building.getRelationData(id);
+    console.log(data);
+  }
   /**
    * Discard any nodes that are not within the building
    */
