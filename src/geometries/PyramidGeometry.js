@@ -16,7 +16,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     const verticesArray = [];
     const indices = [];
-    const normalsArray = [];
+    //const normalsArray = [];
     const uvArray = [];
 
     // options
@@ -67,7 +67,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     // build geometry
     this.setAttribute( 'position', new THREE.BufferAttribute(new Float32Array(verticesArray), 3));
-    this.setAttribute( 'normals', new THREE.BufferAttribute(new Float32Array(normalsArray), 3));
+    //this.setAttribute( 'normals', new THREE.BufferAttribute(new Float32Array(normalsArray), 3));
     this.setIndex( indices );
     
 
