@@ -12,9 +12,13 @@ class BuildingPart {
   height;
   min_height;
   roof_height;
-
+  
   // skillion roof, angle can be given instead of height.
   roof_angle;
+
+  // material of construction.
+  building_material;
+  roof_material;
 
   // the angle at which the roof is facing.
   roof_direction;
@@ -25,12 +29,30 @@ class BuildingPart {
   /**
    * should the parent pass in a list of defaults as well?
    */
-  constructor(way, nodelist) {
+  constructor(way, nodelist, defaults = {}) {
     this.way = way;
     this.nodelist = nodelist;
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
+
+    if (way.querySelector('[k="building:facade:material"]') !== null) {
+      // if the buiilding part has a designated material tag, use it.
+      building_material = way.querySelector('[k="building:facade:material"]').getAttribute('v');
+    } else if (way.querySelector('[k="building:material"]') !== null) {
+      // if the buiilding part has a designated material tag, use it.
+      building_material = way.querySelector('[k="building:material"]').getAttribute('v');
+    } else if (defaults.building_material) {
+      building_material = defaults.building_material;
+    }
+
+    if (way.querySelector('[k="roof:material"]') !== null) {
+      // if the buiilding part has a designated material tag, use it.
+      roof_material = way.querySelector('[k="roof:material"]').getAttribute('v');
+    } else if (defaults.roof_material) {
+      roof_material = defaults.roof_material;
+    }
+    
   }
 
   /**
@@ -131,7 +153,7 @@ class BuildingPart {
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.set( 0, this.min_height, 0);
-    scene.add( mesh );
+    //scene.add( mesh );
   }
 
   /**
@@ -252,5 +274,13 @@ class BuildingPart {
     //   return parseFloat(substr);
     // }
     return parseFloat(length);
+  }
+
+  getBuildingMaterial() {
+    // return materialFactory.create(this.building_material, this.building_color);
+  }
+
+  getRoofMaterial() {
+    // return materialFactory.create(this.roof_material, this.roof_color);
   }
 }
