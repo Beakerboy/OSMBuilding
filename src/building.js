@@ -9,7 +9,7 @@ class Building {
   outer;
 
   // DOM Tree of all elements to render
-  inner_xml_data;
+  full_xml_data;
 
   id = 0;
   
@@ -27,13 +27,13 @@ class Building {
     return building;
   }
 
-  constructor(id, innerData) {
+  constructor(id, FullXmlData) {
     this.id = id;
-    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-    const way_nodes = xml_data.getElementsByTagName("nd");
-    this.inner_xml_data = new window.DOMParser().parseFromString(innerData, "text/xml");
-    if (Building.isValidData(xml_data)) {
-       this.outer = xml_data;
+    this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
+    const outer_element_xml = this.inner_xml_data.getElementById(id)
+    if (Building.isValidData(outer_element_xml)) {
+      const way_nodes = this.full_xml_data.getElementById(id).getElementsByTagName("nd");
+       this.outer_element = new BuildingPart(outer_element);
       // if it is a building, query all ways within the bounding box and reder the building parts.
       // The way is a list of <nd ref=""> tags.
       // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
