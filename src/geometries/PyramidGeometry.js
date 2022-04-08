@@ -1,4 +1,8 @@
-
+/**
+ * Create a pyramind with an arbitrary base shape
+ *
+ * This class essentially combines elements from ExtrudeGeometry and CylinderGeometry
+ */
 class PyramidGeometry extends THREE.BufferGeometry {
   constructor(shape = new Shape( [ new Vector2( 0.5, 0.5 ), new Vector2( - 0.5, 0.5 ), new Vector2( - 0.5, - 0.5 ), new Vector2( 0.5, - 0.5 ) ] ), options = {}) {
     super();
