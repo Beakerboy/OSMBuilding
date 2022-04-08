@@ -27,9 +27,8 @@ class BuildingPart {
    */
   constructor(way, nodelist) {
     this.way = way;
-    this.shape = this.createShape();
-   
     this.nodelist = nodelist;
+    this.shape = this.createShape();
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
