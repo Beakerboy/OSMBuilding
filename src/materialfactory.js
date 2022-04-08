@@ -48,11 +48,14 @@ function getRoofMaterial(way) {
     // if the buiilding part has a designated mroof:colour tag, use it.
     color = way.querySelector('[k="roof:colour"]').getAttribute('v');
   }
-  const material = getBaseMaterial(material_name);
+  var material;
+  if (material_name === "") {
+    material = getMaterial(way);
+  } else {
+    material = getBaseMaterial(material_name);
+  }
   if (color !== "") {
     material.color = new THREE.Color(color);
-  } else if (material_name === "") {
-    material.color = new THREE.Color("black");
   }
   return material;
 }
