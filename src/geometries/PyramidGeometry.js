@@ -67,7 +67,8 @@ class PyramidGeometry extends THREE.BufferGeometry {
     this.setAttribute( 'position', new THREE.BufferAttribute(new Float32Array(verticesArray), 3));
     //this.setAttribute( 'normals', new THREE.BufferAttribute(new Float32Array(normalsArray), 3));
     this.setIndex( indices );
-    
+    console.log(indices);
+    console.log("end");
 
     this.computeVertexNormals();
   }
