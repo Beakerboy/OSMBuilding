@@ -110,15 +110,8 @@ class Building {
          this.parts[i].render();
        }
     } else {
-      var shape = this.createShape(this.outer);
-      extrudeSettings = {
-        bevelEnabled: false,
-        depth: calculateWayHeight(this.outer)
-      };
-      var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      const building_mesh = new THREE.Mesh(geometry, material);
-      building_mesh.rotation.x = -Math.PI / 2;
-      scene.add(building_mesh);
+      const part = new BuildingPart(this.outer, this.nodelist)
+      part.render();
     }
   }
 
