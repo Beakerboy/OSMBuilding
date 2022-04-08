@@ -28,7 +28,6 @@ class BuildingPart {
   constructor(way, nodelist) {
     this.way = way;
     this.nodelist = nodelist;
-    this.shape = this.createShape();
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
@@ -89,6 +88,7 @@ class BuildingPart {
    * Render the building part
    */
   render() {
+    this.shape = this.createShape();
     this.createBuilding();
 
     this.createRoof();
