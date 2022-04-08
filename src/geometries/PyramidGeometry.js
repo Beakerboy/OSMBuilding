@@ -29,8 +29,6 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     // vertices is an array of 2D Vectors.
     let vertices = shapePoints.shape;
-    console.log(vertices);
-    console.log("end");
     let groupStart = 0;
     const reverse = THREE.ShapeUtils.isClockWise(vertices);
     if (reverse) {
