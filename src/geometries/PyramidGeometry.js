@@ -56,7 +56,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     // create the index list for the sides
     // basePoints is the index of the center point as well.
     const basePoints = vertices.length;
-    for (let j = 0; j < basePoints - 1; j++) {
+    for (let j = 0; j < basePoints; j++) {
       indices.push(basePoints, j, j + 1);
     }
     // Add the final triangle to connect the first and last point.
