@@ -4,8 +4,6 @@ class BuildingPart {
 
   shape;
 
-  hasRoof = false;
-
   // array of Cartesian coordinates of every node.
   nodelist = [];
 
@@ -19,7 +17,9 @@ class BuildingPart {
   // material of construction.
   building_material;
   roof_material;
-
+  building_color;
+  roof_color
+  
   // the angle at which the roof is facing.
   roof_direction;
 
@@ -38,19 +38,19 @@ class BuildingPart {
 
     if (way.querySelector('[k="building:facade:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      building_material = way.querySelector('[k="building:facade:material"]').getAttribute('v');
+      this.building_material = way.querySelector('[k="building:facade:material"]').getAttribute('v');
     } else if (way.querySelector('[k="building:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      building_material = way.querySelector('[k="building:material"]').getAttribute('v');
+      this.building_material = way.querySelector('[k="building:material"]').getAttribute('v');
     } else if (defaults.building_material) {
-      building_material = defaults.building_material;
+      this.building_material = defaults.building_material;
     }
 
     if (way.querySelector('[k="roof:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      roof_material = way.querySelector('[k="roof:material"]').getAttribute('v');
+      this.roof_material = way.querySelector('[k="roof:material"]').getAttribute('v');
     } else if (defaults.roof_material) {
-      roof_material = defaults.roof_material;
+      this.roof_material = defaults.roof_material;
     }
     
   }
