@@ -63,7 +63,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     // Add the final triangle to connect the first and last point.
     indices.push(basePoints - 1, basePoints, 0);
     // add a group for the side.
-    scope.addGroup(groupStart, basePoints, 1);
+    this.addGroup(groupStart, basePoints, 1);
 
     // build geometry
 
