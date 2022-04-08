@@ -27,5 +27,6 @@ Examples:
 
 Do Not work yet:
  * Multipolygon - [Pentagon](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=89605)
+ * Building Relation - [Lincoln Memorial](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=6601801)
  
 
