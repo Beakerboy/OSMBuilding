@@ -35,20 +35,22 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
       // Variables initialization
       const shapePoints = shape.extractPoints( curveSegments );
+
+      // vertices is an array of 2D Vectors.
+      // Does it duplicate the strat/end point?
       let vertices = shapePoints.shape;
       let groupStart = 0;
       const reverse = ! THREE.ShapeUtils.isClockWise( vertices );
       if ( reverse ) {
         vertices = vertices.reverse();
       }
-     
-
-      // An Array of Indices [[a,b,d], [b,c,d]] 
-      const faces = THREE.ShapeUtils.triangulateShape(vertices, []);
 
       for (let i=0; i < vertices.length / 2; i++) {
-          verticesArray.push(vertices[i * 2], vertices[i * 2 + 1], 0);
+          verticesArray.push(vertices[i].x, vertices[i].y, 0);
       }
+
+      // An Array of Indices i.e. [[3,2,0], [2,1,0]] 
+      const faces = THREE.ShapeUtils.triangulateShape(vertices, []);
       for (let k = 0; k < faces.length; k++) {
         indices.push(...faces[k]);
       }
@@ -60,12 +62,13 @@ class PyramidGeometry extends THREE.BufferGeometry {
       // Add the center point to the list of vertices.
       vertices.push(...center, depth);
 
-      // create the index list for the side
+      // create the index list for the sides
       // basePoints is the index of the center point as well.
-      const basePoints = vertices.length / 2;
+      const basePoints = vertices.length;
       for (let j = 0; j < basePoints - 1; j++) {
         indices.push(j, basePoints, j + 1);
       }
+      // Add the final triangle to connect the first and last point.
       indices.push(basePoints - 1, basePoints, 0);
       // add a group for the side.
       scope.addGroup(groupStart, basePoints, 1);
