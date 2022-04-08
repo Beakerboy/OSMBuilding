@@ -1,6 +1,11 @@
+/**
+ * An OSM Building Part
+ */
 class BuildingPart {
   // DOM of the building part way
   way;
+
+  shape;
 
   hasRoof = false;
 
@@ -86,33 +91,14 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    let extrusion_height = this.height - this.min_height - this.roof_height;
-
-    // If we have a multi-polygon, create the outer shape
-    // then punch out all the inner shapes.
-    var shape = this.createShape();
-    let extrudeSettings = {
-      bevelEnabled: false,
-      depth: extrusion_height,
-    };
-    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-    // Create the mesh.
-    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
-
-    // Change the position to compensate for the min_height
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.min_height, 0);
-    scene.add( mesh );
+    this.shape = this.createShape();
+    this.createBuilding();
 
     this.createRoof();
   }
   
   /**
-   * Create the shape of a given way.
-   *
-   * way DOM tree of the way to render
-   * xml_data the DOM tree of all the data in the region
+   * Create the shape of this way.
    */
   createShape() {
     const elements = this.way.getElementsByTagName("nd");
@@ -129,6 +115,26 @@ class BuildingPart {
       }
     }
     return shape;
+  }
+
+  createBuilding() {
+    let extrusion_height = this.height - this.min_height - this.roof_height;
+
+    // ToDo If we have a multi-polygon, create the outer shape
+    // then punch out all the inner shapes.
+    let extrudeSettings = {
+      bevelEnabled: false,
+      depth: extrusion_height,
+    };
+    var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
+
+    // Create the mesh.
+    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
+
+    // Change the position to compensate for the min_height
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set( 0, this.min_height, 0);
+    scene.add( mesh );
   }
 
   /**
@@ -173,26 +179,16 @@ class BuildingPart {
     } else if (roof_shape === "gabled") {
     } else if (roof_shape === "pyramidal") {
       const center = this.centroid();
-      const elements = this.way.getElementsByTagName("nd");
-      const elevation = this.calculateHeight() - this.calculateRoofHeight();
-      const positions = [];
-      var node;
-      var next_node;
-      for (let i = 0; i < elements.length - 1; i++) {
-        node = this.nodelist[elements[i].getAttribute("ref")];
-        next_node =  this.nodelist[elements[i + 1].getAttribute("ref")];
-        positions.push(node[0], elevation, -node[1]);
-        positions.push(center[0], this.roof_height + elevation, -center[1]);
-        positions.push(next_node[0], elevation, -next_node[1]);
-      }
-      const geometry = new THREE.BufferGeometry();
-      const positionNumComponents = 3;
-      geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+      const options = {
+        center: center,
+        depth: this.roof_height
+      };
+      const geometry = new PyramidGeometry(this.shape, options);
+
       material = getRoofMaterial(this.way);
-      // ToDo - add points correctly so only one face needs to be rendered.
-      material.side = THREE.DoubleSide;
-      geometry.computeVertexNormals();
       const roof = new THREE.Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.height - this.roof_height, 0);
       scene.add( roof );
     }
   }
