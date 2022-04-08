@@ -27,7 +27,6 @@ class PyramidGeometry extends THREE.BufferGeometry {
     const shapePoints = shape.extractPoints( curveSegments );
 
     // vertices is an array of 2D Vectors.
-    // Does it duplicate the strat/end point?
     let vertices = shapePoints.shape;
     console.log(vertices);
     console.log("end");
@@ -58,15 +57,14 @@ class PyramidGeometry extends THREE.BufferGeometry {
     // basePoints is the index of the center point as well.
     const basePoints = vertices.length;
     for (let j = 0; j < basePoints - 1; j++) {
-      indices.push(j, basePoints, j + 1);
+      indices.push(basePoints, j, j + 1);
     }
     // Add the final triangle to connect the first and last point.
-    indices.push(basePoints - 1, basePoints, 0);
+    indices.push(basePoints, basePoints - 1, 0);
     // add a group for the side.
     this.addGroup(groupStart, basePoints, 1);
 
     // build geometry
-
     this.setIndex( indices );
     this.setAttribute( 'position', new THREE.BufferAttribute(new Float32Array(verticesArray), 3));
 
