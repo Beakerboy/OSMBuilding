@@ -8,14 +8,15 @@ class PyramidGeometry extends THREE.BufferGeometry {
       shape: shape,
       options: options
     };
+    const depth = options.depth;
     var positions = [];
-    const elements = shape.extractPoints(12).shape;
-    for (let i = 0; i < elements.length - 1; i++) {
-      node = elements[i];
-      next_node = elements[i + 1];
-      positions.push(node[0], elevation, -node[1]);
-      positions.push(center[0], this.roof_height + elevation, -center[1]);
-      positions.push(next_node[0], elevation, -next_node[1]);
+    const points = shape.extractPoints().shape;
+    for (let i = 0; i < points.length - 1; i++) {
+      point = points[i];
+      next_point = points[i + 1];
+      positions.push(point.x, elevation, -node.y);
+      positions.push(center[0], depth, -center[1]);
+      positions.push(next_point.x, 0, -next_point.y);
     }
  
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
