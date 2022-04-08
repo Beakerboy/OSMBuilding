@@ -52,7 +52,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     groupStart += verticesArray.length / 3;
 
     // Add the center point to the list of vertices.
-    vertices.push(...center, depth);
+    verticesArray.push(...center, depth);
 
     // create the index list for the sides
     // basePoints is the index of the center point as well.
