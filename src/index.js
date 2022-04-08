@@ -46,7 +46,7 @@ function init() {
         }
       });
   }
-  Building.create(id).then(function(myObj){
+  Building.create(type, id).then(function(myObj){
       myObj.render();
   });
   camera = new THREE.PerspectiveCamera(
