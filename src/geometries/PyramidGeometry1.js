@@ -9,6 +9,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
       options: options
     };
     const depth = options.depth;
+    const center = options.center;
     var positions = [];
     const points = shape.extractPoints().shape;
     for (let i = 0; i < points.length - 1; i++) {
