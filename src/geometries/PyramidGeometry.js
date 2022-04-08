@@ -16,6 +16,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     const verticesArray = [];
     const indices = [];
+    const normalsArray = [];
     const uvArray = [];
 
     // options
@@ -56,7 +57,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     // create the index list for the sides
     // basePoints is the index of the center point as well.
     const basePoints = vertices.length;
-    for (let j = 0; j < basePoints; j++) {
+    for (let j = 0; j <= basePoints - 1; j++) {
       indices.push(basePoints, j, j + 1);
     }
     // Add the final triangle to connect the first and last point.
@@ -65,8 +66,10 @@ class PyramidGeometry extends THREE.BufferGeometry {
     this.addGroup(groupStart, basePoints, 1);
 
     // build geometry
-    this.setIndex( indices );
     this.setAttribute( 'position', new THREE.BufferAttribute(new Float32Array(verticesArray), 3));
+    this.setAttribute( 'normals', new THREE.BufferAttribute(new Float32Array(normalsArray), 3));
+    this.setIndex( indices );
+    
 
     this.computeVertexNormals();
   }
