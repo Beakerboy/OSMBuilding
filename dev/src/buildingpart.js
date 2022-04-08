@@ -26,8 +26,9 @@ class BuildingPart {
    * should the parent pass in a list of defaults as well?
    */
   constructor(way, nodelist) {
-    this.shape = this.createShape();
     this.way = way;
+    this.shape = this.createShape();
+   
     this.nodelist = nodelist;
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
