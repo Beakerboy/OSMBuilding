@@ -21,9 +21,9 @@ class PyramidGeometry extends THREE.BufferGeometry {
     for (let i = 0; i < points.length - 1; i++) {
       point = points[i];
       next_point = points[i + 1];
-      positions.push(point.x, 0, -point.y);
-      positions.push(center[0], depth, -center[1]);
-      positions.push(next_point.x, 0, -next_point.y);
+      positions.push(point.x, point.y, 0);
+      positions.push(center[0], center[1], depth);
+      positions.push(next_point.x, next_point.y, 0);
     }
  
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
