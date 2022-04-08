@@ -2,6 +2,8 @@ class BuildingPart {
   // DOM of the building part way
   way;
 
+  shape;
+
   hasRoof = false;
 
   // array of Cartesian coordinates of every node.
@@ -24,6 +26,7 @@ class BuildingPart {
    * should the parent pass in a list of defaults as well?
    */
   constructor(way, nodelist) {
+    this.shape = this.createShape();
     this.way = way;
     this.nodelist = nodelist;
     this.height = this.calculateHeight();
@@ -86,33 +89,13 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    let extrusion_height = this.height - this.min_height - this.roof_height;
-
-    // If we have a multi-polygon, create the outer shape
-    // then punch out all the inner shapes.
-    var shape = this.createShape();
-    let extrudeSettings = {
-      bevelEnabled: false,
-      depth: extrusion_height,
-    };
-    var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
-    // Create the mesh.
-    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
-
-    // Change the position to compensate for the min_height
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.min_height, 0);
-    scene.add( mesh );
+    this.createBuilding();
 
     this.createRoof();
   }
   
   /**
-   * Create the shape of a given way.
-   *
-   * way DOM tree of the way to render
-   * xml_data the DOM tree of all the data in the region
+   * Create the shape of this way.
    */
   createShape() {
     const elements = this.way.getElementsByTagName("nd");
@@ -129,6 +112,26 @@ class BuildingPart {
       }
     }
     return shape;
+  }
+
+  createBuilding() {
+    let extrusion_height = this.height - this.min_height - this.roof_height;
+
+    // ToDo If we have a multi-polygon, create the outer shape
+    // then punch out all the inner shapes.
+    let extrudeSettings = {
+      bevelEnabled: false,
+      depth: extrusion_height,
+    };
+    var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
+
+    // Create the mesh.
+    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
+
+    // Change the position to compensate for the min_height
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set( 0, this.min_height, 0);
+    scene.add( mesh );
   }
 
   /**
@@ -173,12 +176,11 @@ class BuildingPart {
     } else if (roof_shape === "gabled") {
     } else if (roof_shape === "pyramidal") {
       const center = this.centroid();
-      const shape = this.createShape();
       const options = {
         center: center,
         depth: this.roof_height
       };
-      const geometry = new PyramidGeometry(shape, options);
+      const geometry = new PyramidGeometry(this.shape, options);
 
       material = getRoofMaterial(this.way);
       material.side = THREE.DoubleSide;
