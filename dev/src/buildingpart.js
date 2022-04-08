@@ -183,7 +183,6 @@ class BuildingPart {
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = getRoofMaterial(this.way);
-      material.side = THREE.DoubleSide;
       const roof = new THREE.Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.height - this.roof_height, 0);
