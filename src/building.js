@@ -20,9 +20,9 @@ class Building {
   static async create(type, id) {
     var building;
     if (type === "way") {
-      building = await createWayBuilding(id);
+      building = await Building.createWayBuilding(id);
     } else {
-      building = await createRelationBuilding(id);
+      building = await Building.createRelationBuilding(id);
     }
     return building;
   }
@@ -174,7 +174,14 @@ class Building {
     return [x, Math.sin(arg) * abs];
   }
 
-  async createWayBuilding(id) {
+  /**
+   * Create a building from a way ID
+   *
+   * This requires determining the bounds of the way, and querying for all other ways and relations
+   * within the bounding box. Then testing to ensure each is a building part that is within the
+   * area of the provided way.
+   */
+  static async createWayBuilding(id) {
     const data = await Building.getWayData(id);
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const way_nodes = xml_data.getElementsByTagName("nd");
@@ -211,9 +218,12 @@ class Building {
    * Create a building when given a relation ID.
    *
    * This could either define a building relation, which links all the building parts together
-   * or a multiploygon.
+   * or a multiploygon. A multipolygon requires the same bounding box procedure as the
+   * createWayBuilding() method.
+   *
+   * A building relation requires iteration to drill down to successive parts.
    */
-  async createRelationBuilding(id) {
+  static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
     console.log(data);
   }
