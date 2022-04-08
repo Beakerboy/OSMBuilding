@@ -14,6 +14,10 @@ class PyramidGeometry extends THREE.BufferGeometry {
     var point;
     var next_point;
     const points = shape.extractPoints().shape;
+    const reverse = ! THREE.ShapeUtils.isClockWise( points );
+      if ( reverse ) {
+        points = points.reverse();
+      }
     for (let i = 0; i < points.length - 1; i++) {
       point = points[i];
       next_point = points[i + 1];
