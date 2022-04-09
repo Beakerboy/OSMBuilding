@@ -143,15 +143,21 @@ class Building {
    * validate that we have the ID of a building way.
    */
   static isValidData(xml_data) {
-    // ToDO: Check that it is a building (<tag k="building" v="*"/> exists)
-    // Or that it is a building part.
-    const elements = xml_data.getElementsByTagName("nd");
+    // Check that it is a building (<tag k="building" v="*"/> exists)
+    const building_type = xml_data.querySelector('[k="bulding"]');
+    if (!building_type) {
+      console.log("not a building");
+    }
+    const children = Array.from(xml_data.children);
+    var elements = [];
+    children.foreach(childtag => {
+      if (childtag.tagname ==='nd') {
+        elements.push(childtag.getAttribute("ref"));
+      }
+    });
     // Check that it is a closed way
-    let first = elements[0];
-    let last = elements[elements.length - 1];
-    var first_ref = first.getAttribute("ref");
-    var last_ref = last.getAttribute("ref");
-    if(first_ref !== last_ref) {
+    if(elements[0] !== elements[elements.length - 1]) {
+      console.log("not a closed way");
       return false;
     }
     return true;
