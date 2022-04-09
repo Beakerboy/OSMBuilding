@@ -82,6 +82,8 @@ class Building {
     const node_list = this.full_xml_data.getElementsByTagName("node");
     let id = 0;
     var node;
+    var lat = 0;
+    var lon = 0;
     for(let j = 0;  j < node_list.length; j++) {
       node = node_list[j];
       id = node.getAttribute("id");
