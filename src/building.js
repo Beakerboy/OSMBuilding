@@ -29,12 +29,10 @@ class Building {
 
   constructor(id, FullXmlData) {
     this.id = id;
-    console.log(id);
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
     const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
-      const way_nodes = this.full_xml_data.getElementById(id).getElementsByTagName("nd");
-       this.outer_element = new BuildingPart(outer_element);
+      const way_nodes = this.full_xml_data.getElementById(this.id).getElementsByTagName("nd");
       // if it is a building, query all ways within the bounding box and reder the building parts.
       // The way is a list of <nd ref=""> tags.
       // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
@@ -62,16 +60,10 @@ class Building {
       const home_lon = (left + right) / 2;
       const home_lat = (top + bottom) / 2;
       this.home = [home_lat, home_lon];
-      const node_list = this.full_xml_data.getElementsByTagName("node");
-      let id = 0;
-      for(let j = 0;  j < node_list.length; j++) {
-        node = node_list[j];
-        id = node.getAttribute("id");
-        lat = node.getAttribute("lat");
-        lon = node.getAttribute("lon");
-        // todo, check if point is within the border.
-        this.nodelist[id] = this.repositionPoint([lat, lon]);
-      }
+
+      this.buildNodeList();
+      
+      this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
 
       const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
@@ -83,6 +75,22 @@ class Building {
     }
   }
 
+  /**
+   * translate all lat/log values to cartesian and store in an array
+   */
+  buildNodeList() {
+    const node_list = this.full_xml_data.getElementsByTagName("node");
+      let id = 0;
+      for(let j = 0;  j < node_list.length; j++) {
+        node = node_list[j];
+        id = node.getAttribute("id");
+        lat = node.getAttribute("lat");
+        lon = node.getAttribute("lon");
+        // todo, check if point is within the border.
+        this.nodelist[id] = this.repositionPoint([lat, lon]);
+      }
+  }
+  
   render() {
     if (this.parts.length > 0) {
        for (let i = 0; i < this.parts.length; i++) {
