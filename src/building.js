@@ -44,7 +44,7 @@ class Building {
       var ref;
       for (let i = 0; i < way_nodes.length; i++) {
         ref = way_nodes[i].getAttribute("ref");
-        node = outer_element_xml.querySelector('[id="' + ref + '"]');
+        node = this.full_xml_data.querySelector('[id="' + ref + '"]');
         lat = node.getAttribute("lat");
         lon = node.getAttribute("lon");
         lats.push(lat);
