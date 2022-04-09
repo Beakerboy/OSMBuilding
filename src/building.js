@@ -30,7 +30,7 @@ class Building {
   constructor(id, FullXmlData) {
     this.id = id;
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
-    const outer_element_xml = this.inner_xml_data.getElementById(id)
+    const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
       const way_nodes = this.full_xml_data.getElementById(id).getElementsByTagName("nd");
        this.outer_element = new BuildingPart(outer_element);
@@ -61,7 +61,7 @@ class Building {
       const home_lon = (left + right) / 2;
       const home_lat = (top + bottom) / 2;
       this.home = [home_lat, home_lon];
-      const node_list = this.inner_xml_data.getElementsByTagName("node");
+      const node_list = this.full_xml_data.getElementsByTagName("node");
       let id = 0;
       for(let j = 0;  j < node_list.length; j++) {
         node = node_list[j];
@@ -95,7 +95,7 @@ class Building {
 
   addParts() {
     // Filter to all ways
-    const innerWays = this.inner_xml_data.getElementsByTagName("way");
+    const innerWays = this.full_xml_data.getElementsByTagName("way");
     for (let j = 0; j < innerWays.length; j++) {
       if (innerWays[j].querySelector('[k="building:part"]')) {
         this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
