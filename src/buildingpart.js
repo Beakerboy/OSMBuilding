@@ -31,6 +31,9 @@ class BuildingPart {
   constructor(way, nodelist) {
     this.way = way;
     this.nodelist = nodelist;
+    // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
+    // If not, the object is not within the parent bounding box.
+    // This check is not needed for a building relation type.
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
