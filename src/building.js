@@ -151,7 +151,7 @@ class Building {
     }
     const children = Array.from(xml_data.children);
     var elements = [];
-    children.foreach(childtag => {
+    children.forEach(childtag => {
       if (childtag.tagname ==='nd') {
         elements.push(childtag.getAttribute("ref"));
       }
