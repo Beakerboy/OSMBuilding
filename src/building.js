@@ -199,6 +199,8 @@ class Building {
    * This requires determining the bounds of the way, and querying for all other ways and relations
    * within the bounding box. Then testing to ensure each is a building part that is within the
    * area of the provided way.
+   *
+   * toDo: validate that the way is a building.
    */
   static async createWayBuilding(id) {
     const data = await Building.getWayData(id);
@@ -252,6 +254,23 @@ class Building {
       let parts = xml_data.getElementByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
+      var part;
+      var left = 180;
+      var right = -180
+      var top = -90;
+      var bottom = 90;
+      var ref;
+      var way;
+      for (let i = 0; i < parts.length; i++) {
+        part = parts[i];
+        if (part.getAttribute("role") === "outer") {
+            ref = part.getAttribute("ref");
+            way = xml_data.getElementById(ref);
+            // update left, right, top, and bottom
+        }
+      }
+    //  const innerData = await Building.getInnerData(left, bottom, right, top);
+     // return new Building(id, innerData);
     } else if (relation_type = "building") {
       //<member type="way" ref="443679945" role="part"/>
       let parts = xml_data.getElementByTagName("member");
