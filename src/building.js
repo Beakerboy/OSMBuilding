@@ -29,6 +29,7 @@ class Building {
 
   constructor(id, FullXmlData) {
     this.id = id;
+    console.log(id);
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
     const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
@@ -217,7 +218,7 @@ class Building {
     const top = Math.max(...lats);
 
     const innerData = await Building.getInnerData(left, bottom, right, top);
-    return new Building(data, innerData);
+    return new Building(id, innerData);
   }
 
   /**
