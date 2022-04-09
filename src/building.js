@@ -244,7 +244,7 @@ class Building {
         member_type = parts[i].getAttribute("type");
         if (member_type === "relationship") {
           console.log("iteration not yet supported");
-          member_id = parts[i].getAttribute("ref);
+          member_id = parts[i].getAttribute("ref");
           member_data = await Building.getRelationData(ref);
           // Add member data to xml_data;
         }
