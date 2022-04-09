@@ -5,6 +5,7 @@ class BuildingPart {
   // DOM of the building part way
   way;
 
+  // THREE.Shape of the outline.
   shape;
 
   hasRoof = false;
@@ -26,9 +27,10 @@ class BuildingPart {
   roof_orientation = "along";
 
   /**
-   * should the parent pass in a list of defaults as well?
+   * @param {XMLElement} way - XML Element for the building part.
+   * @param {[[number, number]]} x - The x value.
    */
-  constructor(way, nodelist) {
+  constructor(way, nodelist, options = {}) {
     this.way = way;
     this.nodelist = nodelist;
     // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
