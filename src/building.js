@@ -80,15 +80,16 @@ class Building {
    */
   buildNodeList() {
     const node_list = this.full_xml_data.getElementsByTagName("node");
-      let id = 0;
-      for(let j = 0;  j < node_list.length; j++) {
-        node = node_list[j];
-        id = node.getAttribute("id");
-        lat = node.getAttribute("lat");
-        lon = node.getAttribute("lon");
-        // todo, check if point is within the border.
-        this.nodelist[id] = this.repositionPoint([lat, lon]);
-      }
+    let id = 0;
+    var node;
+    for(let j = 0;  j < node_list.length; j++) {
+      node = node_list[j];
+      id = node.getAttribute("id");
+      lat = node.getAttribute("lat");
+      lon = node.getAttribute("lon");
+      // todo, check if point is within the border.
+      this.nodelist[id] = this.repositionPoint([lat, lon]);
+    }
   }
   
   render() {
