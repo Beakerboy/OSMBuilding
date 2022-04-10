@@ -37,6 +37,7 @@ class BuildingPart {
     this.way = way;
     this.nodelist = nodelist;
     this.setOptions(options);
+    this.shape = this.createShape();
     // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
     // If not, the object is not within the parent bounding box.
     // This check is not needed for a building relation type.
@@ -129,7 +130,6 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    this.shape = this.createShape();
     this.createBuilding();
 
     this.createRoof();
