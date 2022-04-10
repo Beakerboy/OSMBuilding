@@ -51,6 +51,26 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   }
 
   /**
+   * Return the longest cardinal side length.
+   *
+   * @param {THREE.Shape} shape - the shape
+   */
+  static getWidth(shape) {
+    const points = shape.extractPoints().shape;
+    var x = [];
+    var y = [];
+    var miny;
+    var maxy;
+    var vec;
+    for (let i = 0; i < points.length; i++) {
+      vec = points[i];
+      x.push(vec.x);
+      y.push(vec.y);
+    }
+    return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
+  }
+
+  /**
    * Assuming the shape is all right angles,
    * Find the orientation of the longest edge.
    */
