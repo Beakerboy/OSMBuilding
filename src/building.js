@@ -5,8 +5,8 @@ class Building {
   // the parts
   parts = [];
 
-  // the way (xml Element) of the outer building parimeter
-  outer;
+  // the BuildingPart of the outer building parimeter
+  outer_element;
 
   // DOM Tree of all elements to render
   full_xml_data;
@@ -100,8 +100,7 @@ class Building {
          this.parts[i].render();
        }
     } else {
-      const part = new BuildingPart(this.outer, this.nodelist)
-      part.render();
+      outer_element.render();
     }
   }
 
