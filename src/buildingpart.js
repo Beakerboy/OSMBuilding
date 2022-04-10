@@ -30,7 +30,8 @@ class BuildingPart {
 
   /**
    * @param {XMLElement} way - XML Element for the building part.
-   * @param {[[number, number]]} x - The x value.
+   * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
+   * @param {object} options - default values for the building part.
    */
   constructor(way, nodelist, options = {}) {
     this.way = way;
