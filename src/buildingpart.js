@@ -46,6 +46,7 @@ class BuildingPart {
    * Set the object's options
    */
   setOptions(options) {
+    // set values from the options, then override them by the local values if one exists.
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
