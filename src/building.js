@@ -95,7 +95,7 @@ class Building {
          this.parts[i].render();
        }
     } else {
-      outer_element.render();
+      this.outer_element.render();
     }
   }
 
