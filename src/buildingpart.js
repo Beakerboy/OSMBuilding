@@ -1,5 +1,7 @@
 /**
  * An OSM Building Part
+ *
+ * A building part includes a main building and a roof.
  */
 class BuildingPart {
   // DOM of the building part way
@@ -33,9 +35,16 @@ class BuildingPart {
   constructor(way, nodelist, options = {}) {
     this.way = way;
     this.nodelist = nodelist;
+    this.setOptions(options);
     // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
     // If not, the object is not within the parent bounding box.
     // This check is not needed for a building relation type.
+  }
+
+  /**
+   * Set the object's options
+   */
+  setOptions(options) {
     this.height = this.calculateHeight();
     this.min_height = this.calculateMinHeight();
     this.roof_height = this.calculateRoofHeight();
