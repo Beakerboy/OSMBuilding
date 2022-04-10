@@ -65,11 +65,6 @@ class Building {
       
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
-
-      const helper_size = Math.max(right - left, top - bottom) * 2 * Math.PI * 6371000  / 360 / 0.9;
-      const helper = new THREE.GridHelper(helper_size, helper_size / 10);
-      scene.add(helper);
-
     } else {
       console.log("XML Not Valid")
     }
