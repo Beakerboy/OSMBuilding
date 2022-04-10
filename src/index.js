@@ -47,6 +47,10 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
+      const helper_size = myObj.outer_element.getWidth() * 2 * Math.PI * 6371000  / 360 / 0.9;
+      const helper = new THREE.GridHelper(helper_size, helper_size / 10);
+      scene.add(helper);
+
       myObj.render();
   });
   camera = new THREE.PerspectiveCamera(
