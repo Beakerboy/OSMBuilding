@@ -51,6 +51,28 @@ class BuildingPart {
   }
 
   /**
+   * calculate the maximum building width.
+   */
+  getWidth() {
+    const elements = this.way.getElementsByTagName("nd");
+    var lats = [];
+    var lons = [];
+    let ref = 0;
+    var node;
+    for (let i = 0; i < elements.length; i++) {
+      ref = elements[i].getAttribute("ref");
+      node = this.nodelist[ref];
+      lats.push(node[0]);
+      lons.push(node[1]);
+    }
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
+    return Math.max(right-left, top-bottom);
+  }
+
+  /**
    * Calculate the radius of a circle that can fit within
    * this way.
    */
