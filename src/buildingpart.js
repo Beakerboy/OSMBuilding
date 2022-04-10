@@ -51,7 +51,7 @@ class BuildingPart {
   }
 
   /**
-   * calculate the maximum building width.
+   * calculate the maximum building width in meters.
    */
   getWidth() {
     const elements = this.way.getElementsByTagName("nd");
