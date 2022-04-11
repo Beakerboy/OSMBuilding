@@ -244,7 +244,7 @@ class Building {
     const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
-    if(relation_type = "multipolygon") {
+    if(relation_type === "multipolygon") {
       console.log(data);
       let parts = xml_data.getElementByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
@@ -266,7 +266,7 @@ class Building {
       }
     //  const innerData = await Building.getInnerData(left, bottom, right, top);
      // return new Building(id, innerData);
-    } else if (relation_type = "building") {
+    } else if (relation_type === "building") {
       //<member type="way" ref="443679945" role="part"/>
       let parts = xml_data.getElementsByTagName("member");
       var member_type = "";
