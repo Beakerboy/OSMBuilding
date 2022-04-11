@@ -9,12 +9,14 @@ class MultiBuildingPart extends BuildingPart {
    * Create the shape of this way.
    */
   createShape() {
-    const shape = new THREE.Shape().
     const outers = this.way.outer;
     const inners = this.way.inner;
-    shape.push(...this.createAllShapes(outers));
-    shape.holes.push(...this.createAllShapes(inners));
-    return shape;
+    const shapes = this.createAllShapes(outers);
+    const holes = this.createAllShapes(inners);
+    for (let i = 0; i < shapes.length; i++) {
+      shapes[i].holes = holes;
+    }
+    return shapes;
   }
 
   createAllShapes(ways) {
