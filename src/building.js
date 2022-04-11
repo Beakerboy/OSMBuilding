@@ -121,7 +121,7 @@ class Building {
         var member_element;
        
         for (let j = 0; j < members.length; j++) {
-          ref = members.[j].getAttribute("ref");
+          ref = members[j].getAttribute("ref");
           member_element = this.full_xml_data.getElementById(ref);
           if (member[j].getAttribute("role") === "outer") {
             way.outers.push(member_element);
