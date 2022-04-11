@@ -24,9 +24,10 @@ Examples:
  * Dome Roof - [Jefferson Memorial](https://beakerboy.github.io/OSMBuilding/index.html?id=248460669)
  * Dome and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?id=66418809)
  * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
- * Building Relation - [Lincoln Memorial](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=6601801)
  
 
 Do Not work yet:
+
+ * Building Relation with multipolygon parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
  * Multipolygon - [Pentagon](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=89605)
 
