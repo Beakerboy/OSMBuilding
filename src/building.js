@@ -249,10 +249,6 @@ class Building {
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
       var part;
-      var left = 180;
-      var right = -180
-      var top = -90;
-      var bottom = 90;
       var ref;
       var way_nodes;
       for (let i = 0; i < parts.length; i++) {
