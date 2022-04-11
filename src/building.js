@@ -268,7 +268,7 @@ class Building {
      // return new Building(id, innerData);
     } else if (relation_type = "building") {
       //<member type="way" ref="443679945" role="part"/>
-      let parts = xml_data.getElementByTagName("member");
+      let parts = xml_data.getElementsByTagName("member");
       var member_type = "";
       var member_id = 0;
       var member_data;
