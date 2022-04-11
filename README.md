@@ -27,7 +27,6 @@ Examples:
  
 
 Do Not work yet:
-
+ * Multipolygon with no parts - [Freer Art Gallery](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=1029355)
  * Building Relation with multipolygon parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
- * Multipolygon - [Pentagon](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=89605)
 
