@@ -38,6 +38,7 @@ class MultiBuildingPart extends BuildingPart {
         } else {
           shape.lineTo(node[0], node[1]);
         }
+      }
       shapes.push(shape);
     }
     return shapes;
