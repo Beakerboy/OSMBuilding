@@ -76,6 +76,16 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * @param {THREE.Shape} shape - the shape
    */
   static getWidth(shape) {
+    const xy = BuildingShapeUtils.combineCoordinates(shape);
+    const x = xy[0];
+    const y = xy[1];
+    return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
+  }
+
+  /**
+   * can points be an array of shapes?
+   */
+  static combineCoordinates(shape) {
     const points = shape.extractPoints().shape;
     var x = [];
     var y = [];
@@ -87,7 +97,24 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
       x.push(vec.x);
       y.push(vec.y);
     }
-    return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
+    return [x, y];
+  }
+
+  /**
+   * Calculate the Cartesian extents of the shape.
+   *
+   * @param {THREE.Shape} pts - the shape
+   * @return {[number, number, number, number]} the extents of the object.
+   */
+  static extents(shape) {
+    const xy = BuildingShapeUtils.combineCoordinates(shape);
+    const x = xy[0];
+    const y = xy[1];
+    const left = Math.min(...x);
+    const bottom = Math.min(...y);
+    const right = Math.max(...x);
+    const top = Math.max(...y);
+    return [left, bottom, right, top];
   }
 
   /**
