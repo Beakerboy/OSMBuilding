@@ -32,7 +32,7 @@ class Building {
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
     const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
-     this.setHome();
+      this.setHome();
 
       this.buildNodeList();
       
@@ -80,15 +80,16 @@ class Building {
     const node_list = this.full_xml_data.getElementsByTagName("node");
     let id = 0;
     var node;
-    var lat = 0;
-    var lon = 0;
+    var coordinates = []
+    // create a BuildingShape object from the outer and inner elements.
     for(let j = 0;  j < node_list.length; j++) {
       node = node_list[j];
       id = node.getAttribute("id");
-      lat = node.getAttribute("lat");
-      lon = node.getAttribute("lon");
-      // todo, check if point is within the border.
-      this.nodelist[id] = this.repositionPoint([lat, lon]);
+      coordinates = [node.getAttribute("lat"), node.getAttribute("lon")];
+      
+      // if (shape.surrounds(coordinates)) {
+        this.nodelist[id] = this.repositionPoint(coordinates);
+      // }
     }
   }
   
