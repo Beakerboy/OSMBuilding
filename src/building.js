@@ -245,7 +245,6 @@ class Building {
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
     if(relation_type === "multipolygon") {
-      console.log(data);
       let parts = xml_data.getElementByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
@@ -255,13 +254,30 @@ class Building {
       var top = -90;
       var bottom = 90;
       var ref;
-      var way;
+      var way_nodes;
       for (let i = 0; i < parts.length; i++) {
         part = parts[i];
         if (part.getAttribute("role") === "outer") {
             ref = part.getAttribute("ref");
-            way = xml_data.getElementById(ref);
-            // update left, right, top, and bottom
+            way_nodes = xml_data.getElementById(ref).getElementsByTagName("nd");
+            for (let j = 0; j < way_nodes.length; j++) {
+              ref = way_nodes[j].getAttribute("ref");
+              node = xml_data.querySelector('[id="' + ref + '"]');
+              lat = node.getAttribute("lat");
+              lon = node.getAttribute("lon");
+              lats.push(lat);
+              lons.push(lon);
+            }
+          }
+          // Get all building parts within the building
+          // Get max and min lat and log from the building
+          const left = Math.min(...lons);
+          const bottom = Math.min(...lats);
+          const right = Math.max(...lons);
+          const top = Math.max(...lats);
+
+          const innerData = await Building.getInnerData(left, bottom, right, top);
+          return new Building(id, innerData);
         }
       }
     //  const innerData = await Building.getInnerData(left, bottom, right, top);
@@ -274,7 +290,7 @@ class Building {
       var member_data;
       for (let i = 0; i < parts.length; i++) {
         member_type = parts[i].getAttribute("type");
-        if (parts[i].getAttribute("role") === "building") {
+        if (parts[i].getAttribute("role") === "outline") {
           newid = parts[i].getAttribute("ref");
         }
         if (member_type === "relationship") {
