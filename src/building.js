@@ -101,14 +101,14 @@ class Building {
 
   addParts() {
     // Filter to all ways
-    const innerWays = this.full_xml_data.getElementsByTagName("way");
+    var innerWays = this.full_xml_data.getElementsByTagName("way");
     for (let j = 0; j < innerWays.length; j++) {
       if (innerWays[j].querySelector('[k="building:part"]')) {
         this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
       }
     }
     // Filter all relations
-    const innerWays = this.full_xml_data.getElementsByTagName("relation");
+    innerWays = this.full_xml_data.getElementsByTagName("relation");
     var way = {};
     way.outers = [];
     way.inners = [];
