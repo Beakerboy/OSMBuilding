@@ -239,7 +239,7 @@ class Building {
    */
   static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
-    var id;
+    var newid;
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const relation = xml_data.getElementByID(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
@@ -275,7 +275,7 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         member_type = parts[i].getAttribute("type");
         if (parts[i].getAttribute("role") === "building") {
-          id = parts[i].getAttribute("ref");
+          newid = parts[i].getAttribute("ref");
         }
         if (member_type === "relationship") {
           console.log("iteration not yet supported");
@@ -284,7 +284,7 @@ class Building {
           // Add member data to xml_data;
         }
       }
-      return new Building(id, xml_data);
+      return new Building(newid, xml_data);
     }
     
     
