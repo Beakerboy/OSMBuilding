@@ -58,8 +58,8 @@ class Building {
     for (let i = 0; i < way_nodes.length; i++) {
       ref = way_nodes[i].getAttribute("ref");
       node = this.full_xml_data.querySelector('[id="' + ref + '"]');
-      lats.push(node.getAttribute("lat"););
-      lons.push(node.getAttribute("lon"););
+      lats.push(node.getAttribute("lat"));
+      lons.push(node.getAttribute("lon"));
     }
     // Get all building parts within the building
     // Get max and min lat and log from the building
