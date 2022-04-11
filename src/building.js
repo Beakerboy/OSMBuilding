@@ -276,18 +276,19 @@ class Building {
       var part;
       var ref;
       var way_nodes;
+      var way_ref;
+      var lats = [];
+      var lons = [];
       for (let i = 0; i < parts.length; i++) {
         part = parts[i];
         if (part.getAttribute("role") === "outer") {
-          ref = part.getAttribute("ref");
-          way_nodes = xml_data.getElementById(ref).getElementsByTagName("nd");
+          way_ref = part.getAttribute("ref");
+          way_nodes = xml_data.getElementById(way_ref).getElementsByTagName("nd");
           for (let j = 0; j < way_nodes.length; j++) {
-            ref = way_nodes[j].getAttribute("ref");
-            node = xml_data.querySelector('[id="' + ref + '"]');
-            lat = node.getAttribute("lat");
-            lon = node.getAttribute("lon");
-            lats.push(lat);
-            lons.push(lon);
+            const node_ref = way_nodes[j].getAttribute("ref");
+            const node = xml_data.querySelector('[id="' + node_ref + '"]');
+            lats.push(node.getAttribute("lat"));
+            lons.push(node.getAttribute("lon"));
           }
         }
       }
