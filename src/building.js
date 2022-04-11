@@ -107,6 +107,31 @@ class Building {
         this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
       }
     }
+    // Filter all relations
+    const innerWays = this.full_xml_data.getElementsByTagName("relation");
+    var way = {};
+    way.outers = [];
+    way.inners = [];
+    for (let i = 0; i < innerWays.length; i++) {
+      if (innerWays[j].querySelector('[k="building:part"]')) {
+        const outers = [];
+        const inners = [];
+        var ref;
+        let members = innerWays[j].getElementsByTagName("member");
+        var member_element;
+       
+        for (let j = 0; j < members.length; j++) {
+          ref = members.[j].getAttribute("ref");
+          member_element = this.full_xml_data.getElementById(ref);
+          if (member[j].getAttribute("role") === "outer") {
+            way.outers.push(member_element);
+          } else {
+            way.inners.push(member_element);
+          }
+        }
+        this.parts.push(new MultiBuildingPart(way, this.nodelist));
+      }
+    }
   }
 
   /**
