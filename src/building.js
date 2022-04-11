@@ -113,11 +113,11 @@ class Building {
     way.outers = [];
     way.inners = [];
     for (let i = 0; i < innerWays.length; i++) {
-      if (innerWays[j].querySelector('[k="building:part"]')) {
+      if (innerWays[i].querySelector('[k="building:part"]')) {
         const outers = [];
         const inners = [];
         var ref;
-        let members = innerWays[j].getElementsByTagName("member");
+        let members = innerWays[i].getElementsByTagName("member");
         var member_element;
        
         for (let j = 0; j < members.length; j++) {
