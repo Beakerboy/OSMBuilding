@@ -239,12 +239,13 @@ class Building {
    */
   static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
-    console.log(data);
+    var id;
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const relation = xml_data.getElementByID(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
     if(relation_type = "multipolygon") {
+      console.log(data);
       let parts = xml_data.getElementByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
@@ -273,6 +274,9 @@ class Building {
       var member_data;
       for (let i = 0; i < parts.length; i++) {
         member_type = parts[i].getAttribute("type");
+        if (parts[i].getAttribute("role") === "building") {
+          id = parts[i].getAttribute("ref");
+        }
         if (member_type === "relationship") {
           console.log("iteration not yet supported");
           member_id = parts[i].getAttribute("ref");
