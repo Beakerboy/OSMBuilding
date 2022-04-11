@@ -241,7 +241,7 @@ class Building {
     const data = await Building.getRelationData(id);
     var newid;
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-    const relation = xml_data.getElementByID(id);
+    const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
     if(relation_type = "multipolygon") {
