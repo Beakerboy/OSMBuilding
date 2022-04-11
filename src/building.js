@@ -284,7 +284,7 @@ class Building {
           // Add member data to xml_data;
         }
       }
-      return new Building(newid, xml_data);
+      return new Building(newid, data);
     }
     
     
