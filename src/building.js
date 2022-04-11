@@ -245,7 +245,7 @@ class Building {
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
     if (relation_type === "multipolygon") {
-      let parts = xml_data.getElementByTagName("member");
+      let parts = xml_data.getElementsByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
       var part;
