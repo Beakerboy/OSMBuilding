@@ -32,34 +32,7 @@ class Building {
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
     const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
-      const way_nodes = this.full_xml_data.getElementById(this.id).getElementsByTagName("nd");
-      // if it is a building, query all ways within the bounding box and reder the building parts.
-      // The way is a list of <nd ref=""> tags.
-      // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
-      var lats = [];
-      var lons = [];
-      var lat = 0;
-      var lon = 0;
-      var node;
-      var ref;
-      for (let i = 0; i < way_nodes.length; i++) {
-        ref = way_nodes[i].getAttribute("ref");
-        node = this.full_xml_data.querySelector('[id="' + ref + '"]');
-        lat = node.getAttribute("lat");
-        lon = node.getAttribute("lon");
-        lats.push(lat);
-        lons.push(lon);
-      }
-      // Get all building parts within the building
-      // Get max and min lat and log from the building
-      const left = Math.min(...lons);
-      const bottom = Math.min(...lats);
-      const right = Math.max(...lons);
-      const top = Math.max(...lats);
-      // Set the "home point", the lat lon to center the structure.
-      const home_lon = (left + right) / 2;
-      const home_lat = (top + bottom) / 2;
-      this.home = [home_lat, home_lon];
+     this.setHome();
 
       this.buildNodeList();
       
@@ -68,6 +41,36 @@ class Building {
     } else {
       console.log("XML Not Valid")
     }
+  }
+
+  /**
+   * the Home point is the centroid of the outer shape
+   */
+  setHome() {
+    const way_nodes = this.full_xml_data.getElementById(this.id).getElementsByTagName("nd");
+    // if it is a building, query all ways within the bounding box and reder the building parts.
+    // The way is a list of <nd ref=""> tags.
+    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+    var lats = [];
+    var lons = [];
+    var node;
+    var ref;
+    for (let i = 0; i < way_nodes.length; i++) {
+      ref = way_nodes[i].getAttribute("ref");
+      node = this.full_xml_data.querySelector('[id="' + ref + '"]');
+      lats.push(node.getAttribute("lat"););
+      lons.push(node.getAttribute("lon"););
+    }
+    // Get all building parts within the building
+    // Get max and min lat and log from the building
+    const left = Math.min(...lons);
+    const bottom = Math.min(...lats);
+    const right = Math.max(...lons);
+    const top = Math.max(...lats);
+    // Set the "home point", the lat lon to center the structure.
+    const home_lon = (left + right) / 2;
+    const home_lat = (top + bottom) / 2;
+    this.home = [home_lat, home_lon];
   }
 
   /**
