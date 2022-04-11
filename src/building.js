@@ -244,7 +244,7 @@ class Building {
     const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
-    if(relation_type === "multipolygon") {
+    if (relation_type === "multipolygon") {
       let parts = xml_data.getElementByTagName("member");
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
@@ -258,30 +258,27 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         part = parts[i];
         if (part.getAttribute("role") === "outer") {
-            ref = part.getAttribute("ref");
-            way_nodes = xml_data.getElementById(ref).getElementsByTagName("nd");
-            for (let j = 0; j < way_nodes.length; j++) {
-              ref = way_nodes[j].getAttribute("ref");
-              node = xml_data.querySelector('[id="' + ref + '"]');
-              lat = node.getAttribute("lat");
-              lon = node.getAttribute("lon");
-              lats.push(lat);
-              lons.push(lon);
-            }
+          ref = part.getAttribute("ref");
+          way_nodes = xml_data.getElementById(ref).getElementsByTagName("nd");
+          for (let j = 0; j < way_nodes.length; j++) {
+            ref = way_nodes[j].getAttribute("ref");
+            node = xml_data.querySelector('[id="' + ref + '"]');
+            lat = node.getAttribute("lat");
+            lon = node.getAttribute("lon");
+            lats.push(lat);
+            lons.push(lon);
           }
-          // Get all building parts within the building
-          // Get max and min lat and log from the building
-          const left = Math.min(...lons);
-          const bottom = Math.min(...lats);
-          const right = Math.max(...lons);
-          const top = Math.max(...lats);
-
-          const innerData = await Building.getInnerData(left, bottom, right, top);
-          return new Building(id, innerData);
         }
       }
-    //  const innerData = await Building.getInnerData(left, bottom, right, top);
-     // return new Building(id, innerData);
+      // Get all building parts within the building
+      // Get max and min lat and log from the building
+      const left = Math.min(...lons);
+      const bottom = Math.min(...lats);
+      const right = Math.max(...lons);
+      const top = Math.max(...lats);
+
+      const innerData = await Building.getInnerData(left, bottom, right, top);
+      return new Building(id, innerData);
     } else if (relation_type === "building") {
       //<member type="way" ref="443679945" role="part"/>
       let parts = xml_data.getElementsByTagName("member");
