@@ -169,7 +169,7 @@ class Building {
    */
   static isValidData(xml_data) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
-    const building_type = xml_data.querySelector('[k="bulding"]');
+    const building_type = xml_data.querySelector('[k="building"]');
     if (!building_type) {
       console.log("not a building");
       console.log(xml_data);
