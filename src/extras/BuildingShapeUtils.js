@@ -121,6 +121,53 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * Assuming the shape is all right angles,
    * Find the orientation of the longest edge.
    */
-  static primaryDirection(pts) {
+  static primaryDirection(shape) {
+    const points = shape.extractPoints().shape;
+  }
+
+  /**
+   * Calculate the length of each of a shape's edge 
+   */
+  static edgeLength(shape) {
+    const points = shape.extractPoints().shape;
+    const lengths = [];
+    var p1;
+    var p2;
+    for (let i = 0; i < points.length - 1; i++) {
+      p1 = points[i];
+      p2 = points[i + 1];
+      lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
+    }
+    p1 = points[points.length];
+    p2 = points[0];
+    lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
+    return lengths;
+  }
+  }
+
+  /**
+   * Calculate the angle at each of a shape's vertex 
+   */
+  static vertexAngle(shape) {
+    const points = shape.extractPoints().shape;
+    const angles = [];
+    var p0
+    var p1;
+    var p2;
+    p0 = points[points.length];
+    p1 = points[0];
+    p2 = points[1];
+    angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    for (let i = 1; i < points.length - 1; i++) {
+      p0 = points[i-1];
+      p1 = points[i];
+      p2 = points[i + 1];
+      angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    }
+    p0 = points[points.length-1];
+    p1 = points[points.length];
+    p2 = points[0];
+    angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    return angles;
   }
 }
