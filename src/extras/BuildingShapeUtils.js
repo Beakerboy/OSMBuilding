@@ -143,7 +143,6 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     return lengths;
   }
-  }
 
   /**
    * Calculate the angle at each of a shape's vertex 
