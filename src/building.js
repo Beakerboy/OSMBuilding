@@ -139,16 +139,6 @@ class Building {
   }
 
   /**
-   * Is this point inside this building?
-   *
-   * This may be better in a 2DShape class to manage
-   * 2D geometry math functions.
-   */
-  surrounds(x, y) {
-
-  }
-
-  /**
    * Fetch way data from OSM
    */
   static async getWayData(id) {
@@ -182,6 +172,7 @@ class Building {
     const building_type = xml_data.querySelector('[k="bulding"]');
     if (!building_type) {
       console.log("not a building");
+      console.log(xml_data);
     }
     const children = Array.from(xml_data.children);
     var elements = [];
@@ -268,7 +259,6 @@ class Building {
    */
   static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
-    var newid;
     let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
     const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
@@ -311,6 +301,7 @@ class Building {
       var member_type = "";
       var member_id = 0;
       var member_data;
+      var newid;
       for (let i = 0; i < parts.length; i++) {
         member_type = parts[i].getAttribute("type");
         if (parts[i].getAttribute("role") === "outline") {
