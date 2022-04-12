@@ -12,7 +12,7 @@ let apis = {
     }
   },
   get_way: {
-    api:"https://beakerboy.github.io/OSMBuilding/test/fetch.html?type=relation&id=way&",
+    api:"https://beakerboy.github.io/OSMBuilding/test/fetch.html?type=way&id=",
     url: (way_id) => {
       return apis.get_way.api + way_id;
     }
