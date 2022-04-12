@@ -1,3 +1,9 @@
+/**
+ * A class representing an OSM building
+ *
+ * The static factory is responsible for pulling all required
+ * XML data from the API.
+ */
 class Building {
   // Latitude and longitude that transitioned to (0, 0)
   home = [];
@@ -17,6 +23,10 @@ class Building {
 
   // the list of all nodes with lat/lon coordinates.
   nodelist = [];
+
+  /**
+   * Create new building
+   */
   static async create(type, id) {
     var building;
     if (type === "way") {
@@ -27,6 +37,9 @@ class Building {
     return building;
   }
 
+  /**
+   * build an object
+   */
   constructor(id, FullXmlData) {
     this.id = id;
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
@@ -44,13 +57,12 @@ class Building {
   }
 
   /**
-   * the Home point is the centroid of the outer shape
+   * the Home point is the center of the outer shape
    */
   setHome() {
-    const way_nodes = this.full_xml_data.getElementById(this.id).getElementsByTagName("nd");
-    // if it is a building, query all ways within the bounding box and reder the building parts.
-    // The way is a list of <nd ref=""> tags.
-    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
+    const xmlElement = this.full_xml_data.getElementById(this.id);
+    const building_type = xmlElement.tagName.toLowerCase();
+    const way_nodes = xmlElement.getElementsByTagName("nd");
     var lats = [];
     var lons = [];
     var node;
