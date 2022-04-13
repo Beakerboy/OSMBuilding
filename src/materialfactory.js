@@ -87,7 +87,7 @@ function getBaseMaterial(material_name) {
       emissive: 0x00000,
       reflectivity: 0
     } );
-  } else if (material_name === 'stainless_steel') {
+  } else if (material_name === 'stainless_steel' || material_name === 'metal') {
     material = new THREE.MeshPhysicalMaterial( {
       color: 0xaaaaaa,
       emissive: 0xaaaaaa,
