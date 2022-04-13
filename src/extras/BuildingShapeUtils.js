@@ -150,7 +150,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
     const angles = [];
-    var p0
+    var p0;
     var p1;
     var p2;
     p0 = points[points.length];
