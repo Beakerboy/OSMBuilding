@@ -42,7 +42,7 @@ class Building {
    */
   constructor(id, FullXmlData) {
     this.id = id;
-    this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
+    this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id)
     if (Building.isValidData(outer_element_xml)) {
       this.setHome();
@@ -68,10 +68,10 @@ class Building {
     var node;
     var ref;
     for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute("ref");
+      ref = way_nodes[i].getAttribute('ref');
       node = this.full_xml_data.querySelector('[id="' + ref + '"]');
-      lats.push(node.getAttribute("lat"));
-      lons.push(node.getAttribute("lon"));
+      lats.push(node.getAttribute('lat'));
+      lons.push(node.getAttribute('lon'));
     }
     // Get all building parts within the building
     // Get max and min lat and log from the building
@@ -89,7 +89,7 @@ class Building {
    * translate all lat/log values to cartesian and store in an array
    */
   static buildNodeList(full_xml_data, home) {
-    const node_list = full_xml_data.getElementsByTagName("node");
+    const node_list = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
     var coordinates = []
@@ -98,7 +98,7 @@ class Building {
     for(let j = 0;  j < node_list.length; j++) {
       node = node_list[j];
       id = node.getAttribute('id');
-      coordinates = [node.getAttribute("lat"), node.getAttribute("lon")];
+      coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
       
       // if (shape.surrounds(coordinates)) {
         nodelist[id] = Building.repositionPoint(coordinates, home);
@@ -135,7 +135,7 @@ class Building {
         const outers = [];
         const inners = [];
         var ref;
-        let members = innerWays[i].getElementsByTagName("member");
+        let members = innerWays[i].getElementsByTagName('member');
         var member_element;
        
         for (let j = 0; j < members.length; j++) {
@@ -197,7 +197,7 @@ class Building {
     });
     // Check that it is a closed way
     if(elements[0] !== elements[elements.length - 1]) {
-      console.log("not a closed way");
+      console.log('not a closed way');
       return false;
     }
     return true;
