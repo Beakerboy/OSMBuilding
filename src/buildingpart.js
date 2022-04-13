@@ -144,7 +144,7 @@ class BuildingPart {
    * Create the 3D render of a roof.
    */
   createRoof() {
-    var roof_shape = "flat";
+    var roof_shape = 'flat';
     var roof_height = 0;
     var way = this.way;
     var material;
@@ -157,7 +157,7 @@ class BuildingPart {
       roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
     }
     // Flat - Do Nothing
-    if (roof_shape === "dome") {
+    if (roof_shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
       const R = this.calculateRadius();
