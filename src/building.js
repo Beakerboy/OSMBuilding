@@ -109,10 +109,7 @@ class Building {
       coordinates = [node.getAttribute('lat'), lon];
       nodelist[id] = coordinates;
     }
-    if (Math.max(...lons) - Math.min(...lons)) > 180) {
-      for(let i = 0; i < coordinates.length; i++) {
-      }
-    }
+    // if the span of lons is still > 180, then the building "surrounds" the north pole.
     return nodelist;
   }
   
