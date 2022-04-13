@@ -5,13 +5,13 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * this way.
    */
   calculateRadius(pts) {
-    const elements = this.way.getElementsByTagName("nd");
+    const elements = this.way.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
     let ref = 0;
     var node;
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
+      ref = elements[i].getAttribute('ref');
       node = this.nodelist[ref];
       lats.push(node[0]);
       lons.push(node[1]);
@@ -31,13 +31,13 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * this does not actually calculate the centroid.
    */
   static centroid(pts) {
-    const elements = this.way.getElementsByTagName("nd");
+    const elements = this.way.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
     var ref;
     var node;
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
+      ref = elements[i].getAttribute('ref');
       node = this.nodelist[ref];
       lats.push(node[0]);
       lons.push(node[1]);
