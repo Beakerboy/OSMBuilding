@@ -9,6 +9,6 @@
     "three": "^0.138.3"
   },
   "devDependencies" : {
-    "eslint": "^8.13",
+    "eslint": "^8.13"
   }
 }
