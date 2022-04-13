@@ -24,11 +24,11 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
-      const helper_size = myObj.outer_element.getWidth();
-      const helper = new THREE.GridHelper(helper_size / 0.9, helper_size / 9);
-      scene.add(helper);
+    const helper_size = myObj.outer_element.getWidth();
+    const helper = new THREE.GridHelper(helper_size / 0.9, helper_size / 9);
+    scene.add(helper);
 
-      myObj.render();
+    myObj.render();
   });
   camera = new THREE.PerspectiveCamera(
     50,
@@ -98,9 +98,9 @@ function addLights() {
    //dirLight.shadowDarkness = 0.35;
 }
 
-  init();
-  createScene();
-  window.addEventListener("resize", resize, false);
+init();
+createScene();
+window.addEventListener("resize", resize, false);
 
 function resize() {
   camera.aspect =
