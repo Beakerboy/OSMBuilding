@@ -13,7 +13,7 @@ function init() {
   var type = 'way';
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
-    window.location.search.substr(1).split("&")
+    window.location.search.substr(1).split('&')
       .forEach(function (item) {
         tmp = item.split('=');
         if (tmp[0] === 'type') {
@@ -44,7 +44,7 @@ function init() {
     document.documentElement.clientWidth,
     document.documentElement.clientHeight-20
   );
-  renderer.domElement.style.position = "absolute";
+  renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.zIndex = 0;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
@@ -83,7 +83,7 @@ function addLights() {
 
 init();
 createScene();
-window.addEventListener("resize", resize, false);
+window.addEventListener('resize', resize, false);
 
 function resize() {
   camera.aspect =
