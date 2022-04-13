@@ -77,7 +77,7 @@ class Building {
 
     // Use home to reposition points in nodelist.
     for(var index in this.nodelist) {
-      nodelist[index] = repositionPoint(this.nodelist[index], this.home);
+      this.nodelist[index] = repositionPoint(this.nodelist[index], this.home);
     }
   }
 
