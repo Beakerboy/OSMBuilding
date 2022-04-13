@@ -26,7 +26,7 @@ class BuildingPart {
   roof_direction;
 
   // across or along the main direction.
-  roof_orientation = "along";
+  roof_orientation = 'along';
 
   /**
    * @param {XMLElement} way - XML Element for the building part.
@@ -65,13 +65,13 @@ class BuildingPart {
    * this way.
    */
   calculateRadius() {
-    const elements = this.way.getElementsByTagName("nd");
+    const elements = this.way.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
     let ref = 0;
     var node;
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
+      ref = elements[i].getAttribute('ref');
       node = this.nodelist[ref];
       lats.push(node[0]);
       lons.push(node[1]);
@@ -92,13 +92,13 @@ class BuildingPart {
    *  - ways that cross the date line
    */
   centroid() {
-    const elements = this.way.getElementsByTagName("nd");
+    const elements = this.way.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
     var ref;
     var node;
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
+      ref = elements[i].getAttribute('ref');
       node = this.nodelist[ref];
       lats.push(node[0]);
       lons.push(node[1]);
@@ -174,13 +174,13 @@ class BuildingPart {
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roof_shape === "skillion") {
+    } else if (roof_shape === 'skillion') {
       // if (height is missing) {
       //   calculate height from the angle
       // }
-    } else if (roof_shape === "hipped") {
-    } else if (roof_shape === "gabled") {
-    } else if (roof_shape === "pyramidal") {
+    } else if (roof_shape === 'hipped') {
+    } else if (roof_shape === 'gabled") {
+    } else if (roof_shape === 'pyramidal') {
       const center = this.centroid();
       const options = {
         center: center,
@@ -209,7 +209,7 @@ class BuildingPart {
       // if not, use building:levels and 3 meters per level.
       height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v') + this.calculateRoofHeight();
     } else if (this.way.querySelector('[k="building:part"]') !== null) {
-      if (this.way.querySelector('[k="building:part"]').getAttribute('v') === "roof") {
+      if (this.way.querySelector('[k="building:part"]').getAttribute('v') === 'roof') {
         // a roof has no building part by default.
         height = 0;
       }
