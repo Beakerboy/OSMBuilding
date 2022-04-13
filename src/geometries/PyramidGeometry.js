@@ -70,7 +70,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     this.setIndex( indices );
     console.log(verticesArray);
     console.log(indices);
-    console.log("end");
+    console.log('end');
 
     this.computeVertexNormals();
   }
