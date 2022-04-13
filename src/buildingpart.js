@@ -179,7 +179,7 @@ class BuildingPart {
       //   calculate height from the angle
       // }
     } else if (roof_shape === 'hipped') {
-    } else if (roof_shape === 'gabled") {
+    } else if (roof_shape === 'gabled') {
     } else if (roof_shape === 'pyramidal') {
       const center = this.centroid();
       const options = {
