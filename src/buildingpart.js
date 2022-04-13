@@ -37,7 +37,7 @@ class BuildingPart {
     this.way = way;
     this.nodelist = nodelist;
     this.setOptions(options);
-    this.shape = this.createShape();
+    this.shape = BuildingShapeUtils.createShape(this.way, this.nodelist);
     // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
     // If not, the object is not within the parent bounding box.
     // This check is not needed for a building relation type.
@@ -120,26 +120,6 @@ class BuildingPart {
     this.createRoof();
   }
   
-  /**
-   * Create the shape of this way.
-   */
-  createShape() {
-    const elements = this.way.getElementsByTagName("nd");
-    const shape = new THREE.Shape();
-    var ref;
-    var node = [];
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
-      node = this.nodelist[ref];
-      if (i === 0) {
-        shape.moveTo(node[0], node[1]);
-      } else {
-        shape.lineTo(node[0], node[1]);
-      }
-    }
-    return shape;
-  }
-
   createBuilding() {
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
