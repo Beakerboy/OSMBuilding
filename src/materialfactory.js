@@ -27,7 +27,7 @@ function getMaterial(way) {
   if (color !== '') {
     material.color = new THREE.Color(color);
   } else if (material_name === ''){
-    material.color = new THREE.Color("white");
+    material.color = new THREE.Color('white');
   }
   return material;
 }
