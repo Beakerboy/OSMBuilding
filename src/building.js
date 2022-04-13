@@ -109,9 +109,9 @@ class Building {
   
   render() {
     if (this.parts.length > 0) {
-       for (let i = 0; i < this.parts.length; i++) {
-         this.parts[i].render();
-       }
+      for (let i = 0; i < this.parts.length; i++) {
+        this.parts[i].render();
+      }
     } else {
       this.outer_element.render();
     }
