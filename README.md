@@ -24,6 +24,7 @@ Examples:
  * Dome Roof - [Jefferson Memorial](https://beakerboy.github.io/OSMBuilding/index.html?id=248460669)
  * Dome and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?id=66418809)
  * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
+ * Building Relation [Burj Khalifa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=7584462)
  
 
 Do Not work yet:
