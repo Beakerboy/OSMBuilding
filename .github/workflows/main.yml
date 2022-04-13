@@ -10,4 +10,4 @@ jobs:
         yarn
         yarn create @eslint/config
     - name: Lint
-      run: eslint .
+      run: yarn run eslint .
