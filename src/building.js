@@ -47,7 +47,7 @@ class Building {
     if (Building.isValidData(outer_element_xml)) {
       this.setHome();
 
-      this.buildNodeList();
+      this.nodelist = Building.buildNodeList(this.full_xml_data, this.home);
       
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
@@ -88,8 +88,8 @@ class Building {
   /**
    * translate all lat/log values to cartesian and store in an array
    */
-  buildNodeList() {
-    const node_list = this.full_xml_data.getElementsByTagName("node");
+  static buildNodeList(full_xml_data, home) {
+    const node_list = full_xml_data.getElementsByTagName("node");
     let id = 0;
     var node;
     var coordinates = []
@@ -100,9 +100,10 @@ class Building {
       coordinates = [node.getAttribute("lat"), node.getAttribute("lon")];
       
       // if (shape.surrounds(coordinates)) {
-        this.nodelist[id] = this.repositionPoint(coordinates);
+        nodelist[id] = Building.repositionPoint(coordinates, home);
       // }
     }
+    return nodelist;
   }
   
   render() {
@@ -204,12 +205,12 @@ class Building {
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
    */
-  repositionPoint(lat_lon) {
+  static repositionPoint(lat_lon, home) {
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
     const phi = 90 - lat_lon[0];
-    const theta = lat_lon[1] - this.home[1];
-    const theta_prime = this.home[0] / 180 * Math.PI;
+    const theta = lat_lon[1] - home[1];
+    const theta_prime = home[0] / 180 * Math.PI;
     const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
     const y = R * Math.cos(phi / 180 * Math.PI);
     const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
