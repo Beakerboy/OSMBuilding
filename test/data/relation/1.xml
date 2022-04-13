@@ -25,5 +25,6 @@
   <relation id="1">
     <member type="way" ref="2" role="part"/>
     <member type="way" ref="7" role="outline"/>
+    <tag k="type" v="building"/>
   </relation>
 </osm>
