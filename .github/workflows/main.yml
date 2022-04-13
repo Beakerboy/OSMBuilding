@@ -6,6 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
-      run: yarn add all --production=false
+      run: yarn
+      run: ls -al
     - name: Lint
       run: eslint .
