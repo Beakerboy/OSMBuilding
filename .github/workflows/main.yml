@@ -8,6 +8,6 @@ jobs:
     - name: Install modules
       run: |
         yarn
-        ls -al ./node_modules/eslint
+        ls -al ./node_modules/eslint/bin
     - name: Lint
-      run: ./node_modules/eslint/eslint .
+      run: ./node_modules/eslint/bin/eslint .
