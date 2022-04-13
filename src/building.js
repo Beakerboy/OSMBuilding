@@ -185,18 +185,33 @@ class Building {
     if (!building_type) {
       console.log('not a building');
       console.log(xml_data);
-    }
-    const children = Array.from(xml_data.children);
-    var elements = [];
-    children.forEach(childtag => {
-      if (childtag.tagname === 'nd') {
-        elements.push(childtag.getAttribute('ref'));
-      }
-    });
-    // Check that it is a closed way
-    if(elements[0] !== elements[elements.length - 1]) {
-      console.log('not a closed way');
       return false;
+    }
+    const ways = [];
+    if (xml_data.tagName === 'relation') {
+      // get all
+      let parts = xml_data.getElementsByTagName('member');
+      var ref = 0;
+      for (let i = 0; i < parts.length; i++) {
+        ref = parts[i].getAttribute('ref');
+        xml_data = this.full_xml_data.getElementById(ref)
+    } else {
+      ways.push(xml_data);
+    }
+    for (let i = 0; i < ways.length; i++) {
+      xml_data = ways[i];
+      const children = Array.from(xml_data.children);
+      var elements = [];
+      children.forEach(childtag => {
+        if (childtag.tagname === 'nd') {
+          elements.push(childtag.getAttribute('ref'));
+        }
+      });
+      // Check that it is a closed way
+      if(elements[0] !== elements[elements.length - 1]) {
+        console.log('not a closed way');
+        return false;
+      }
     }
     return true;
   }
