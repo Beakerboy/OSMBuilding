@@ -29,7 +29,7 @@ class Building {
    */
   static async create(type, id) {
     var building;
-    if (type === "way") {
+    if (type === 'way') {
       building = await Building.createWayBuilding(id);
     } else {
       building = await Building.createRelationBuilding(id);
@@ -97,7 +97,7 @@ class Building {
     // create a BuildingShape object from the outer and inner elements.
     for(let j = 0;  j < node_list.length; j++) {
       node = node_list[j];
-      id = node.getAttribute("id");
+      id = node.getAttribute('id');
       coordinates = [node.getAttribute("lat"), node.getAttribute("lon")];
       
       // if (shape.surrounds(coordinates)) {
@@ -119,14 +119,14 @@ class Building {
 
   addParts() {
     // Filter to all ways
-    var innerWays = this.full_xml_data.getElementsByTagName("way");
+    var innerWays = this.full_xml_data.getElementsByTagName('way');
     for (let j = 0; j < innerWays.length; j++) {
       if (innerWays[j].querySelector('[k="building:part"]')) {
         this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
       }
     }
     // Filter all relations
-    innerWays = this.full_xml_data.getElementsByTagName("relation");
+    innerWays = this.full_xml_data.getElementsByTagName('relation');
     var way = {};
     way.outers = [];
     way.inners = [];
@@ -139,9 +139,9 @@ class Building {
         var member_element;
        
         for (let j = 0; j < members.length; j++) {
-          ref = members[j].getAttribute("ref");
+          ref = members[j].getAttribute('ref');
           member_element = this.full_xml_data.getElementById(ref);
-          if (member_element[j].getAttribute("role") === "outer") {
+          if (member_element[j].getAttribute('role') === 'outer') {
             way.outers.push(member_element);
           } else {
             way.inners.push(member_element);
@@ -192,7 +192,7 @@ class Building {
     var elements = [];
     children.forEach(childtag => {
       if (childtag.tagname ==='nd') {
-        elements.push(childtag.getAttribute("ref"));
+        elements.push(childtag.getAttribute('ref'));
       }
     });
     // Check that it is a closed way
@@ -232,8 +232,8 @@ class Building {
    */
   static async createWayBuilding(id) {
     const data = await Building.getWayData(id);
-    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
-    const way_nodes = xml_data.getElementsByTagName("nd");
+    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
+    const way_nodes = xml_data.getElementsByTagName('nd');
     // if it is a building, query all ways within the bounding box and reder the building parts.
     // The way is a list of <nd ref=""> tags.
     // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
@@ -244,10 +244,10 @@ class Building {
     var node;
     var ref;
     for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute("ref");
+      ref = way_nodes[i].getAttribute('ref');
       node = xml_data.querySelector('[id="' + ref + '"]');
-      lat = node.getAttribute("lat");
-      lon = node.getAttribute("lon");
+      lat = node.getAttribute('lat');
+      lon = node.getAttribute('lon');
       lats.push(lat);
       lons.push(lon);
     }
@@ -273,12 +273,12 @@ class Building {
    */
   static async createRelationBuilding(id) {
     const data = await Building.getRelationData(id);
-    let xml_data = new window.DOMParser().parseFromString(data, "text/xml");
+    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
     const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
     if (relation_type === "multipolygon") {
-      let parts = xml_data.getElementsByTagName("member");
+      let parts = xml_data.getElementsByTagName('member');
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
       var part;
@@ -289,14 +289,14 @@ class Building {
       var lons = [];
       for (let i = 0; i < parts.length; i++) {
         part = parts[i];
-        if (part.getAttribute("role") === "outer") {
+        if (part.getAttribute('role') === 'outer') {
           way_ref = part.getAttribute("ref");
           way_nodes = xml_data.getElementById(way_ref).getElementsByTagName("nd");
           for (let j = 0; j < way_nodes.length; j++) {
-            const node_ref = way_nodes[j].getAttribute("ref");
+            const node_ref = way_nodes[j].getAttribute('ref');
             const node = xml_data.querySelector('[id="' + node_ref + '"]');
-            lats.push(node.getAttribute("lat"));
-            lons.push(node.getAttribute("lon"));
+            lats.push(node.getAttribute('lat'));
+            lons.push(node.getAttribute('lon'));
           }
         }
       }
@@ -309,21 +309,21 @@ class Building {
 
       const innerData = await Building.getInnerData(left, bottom, right, top);
       return new Building(id, innerData);
-    } else if (relation_type === "building") {
+    } else if (relation_type === 'building') {
       //<member type="way" ref="443679945" role="part"/>
       let parts = xml_data.getElementsByTagName("member");
-      var member_type = "";
+      var member_type = '';
       var member_id = 0;
       var member_data;
       var newid;
       for (let i = 0; i < parts.length; i++) {
-        member_type = parts[i].getAttribute("type");
-        if (parts[i].getAttribute("role") === "outline") {
-          newid = parts[i].getAttribute("ref");
+        member_type = parts[i].getAttribute('type');
+        if (parts[i].getAttribute('role') === 'outline') {
+          newid = parts[i].getAttribute('ref');
         }
         if (member_type === "relationship") {
-          console.log("iteration not yet supported");
-          member_id = parts[i].getAttribute("ref");
+          console.log('iteration not yet supported');
+          member_id = parts[i].getAttribute('ref');
           member_data = await Building.getRelationData(ref);
           // Add member data to xml_data;
         }
