@@ -45,9 +45,8 @@ class Building {
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id);
     if (Building.isValidData(outer_element_xml)) {
-      this.setHome();
-
-      this.nodelist = Building.buildNodeList(this.full_xml_data, this.home);
+      this.nodelist = Building.buildNodeList(this.full_xml_data);
+      this.setHome();      
       
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
@@ -60,20 +59,12 @@ class Building {
    * the Home point is the center of the outer shape
    */
   setHome() {
-    const xmlElement = this.full_xml_data.getElementById(this.id);
-    const building_type = xmlElement.tagName.toLowerCase();
-    const way_nodes = xmlElement.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
-    var node;
-    var ref;
-    for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute('ref');
-      node = this.full_xml_data.querySelector('[id="' + ref + '"]');
-      lats.push(node.getAttribute('lat'));
-      lons.push(node.getAttribute('lon'));
+    for (let i = 0; i < this.nodelist.length; i++) {
+      lats.push(this.nodelist[0]);
+      lons.push(this.nodelist[1]);
     }
-    // Get all building parts within the building
     // Get max and min lat and log from the building
     const left = Math.min(...lons);
     const bottom = Math.min(...lats);
@@ -83,26 +74,44 @@ class Building {
     const home_lon = (left + right) / 2;
     const home_lat = (top + bottom) / 2;
     this.home = [home_lat, home_lon];
+
+    // Use home to reposition points in nodelist.
+    for(var index in this.nodelist) {
+      nodelist[index] = repositionPoint(this.nodelist[index], this.home);
+    }
   }
 
   /**
-   * translate all lat/log values to cartesian and store in an array
+   * Extract all the latitude and longitude data.
+   * Normalize the data to the shortest path.
    */
-  static buildNodeList(full_xml_data, home) {
+  static buildNodeList(full_xml_data) {
     const node_list = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
     var coordinates = [];
     var nodelist = [];
+    const lons = [];
+    var normalize = false;
+    for(let i = 0; i < coordinates.length; i++) {
+      node = node_list[j];
+      lons.push(node.getAttribute('lon'));
+    }
+    if (Math.max(...lons) - Math.min(...lons)) > 180) {
+      normalize = true;
+    }
     // create a BuildingShape object from the outer and inner elements.
-    for(let j = 0;  j < node_list.length; j++) {
+    var lon;
+    for(let j = 0; j < node_list.length; j++) {
       node = node_list[j];
       id = node.getAttribute('id');
-      coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
-      
-      // if (shape.surrounds(coordinates)) {
-      nodelist[id] = Building.repositionPoint(coordinates, home);
-      // }
+      lon = (normalize && node.getAttribute('lon') < -90) ? node.getAttribute('lon') + 360 : node.getAttribute('lon');
+      coordinates = [node.getAttribute('lat'), lon];
+      nodelist[id] = coordinates;
+    }
+    if (Math.max(...lons) - Math.min(...lons)) > 180) {
+      for(let i = 0; i < coordinates.length; i++) {
+      }
     }
     return nodelist;
   }
