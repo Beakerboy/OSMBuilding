@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+  <node id="6" lat="0" lon="0"/>
+  <node id="3" lat="0" lon=".001"/>
+  <node id="4" lat=".001" lon=".001"/>
+  <node id="5" lat=".001" lon=".0005"/>
+  <node id="8" lat=".001" lon="0"/>
+  <way id="2">
+    <nd ref="6"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <nd ref="5"/>
+    <nd ref="6"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <way id="7">
+    <nd ref="6"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <nd ref="5"/>
+    <nd ref="8"/>
+    <nd ref="6"/>
+    <tag k="building" v="yes"/>
+  </way>
+  <relation id="1">
+    <member type="way" ref="2" role="part"/>
+    <member type="way" ref="7" role="outline"/>
+  </relation>
+</osm>
