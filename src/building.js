@@ -97,7 +97,7 @@ class Building {
       node = node_list[j];
       lons.push(node.getAttribute('lon'));
     }
-    if (Math.max(...lons) - Math.min(...lons)) > 180) {
+    if ((Math.max(...lons) - Math.min(...lons)) > 180) {
       normalize = true;
     }
     // create a BuildingShape object from the outer and inner elements.
