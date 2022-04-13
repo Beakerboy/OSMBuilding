@@ -4,12 +4,12 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * Create the shape of this way.
    */
   static createShape(way, nodelist) {
-    const elements = way.getElementsByTagName("nd");
+    const elements = way.getElementsByTagName('nd');
     const shape = new THREE.Shape();
     var ref;
     var node = [];
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute("ref");
+      ref = elements[i].getAttribute('ref');
       node = nodelist[ref];
       if (i === 0) {
         shape.moveTo(node[0], node[1]);
