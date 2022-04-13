@@ -92,7 +92,7 @@ class Building {
     const node_list = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
-    var coordinates = []
+    var coordinates = [];
     var nodelist = [];
     // create a BuildingShape object from the outer and inner elements.
     for(let j = 0;  j < node_list.length; j++) {
@@ -101,7 +101,7 @@ class Building {
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
       
       // if (shape.surrounds(coordinates)) {
-        nodelist[id] = Building.repositionPoint(coordinates, home);
+      nodelist[id] = Building.repositionPoint(coordinates, home);
       // }
     }
     return nodelist;
