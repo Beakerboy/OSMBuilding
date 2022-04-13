@@ -18,7 +18,7 @@
       "error",
       "single"
     ],
-    "'semi": [
+    "semi": [
       "error",
       "always"
     ],
