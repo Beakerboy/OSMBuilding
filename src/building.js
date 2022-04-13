@@ -194,7 +194,8 @@ class Building {
       var ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
-        xml_data = this.full_xml_data.getElementById(ref)
+        ways.push(this.full_xml_data.getElementById(ref));
+      }
     } else {
       ways.push(xml_data);
     }
