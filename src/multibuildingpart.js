@@ -26,12 +26,12 @@ class MultiBuildingPart extends BuildingPart {
     var shape;
     for (let j = 0; j < ways.length; j++) {
       way = ways[i];
-      elements = way.getElementsByTagName("nd");
+      elements = way.getElementsByTagName('nd');
       shape = new THREE.Shape();
       var ref;
       var node = [];
       for (let i = 0; i < elements.length; i++) {
-        ref = elements[i].getAttribute("ref");
+        ref = elements[i].getAttribute('ref');
         node = this.nodelist[ref];
         if (i === 0) {
           shape.moveTo(node[0], node[1]);
