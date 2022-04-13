@@ -336,10 +336,9 @@ class Building {
           newid = parts[i].getAttribute('ref');
         }
         if (member_type === 'relation') {
-          console.log('iteration not yet supported');
-          member_id = parts[i].getAttribute('ref');
-          member_data = await Building.getRelationData(ref);
-          // Add member data to xml_data;
+          // The outline is a multipolygon.
+          const building = Building.create('relation', newid);
+          building.id = id;
         }
       }
       return new Building(newid, data);
