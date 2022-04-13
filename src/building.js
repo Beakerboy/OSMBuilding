@@ -335,7 +335,7 @@ class Building {
         if (parts[i].getAttribute('role') === 'outline') {
           newid = parts[i].getAttribute('ref');
         }
-        if (member_type === 'relationship') {
+        if (member_type === 'relation') {
           console.log('iteration not yet supported');
           member_id = parts[i].getAttribute('ref');
           member_data = await Building.getRelationData(ref);
