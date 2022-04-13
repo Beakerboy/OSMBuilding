@@ -43,7 +43,7 @@ class Building {
   constructor(id, FullXmlData) {
     this.id = id;
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
-    const outer_element_xml = this.full_xml_data.getElementById(id)
+    const outer_element_xml = this.full_xml_data.getElementById(id);
     if (Building.isValidData(outer_element_xml)) {
       this.setHome();
 
@@ -52,7 +52,7 @@ class Building {
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
     } else {
-      console.log("XML Not Valid")
+      console.log('XML Not Valid');
     }
   }
 
@@ -62,7 +62,7 @@ class Building {
   setHome() {
     const xmlElement = this.full_xml_data.getElementById(this.id);
     const building_type = xmlElement.tagName.toLowerCase();
-    const way_nodes = xmlElement.getElementsByTagName("nd");
+    const way_nodes = xmlElement.getElementsByTagName('nd');
     var lats = [];
     var lons = [];
     var node;
@@ -185,13 +185,13 @@ class Building {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const building_type = xml_data.querySelector('[k="building"]');
     if (!building_type) {
-      console.log("not a building");
+      console.log('not a building');
       console.log(xml_data);
     }
     const children = Array.from(xml_data.children);
     var elements = [];
     children.forEach(childtag => {
-      if (childtag.tagname ==='nd') {
+      if (childtag.tagname === 'nd') {
         elements.push(childtag.getAttribute('ref'));
       }
     });
@@ -277,7 +277,7 @@ class Building {
     const relation = xml_data.getElementById(id);
     const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
     
-    if (relation_type === "multipolygon") {
+    if (relation_type === 'multipolygon') {
       let parts = xml_data.getElementsByTagName('member');
       //<member type="way" ref="8821713" role="outer"/>
       //<member type="way" ref="28315757" role="inner"/>
@@ -290,8 +290,8 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         part = parts[i];
         if (part.getAttribute('role') === 'outer') {
-          way_ref = part.getAttribute("ref");
-          way_nodes = xml_data.getElementById(way_ref).getElementsByTagName("nd");
+          way_ref = part.getAttribute('ref');
+          way_nodes = xml_data.getElementById(way_ref).getElementsByTagName('nd');
           for (let j = 0; j < way_nodes.length; j++) {
             const node_ref = way_nodes[j].getAttribute('ref');
             const node = xml_data.querySelector('[id="' + node_ref + '"]');
@@ -311,7 +311,7 @@ class Building {
       return new Building(id, innerData);
     } else if (relation_type === 'building') {
       //<member type="way" ref="443679945" role="part"/>
-      let parts = xml_data.getElementsByTagName("member");
+      let parts = xml_data.getElementsByTagName('member');
       var member_type = '';
       var member_id = 0;
       var member_data;
@@ -321,7 +321,7 @@ class Building {
         if (parts[i].getAttribute('role') === 'outline') {
           newid = parts[i].getAttribute('ref');
         }
-        if (member_type === "relationship") {
+        if (member_type === 'relationship') {
           console.log('iteration not yet supported');
           member_id = parts[i].getAttribute('ref');
           member_data = await Building.getRelationData(ref);
