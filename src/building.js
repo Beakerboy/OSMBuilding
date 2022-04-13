@@ -93,6 +93,7 @@ class Building {
     let id = 0;
     var node;
     var coordinates = []
+    var nodelist = [];
     // create a BuildingShape object from the outer and inner elements.
     for(let j = 0;  j < node_list.length; j++) {
       node = node_list[j];
