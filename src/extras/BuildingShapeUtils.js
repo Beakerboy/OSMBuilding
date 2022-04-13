@@ -1,6 +1,26 @@
 class BuildingShapeUtils extends THREE.ShapeUtils {
 
   /**
+   * Create the shape of this way.
+   */
+  static createShape(way, nodelist) {
+    const elements = way.getElementsByTagName("nd");
+    const shape = new THREE.Shape();
+    var ref;
+    var node = [];
+    for (let i = 0; i < elements.length; i++) {
+      ref = elements[i].getAttribute("ref");
+      node = nodelist[ref];
+      if (i === 0) {
+        shape.moveTo(node[0], node[1]);
+      } else {
+        shape.lineTo(node[0], node[1]);
+      }
+    }
+    return shape;
+  }
+
+  /**
    * Calculate the radius of a circle that can fit within
    * this way.
    */
