@@ -28,7 +28,12 @@ class Building {
    * Create new building
    */
   static async create(type, id) {
-    const data = await Building.getWayData(id);
+    var data;
+    if (type === 'way') {
+      data = await Building.getWayData(id);
+    } else {
+      data = await Building.getRelationData(id);
+    }
     let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
     const nodelist = Building.buildNodeList(xml_data);
     const extents = Building.getExtents(id, xml_data, nodelist);
