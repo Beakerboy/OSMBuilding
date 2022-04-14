@@ -3,20 +3,20 @@ let apis = {
     api:'https://api.openstreetmap.org/api/0.6/map?bbox=',
     url: (left, bottom, right, top) => {
       return apis.bounding.api + left + ',' + bottom + ',' + right + ',' + top;
-    }
+    },
   },
-  get_relation: {
+  getRelation: {
     api:'https://api.openstreetmap.org/api/0.6/relation/',
     parameters:'/full',
-    url: (relation_id) => {
-      return apis.get_relation.api + relation_id + apis.get_relation.parameters;
-    }
+    url: (relationId) => {
+      return apis.getRelation.api + relationId + apis.getRelation.parameters;
+    },
   },
-  get_way: {
+  getWay: {
     api:'https://api.openstreetmap.org/api/0.6/way/',
     parameters:'/full',
-    url: (way_id) => {
-      return apis.get_way.api + way_id + apis.get_way.parameters;
-    }
-  }
+    url: (wayId) => {
+      return apis.getWay.api + wayId + apis.getWay.parameters;
+    },
+  },
 };

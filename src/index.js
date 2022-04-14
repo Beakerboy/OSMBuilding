@@ -14,7 +14,7 @@ function init() {
   var id = 66418809;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
-      .forEach(function (item) {
+      .forEach(function(item) {
         tmp = item.split('=');
         if (tmp[0] === 'type') {
           type = decodeURIComponent(tmp[1]);
@@ -35,14 +35,14 @@ function init() {
     document.documentElement.clientWidth /
       document.documentElement.clientHeight,
     0.1,
-    1000
+    1000,
   );
   renderer = new THREE.WebGLRenderer({
-    alpha: false
+    alpha: false,
   });
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight-20
+    document.documentElement.clientHeight-20,
   );
   renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.zIndex = 0;
@@ -55,9 +55,8 @@ function init() {
  */
 function createScene() {
   addLights();
- 
   camera.position.set(0, 0, 200); // x y z
-  
+
   controls = new THREE.OrbitControls( camera, renderer.domElement );
   function render() {
     requestAnimationFrame(render);
@@ -70,7 +69,7 @@ function createScene() {
 function addLights() {
   const ambientLight = new THREE.AmbientLight( 0xcccccc, 0.2 );
   scene.add( ambientLight );
-  
+
   var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
   hemiLight.position.set( 0, 500, 0 );
   scene.add( hemiLight );
@@ -92,6 +91,6 @@ function resize() {
   camera.updateProjectionMatrix();
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight
-  ); 
+    document.documentElement.clientHeight,
+  );
 }

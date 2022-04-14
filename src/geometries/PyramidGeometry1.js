@@ -6,7 +6,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     this.parameters = {
       shape: shape,
-      options: options
+      options: options,
     };
     const depth = options.depth;
     const center = options.center;
@@ -25,7 +25,6 @@ class PyramidGeometry extends THREE.BufferGeometry {
       positions.push(center[0], center[1], depth);
       positions.push(next_point.x, next_point.y, 0);
     }
- 
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
     // ToDo - add points correctly so only one face needs to be rendered.
     this.computeVertexNormals();

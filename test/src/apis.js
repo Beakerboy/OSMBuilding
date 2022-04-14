@@ -3,18 +3,18 @@ let apis = {
     api:'https://beakerboy.github.io/OSMBuilding/test/data/map/',
     url: (left, bottom, right, top) => {
       return apis.bounding.api + left + ',' + bottom + ',' + right + ',' + top;
-    }
+    },
   },
-  get_relation: {
+  getRelation: {
     api:'https://beakerboy.github.io/OSMBuilding/test/data/relation/',
-    url: (relation_id) => {
-      return apis.get_relation.api + relation_id;
-    }
+    url: (relationId) => {
+      return apis.getRelation.api + relationId;
+    },
   },
-  get_way: {
+  getWay: {
     api:'https://beakerboy.github.io/OSMBuilding/test/data/way/',
-    url: (way_id) => {
-      return apis.get_way.api + way_id;
-    }
-  }
+    url: (wayId) => {
+      return apis.getWay.api + wayId;
+    },
+  },
 };

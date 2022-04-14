@@ -11,7 +11,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     this.parameters = {
       shape: shape,
-      options: options
+      options: options,
     };
 
     const verticesArray = [];
@@ -40,7 +40,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
       //normals.push(0, 0, -1);
     }
 
-    // An Array of Indices i.e. [[3,2,0], [2,1,0]] 
+    // An Array of Indices i.e. [[3,2,0], [2,1,0]]
     const faces = THREE.ShapeUtils.triangulateShape(vertices, []);
     for (let k = 0; k < faces.length; k++) {
       indices.push(...faces[k]);

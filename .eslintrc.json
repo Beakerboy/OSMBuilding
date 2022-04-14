@@ -9,11 +9,9 @@
     "brace-style": [
       "error"
     ],
-    "camelcase": [
-      "error"
-    ],
     "comma-dangle": [
-      "error"
+      "error",
+      "always-multiline"
     ],
     "comma-spacing": [
       "error"
@@ -41,9 +39,6 @@
     "no-trailing-spaces": [
       "error"
     ],
-    "no-unused-vars": [
-      "error"
-    ],
     "quotes": [
       "error",
       "single"
@@ -53,7 +48,8 @@
       "always"
     ],
     "space-before-function-paren": [
-      "error"
+      "error",
+      "never"
     ]
   }
 }

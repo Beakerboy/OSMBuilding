@@ -67,51 +67,51 @@ function getBaseMaterial(material_name) {
       color: 0x00374a,
       emissive: 0x011d57,
       reflectivity: 0.1409,
-      clearcoat: 1
+      clearcoat: 1,
     } );
   } else if (material_name === 'grass'){
     material = new THREE.MeshLambertMaterial({
       color: 0x7ec850,
-      emissive: 0x000000
+      emissive: 0x000000,
     });
   } else if (material_name === 'bronze') {
-    material = new THREE.MeshPhysicalMaterial( {
+    material = new THREE.MeshPhysicalMaterial({
       color:0xcd7f32,
       emissive: 0x000000,
       metalness: 1,
-      roughness: .127
-    } );
+      roughness: 0.127,
+    });
   } else if (material_name === 'copper') {
-    material = new THREE.MeshLambertMaterial( { 
+    material = new THREE.MeshLambertMaterial({
       color: 0xa1c7b6,
       emissive: 0x00000,
-      reflectivity: 0
-    } );
+      reflectivity: 0,
+    });
   } else if (material_name === 'stainless_steel' || material_name === 'metal') {
-    material = new THREE.MeshPhysicalMaterial( {
+    material = new THREE.MeshPhysicalMaterial({
       color: 0xaaaaaa,
       emissive: 0xaaaaaa,
       metalness: 1,
-      roughness: .127
-    } );
+      roughness: 0.127,
+    });
   } else if (material_name === 'brick'){
     material = new THREE.MeshLambertMaterial({
       color: 0xcb4154,
-      emissive: 0x1111111
+      emissive: 0x1111111,
     });
   } else if (material_name === 'concrete'){
     material = new THREE.MeshLambertMaterial({
       color: 0x555555,
-      emissive: 0x1111111
+      emissive: 0x1111111,
     });
   } else if (material_name === 'marble') {
     material = new THREE.MeshLambertMaterial({
       color: 0xffffff,
-      emissive: 0x1111111
+      emissive: 0x1111111,
     });
   } else {
     material = new THREE.MeshLambertMaterial({
-      emissive: 0x1111111
+      emissive: 0x1111111,
     });
   }
   return material;
