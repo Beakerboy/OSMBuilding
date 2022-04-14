@@ -98,7 +98,7 @@ class BuildingPart {
 
     this.createRoof();
   }
-  
+
   createBuilding() {
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
@@ -175,7 +175,7 @@ class BuildingPart {
       scene.add( roof );
     }
   }
-  
+
   /**
    * The full height of the part in meters, roof and building.
    */
@@ -194,7 +194,7 @@ class BuildingPart {
         height = 0;
       }
     }
-  
+
     return BuildingPart.normalizeLength(height);
   }
 
