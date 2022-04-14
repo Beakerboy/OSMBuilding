@@ -28,7 +28,7 @@
     "no-unused-vars": [
       "error"
     ],
-    "keyward-spacing": [
+    "keyword-spacing": [
       "error"
     ],
     "space-before-function-paren": [
