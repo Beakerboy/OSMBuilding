@@ -225,7 +225,7 @@ class Building {
     }
     return true;
   }
-  
+
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
    */
@@ -240,7 +240,7 @@ class Building {
     const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
     const abs = Math.sqrt(z**2 + y**2);
     const arg = Math.atan(y / z) - theta_prime;
-  
+
     return [x, Math.sin(arg) * abs];
   }
 
