@@ -117,6 +117,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
       x.push(vec.x);
       y.push(vec.y);
     }
+    console.log([x, y]);
     return [x, y];
   }
 
@@ -134,7 +135,6 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     const bottom = Math.min(...y);
     const right = Math.max(...x);
     const top = Math.max(...y);
-    console.log([left, bottom, right, top]);
     return [left, bottom, right, top];
   }
 
