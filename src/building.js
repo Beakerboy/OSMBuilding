@@ -60,33 +60,22 @@ class Building {
   setHome() {
     const xmlElement = this.full_xml_data.getElementById(this.id);
     const building_type = xmlElement.tagName.toLowerCase();
-    const way_nodes = xmlElement.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    var node;
-    var ref;
-    for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute('ref');
-      node = this.full_xml_data.querySelector('[id="' + ref + '"]');
-      lats.push(node.getAttribute('lat'));
-      lons.push(node.getAttribute('lon'));
+    if (building_type === 'way') {
+      const shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
+    } else {
+      const shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
     }
-    // Get all building parts within the building
-    // Get max and min lat and log from the building
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
+    const extents = BuildingShapeUtils.extents(shape);
     // Set the "home point", the lat lon to center the structure.
-    const home_lon = (left + right) / 2;
-    const home_lat = (top + bottom) / 2;
+    const home_lon = (extents[0] + extents[2]) / 2;
+    const home_lat = (extents[1] + extents[3]) / 2;
     this.home = [home_lat, home_lon];
   }
 
   /**
    * translate all lat/log values to cartesian and store in an array
    */
-  static buildNodeList(full_xml_data, home) {
+  static buildNodeList(full_xml_data, home = []) {
     const node_list = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
@@ -97,10 +86,11 @@ class Building {
       node = node_list[j];
       id = node.getAttribute('id');
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
-      
-      // if (shape.surrounds(coordinates)) {
-      nodelist[id] = Building.repositionPoint(coordinates, home);
-      // }
+      if (home.length === 2) {
+        nodelist[id] = Building.repositionPoint(coordinates, home);
+      } else {
+        nodelist[id] = coordinates;
+      }
     }
     return nodelist;
   }
@@ -247,32 +237,10 @@ class Building {
   static async createWayBuilding(id) {
     const data = await Building.getWayData(id);
     let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
-    const way_nodes = xml_data.getElementsByTagName('nd');
-    // if it is a building, query all ways within the bounding box and reder the building parts.
-    // The way is a list of <nd ref=""> tags.
-    // Use the ref to look up the lat/log data from the unordered <node id="" lat="" lon=""> tags.
-    var lats = [];
-    var lons = [];
-    var lat = 0;
-    var lon = 0;
-    var node;
-    var ref;
-    for (let i = 0; i < way_nodes.length; i++) {
-      ref = way_nodes[i].getAttribute('ref');
-      node = xml_data.querySelector('[id="' + ref + '"]');
-      lat = node.getAttribute('lat');
-      lon = node.getAttribute('lon');
-      lats.push(lat);
-      lons.push(lon);
-    }
-    // Get all building parts within the building
-    // Get max and min lat and log from the building
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-
-    const innerData = await Building.getInnerData(left, bottom, right, top);
+    const nodelist = Building.buildNodeList(xml_data);
+    const shape = BuildingShapeUtils.createShape(xml_data, nodelist);
+    const extents = BuildingShapeUtils.extents(shape);
+    const innerData = await Building.getInnerData(...extents);
     return new Building(id, innerData);
   }
 
