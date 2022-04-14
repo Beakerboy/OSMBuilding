@@ -75,25 +75,25 @@ function getBaseMaterial(material_name) {
       emissive: 0x000000
     });
   } else if (material_name === 'bronze') {
-    material = new THREE.MeshPhysicalMaterial( {
+    material = new THREE.MeshPhysicalMaterial({
       color:0xcd7f32,
       emissive: 0x000000,
       metalness: 1,
       roughness: .127
-    } );
+    });
   } else if (material_name === 'copper') {
-    material = new THREE.MeshLambertMaterial( { 
+    material = new THREE.MeshLambertMaterial({
       color: 0xa1c7b6,
       emissive: 0x00000,
       reflectivity: 0
-    } );
+    });
   } else if (material_name === 'stainless_steel' || material_name === 'metal') {
-    material = new THREE.MeshPhysicalMaterial( {
+    material = new THREE.MeshPhysicalMaterial({
       color: 0xaaaaaa,
       emissive: 0xaaaaaa,
       metalness: 1,
       roughness: .127
-    } );
+    });
   } else if (material_name === 'brick'){
     material = new THREE.MeshLambertMaterial({
       color: 0xcb4154,
