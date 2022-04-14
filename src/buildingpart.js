@@ -31,6 +31,8 @@ class BuildingPart {
   // across or along the main direction.
   roof_orientation = 'along';
 
+  roof_shape;
+
   /**
    * @param {XMLElement} way - XML Element for the building part.
    * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
