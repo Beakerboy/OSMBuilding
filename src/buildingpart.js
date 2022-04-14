@@ -100,7 +100,7 @@ class BuildingPart {
   }
   
   createBuilding() {
-    const shape = Array.isArray(this.shape) ? this.shape : [this.shape]
+    const shape = Array.isArray(this.shape) ? this.shape : [this.shape];
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
     // ToDo If we have a multi-polygon, create the outer shape
