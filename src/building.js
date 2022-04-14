@@ -60,12 +60,37 @@ class Building {
   setHome() {
     const xmlElement = this.full_xml_data.getElementById(this.id);
     const building_type = xmlElement.tagName.toLowerCase();
+    var shape;
+    var extents;
     if (building_type === 'way') {
-      const shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
+      shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
+      extents = BuildingShapeUtils.extents(shape);
     } else {
-      const shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
+      const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
+      if (relation_type === 'multipolygon') {
+        let outer_members = xml_data.querySelectorAll('member[role="outer"]');
+        var shape;
+        var way;
+        for (let i = 0; i < outer_members.length; i++) {
+          way = this.full_xml_data.getElementById(outer_members[i].getAttribute('ref'));
+          shape = BuildingShapeUtils.createShape(way, this.nodelist);
+          const way_extents = BuildingShapeUtils.extents(shape);
+          if (i === 0) {
+            extents = way_extents;
+          } else {
+            extents[0] = Math.min(extents[0], way_extents[0]);
+            extents[1] = Math.min(extents[1], way_extents[1]);
+            extents[2] = Math.max(extents[2], way_extents[2]);
+            extents[3] = Math.max(extents[3], way_extents[3]);
+          }
+        }
+      } else {
+        let outline = xml_data.querySelectorAll('member[role="outline"]');
+        way = this.full_xml_data.getElementById(outline.getAttribute('ref'));
+        shape = BuildingShapeUtils.createShape(way, this.nodelist);
+        extents = BuildingShapeUtils.extents(shape);
+      }
     }
-    const extents = BuildingShapeUtils.extents(shape);
     // Set the "home point", the lat lon to center the structure.
     const home_lon = (extents[0] + extents[2]) / 2;
     const home_lat = (extents[1] + extents[3]) / 2;
