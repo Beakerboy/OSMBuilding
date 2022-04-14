@@ -48,32 +48,18 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   /**
    * Find the center of a closed way
    *
-   * this does not actually calculate the centroid.
+   * @return {[number, number]} xy - x/y coordinates of the center
    */
-  static centroid(pts) {
-    const elements = this.way.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    var ref;
-    var node;
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
-      node = this.nodelist[ref];
-      lats.push(node[0]);
-      lons.push(node[1]);
-    }
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-    const center = [(top + bottom) / 2, (left + right) / 2];
+  static center(shape) {
+    const extents = BuildingShapeUtils.extents(shape);
+    const center = [(extents[0] + extents[2] ) / 2, (extents[1]  + extents[3] ) / 2];
     return center;
   }
 
   /**
    * Find the centroid of a closed way.
    */
-  static real_centroid(pts) {
+  static centroid(pts) {
     const shape = shape.extractPoints().shape;
     const holes = shape.extractPoints().holes;
     const faces = BuildingShapeUtils.triangulateShape(shape, holes);
