@@ -205,7 +205,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     for (let i = 0; i < vecs.length - 1; i++) {
       vec = points[i];
       nextvec = points[i+1];
-      if {vec.x === point[0] && vec.y === point[1]} {
+      if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
       if ((vec.x >= point[0] || nextvec.x >= point[0]) && (vec.y >= point[1] !== nextvec.y >= point[1])) {
