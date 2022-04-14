@@ -86,32 +86,6 @@ class BuildingPart {
   }
 
   /**
-   * Find the center of a closed way
-   *
-   * Need to compensate for edge cases
-   *  - ways that cross the date line
-   */
-  centroid() {
-    const elements = this.way.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    var ref;
-    var node;
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
-      node = this.nodelist[ref];
-      lats.push(node[0]);
-      lons.push(node[1]);
-    }
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-    const center = [(top + bottom) / 2, (left + right) / 2];
-    return center;
-  }
-
-  /**
    * Render the building part
    */
   render() {
@@ -170,7 +144,7 @@ class BuildingPart {
       material = getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = this.calculateHeight() - this.calculateRoofHeight();
-      const center = this.centroid();
+      const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
@@ -181,7 +155,7 @@ class BuildingPart {
     } else if (roof_shape === 'hipped') {
     } else if (roof_shape === 'gabled') {
     } else if (roof_shape === 'pyramidal') {
-      const center = this.centroid();
+      const center = BuildingShapeUtils.center(this.shape);
       const options = {
         center: center,
         depth: this.roof_height
