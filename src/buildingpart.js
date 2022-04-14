@@ -164,7 +164,7 @@ class BuildingPart {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
         center: center,
-        depth: this.roof_height
+        depth: this.roof_height,
       };
       const geometry = new PyramidGeometry(this.shape, options);
 
