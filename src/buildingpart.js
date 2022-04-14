@@ -100,7 +100,6 @@ class BuildingPart {
   }
   
   createBuilding() {
-    const shape = Array.isArray(this.shape) ? this.shape : [this.shape];
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
     // ToDo If we have a multi-polygon, create the outer shape
@@ -109,18 +108,16 @@ class BuildingPart {
       bevelEnabled: false,
       depth: extrusion_height,
     };
-    for (let i = 0; i < shape.length; i++) {
-      const piece = shape[i];
-      var geometry = new THREE.ExtrudeGeometry(piece, extrudeSettings);
 
-      // Create the mesh.
-      var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
+    var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
 
-      // Change the position to compensate for the min_height
-      mesh.rotation.x = -Math.PI / 2;
-      mesh.position.set( 0, this.min_height, 0);
-      scene.add( mesh );
-    }
+    // Create the mesh.
+    var mesh = new THREE.Mesh(geometry, [getRoofMaterial(this.way), getMaterial(this.way)]);
+
+    // Change the position to compensate for the min_height
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set( 0, this.min_height, 0);
+    scene.add( mesh );
   }
 
   /**
