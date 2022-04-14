@@ -6,41 +6,28 @@
 class MultiBuildingPart extends BuildingPart {
 
   /**
-   * Create the shape of this way.
+   * @param {int} id - the ID of the multipolygon.
+   * @param {Xml} fullXmlData - full XML Data.
+   * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
+   * @param {object} options - default values for the building part.
    */
-  createShape() {
-    const outers = this.way.outer;
-    const inners = this.way.inner;
-    const shapes = this.createAllShapes(outers);
-    const holes = this.createAllShapes(inners);
-    for (let i = 0; i < shapes.length; i++) {
-      shapes[i].holes = holes;
+  constructor(id, fullXmlData, nodelist, options = {}) {
+    const multipolygon = full_xml_data.getElementById(id);
+    const inner_members = multipolygon.querySelectorAll('member[role="inner"]');
+    const outer_members = multipolygon.querySelectorAll('member[role="outer"]');
+    const inner_shapes = [];
+    for (let i = 0; i < inner_members.length; i++) {
+      const way = full_xml_data.getElementById(inner_members[i].getAttribute('ref'));
+      inner_shapes.push(BuildingShapeUtils.createSHape(way, nodelist));
     }
-    return shapes;
-  }
-
-  createAllShapes(ways) {
-    var way;
-    const shapes = [];
-    var elements;
-    var shape;
-    for (let j = 0; j < ways.length; j++) {
-      way = ways[i];
-      elements = way.getElementsByTagName('nd');
-      shape = new THREE.Shape();
-      var ref;
-      var node = [];
-      for (let i = 0; i < elements.length; i++) {
-        ref = elements[i].getAttribute('ref');
-        node = this.nodelist[ref];
-        if (i === 0) {
-          shape.moveTo(node[0], node[1]);
-        } else {
-          shape.lineTo(node[0], node[1]);
-        }
-      }
-      shapes.push(shape);
+    for (let j = 0; j < inner_members.length; j++) {
+      const way = full_xml_data.getElementById(outer_members[j].getAttribute('ref'));
+      const shape = BuildingShapeUtils.createShape(way, nodelist);
+      shape.holes.push(...inner_shapes);
+      this.shape.push(shape);
     }
-    return shapes;
+    this.way = way;
+    this.nodelist = nodelist;
+    this.setOptions(options);
   }
 }
