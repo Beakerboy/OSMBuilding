@@ -134,6 +134,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     const bottom = Math.min(...y);
     const right = Math.max(...x);
     const top = Math.max(...y);
+    console.log([left, bottom, right, top]);
     return [left, bottom, right, top];
   }
 
