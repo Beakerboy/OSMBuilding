@@ -34,9 +34,9 @@ class Building {
     } else {
       data = await Building.getRelationData(id);
     }
-    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
-    const nodelist = Building.buildNodeList(xml_data);
-    const extents = Building.getExtents(id, xml_data, nodelist);
+    let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
+    const nodelist = Building.buildNodeList(xmlData);
+    const extents = Building.getExtents(id, xmlData, nodelist);
     const innerData = await Building.getInnerData(...extents);
     return new Building(id, innerData);
   }
@@ -47,24 +47,24 @@ class Building {
   constructor(id, FullXmlData) {
     this.id = id;
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
-    const outer_element_xml = this.full_xml_data.getElementById(id);
-    if (outer_element_xml.tagName.toLowerCase() === 'way') {
+    const outerElementXml = this.full_xml_data.getElementById(id);
+    if (outerElementXml.tagName.toLowerCase() === 'way') {
       this.type = 'way';
-    } else if (outer_element_xml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
+    } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
       this.type = 'multipolygon';
     } else {
       this.type = 'relation';
     }
-    if (this.isValidData(outer_element_xml)) {
+    if (this.isValidData(outerElementXml)) {
       this.nodelist = Building.buildNodeList(this.full_xml_data);
       this.setHome();
       this.repositionNodes();
-      if (outer_element_xml.tagName.toLowerCase() === 'way') {
+      if (outerElementXml.tagName.toLowerCase() === 'way') {
         this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
-      } else if (outer_element_xml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
+      } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
         this.outer_element = new MultiBuildingPart(id, this.full_xml_data, this.nodelist);
       } else {
-        const outline_ref = outer_element_xml.querySelector('member[role="outline"]').getAttribute('ref');
+        const outline_ref = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
         const outline = this.full_xml_data.getElementById(id);
         const outline_type = outline.tagName.toLowerCase();
         if (outline_type === 'way') {
@@ -85,28 +85,28 @@ class Building {
   setHome() {
     const extents = Building.getExtents(this.id, this.full_xml_data, this.nodelist);
     // Set the "home point", the lat lon to center the structure.
-    const home_lon = (extents[0] + extents[2]) / 2;
-    const home_lat = (extents[1] + extents[3]) / 2;
-    this.home = [home_lat, home_lon];
+    const homeLon = (extents[0] + extents[2]) / 2;
+    const homeLat = (extents[1] + extents[3]) / 2;
+    this.home = [homeLat, homeLon];
   }
 
   /**
    * translate all lat/log values to cartesian and store in an array
    */
   static buildNodeList(full_xml_data) {
-    const node_list = full_xml_data.getElementsByTagName('node');
+    const nodeElements = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
     var coordinates = [];
-    var nodelist = [];
+    var nodeList = [];
     // create a BuildingShape object from the outer and inner elements.
     for(let j = 0; j < node_list.length; j++) {
-      node = node_list[j];
+      node = nodeElements[j];
       id = node.getAttribute('id');
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
-      nodelist[id] = coordinates;
+      nodeList[id] = coordinates;
     }
-    return nodelist;
+    return nodeList;
   }
 
   /**
