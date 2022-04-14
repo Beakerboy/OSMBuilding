@@ -264,8 +264,8 @@ class Building {
         }
       } else {
         let outline = xmlElement.querySelectorAll('member[role="outline"]');
-        way = this.full_xml_data.getElementById(outline.getAttribute('ref'));
-        shape = BuildingShapeUtils.createShape(way, this.nodelist);
+        way = fullXmlData.getElementById(outline.getAttribute('ref'));
+        shape = BuildingShapeUtils.createShape(way, nodelist);
         extents = BuildingShapeUtils.extents(shape);
       }
     }
