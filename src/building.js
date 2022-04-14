@@ -26,13 +26,12 @@ class Building {
    * Create new building
    */
   static async create(type, id) {
-    var building;
-    if (type === 'way') {
-      building = await Building.createWayBuilding(id);
-    } else {
-      building = await Building.createRelationBuilding(id);
-    }
-    return building;
+    const data = await Building.getWayData(id);
+    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
+    const nodelist = Building.buildNodeList(xml_data);
+    const extents = Building.getExtents(id, xml_data, nodelist);
+    const innerData = await Building.getInnerData(...extents);
+    return new Building(id, innerData);
   }
 
   /**
@@ -57,39 +56,7 @@ class Building {
    * the Home point is the center of the outer shape
    */
   setHome() {
-    const xmlElement = this.full_xml_data.getElementById(this.id);
-    const building_type = xmlElement.tagName.toLowerCase();
-    var shape;
-    var extents;
-    if (building_type === 'way') {
-      shape = BuildingShapeUtils.createShape(xmlElement, this.nodelist);
-      extents = BuildingShapeUtils.extents(shape);
-    } else {
-      const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
-      if (relation_type === 'multipolygon') {
-        let outer_members = xml_data.querySelectorAll('member[role="outer"]');
-        var shape;
-        var way;
-        for (let i = 0; i < outer_members.length; i++) {
-          way = this.full_xml_data.getElementById(outer_members[i].getAttribute('ref'));
-          shape = BuildingShapeUtils.createShape(way, this.nodelist);
-          const way_extents = BuildingShapeUtils.extents(shape);
-          if (i === 0) {
-            extents = way_extents;
-          } else {
-            extents[0] = Math.min(extents[0], way_extents[0]);
-            extents[1] = Math.min(extents[1], way_extents[1]);
-            extents[2] = Math.max(extents[2], way_extents[2]);
-            extents[3] = Math.max(extents[3], way_extents[3]);
-          }
-        }
-      } else {
-        let outline = xml_data.querySelectorAll('member[role="outline"]');
-        way = this.full_xml_data.getElementById(outline.getAttribute('ref'));
-        shape = BuildingShapeUtils.createShape(way, this.nodelist);
-        extents = BuildingShapeUtils.extents(shape);
-      }
-    }
+   const extents = Building.getExtents(this.id, this.full_xml_data, this.nodelist);
     // Set the "home point", the lat lon to center the structure.
     const home_lon = (extents[0] + extents[2]) / 2;
     const home_lat = (extents[1] + extents[3]) / 2;
@@ -250,90 +217,42 @@ class Building {
   }
 
   /**
-   * Create a building from a way ID
-   *
-   * This requires determining the bounds of the way, and querying for all other ways and relations
-   * within the bounding box. Then testing to ensure each is a building part that is within the
-   * area of the provided way.
-   *
-   * toDo: validate that the way is a building.
+   * Get the extents of the top level building.
    */
-  static async createWayBuilding(id) {
-    const data = await Building.getWayData(id);
-    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
-    const nodelist = Building.buildNodeList(xml_data);
-    const shape = BuildingShapeUtils.createShape(xml_data, nodelist);
-    const extents = BuildingShapeUtils.extents(shape);
-    const innerData = await Building.getInnerData(...extents);
-    return new Building(id, innerData);
-  }
-
-  /**
-   * Create a building when given a relation ID.
-   *
-   * This could either define a building relation, which links all the building parts together
-   * or a multiploygon. A multipolygon requires the same bounding box procedure as the
-   * createWayBuilding() method.
-   *
-   * A building relation requires iteration to drill down to successive parts.
-   */
-  static async createRelationBuilding(id) {
-    const data = await Building.getRelationData(id);
-    let xml_data = new window.DOMParser().parseFromString(data, 'text/xml');
-    const relation = xml_data.getElementById(id);
-    const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
-    
-    if (relation_type === 'multipolygon') {
-      let parts = xml_data.getElementsByTagName('member');
-      //<member type="way" ref="8821713" role="outer"/>
-      //<member type="way" ref="28315757" role="inner"/>
-      var part;
-      var ref;
-      var way_nodes;
-      var way_ref;
-      var lats = [];
-      var lons = [];
-      for (let i = 0; i < parts.length; i++) {
-        part = parts[i];
-        if (part.getAttribute('role') === 'outer') {
-          way_ref = part.getAttribute('ref');
-          way_nodes = xml_data.getElementById(way_ref).getElementsByTagName('nd');
-          for (let j = 0; j < way_nodes.length; j++) {
-            const node_ref = way_nodes[j].getAttribute('ref');
-            const node = xml_data.querySelector('[id="' + node_ref + '"]');
-            lats.push(node.getAttribute('lat'));
-            lons.push(node.getAttribute('lon'));
+  static getExtents(id, fullXmlData, nodelist) {
+    const xmlElement = fullXmlData.getElementById(id);
+    const building_type = xmlElement.tagName.toLowerCase();
+    var shape;
+    var extents;
+    if (building_type === 'way') {
+      shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
+      extents = BuildingShapeUtils.extents(shape);
+    } else {
+      const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
+      if (relation_type === 'multipolygon') {
+        let outer_members = xml_data.querySelectorAll('member[role="outer"]');
+        var shape;
+        var way;
+        for (let i = 0; i < outer_members.length; i++) {
+          way = this.full_xml_data.getElementById(outer_members[i].getAttribute('ref'));
+          shape = BuildingShapeUtils.createShape(way, this.nodelist);
+          const way_extents = BuildingShapeUtils.extents(shape);
+          if (i === 0) {
+            extents = way_extents;
+          } else {
+            extents[0] = Math.min(extents[0], way_extents[0]);
+            extents[1] = Math.min(extents[1], way_extents[1]);
+            extents[2] = Math.max(extents[2], way_extents[2]);
+            extents[3] = Math.max(extents[3], way_extents[3]);
           }
         }
+      } else {
+        let outline = xml_data.querySelectorAll('member[role="outline"]');
+        way = this.full_xml_data.getElementById(outline.getAttribute('ref'));
+        shape = BuildingShapeUtils.createShape(way, this.nodelist);
+        extents = BuildingShapeUtils.extents(shape);
       }
-      // Get all building parts within the building
-      // Get max and min lat and log from the building
-      const left = Math.min(...lons);
-      const bottom = Math.min(...lats);
-      const right = Math.max(...lons);
-      const top = Math.max(...lats);
-
-      const innerData = await Building.getInnerData(left, bottom, right, top);
-      return new Building(id, innerData);
-    } else if (relation_type === 'building') {
-      //<member type="way" ref="443679945" role="part"/>
-      let parts = xml_data.getElementsByTagName('member');
-      var member_type = '';
-      var member_id = 0;
-      var member_data;
-      var newid;
-      for (let i = 0; i < parts.length; i++) {
-        member_type = parts[i].getAttribute('type');
-        if (parts[i].getAttribute('role') === 'outline') {
-          newid = parts[i].getAttribute('ref');
-        }
-        if (member_type === 'relation') {
-          // The outline is a multipolygon.
-          const building = Building.create('relation', newid);
-          building.id = id;
-        }
-      }
-      return new Building(newid, data);
-    }    
+    }
+    return extents;
   }
 }
