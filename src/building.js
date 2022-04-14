@@ -40,7 +40,6 @@ class Building {
    */
   constructor(id, FullXmlData) {
     this.id = id;
-    console.log(FullXmlData);
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id);
     if (Building.isValidData(outer_element_xml)) {
@@ -197,11 +196,12 @@ class Building {
   static isValidData(xml_data) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const building_type = xml_data.querySelector('[k="building"]');
-    if (!building_type) {
-      console.log('not a building');
-      console.log(xml_data);
-      return false;
-    }
+    // A building relation outline might not be a building.
+    //if (!building_type) {
+    //  console.log('not a building');
+    //  console.log(xml_data);
+    //  return false;
+    //}
     const ways = [];
     if (xml_data.tagName === 'relation') {
       // get all
