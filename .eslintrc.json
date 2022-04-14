@@ -9,9 +9,6 @@
     "brace-style": [
       "error"
     ],
-    "camelcase": [
-      "error"
-    ],
     "comma-dangle": [
       "error"
     ],
