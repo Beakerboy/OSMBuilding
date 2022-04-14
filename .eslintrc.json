@@ -53,7 +53,8 @@
       "always"
     ],
     "space-before-function-paren": [
-      "error"
+      "error",
+      "never"
     ]
   }
 }
