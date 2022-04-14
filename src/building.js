@@ -44,10 +44,9 @@ class Building {
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id);
     if (Building.isValidData(outer_element_xml)) {
+      this.nodelist = Building.buildNodeList(this.full_xml_data);
       this.setHome();
-
       this.nodelist = Building.buildNodeList(this.full_xml_data, this.home);
-      
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
     } else {
