@@ -196,12 +196,6 @@ class Building {
   static isValidData(xml_data) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const building_type = xml_data.querySelector('[k="building"]');
-    // A building relation outline might not be a building.
-    //if (!building_type) {
-    //  console.log('not a building');
-    //  console.log(xml_data);
-    //  return false;
-    //}
     const ways = [];
     if (xml_data.tagName === 'relation') {
       // get all
@@ -212,6 +206,11 @@ class Building {
         ways.push(this.full_xml_data.getElementById(ref));
       }
     } else {
+      if (!building_type) {
+        console.log('Outer way is not a building');
+        console.log(xml_data);
+        return false;
+      }
       ways.push(xml_data);
     }
     for (let i = 0; i < ways.length; i++) {
