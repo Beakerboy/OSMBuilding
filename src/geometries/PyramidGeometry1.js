@@ -6,7 +6,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     this.parameters = {
       shape: shape,
-      options: options
+      options: options,
     };
     const depth = options.depth;
     const center = options.center;
