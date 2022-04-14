@@ -22,6 +22,8 @@ class Building {
   // the list of all nodes with lat/lon coordinates.
   nodelist = [];
 
+  // The type of building
+  type;
   /**
    * Create new building
    */
@@ -41,10 +43,18 @@ class Building {
     this.id = id;
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id);
+    if (outer_element_xml.tagName.toLowerCase() === 'way') {
+      this.type = 'way';
+    } else if (outer_element_xml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
+      this.type = 'multipolygon';
+    } else {
+      this.type = 'relation';
+    }
     if (Building.isValidData(outer_element_xml)) {
       this.nodelist = Building.buildNodeList(this.full_xml_data);
       this.setHome();
-      this.nodelist = Building.buildNodeList(this.full_xml_data, this.home);
+      this.repositionNodes();
+      // todo: Use a function instead to properly render multipolygon or relation outine.
       this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
       this.addParts();
     } else {
@@ -56,7 +66,7 @@ class Building {
    * the Home point is the center of the outer shape
    */
   setHome() {
-   const extents = Building.getExtents(this.id, this.full_xml_data, this.nodelist);
+    const extents = Building.getExtents(this.id, this.full_xml_data, this.nodelist);
     // Set the "home point", the lat lon to center the structure.
     const home_lon = (extents[0] + extents[2]) / 2;
     const home_lat = (extents[1] + extents[3]) / 2;
@@ -66,7 +76,7 @@ class Building {
   /**
    * translate all lat/log values to cartesian and store in an array
    */
-  static buildNodeList(full_xml_data, home = []) {
+  static buildNodeList(full_xml_data) {
     const node_list = full_xml_data.getElementsByTagName('node');
     let id = 0;
     var node;
@@ -77,15 +87,20 @@ class Building {
       node = node_list[j];
       id = node.getAttribute('id');
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
-      if (home.length === 2) {
-        nodelist[id] = Building.repositionPoint(coordinates, home);
-      } else {
-        nodelist[id] = coordinates;
-      }
+      nodelist[id] = coordinates;
     }
     return nodelist;
   }
-  
+
+  /**
+   *
+   */
+  repositionNodes() {
+    for (const key in this.nodelist) {
+      this.nodelist[key] = Building.repositionPoint(this.nodelist[key], this.home);
+    }
+  }
+
   render() {
     if (this.parts.length > 0) {
       for (let i = 0; i < this.parts.length; i++) {
@@ -97,36 +112,32 @@ class Building {
   }
 
   addParts() {
-    // Filter to all ways
-    var innerWays = this.full_xml_data.getElementsByTagName('way');
-    for (let j = 0; j < innerWays.length; j++) {
-      if (innerWays[j].querySelector('[k="building:part"]')) {
-        this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
-      }
-    }
-    // Filter all relations
-    innerWays = this.full_xml_data.getElementsByTagName('relation');
-    var way = {};
-    way.outers = [];
-    way.inners = [];
-    for (let i = 0; i < innerWays.length; i++) {
-      if (innerWays[i].querySelector('[k="building:part"]')) {
-        const outers = [];
-        const inners = [];
-        var ref;
-        let members = innerWays[i].getElementsByTagName('member');
-        var member_element;
-       
-        for (let j = 0; j < members.length; j++) {
-          ref = members[j].getAttribute('ref');
-          member_element = this.full_xml_data.getElementById(ref);
-          if (member_element[j].getAttribute('role') === 'outer') {
-            way.outers.push(member_element);
-          } else {
-            way.inners.push(member_element);
-          }
+    if (this.type === 'relation') {
+      let parts = this.full_xml_data.getElementById(this.id).querySelectorAll('member[role="part"]');
+      for(let i = 0; i < parts.length; i++) {
+        const ref = parts[i].getAttribute('ref');
+        const part = this.full_xml_data.getElementById(ref);
+        if (part.tagName === 'way') {
+          this.parts.push(new BuildingPart(part, this.nodelist));
+        } else {
+          this.parts.push(new MultiBuildingPart(ref, this.full_xml_data, this.nodelist));
         }
-        this.parts.push(new MultiBuildingPart(way, this.nodelist));
+      }
+    } else {
+      // Filter to all ways
+      var innerWays = this.full_xml_data.getElementsByTagName('way');
+      for (let j = 0; j < innerWays.length; j++) {
+        if (innerWays[j].querySelector('[k="building:part"]')) {
+          this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
+        }
+      }
+      // Filter all relations
+      innerWays = this.full_xml_data.getElementsByTagName('relation');
+      for (let i = 0; i < innerWays.length; i++) {
+        if (innerWays[i].querySelector('[k="building:part"]')) {
+          const ref = innerWays[i].getAttribute('ref');
+          this.parts.push(new MultiBuildingPart(ref, this.full_xml_data, this.nodelist));
+        }
       }
     }
   }
@@ -228,7 +239,7 @@ class Building {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
     } else {
-      const relation_type = relation.querySelector('[k="type"]').getAttribute('v');
+      const relation_type = xmlElement.querySelector('[k="type"]').getAttribute('v');
       if (relation_type === 'multipolygon') {
         let outer_members = xml_data.querySelectorAll('member[role="outer"]');
         var shape;
