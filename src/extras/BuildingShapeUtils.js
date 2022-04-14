@@ -12,9 +12,9 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
       ref = elements[i].getAttribute('ref');
       node = nodelist[ref];
       if (i === 0) {
-        shape.moveTo(floatval(node[0]), floatval(node[1]));
+        shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));
       } else {
-        shape.lineTo(floatval(node[0]), floatval(node[1]));
+        shape.lineTo(parseFloat(node[0]), parseFloat(node[1]));
       }
     }
     return shape;
