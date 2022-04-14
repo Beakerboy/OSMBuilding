@@ -132,7 +132,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   }
 
   /**
-   * Calculate the length of each of a shape's edge 
+   * Calculate the length of each of a shape's edge
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
@@ -151,7 +151,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   }
 
   /**
-   * Calculate the angle at each of a shape's vertex 
+   * Calculate the angle at each of a shape's vertex
    */
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
