@@ -189,4 +189,29 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     return angles;
   }
+
+  /**
+   * Count the number of times that a line horizontal from point intersects shape
+   *
+   * if an odd number are crossed, it is inside.
+   * todo, test holes
+   * Test edge conditions.
+   */
+  static surrounds(shape, point) {
+    var count = 0;
+    const vecs = shape.extractPoints().shape;
+    var vec;
+    var nextvec;
+    for (let i = 0; i < vecs.length - 1; i++) {
+      vec = points[i];
+      nextvec = points[i+1];
+      if {vec.x === point[0] && vec.y === point[1]} {
+        return true;
+      }
+      if ((vec.x >= point[0] || nextvec.x >= point[0]) && (vec.y >= point[1] !== nextvec.y >= point[1])) {
+        count++
+      }
+    }
+    return count % 2 === 1;
+  }
 }
