@@ -209,7 +209,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
         return true;
       }
       if ((vec.x >= point[0] || nextvec.x >= point[0]) && (vec.y >= point[1] !== nextvec.y >= point[1])) {
-        count++
+        count++;
       }
     }
     return count % 2 === 1;
