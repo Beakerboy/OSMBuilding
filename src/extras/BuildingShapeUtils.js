@@ -11,7 +11,6 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute('ref');
       node = nodelist[ref];
-      console.log(node);
       if (i === 0) {
         shape.moveTo(floatval(node[0]), floatval(node[1]));
       } else {
