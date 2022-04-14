@@ -24,6 +24,33 @@
     ],
     "no-console": [
       0
-    ]
+    ],
+    "no-unused-vars": [
+      "error"
+    ],
+    "keyward-spacing": [
+      "error"
+    ],
+    "space-before-function-paren": [
+      "error"
+    ],
+    "eqeqeq": [
+      "error"
+    ],
+    "comma-dangle": [
+      "error"
+    ],
+    "comma-spacing": [
+      "error"
+    ],
+    "comma-style": [
+      "error"
+    ],
+    "brace-style": [
+      "error"
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
   }
 }
