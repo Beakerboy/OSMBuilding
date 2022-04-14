@@ -6,35 +6,10 @@
     "es6": true
   },
   "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "no-console": [
-      0
-    ],
-    "no-unused-vars": [
+    "brace-style": [
       "error"
     ],
-    "keyword-spacing": [
-      "error"
-    ],
-    "space-before-function-paren": [
-      "error"
-    ],
-    "eqeqeq": [
+    "camelcase": [
       "error"
     ],
     "comma-dangle": [
@@ -46,10 +21,38 @@
     "comma-style": [
       "error"
     ],
-    "brace-style": [
+    "eqeqeq": [
       "error"
     ],
+    "indent": [
+      "error",
+      2
+    ],
+    "keyword-spacing": [
+      "error"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-console": [
+      0
+    ],
     "no-trailing-spaces": [
+      "error"
+    ],
+    "no-unused-vars": [
+      "error"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
       "error"
     ]
   }
