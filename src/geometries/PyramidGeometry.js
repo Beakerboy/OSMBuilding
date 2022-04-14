@@ -11,7 +11,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
 
     this.parameters = {
       shape: shape,
-      options: options
+      options: options,
     };
 
     const verticesArray = [];
