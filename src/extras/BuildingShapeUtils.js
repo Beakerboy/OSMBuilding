@@ -13,9 +13,9 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
       node = nodelist[ref];
       console.log(node);
       if (i === 0) {
-        shape.moveTo(node[0], node[1]);
+        shape.moveTo(floatval(node[0]), floatval(node[1]));
       } else {
-        shape.lineTo(node[0], node[1]);
+        shape.lineTo(floatval(node[0]), floatval(node[1]));
       }
     }
     return shape;
