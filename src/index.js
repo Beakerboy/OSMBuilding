@@ -35,14 +35,14 @@ function init() {
     document.documentElement.clientWidth /
       document.documentElement.clientHeight,
     0.1,
-    1000
+    1000,
   );
   renderer = new THREE.WebGLRenderer({
-    alpha: false
+    alpha: false,
   });
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight-20
+    document.documentElement.clientHeight-20,
   );
   renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.zIndex = 0;
@@ -91,6 +91,6 @@ function resize() {
   camera.updateProjectionMatrix();
   renderer.setSize(
     document.documentElement.clientWidth,
-    document.documentElement.clientHeight
+    document.documentElement.clientHeight,
   );
 }
