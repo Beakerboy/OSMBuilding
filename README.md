@@ -24,7 +24,7 @@ Examples:
  * Simple building with no parts - [Washington Monument](https://beakerboy.github.io/OSMBuilding/index.html?id=766761337)
  * Glass - [Petronas Towers](https://beakerboy.github.io/OSMBuilding/index.html?id=279944536)
  * Dome Roof - [Jefferson Memorial](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=3461570)
- * Dome and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?id=66418809)
+ * Dome and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12286916)
  * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
  * Building Relation [Burj Khalifa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=7584462)
  
