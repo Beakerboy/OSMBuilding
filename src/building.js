@@ -100,7 +100,7 @@ class Building {
     var coordinates = [];
     var nodeList = [];
     // create a BuildingShape object from the outer and inner elements.
-    for(let j = 0; j < node_list.length; j++) {
+    for (let j = 0; j < node_list.length; j++) {
       node = nodeElements[j];
       id = node.getAttribute('id');
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
@@ -131,7 +131,7 @@ class Building {
   addParts() {
     if (this.type === 'relation') {
       let parts = this.full_xml_data.getElementById(this.id).querySelectorAll('member[role="part"]');
-      for(let i = 0; i < parts.length; i++) {
+      for (let i = 0; i < parts.length; i++) {
         const ref = parts[i].getAttribute('ref');
         const part = this.full_xml_data.getElementById(ref);
         if (part.tagName === 'way') {
@@ -218,7 +218,7 @@ class Building {
         }
       });
       // Check that it is a closed way
-      if(elements[0] !== elements[elements.length - 1]) {
+      if (elements[0] !== elements[elements.length - 1]) {
         console.log('not a closed way');
         return false;
       }
