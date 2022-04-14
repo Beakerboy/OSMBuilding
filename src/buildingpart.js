@@ -19,6 +19,9 @@ class BuildingPart {
   min_height;
   roof_height;
 
+  roof_material;
+  building_material;
+
   // skillion roof, angle can be given instead of height.
   roof_angle;
 
