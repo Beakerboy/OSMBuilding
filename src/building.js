@@ -55,12 +55,24 @@ class Building {
     } else {
       this.type = 'relation';
     }
-    if (Building.isValidData(outer_element_xml)) {
+    if (this.isValidData(outer_element_xml)) {
       this.nodelist = Building.buildNodeList(this.full_xml_data);
       this.setHome();
       this.repositionNodes();
-      // todo: Use a function instead to properly render multipolygon or relation outine.
-      this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
+      if (outer_element_xml.tagName.toLowerCase() === 'way') {
+        this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
+      } else if (outer_element_xml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
+        this.outer_element = new MultiBuildingPart(id, this.full_xml_data, this.nodelist);
+      } else {
+        const outline_ref = outer_element_xml.querySelector('member[role="outline"]').getAttribute('ref');
+        const outline = this.full_xml_data.getElementById(id);
+        const outline_type = outline.tagName.toLowerCase();
+        if (outline_type === 'way') {
+          this.outer_element = new BuildingPart(outer_element_xml, this.nodelist);
+        } else {
+          this.outer_element = new MultiBuildingPart(outline_ref, this.full_xml_data, this.nodelist);
+        }
+      }
       this.addParts();
     } else {
       console.log('XML Not Valid');
@@ -176,7 +188,7 @@ class Building {
   /**
    * validate that we have the ID of a building way.
    */
-  static isValidData(xml_data) {
+  isValidData(xml_data) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const building_type = xml_data.querySelector('[k="building"]');
     const ways = [];
