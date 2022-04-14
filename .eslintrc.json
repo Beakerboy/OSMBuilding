@@ -10,7 +10,9 @@
       "error"
     ],
     "comma-dangle": [
-      "error"
+      "error", {
+        "always-multiline"
+      }
     ],
     "comma-spacing": [
       "error"
