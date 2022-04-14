@@ -82,7 +82,7 @@ class Building {
     var coordinates = [];
     var nodelist = [];
     // create a BuildingShape object from the outer and inner elements.
-    for(let j = 0;  j < node_list.length; j++) {
+    for(let j = 0; j < node_list.length; j++) {
       node = node_list[j];
       id = node.getAttribute('id');
       coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
