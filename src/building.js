@@ -263,7 +263,7 @@ class Building {
           }
         }
       } else {
-        let outline = xml_element.querySelectorAll('member[role="outline"]');
+        let outline = xmlElement.querySelectorAll('member[role="outline"]');
         way = this.full_xml_data.getElementById(outline.getAttribute('ref'));
         shape = BuildingShapeUtils.createShape(way, this.nodelist);
         extents = BuildingShapeUtils.extents(shape);
