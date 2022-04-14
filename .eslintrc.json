@@ -39,9 +39,6 @@
     "no-trailing-spaces": [
       "error"
     ],
-    "no-unused-vars": [
-      "error"
-    ],
     "quotes": [
       "error",
       "single"
