@@ -40,6 +40,7 @@ class Building {
    */
   constructor(id, FullXmlData) {
     this.id = id;
+    console.log(fullXmlData);
     this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
     const outer_element_xml = this.full_xml_data.getElementById(id);
     if (Building.isValidData(outer_element_xml)) {
