@@ -163,14 +163,14 @@ class Building {
    * Fetch way data from OSM
    */
   static async getWayData(id) {
-    let restPath = apis.get_way.url(id);
+    let restPath = apis.getWay.url(id);
     let response = await fetch(restPath);
     let text = await response.text();
     return text;
   }
 
   static async getRelationData(id) {
-    let restPath = apis.get_relation.url(id);
+    let restPath = apis.getRelation.url(id);
     let response = await fetch(restPath);
     let text = await response.text();
     return text;
