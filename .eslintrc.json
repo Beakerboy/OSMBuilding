@@ -6,6 +6,9 @@
     "browser": true,
     "es6": true
   },
+  "globals": {
+    "THREE": "readonly"
+  },
   "rules": {
     "brace-style": [
       "error"
