@@ -5,11 +5,6 @@
  */
 class MultiBuildingPart extends BuildingPart {
 
-  constructor(id, fullXmlData, nodelist, options = {}) {
-    super();
-    this.fullXmlData = fullXmlData;
-  }
-
   buildShape() {
     const inner_members = this.way.querySelectorAll('member[role="inner"]');
     const outer_members = this.way.querySelectorAll('member[role="outer"]');
