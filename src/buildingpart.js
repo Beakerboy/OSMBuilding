@@ -43,7 +43,6 @@ class BuildingPart {
     this.nodelist = nodelist;
     this.setOptions(options);
     this.shape = this.buildShape();
-    this.shape = BuildingShapeUtils.createShape(this.way, this.nodelist);
   }
 
  buildShape() {
