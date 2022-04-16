@@ -10,7 +10,7 @@
     "THREE": "readonly",
     "BuildingPart": "readonly",
     "MultiBuildingPart": "readonly",
-    "scene": true,
+    "scene": true
   },
   "rules": {
     "brace-style": [
