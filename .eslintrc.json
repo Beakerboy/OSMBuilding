@@ -10,6 +10,8 @@
     "BuildingPart": true,
     "BuildingShapeUtils": true,
     "MultiBuildingPart": true,
+    "PyramidGeometry": true,
+    "Shape": true,
     "THREE": true,
     "Vector2": true,
     "apis": true,
