@@ -14,6 +14,7 @@ class MultiBuildingPart extends BuildingPart {
     const inner_members = this.way.querySelectorAll('member[role="inner"]');
     const outer_members = this.way.querySelectorAll('member[role="outer"]');
     const inner_shapes = [];
+    var shapes = [];
     for (let i = 0; i < inner_members.length; i++) {
       const way = this.fullXmlData.getElementById(inner_members[i].getAttribute('ref'));
       inner_shapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
@@ -22,7 +23,8 @@ class MultiBuildingPart extends BuildingPart {
       const way = fullXmlData.getElementById(outer_members[j].getAttribute('ref'));
       const shape = BuildingShapeUtils.createShape(way, this.nodelist);
       shape.holes.push(...inner_shapes);
-      this.shape.push(shape);
+      shapes.push(shape);
     }
+    return shapes;
   }
 }
