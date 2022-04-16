@@ -39,7 +39,7 @@ class BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, options = {}) {
-    this.way = fullXmlData.getElementById(id);
+    this.way = [fullXmlData.getElementById(id)];
     this.nodelist = nodelist;
     this.setOptions(options);
     this.shape = BuildingShapeUtils.createShape(this.way, this.nodelist);
