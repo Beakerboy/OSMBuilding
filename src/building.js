@@ -143,7 +143,7 @@ class Building {
     } else {
       // Filter to all ways
       var parts = this.fullXmlData.getElementsByTagName('way');
-      for (let j = 0; j < innerWays.length; j++) {
+      for (let j = 0; j < parts.length; j++) {
         if (parts[j].querySelector('[k="building:part"]')) {
           const ref = parts[j].getAttribute('ref');
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
@@ -151,7 +151,7 @@ class Building {
       }
       // Filter all relations
       parts = this.fullXmlData.getElementsByTagName('relation');
-      for (let i = 0; i < innerWays.length; i++) {
+      for (let i = 0; i < parts.length; i++) {
         if (parts[j].querySelector('[k="building:part"]')) {
           const ref = parts[i].getAttribute('ref');
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
