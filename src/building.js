@@ -259,7 +259,7 @@ class Building {
     } else {
       const relation_type = xmlElement.querySelector('[k="type"]').getAttribute('v');
       if (relation_type === 'multipolygon') {
-        let outer_members = xml_data.querySelectorAll('member[role="outer"]');
+        let outer_members = xmlElement.querySelectorAll('member[role="outer"]');
         var shape;
         var way;
         for (let i = 0; i < outer_members.length; i++) {
