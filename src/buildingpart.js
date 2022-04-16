@@ -268,7 +268,7 @@ class BuildingPart {
     }
     const material = BuildingPart.getBaseMaterial(material_name);
     if (color !== '') {
-        material.color = new THREE.Color(color);
+      material.color = new THREE.Color(color);
     } else if (material_name === ''){
       material.color = new THREE.Color('white');
     }
