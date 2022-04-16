@@ -142,16 +142,20 @@ class Building {
       }
     } else {
       // Filter to all ways
-      var parts = this.fullXmlData.getElementsByTagName('way').querySelector('[k="building:part"]');
+      var parts = this.fullXmlData.getElementsByTagName('way');
       for (let j = 0; j < innerWays.length; j++) {
-        const ref = parts[j].getAttribute('ref');
-        this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
+        if (parts[j].querySelector('[k="building:part"]')) {
+          const ref = parts[j].getAttribute('ref');
+          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
+        }
       }
       // Filter all relations
-      parts = this.fullXmlData.getElementsByTagName('relation').querySelector('[k="building:part"]');
+      parts = this.fullXmlData.getElementsByTagName('relation');
       for (let i = 0; i < innerWays.length; i++) {
-        const ref = parts[i].getAttribute('ref');
-        this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
+        if (parts[j].querySelector('[k="building:part"]')) {
+          const ref = parts[i].getAttribute('ref');
+          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
+        }
       }
     }
   }
