@@ -38,8 +38,8 @@ class BuildingPart {
    * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
-  constructor(way, nodelist, options = {}) {
-    this.way = way;
+  constructor(id, fullXmlData, nodelist, options = {}) {
+    this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
     this.setOptions(options);
     this.shape = BuildingShapeUtils.createShape(this.way, this.nodelist);
