@@ -148,7 +148,7 @@ class BuildingPart {
         roof_height = R;
       }
       geometry.scale(1, roof_height / R, 1);
-      material = getRoofMaterial(this.way);
+      material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = this.calculateHeight() - this.calculateRoofHeight();
       const center = BuildingShapeUtils.center(this.shape);
