@@ -5,14 +5,7 @@
  */
 class MultiBuildingPart extends BuildingPart {
 
-  /**
-   * @param {int} id - the ID of the multipolygon.
-   * @param {Xml} fullXmlData - full XML Data.
-   * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
-   * @param {object} options - default values for the building part.
-   */
-  constructor(id, fullXmlData, nodelist, options = {}) {
-    super();
+  setWay(id, fullXmlData) {
     const multipolygon = fullXmlData.getElementById(id);
     const inner_members = multipolygon.querySelectorAll('member[role="inner"]');
     const outer_members = multipolygon.querySelectorAll('member[role="outer"]');
@@ -28,7 +21,5 @@ class MultiBuildingPart extends BuildingPart {
       this.shape.push(shape);
     }
     this.way = way;
-    this.nodelist = nodelist;
-    this.setOptions(options);
   }
 }
