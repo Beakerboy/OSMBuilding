@@ -7,9 +7,12 @@
     "es6": true
   },
   "globals": {
-    "THREE": "readonly",
-    "BuildingPart": "readonly",
-    "MultiBuildingPart": "readonly",
+    "BuildingPart": true,
+    "BuildingShapeUtils": true,
+    "MultiBuildingPart": true,
+    "THREE": true,
+    "Vector2": true,
+    "apis': true,
     "scene": true
   },
   "rules": {
