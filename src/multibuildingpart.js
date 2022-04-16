@@ -6,13 +6,13 @@
 class MultiBuildingPart extends BuildingPart {
 
   setWay(id, fullXmlData) {
-    const multipolygon = fullXmlData.getElementById(id);
-    const inner_members = multipolygon.querySelectorAll('member[role="inner"]');
-    const outer_members = multipolygon.querySelectorAll('member[role="outer"]');
-    const inner_shapes = [];
+    this.way = fullXmlData.getElementById(id);
+    const inner_members = this.way.querySelectorAll('member[role="inner"]');
+    const outer_members = this.way.querySelectorAll('member[role="outer"]');
+    const this.inner_shapes = [];
     for (let i = 0; i < inner_members.length; i++) {
       const way = fullXmlData.getElementById(inner_members[i].getAttribute('ref'));
-      inner_shapes.push(BuildingShapeUtils.createSHape(way, nodelist));
+      this.inner_shapes.push(BuildingShapeUtils.createSHape(way, nodelist));
     }
     for (let j = 0; j < inner_members.length; j++) {
       const way = fullXmlData.getElementById(outer_members[j].getAttribute('ref'));
@@ -20,6 +20,5 @@ class MultiBuildingPart extends BuildingPart {
       shape.holes.push(...inner_shapes);
       this.shape.push(shape);
     }
-    this.way = way;
   }
 }
