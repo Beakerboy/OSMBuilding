@@ -60,7 +60,7 @@ class Building {
       this.setHome();
       this.repositionNodes();
       if (outerElementXml.tagName.toLowerCase() === 'way') {
-        this.outer_element = new BuildingPart(id, FullXmlData, this.nodelist);
+        this.outer_element = new BuildingPart(id, this.fullXmlData, this.nodelist);
       } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
         this.outer_element = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
@@ -68,7 +68,7 @@ class Building {
         const outline = this.fullXmlData.getElementById(id);
         const outline_type = outline.tagName.toLowerCase();
         if (outline_type === 'way') {
-          this.outer_element = new BuildingPart(id, FullXmlData, this.nodelist);
+          this.outer_element = new BuildingPart(id, this.fullXmlData, this.nodelist);
         } else {
           this.outer_element = new MultiBuildingPart(outline_ref, this.fullXmlData, this.nodelist);
         }
