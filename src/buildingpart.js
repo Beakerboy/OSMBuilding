@@ -33,12 +33,16 @@ class BuildingPart {
 
   roof_shape;
 
+  fullXmlData;
+
   /**
    * @param {XMLElement} way - XML Element for the building part.
    * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, options = {}) {
+    this.fullXmlData = fullXmlData;
+    this.id = id;
     this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
     this.setOptions(options);
