@@ -12,6 +12,7 @@ class MultiBuildingPart extends BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, options = {}) {
+    super();
     const multipolygon = fullXmlData.getElementById(id);
     const inner_members = multipolygon.querySelectorAll('member[role="inner"]');
     const outer_members = multipolygon.querySelectorAll('member[role="outer"]');
