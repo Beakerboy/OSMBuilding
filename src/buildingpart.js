@@ -46,7 +46,7 @@ class BuildingPart {
   }
 
   setWay(id, fullXmlData) {
-    this.way = [fullXmlData.getElementById(id)];
+    this.way = fullXmlData.getElementById(id);
   }
 
   /**
