@@ -7,7 +7,10 @@
     "es6": true
   },
   "globals": {
-    "THREE": "readonly"
+    "THREE": "readonly",
+    "BuildingPart": "readonly",
+    "MultiBuildingPart": "readonly",
+    "scene": true,
   },
   "rules": {
     "brace-style": [
