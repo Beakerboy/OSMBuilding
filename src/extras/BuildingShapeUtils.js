@@ -57,26 +57,6 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   }
 
   /**
-   * Find the centroid of a closed way.
-   */
-  static centroid(pts) {
-    const shape = shape.extractPoints().shape;
-    const holes = shape.extractPoints().holes;
-    const faces = BuildingShapeUtils.triangulateShape(shape, holes);
-    // array of vectors
-    var centroids = [];
-    // array of scalars.
-    var areas = [];
-    // foreach face, calculate area and centroid.
-    // centroids.push([face.avex, face.avey]);
-    // area.push(HeronsFormula(face));
-    const totalArea = Math.sum(...areas);
-    // multiply each centroid by its area and divide by the total area.
-    // sum the vectors.
-    return center;
-  }
-
-  /**
    * Return the longest cardinal side length.
    *
    * @param {THREE.Shape} shape - the shape
@@ -162,17 +142,17 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     p0 = points[points.length];
     p1 = points[0];
     p2 = points[1];
-    angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     for (let i = 1; i < points.length - 1; i++) {
       p0 = points[i-1];
       p1 = points[i];
       p2 = points[i + 1];
-      angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     }
     p0 = points[points.length-1];
     p1 = points[points.length];
     p2 = points[0];
-    angle.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     return angles;
   }
 
