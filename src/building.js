@@ -15,7 +15,7 @@ class Building {
   outer_element;
 
   // DOM Tree of all elements to render
-  full_xml_data;
+  fullXmlData;
 
   id = 0;
 
@@ -46,8 +46,8 @@ class Building {
    */
   constructor(id, FullXmlData) {
     this.id = id;
-    this.full_xml_data = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
-    const outerElementXml = this.full_xml_data.getElementById(id);
+    this.fullXmlData = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
+    const outerElementXml = this.fullXmlData.getElementById(id);
     if (outerElementXml.tagName.toLowerCase() === 'way') {
       this.type = 'way';
     } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
@@ -56,21 +56,21 @@ class Building {
       this.type = 'relation';
     }
     if (this.isValidData(outerElementXml)) {
-      this.nodelist = Building.buildNodeList(this.full_xml_data);
+      this.nodelist = Building.buildNodeList(this.fullXmlData);
       this.setHome();
       this.repositionNodes();
       if (outerElementXml.tagName.toLowerCase() === 'way') {
-        this.outer_element = new BuildingPart(outerElementXml, this.nodelist);
+        this.outer_element = new BuildingPart(id, FullXmlData, this.nodelist);
       } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
-        this.outer_element = new MultiBuildingPart(id, this.full_xml_data, this.nodelist);
+        this.outer_element = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
         const outline_ref = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.full_xml_data.getElementById(id);
+        const outline = this.fullXmlData.getElementById(id);
         const outline_type = outline.tagName.toLowerCase();
         if (outline_type === 'way') {
-          this.outer_element = new BuildingPart(outerElementXml, this.nodelist);
+          this.outer_element = new BuildingPart(id, FullXmlData, this.nodelist);
         } else {
-          this.outer_element = new MultiBuildingPart(outline_ref, this.full_xml_data, this.nodelist);
+          this.outer_element = new MultiBuildingPart(outline_ref, this.fullXmlData, this.nodelist);
         }
       }
       this.addParts();
@@ -83,7 +83,7 @@ class Building {
    * the Home point is the center of the outer shape
    */
   setHome() {
-    const extents = Building.getExtents(this.id, this.full_xml_data, this.nodelist);
+    const extents = Building.getExtents(this.id, this.fullXmlData, this.nodelist);
     // Set the "home point", the lat lon to center the structure.
     const homeLon = (extents[0] + extents[2]) / 2;
     const homeLat = (extents[1] + extents[3]) / 2;
@@ -93,8 +93,8 @@ class Building {
   /**
    * translate all lat/log values to cartesian and store in an array
    */
-  static buildNodeList(full_xml_data) {
-    const nodeElements = full_xml_data.getElementsByTagName('node');
+  static buildNodeList(fullXmlData) {
+    const nodeElements = fullXmlData.getElementsByTagName('node');
     let id = 0;
     var node;
     var coordinates = [];
@@ -130,31 +130,28 @@ class Building {
 
   addParts() {
     if (this.type === 'relation') {
-      let parts = this.full_xml_data.getElementById(this.id).querySelectorAll('member[role="part"]');
+      let parts = this.fullXmlData.getElementById(this.id).querySelectorAll('member[role="part"]');
       for (let i = 0; i < parts.length; i++) {
         const ref = parts[i].getAttribute('ref');
-        const part = this.full_xml_data.getElementById(ref);
+        const part = this.fullDmlData.getElementById(ref);
         if (part.tagName === 'way') {
-          this.parts.push(new BuildingPart(part, this.nodelist));
+          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
         } else {
-          this.parts.push(new MultiBuildingPart(ref, this.full_xml_data, this.nodelist));
+          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
         }
       }
     } else {
       // Filter to all ways
-      var innerWays = this.full_xml_data.getElementsByTagName('way');
+      var parts = this.fullXmlData.getElementsByTagName('way').querySelector('[k="building:part"]');
       for (let j = 0; j < innerWays.length; j++) {
-        if (innerWays[j].querySelector('[k="building:part"]')) {
-          this.parts.push(new BuildingPart(innerWays[j], this.nodelist));
-        }
+        const ref = parts[j].getAttribute('ref');
+        this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
       }
       // Filter all relations
-      innerWays = this.full_xml_data.getElementsByTagName('relation');
+      parts = this.fullXmlData.getElementsByTagName('relation').querySelector('[k="building:part"]');
       for (let i = 0; i < innerWays.length; i++) {
-        if (innerWays[i].querySelector('[k="building:part"]')) {
-          const ref = innerWays[i].getAttribute('ref');
-          this.parts.push(new MultiBuildingPart(ref, this.full_xml_data, this.nodelist));
-        }
+        const ref = parts[i].getAttribute('ref');
+        this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
       }
     }
   }
@@ -198,7 +195,7 @@ class Building {
       var ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
-        ways.push(this.full_xml_data.getElementById(ref));
+        ways.push(this.fullXmlData.getElementById(ref));
       }
     } else {
       if (!building_type) {
@@ -262,7 +259,7 @@ class Building {
         var shape;
         var way;
         for (let i = 0; i < outer_members.length; i++) {
-          way = this.full_xml_data.getElementById(outer_members[i].getAttribute('ref'));
+          way = this.fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
           shape = BuildingShapeUtils.createShape(way, this.nodelist);
           const way_extents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
