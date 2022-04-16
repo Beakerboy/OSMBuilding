@@ -49,9 +49,9 @@ class BuildingPart {
     this.shape = this.buildShape();
   }
 
- buildShape() {
-   return BuildingShapeUtils.createShape(this.way, this.nodelist);
- }
+  buildShape() {
+    return BuildingShapeUtils.createShape(this.way, this.nodelist);
+  }
 
   /**
    * Set the object's options
