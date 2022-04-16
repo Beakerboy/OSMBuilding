@@ -22,4 +22,16 @@ class MultiBuildingPart extends BuildingPart {
     }
     return shapes;
   }
+
+  getWidth() {
+    var xy = [];
+    for (let i = 0; i < this.shape.length; i++){
+      const shape = this.shape[i];
+      xy = xy.concat(BuildingShapeUtils.combineCoordinates(shape));
+    }
+    const x = xy[0];
+    const y = xy[1];
+    return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
+  }
+  
 }
