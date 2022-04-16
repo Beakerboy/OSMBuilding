@@ -152,7 +152,7 @@ class Building {
       // Filter all relations
       parts = this.fullXmlData.getElementsByTagName('relation');
       for (let i = 0; i < parts.length; i++) {
-        if (parts[j].querySelector('[k="building:part"]')) {
+        if (parts[i].querySelector('[k="building:part"]')) {
           const ref = parts[i].getAttribute('ref');
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
         }
