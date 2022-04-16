@@ -72,6 +72,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
    * can points be an array of shapes?
    */
   static combineCoordinates(shape) {
+    console.log('Shape: ' + shape);
     const points = shape.extractPoints().shape;
     var x = [];
     var y = [];
