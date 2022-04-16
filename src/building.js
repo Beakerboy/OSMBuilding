@@ -145,16 +145,16 @@ class Building {
       var parts = this.fullXmlData.getElementsByTagName('way');
       for (let j = 0; j < parts.length; j++) {
         if (parts[j].querySelector('[k="building:part"]')) {
-          const ref = parts[j].getAttribute('ref');
-          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
+          const id = parts[j].getAttribute('id');
+          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist));
         }
       }
       // Filter all relations
       parts = this.fullXmlData.getElementsByTagName('relation');
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
-          const ref = parts[i].getAttribute('ref');
-          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
+          const id = parts[i].getAttribute('id');
+          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist));
         }
       }
     }
