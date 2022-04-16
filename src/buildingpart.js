@@ -39,13 +39,14 @@ class BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, options = {}) {
-    this.way = [fullXmlData.getElementById(id)];
+    this.setWay((id, fullXmlData);
     this.nodelist = nodelist;
     this.setOptions(options);
     this.shape = BuildingShapeUtils.createShape(this.way, this.nodelist);
-    // ToDo, ensure all way's <nd ref="id"> tag have a match in the nodelist.
-    // If not, the object is not within the parent bounding box.
-    // This check is not needed for a building relation type.
+  }
+
+  setWay(id, fullXmlData) {
+    this.way = [fullXmlData.getElementById(id)];
   }
 
   /**
