@@ -12,16 +12,16 @@ class MultiBuildingPart extends BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, options = {}) {
-    const multipolygon = full_xml_data.getElementById(id);
+    const multipolygon = fullXmlData.getElementById(id);
     const inner_members = multipolygon.querySelectorAll('member[role="inner"]');
     const outer_members = multipolygon.querySelectorAll('member[role="outer"]');
     const inner_shapes = [];
     for (let i = 0; i < inner_members.length; i++) {
-      const way = full_xml_data.getElementById(inner_members[i].getAttribute('ref'));
+      const way = fullXmlData.getElementById(inner_members[i].getAttribute('ref'));
       inner_shapes.push(BuildingShapeUtils.createSHape(way, nodelist));
     }
     for (let j = 0; j < inner_members.length; j++) {
-      const way = full_xml_data.getElementById(outer_members[j].getAttribute('ref'));
+      const way = fullXmlData.getElementById(outer_members[j].getAttribute('ref'));
       const shape = BuildingShapeUtils.createShape(way, nodelist);
       shape.holes.push(...inner_shapes);
       this.shape.push(shape);
