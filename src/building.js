@@ -133,7 +133,7 @@ class Building {
       let parts = this.fullXmlData.getElementById(this.id).querySelectorAll('member[role="part"]');
       for (let i = 0; i < parts.length; i++) {
         const ref = parts[i].getAttribute('ref');
-        const part = this.fullDmlData.getElementById(ref);
+        const part = this.fullXmlData.getElementById(ref);
         if (part.tagName === 'way') {
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
         } else {
