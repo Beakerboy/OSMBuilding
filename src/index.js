@@ -36,7 +36,7 @@ function init() {
       const elem = document.createElement('div');
       elem.InnerText = 'Building Details:';
       elem.setAttribute('id', 'div-building-details');
-      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF"');
+      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
       const target = document.querySelector('canvas');
       target.before(elem);
       // Get building details from myObj
