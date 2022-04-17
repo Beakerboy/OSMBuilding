@@ -292,7 +292,7 @@ class Building {
       type: this.type,
       options: this.options,
       parts: [
-        ],
+      ],
     };
   }
 }
