@@ -287,12 +287,15 @@ class Building {
   }
 
   getInfo() {
+    var partsInfo = [];
+    for (let i = 0; i < this.parts.length; i++) {
+      partsInfo.push(this.parts[i].getInfo());
+    }
     return {
       id: this.id,
       type: this.type,
       options: this.options,
-      parts: [
-      ],
+      parts: partsInfo,
     };
   }
 }
