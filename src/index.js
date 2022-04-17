@@ -41,7 +41,7 @@ function init() {
       const info = myObj.getInfo();
       var partsString = '';
       for (let i = 0; i < info.parts.length; i++) {
-          partsString += '<div><span>Type: ' + info.parts[i].type + '</span></div><div><span>ID: ' + info.parts[i].id + '</span></div>';
+        partsString += '<div><span>Type: ' + info.parts[i].type + '</span></div><div><span>ID: ' + info.parts[i].id + '</span></div>';
       }
       elem.innerHTML = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div>' + partsString;
       // Get building details from myObj
