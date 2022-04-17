@@ -39,6 +39,8 @@ function init() {
       elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
       const target = document.querySelector('canvas');
       target.before(elem);
+      const info = myObj.getInfo();
+      elem.innerText = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div>';
       // Get building details from myObj
     }
   });
