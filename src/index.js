@@ -34,13 +34,12 @@ function init() {
     myObj.render();
     if (info) {
       const elem = document.createElement('div');
-      elem.innerText = 'Building Details:';
       elem.setAttribute('id', 'div-building-details');
       elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
       const target = document.querySelector('canvas');
       target.before(elem);
       const info = myObj.getInfo();
-      elem.innerText = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div>';
+      elem.innerHTML = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div>';
       // Get building details from myObj
     }
   });
