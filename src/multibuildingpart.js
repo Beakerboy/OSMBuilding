@@ -6,6 +6,7 @@
 class MultiBuildingPart extends BuildingPart {
 
   buildShape() {
+    this.type = 'multipolygon';
     console.log('running multiBuilidngPart.buildshape');
     const inner_members = this.way.querySelectorAll('member[role="inner"]');
     const outer_members = this.way.querySelectorAll('member[role="outer"]');
