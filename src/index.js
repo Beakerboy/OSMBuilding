@@ -12,6 +12,7 @@ var building = {};
 function init() {
   var type = 'way';
   var id = 66418809;
+  var info = false;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
       .forEach(function(item) {
