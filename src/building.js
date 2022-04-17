@@ -24,6 +24,7 @@ class Building {
 
   // The type of building
   type;
+  options;
   /**
    * Create new building
    */
@@ -283,5 +284,15 @@ class Building {
       }
     }
     return extents;
+  }
+
+  getInfo() {
+    return {
+      id: this.id,
+      type: this.type,
+      options: this.options,
+      parts: [
+        ],
+    };
   }
 }
