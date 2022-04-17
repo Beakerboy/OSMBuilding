@@ -34,7 +34,7 @@ function init() {
     myObj.render();
     if (info) {
       const elem = document.createElement('div');
-      elem.InnerText = 'Building Details:';
+      elem.innerText = 'Building Details:';
       elem.setAttribute('id', 'div-building-details');
       elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
       const target = document.querySelector('canvas');
