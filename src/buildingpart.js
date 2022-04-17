@@ -50,6 +50,7 @@ class BuildingPart {
   }
 
   buildShape() {
+    this.type = 'way';
     return BuildingShapeUtils.createShape(this.way, this.nodelist);
   }
 
