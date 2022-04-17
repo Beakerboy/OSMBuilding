@@ -20,6 +20,8 @@ function init() {
           type = decodeURIComponent(tmp[1]);
         } else if (tmp[0] === 'id') {
           id = decodeURIComponent(tmp[1]);
+        } else if (tmp[0] === 'info') {
+          info = true;
         }
       });
   }
@@ -29,6 +31,15 @@ function init() {
     scene.add(helper);
 
     myObj.render();
+    if (info) {
+      const elem = document.createElement('div');
+      elem.InnerText = 'Building Details:';
+      elem.setAttribute('id', 'div-building-details');
+      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF"');
+      const target = document.querySelector('canvas');
+      target.before(elem);
+      // Get building details from myObj
+    }
   });
   camera = new THREE.PerspectiveCamera(
     50,
