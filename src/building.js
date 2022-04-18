@@ -138,7 +138,7 @@ class Building {
         if (part.tagName.toLowerCase() === 'way') {
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
         } else {
-          console.log('Adding ' + part.tagName.toLowerCase() + ' ' + ref;
+          console.log('Adding ' + part.tagName.toLowerCase() + ' ' + ref);
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
         }
       }
