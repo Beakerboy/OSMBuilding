@@ -32,5 +32,5 @@ Examples:
 
 Do Not work yet:
 
- * Building Relation with multipolygon parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
+ * Multipolygon with parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
 
