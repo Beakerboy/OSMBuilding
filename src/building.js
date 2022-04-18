@@ -221,7 +221,7 @@ class Building {
     }
     for (let i = 0; i < ways.length; i++) {
       const way = ways[i];
-      if (way.tagName.toLowerCase() === 'way')
+      if (way.tagName.toLowerCase() === 'way') {
         const nodes = way.getElementsByTagName('nd');
         if (nodes.length > 0) {
           // Check that it is a closed way
