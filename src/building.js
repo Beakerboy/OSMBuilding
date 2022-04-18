@@ -278,10 +278,18 @@ class Building {
           }
         }
       } else {
-        let outline = xmlElement.querySelector('member[role="outline"]');
-        way = fullXmlData.getElementById(outline.getAttribute('ref'));
-        shape = BuildingShapeUtils.createShape(way, nodelist);
-        extents = BuildingShapeUtils.extents(shape);
+        // In a relation, the overall extents may be larger than the outline.
+        // use the extents of all the provided nodes.
+        extents[0] = nodelist[0][1];
+        extents[1] = nodelist[0][0];
+        extents[2] = nodelist[0][1];
+        extents[3] = nodelist[0][0];
+        for (let i = 1; i < nodelist.length; i++) {
+          extents[0] = Math.min(extents[0], nodelist[i][1]);
+          extents[1] = Math.min(extents[1], nodelist[i][0]);
+          extents[2] = Math.max(extents[2], nodelist[i][1]);
+          extents[3] = Math.max(extents[3], nodelist[i][0]);
+        }
       }
     }
     return extents;
