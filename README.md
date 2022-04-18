@@ -10,9 +10,8 @@ Visualize an OSM Building from the live OSM data.
 Supports:
  * Ways with a building tag
  * Ways with building parts inside.
- * Relations with building tags
+ * Building relations with way and/or multipolygon parts
  * Mulipolygon buildings
- * Building relations with multipolygon parts.
 
 Roof Types:
  * Flat
