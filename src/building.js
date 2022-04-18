@@ -219,7 +219,7 @@ class Building {
       const way = ways[i];
       const nodes = way.getElementsByTagName('nd');
       // Check that it is a closed way
-      if (nodes[0] !== nodes[nodes.length - 1]) {
+      if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
         console.log('Way ' + way.getAttribute('id') + 'not a closed way');
         return false;
       }
