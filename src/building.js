@@ -280,15 +280,15 @@ class Building {
       } else {
         // In a relation, the overall extents may be larger than the outline.
         // use the extents of all the provided nodes.
-        extents[0] = nodelist[0][1];
-        extents[1] = nodelist[0][0];
-        extents[2] = nodelist[0][1];
-        extents[3] = nodelist[0][0];
-        for (let i = 1; i < nodelist.length; i++) {
-          extents[0] = Math.min(extents[0], nodelist[i][1]);
-          extents[1] = Math.min(extents[1], nodelist[i][0]);
-          extents[2] = Math.max(extents[2], nodelist[i][1]);
-          extents[3] = Math.max(extents[3], nodelist[i][0]);
+        extents[0] = 180;
+        extents[1] = 90;
+        extents[2] = -180;
+        extents[3] = -90;
+        for (const key in this.nodelist)
+          extents[0] = Math.min(extents[0], nodelist[key][1]);
+          extents[1] = Math.min(extents[1], nodelist[key][0]);
+          extents[2] = Math.max(extents[2], nodelist[key][1]);
+          extents[3] = Math.max(extents[3], nodelist[key][0]);
         }
       }
     }
