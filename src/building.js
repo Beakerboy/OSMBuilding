@@ -184,6 +184,7 @@ class Building {
    * Fetch way data from OSM
    */
   static async getInnerData(left, bottom, right, top) {
+    console.log(apis.bounding.url(left, bottom, right, top));
     let response = await fetch(apis.bounding.url(left, bottom, right, top));
     let res = await response.text();
     return res;
