@@ -192,7 +192,7 @@ class Building {
    */
   isValidData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
-    const building_type = xml_data.querySelector('[k="building"]');
+    const building_type = xmlData.querySelector('[k="building"]');
     const ways = [];
     if (xmlData.tagName === 'relation') {
       // get all
