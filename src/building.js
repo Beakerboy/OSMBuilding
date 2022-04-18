@@ -228,7 +228,7 @@ class Building {
         }
       } else {
         console.log('Way ' + way.getAttribute('id') + ' has no nodes.');
-        retun false;
+        return false;
       }
     }
     return true;
