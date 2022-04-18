@@ -12,7 +12,7 @@ class Building {
   parts = [];
 
   // the BuildingPart of the outer building parimeter
-  outer_element;
+  outerElement;
 
   // DOM Tree of all elements to render
   fullXmlData;
@@ -61,17 +61,17 @@ class Building {
       this.setHome();
       this.repositionNodes();
       if (outerElementXml.tagName.toLowerCase() === 'way') {
-        this.outer_element = new BuildingPart(id, this.fullXmlData, this.nodelist);
+        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
       } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
-        this.outer_element = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
+        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
         const outline_ref = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
         const outline = this.fullXmlData.getElementById(outline_ref);
         const outline_type = outline.tagName.toLowerCase();
         if (outline_type === 'way') {
-          this.outer_element = new BuildingPart(id, this.fullXmlData, this.nodelist);
+          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
         } else {
-          this.outer_element = new MultiBuildingPart(outline_ref, this.fullXmlData, this.nodelist);
+          this.outerElement = new MultiBuildingPart(outline_ref, this.fullXmlData, this.nodelist);
         }
       }
       this.addParts();
@@ -125,7 +125,7 @@ class Building {
         this.parts[i].render();
       }
     } else {
-      this.outer_element.render();
+      this.outerElement.render();
     }
   }
 
