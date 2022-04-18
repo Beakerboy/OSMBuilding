@@ -265,8 +265,8 @@ class Building {
         var shape;
         var way;
         for (let i = 0; i < outer_members.length; i++) {
-          way = this.fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
-          shape = BuildingShapeUtils.createShape(way, this.nodelist);
+          way = fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
+          shape = BuildingShapeUtils.createShape(way, nodelist);
           const way_extents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
             extents = way_extents;
