@@ -29,8 +29,4 @@ Examples:
  * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
  * Building Relation [Burj Khalifa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=7584462)
  * Multipolygon with no parts - [Freer Art Gallery](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=1029355)
-
-Do Not work yet:
-
- * Multipolygon with parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
-
+ * Relation with multipolygon parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
