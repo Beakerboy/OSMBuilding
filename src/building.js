@@ -135,7 +135,7 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         const ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
-        if (part.tagName === 'way') {
+        if (part.tagName.toLowerCase() === 'way') {
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
         } else {
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
