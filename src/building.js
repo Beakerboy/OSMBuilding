@@ -190,38 +190,37 @@ class Building {
   /**
    * validate that we have the ID of a building way.
    */
-  isValidData(xml_data) {
+  isValidData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const building_type = xml_data.querySelector('[k="building"]');
     const ways = [];
-    if (xml_data.tagName === 'relation') {
+    if (xmlData.tagName === 'relation') {
       // get all
-      let parts = xml_data.getElementsByTagName('member');
+      let parts = xmlData.querySelectorAll('member[role="part"]');
       var ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
-        ways.push(this.fullXmlData.getElementById(ref));
+        const part = this.fullXmlData.getElementById(ref);
+        if (part) {
+          ways.push(this.fullXmlData.getElementById(ref));
+        } else {
+          console.log('Part ' + ref + ' is null.');
+        }
       }
     } else {
       if (!building_type) {
         console.log('Outer way is not a building');
-        console.log(xml_data);
+        console.log(xmlData);
         return false;
       }
-      ways.push(xml_data);
+      ways.push(xmlData);
     }
     for (let i = 0; i < ways.length; i++) {
-      xml_data = ways[i];
-      const children = Array.from(xml_data.children);
-      var elements = [];
-      children.forEach(childtag => {
-        if (childtag.tagname === 'nd') {
-          elements.push(childtag.getAttribute('ref'));
-        }
-      });
+      const way = ways[i];
+      const nodes = way.getElementsByTagName('nd');
       // Check that it is a closed way
-      if (elements[0] !== elements[elements.length - 1]) {
-        console.log('not a closed way');
+      if (nodes[0] !== nodes[nodes.length - 1]) {
+        console.log('Way ' + way.getAttribute('id') + 'not a closed way');
         return false;
       }
     }
