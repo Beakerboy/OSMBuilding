@@ -198,7 +198,8 @@ class Building {
     const building_type = xmlData.querySelector('[k="building"]');
     const ways = [];
     if (xmlData.tagName === 'relation') {
-      // get all
+      // get all building relation parts
+      // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
       var ref = 0;
       for (let i = 0; i < parts.length; i++) {
@@ -220,16 +221,30 @@ class Building {
     }
     for (let i = 0; i < ways.length; i++) {
       const way = ways[i];
-      const nodes = way.getElementsByTagName('nd');
-      if (nodes.length > 0) {
-        // Check that it is a closed way
-        if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
-          console.log('Way ' + way.getAttribute('id') + 'not a closed way');
+      if (way.tagName.toLowerCase() === 'way')
+        const nodes = way.getElementsByTagName('nd');
+        if (nodes.length > 0) {
+          // Check that it is a closed way
+          if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
+            console.log('Way ' + way.getAttribute('id') + 'not a closed way');
+            return false;
+          }
+        } else {
+          console.log('Way ' + way.getAttribute('id') + ' has no nodes.');
           return false;
         }
       } else {
-        console.log('Way ' + way.getAttribute('id') + ' has no nodes.');
-        return false;
+        let parts = way.querySelectorAll('member[role="part"]');
+        var ref = 0;
+        for (let i = 0; i < parts.length; i++) {
+          ref = parts[i].getAttribute('ref');
+          const part = this.fullXmlData.getElementById(ref);
+          if (part) {
+            ways.push(this.fullXmlData.getElementById(ref));
+          } else {
+            console.log('Part ' + ref + ' is null.');
+          }
+        }
       }
     }
     return true;
