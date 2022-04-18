@@ -8,18 +8,19 @@ class MultiBuildingPart extends BuildingPart {
   buildShape() {
     this.type = 'multipolygon';
     console.log('running multiBuilidngPart.buildshape');
-    const inner_members = this.way.querySelectorAll('member[role="inner"]');
-    const outer_members = this.way.querySelectorAll('member[role="outer"]');
-    const inner_shapes = [];
+    const innerMembers = this.way.querySelectorAll('member[role="inner"]');
+    const outerMembers = this.way.querySelectorAll('member[role="outer"]');
+    const innerShapes = [];
     var shapes = [];
-    for (let i = 0; i < inner_members.length; i++) {
-      const way = this.fullXmlData.getElementById(inner_members[i].getAttribute('ref'));
-      inner_shapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
+    console.log('Multipolygon ' + this.id + ' has ' + outerMembers.length + ' outer and ' + innerMembers.length + ' inner members';
+    for (let i = 0; i < innerMembers.length; i++) {
+      const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
+      innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
     }
-    for (let j = 0; j < outer_members.length; j++) {
-      const way = this.fullXmlData.getElementById(outer_members[j].getAttribute('ref'));
+    for (let j = 0; j < outerMembers.length; j++) {
+      const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
       const shape = BuildingShapeUtils.createShape(way, this.nodelist);
-      shape.holes.push(...inner_shapes);
+      shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
     return shapes;
