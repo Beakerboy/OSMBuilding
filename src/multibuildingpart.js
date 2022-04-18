@@ -12,7 +12,7 @@ class MultiBuildingPart extends BuildingPart {
     const outerMembers = this.way.querySelectorAll('member[role="outer"]');
     const innerShapes = [];
     var shapes = [];
-    console.log('Multipolygon ' + this.id + ' has ' + outerMembers.length + ' outer and ' + innerMembers.length + ' inner members';
+    console.log('Multipolygon ' + this.id + ' has ' + outerMembers.length + ' outer and ' + innerMembers.length + ' inner members');
     for (let i = 0; i < innerMembers.length; i++) {
       const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
       innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
