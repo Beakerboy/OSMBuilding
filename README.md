@@ -12,8 +12,6 @@ Supports:
  * Ways with building parts inside.
  * Relations with building tags
  * Mulipolygon buildings
-
-Does Not Support
  * Building relations with multipolygon parts.
 
 Roof Types:
