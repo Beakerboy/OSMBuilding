@@ -66,7 +66,7 @@ class Building {
         this.outer_element = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
         const outline_ref = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.fullXmlData.getElementById(id);
+        const outline = this.fullXmlData.getElementById(outline_ref);
         const outline_type = outline.tagName.toLowerCase();
         if (outline_type === 'way') {
           this.outer_element = new BuildingPart(id, this.fullXmlData, this.nodelist);
