@@ -220,10 +220,15 @@ class Building {
     for (let i = 0; i < ways.length; i++) {
       const way = ways[i];
       const nodes = way.getElementsByTagName('nd');
-      // Check that it is a closed way
-      if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
-        console.log('Way ' + way.getAttribute('id') + 'not a closed way');
-        return false;
+      if (nodes.length > 0) {
+        // Check that it is a closed way
+        if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
+          console.log('Way ' + way.getAttribute('id') + 'not a closed way');
+          return false;
+        }
+      } else {
+        console.log('Way ' + way.getAttribute('id') + ' has no nodes.');
+        retun false;
       }
     }
     return true;
