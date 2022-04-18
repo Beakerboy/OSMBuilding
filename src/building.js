@@ -254,7 +254,7 @@ class Building {
     const xmlElement = fullXmlData.getElementById(id);
     const building_type = xmlElement.tagName.toLowerCase();
     var shape;
-    var extents;
+    var extents = [];
     if (building_type === 'way') {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
