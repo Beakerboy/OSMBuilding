@@ -27,7 +27,7 @@ class MultiBuildingPart extends BuildingPart {
   }
 
   getWidth() {
-    var xy = [];
+    var xy = [[], []];
     for (let i = 0; i < this.shape.length; i++){
       console.log(i);
       const shape = this.shape[i];
