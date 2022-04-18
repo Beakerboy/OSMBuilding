@@ -164,7 +164,21 @@ class BuildingPart {
       // if (height is missing) {
       //   calculate height from the angle
       // }
-    } else if (roof_shape === 'hipped') {
+    } else if (roof_shape === 'onion') {
+      const R = this.calculateRadius();
+      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+      // Adjust the dome height if needed.
+      if (roof_height === 0) {
+        roof_height = R;
+      }
+      geometry.scale(1, roof_height / R, 1);
+      material = BuildingPart.getRoofMaterial(this.way);
+      const roof = new THREE.Mesh( geometry, material );
+      const elevation = this.calculateHeight() - this.calculateRoofHeight();
+      const center = BuildingShapeUtils.center(this.shape);
+      roof.rotation.x = -Math.PI;
+      roof.position.set(center[0], elevation, -1 * center[1]);
+      scene.add( roof );
     } else if (roof_shape === 'gabled') {
     } else if (roof_shape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
