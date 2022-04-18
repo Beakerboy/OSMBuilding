@@ -27,7 +27,7 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
-    const helper_size = myObj.outer_element.getWidth();
+    const helper_size = myObj.outerElement.getWidth();
     const helper = new THREE.GridHelper(helper_size / 0.9, helper_size / 9);
     scene.add(helper);
 
