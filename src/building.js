@@ -284,7 +284,7 @@ class Building {
         extents[1] = 90;
         extents[2] = -180;
         extents[3] = -90;
-        for (const key in this.nodelist)
+        for (const key in this.nodelist) {
           extents[0] = Math.min(extents[0], nodelist[key][1]);
           extents[1] = Math.min(extents[1], nodelist[key][0]);
           extents[2] = Math.max(extents[2], nodelist[key][1]);
