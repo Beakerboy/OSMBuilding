@@ -130,6 +130,7 @@ class Building {
   }
 
   addParts() {
+    console.log('adding parts for ' + this.type);
     if (this.type === 'relation') {
       let parts = this.fullXmlData.getElementById(this.id).querySelectorAll('member[role="part"]');
       for (let i = 0; i < parts.length; i++) {
