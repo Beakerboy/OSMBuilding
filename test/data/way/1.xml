@@ -9,6 +9,7 @@
     <nd ref="3"/>
     <nd ref="4"/>
     <nd ref="5"/>
+    <nd ref="2"/>
     <tag k="building" v="yes"/>
   </way>
 </osm>
