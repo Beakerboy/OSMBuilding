@@ -156,4 +156,11 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     }
     return count % 2 === 1;
   }
+
+  /**
+   * Convert a cardinal direction (ESE) to degrees 112°.
+   * North is zero.
+   */
+  static cardinalToDegree(cardinal) {
+  }
 }
