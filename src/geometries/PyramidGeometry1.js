@@ -12,7 +12,7 @@ class PyramidGeometry extends THREE.BufferGeometry {
     const center = options.center;
     var positions = [];
     var point;
-    var next_point;
+    var nextPoint;
     var points = shape.extractPoints().shape;
     const reverse = ! THREE.ShapeUtils.isClockWise( points );
     if ( reverse ) {
@@ -20,10 +20,10 @@ class PyramidGeometry extends THREE.BufferGeometry {
     }
     for (let i = 0; i < points.length - 1; i++) {
       point = points[i];
-      next_point = points[i + 1];
+      nextPoint = points[i + 1];
       positions.push(point.x, point.y, 0);
       positions.push(center[0], center[1], depth);
-      positions.push(next_point.x, next_point.y, 0);
+      positions.push(nextPoint.x, nextPoint.y, 0);
     }
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
     // ToDo - add points correctly so only one face needs to be rendered.
