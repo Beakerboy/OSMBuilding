@@ -88,7 +88,7 @@ class Building {
     // Set the "home point", the lat lon to center the structure.
     const homeLon = (extents[0] + extents[2]) / 2;
     const homeLat = (extents[1] + extents[3]) / 2;
-    this.home = [homeLat, homeLon];
+    this.home = [homeLon, homeLat];
   }
 
   /**
@@ -256,9 +256,9 @@ class Building {
   static repositionPoint(lat_lon, home) {
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
-    const phi = 90 - lat_lon[0];
-    const theta = lat_lon[1] - home[1];
-    const theta_prime = home[0] / 180 * Math.PI;
+    const phi = 90 - lat_lon[1];
+    const theta = lat_lon[0] - home[0];
+    const theta_prime = home[1] / 180 * Math.PI;
     const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
     const y = R * Math.cos(phi / 180 * Math.PI);
     const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
