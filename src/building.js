@@ -293,14 +293,14 @@ class Building {
         for (let i = 0; i < outer_members.length; i++) {
           way = fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
           shape = BuildingShapeUtils.createShape(way, nodelist);
-          const way_extents = BuildingShapeUtils.extents(shape);
+          const wayExtents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
-            extents = way_extents;
+            extents = wayExtents;
           } else {
-            extents[0] = Math.min(extents[0], way_extents[0]);
-            extents[1] = Math.min(extents[1], way_extents[1]);
-            extents[2] = Math.max(extents[2], way_extents[2]);
-            extents[3] = Math.max(extents[3], way_extents[3]);
+            extents[0] = Math.min(extents[0], wayExtents[0]);
+            extents[1] = Math.min(extents[1], wayExtents[1]);
+            extents[2] = Math.max(extents[2], wayExtents[2]);
+            extents[3] = Math.max(extents[3], wayExtents[3]);
           }
         }
       } else {
