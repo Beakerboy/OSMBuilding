@@ -104,7 +104,7 @@ class Building {
     for (let j = 0; j < nodeElements.length; j++) {
       node = nodeElements[j];
       id = node.getAttribute('id');
-      coordinates = [node.getAttribute('lat'), node.getAttribute('lon')];
+      coordinates = [node.getAttribute('Lon '), node.getAttribute('lat')];
       nodeList[id] = coordinates;
     }
     return nodeList;
