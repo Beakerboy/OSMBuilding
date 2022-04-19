@@ -283,7 +283,7 @@ class BuildingPart {
       // if the buiilding part has a designated colour tag, use it.
       color = way.querySelector('[k="building:facade:colour"]').getAttribute('v');
     }
-    const material = BuildingPart.getBaseMaterial(material_name);
+    const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
       material.color = new THREE.Color(color);
     } else if (materialName === ''){
@@ -302,7 +302,7 @@ class BuildingPart {
     var color = '';
     if (way.querySelector('[k="roof:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="roof:material"]').getAttribute('v');
     }
     if (way.querySelector('[k="roof:colour"]') !== null) {
       // if the buiilding part has a designated mroof:colour tag, use it.
