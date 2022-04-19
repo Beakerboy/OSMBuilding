@@ -3,7 +3,6 @@ var renderer;
 var controls;
 var scene = new THREE.Scene();
 var home;
-var helper_size;
 var building = {};
 
 /**
