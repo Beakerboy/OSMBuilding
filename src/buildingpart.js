@@ -217,15 +217,15 @@ class BuildingPart {
   }
 
   calculateMinHeight() {
-    var min_height = 0;
+    var minHeight = 0;
     if (this.way.querySelector('[k="min_height"]') !== null) {
       // if the buiilding part has a min_helght tag, use it.
-      min_height = this.way.querySelector('[k="min_height"]').getAttribute('v');
+      minHeight = this.way.querySelector('[k="min_height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
       // if not, use building:min_level and 3 meters per level.
-      min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
+      minHeight = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
     }
-    return BuildingPart.normalizeLength(min_height);
+    return BuildingPart.normalizeLength(minHeight);
   }
 
   /**
@@ -268,10 +268,10 @@ class BuildingPart {
     var color = '';
     if (way.querySelector('[k="building:facade:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="building:facade:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="building:facade:material"]').getAttribute('v');
     } else if (way.querySelector('[k="building:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="building:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="building:material"]').getAttribute('v');
     }
     if (way.querySelector('[k="colour"]') !== null) {
       // if the buiilding part has a designated colour tag, use it.
@@ -312,7 +312,7 @@ class BuildingPart {
     if (materialName === '') {
       material = BuildingPart.getMaterial(way);
     } else {
-      material = BuildingPart.getBaseMaterial(material_name);
+      material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
       material.color = new THREE.Color(color);
@@ -347,7 +347,7 @@ class BuildingPart {
         emissive: 0x00000,
         reflectivity: 0,
       });
-    } else if (materialName === 'stainless_steel' || material_name === 'metal') {
+    } else if (materialName === 'stainless_steel' || materialName === 'metal') {
       material = new THREE.MeshPhysicalMaterial({
         color: 0xaaaaaa,
         emissive: 0xaaaaaa,
