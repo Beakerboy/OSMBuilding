@@ -84,8 +84,8 @@ class BuildingPart {
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute('ref');
       node = this.nodelist[ref];
-      lats.push(node[0]);
-      lons.push(node[1]);
+      lats.push(node[1]);
+      lons.push(node[0]);
     }
     const left = Math.min(...lons);
     const bottom = Math.min(...lats);
