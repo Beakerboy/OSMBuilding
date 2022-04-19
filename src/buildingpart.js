@@ -108,8 +108,6 @@ class BuildingPart {
   createBuilding() {
     let extrusion_height = this.height - this.min_height - this.roof_height;
 
-    // ToDo If we have a multi-polygon, create the outer shape
-    // then punch out all the inner shapes.
     let extrudeSettings = {
       bevelEnabled: false,
       depth: extrusion_height,
