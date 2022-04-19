@@ -79,6 +79,14 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     return [left, bottom, right, top];
   }
 
+  static rotatedExtents(shape, angle) {
+    // create rotation matrix
+    // extract vectors
+    // apply matrix to vectors.
+    // const rotatedShape = make shape from vectors
+    // return BuildingShapeUtils.extents(rotatedShape); 
+  }
+
   /**
    * Assuming the shape is all right angles,
    * Find the orientation of the longest edge.
