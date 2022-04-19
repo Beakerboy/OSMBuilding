@@ -257,12 +257,12 @@ class Building {
     const circ = 2 * Math.PI * R;  // Circumference
     const phi = 90 - lat_lon[1];
     const theta = lat_lon[0] - home[0];
-    const theta_prime = home[1] / 180 * Math.PI;
+    const thetaPrime = home[1] / 180 * Math.PI;
     const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
     const y = R * Math.cos(phi / 180 * Math.PI);
     const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
     const abs = Math.sqrt(z**2 + y**2);
-    const arg = Math.atan(y / z) - theta_prime;
+    const arg = Math.atan(y / z) - thetaPrime;
 
     return [x, Math.sin(arg) * abs];
   }
@@ -278,20 +278,20 @@ class Building {
    */
   static getExtents(id, fullXmlData, nodelist) {
     const xmlElement = fullXmlData.getElementById(id);
-    const building_type = xmlElement.tagName.toLowerCase();
+    const buildingType = xmlElement.tagName.toLowerCase();
     var shape;
     var extents = [];
-    if (building_type === 'way') {
+    if (buildingType === 'way') {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
     } else {
-      const relation_type = xmlElement.querySelector('[k="type"]').getAttribute('v');
-      if (relation_type === 'multipolygon') {
-        let outer_members = xmlElement.querySelectorAll('member[role="outer"]');
+      const relationType = xmlElement.querySelector('[k="type"]').getAttribute('v');
+      if (relationType === 'multipolygon') {
+        let outerMembers = xmlElement.querySelectorAll('member[role="outer"]');
         var shape;
         var way;
-        for (let i = 0; i < outer_members.length; i++) {
-          way = fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
+        for (let i = 0; i < outerMembers.length; i++) {
+          way = fullXmlData.getElementById(outerMembers[i].getAttribute('ref'));
           shape = BuildingShapeUtils.createShape(way, nodelist);
           const wayExtents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
