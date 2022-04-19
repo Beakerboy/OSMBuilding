@@ -252,11 +252,11 @@ class Building {
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
    */
-  static repositionPoint(lat_lon, home) {
+  static repositionPoint(latLon, home) {
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
-    const phi = 90 - lat_lon[1];
-    const theta = lat_lon[0] - home[0];
+    const phi = 90 - latLon[1];
+    const theta = latLon[0] - home[0];
     const thetaPrime = home[1] / 180 * Math.PI;
     const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
     const y = R * Math.cos(phi / 180 * Math.PI);
