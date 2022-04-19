@@ -25,6 +25,7 @@ class Building {
   // The type of building
   type;
   options;
+
   /**
    * Create new building
    */
@@ -65,13 +66,13 @@ class Building {
       } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
         this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
-        const outline_ref = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.fullXmlData.getElementById(outline_ref);
-        const outline_type = outline.tagName.toLowerCase();
-        if (outline_type === 'way') {
+        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+        const outline = this.fullXmlData.getElementById(outlineRef);
+        const outlineType = outline.tagName.toLowerCase();
+        if (outlineType === 'way') {
           this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
         } else {
-          this.outerElement = new MultiBuildingPart(outline_ref, this.fullXmlData, this.nodelist);
+          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
         }
       }
       this.addParts();
