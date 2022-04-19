@@ -72,6 +72,7 @@ function init() {
 function createScene() {
   addLights();
   camera.position.set(0, 0, 200); // x y z
+  camera.far = 50000;
 
   controls = new THREE.OrbitControls( camera, renderer.domElement );
   function render() {
