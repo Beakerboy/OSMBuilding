@@ -134,11 +134,11 @@ class BuildingPart {
     var material;
     if (this.way.querySelector('[k="roof:shape"]') !== null) {
       // if the buiilding part has a min_height tag, use it.
-      roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
+      roofShape = way.querySelector('[k="roof:shape"]').getAttribute('v');
     }
     if (this.way.querySelector('[k="roof:height"]') !== null) {
       // if the building part has a min_height tag, use it.
-      roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
+      roofHeight = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
     }
     // Flat - Do Nothing
     if (roofShape === 'dome') {
