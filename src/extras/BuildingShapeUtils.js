@@ -84,7 +84,7 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     // extract vectors
     // apply matrix to vectors.
     // const rotatedShape = make shape from vectors
-    // return BuildingShapeUtils.extents(rotatedShape); 
+    // return BuildingShapeUtils.extents(rotatedShape);
   }
 
   /**
