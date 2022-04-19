@@ -177,8 +177,8 @@ class BuildingPart {
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roof_shape === 'gabled') {
-    } else if (roof_shape === 'pyramidal') {
+    } else if (roofShape === 'gabled') {
+    } else if (roofShape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
         center: center,
