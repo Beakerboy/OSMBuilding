@@ -270,6 +270,12 @@ class Building {
 
   /**
    * Get the extents of the top level building.
+   *
+   * @param {number} id - The id of the relation or way
+   * @param {XML} fulXmlData - A complete <osm> XML file.
+   * @param {[number => [number, number]]} nodelist - x/y or lon/lat coordinated keyed by id
+   *
+   * @param {[number, number, number, number]} extents - [left, bottom, right, top] of the entire building.
    */
   static getExtents(id, fullXmlData, nodelist) {
     const xmlElement = fullXmlData.getElementById(id);
