@@ -16,22 +16,22 @@ class BuildingPart {
   nodelist = [];
 
   height;
-  min_height;
-  roof_height;
+  minHeight;
+  roofHeight;
 
-  roof_material;
-  building_material;
+  roofMaterial;
+  buildingMaterial;
 
   // skillion roof, angle can be given instead of height.
-  roof_angle;
+  roofAngle;
 
   // the angle at which the roof is facing.
-  roof_direction;
+  roofDirection;
 
   // across or along the main direction.
-  roof_orientation = 'along';
+  roofOrientation = 'along';
 
-  roof_shape;
+  roofShape;
 
   fullXmlData;
 
@@ -60,8 +60,8 @@ class BuildingPart {
   setOptions(options) {
     // set values from the options, then override them by the local values if one exists.
     this.height = this.calculateHeight();
-    this.min_height = this.calculateMinHeight();
-    this.roof_height = this.calculateRoofHeight();
+    this.minHeight = this.calculateMinHeight();
+    this.roofHeight = this.calculateRoofHeight();
   }
 
   /**
@@ -106,11 +106,11 @@ class BuildingPart {
   }
 
   createBuilding() {
-    let extrusion_height = this.height - this.min_height - this.roof_height;
+    let extrusionHeight = this.height - this.minHeight - this.roofHeight;
 
     let extrudeSettings = {
       bevelEnabled: false,
-      depth: extrusion_height,
+      depth: extrusionHeight,
     };
 
     var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
@@ -120,7 +120,7 @@ class BuildingPart {
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.min_height, 0);
+    mesh.position.set( 0, this.minHeight, 0);
     scene.add( mesh );
   }
 
@@ -128,29 +128,29 @@ class BuildingPart {
    * Create the 3D render of a roof.
    */
   createRoof() {
-    var roof_shape = 'flat';
-    var roof_height = 0;
+    var roofShape = 'flat';
+    var roofHeight = 0;
     var way = this.way;
     var material;
     if (this.way.querySelector('[k="roof:shape"]') !== null) {
       // if the buiilding part has a min_height tag, use it.
-      roof_shape = way.querySelector('[k="roof:shape"]').getAttribute('v');
+      roofShape = way.querySelector('[k="roof:shape"]').getAttribute('v');
     }
     if (this.way.querySelector('[k="roof:height"]') !== null) {
       // if the building part has a min_height tag, use it.
-      roof_height = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
+      roofHeight = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
     }
     // Flat - Do Nothing
-    if (roof_shape === 'dome') {
+    if (roofShape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
-      if (roof_height === 0) {
-        roof_height = R;
+      if (roofHeight === 0) {
+        roofHeight = R;
       }
-      geometry.scale(1, roof_height / R, 1);
+      geometry.scale(1, roofHeight / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = this.calculateHeight() - this.calculateRoofHeight();
@@ -158,18 +158,18 @@ class BuildingPart {
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roof_shape === 'skillion') {
+    } else if (roofShape === 'skillion') {
       // if (height is missing) {
       //   calculate height from the angle
       // }
-    } else if (roof_shape === 'onion') {
+    } else if (roofShape === 'onion') {
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
       // Adjust the dome height if needed.
-      if (roof_height === 0) {
-        roof_height = R;
+      if (roofHeight === 0) {
+        roofHeight = R;
       }
-      geometry.scale(1, roof_height / R, 1);
+      geometry.scale(1, roofHeight / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = this.calculateHeight() - this.calculateRoofHeight();
@@ -177,19 +177,19 @@ class BuildingPart {
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roof_shape === 'gabled') {
-    } else if (roof_shape === 'pyramidal') {
+    } else if (roofShape === 'gabled') {
+    } else if (roofShape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
         center: center,
-        depth: this.roof_height,
+        depth: this.roofHeight,
       };
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
-      roof.position.set( 0, this.height - this.roof_height, 0);
+      roof.position.set( 0, this.height - this.roofHeight, 0);
       scene.add( roof );
     }
   }
@@ -217,15 +217,15 @@ class BuildingPart {
   }
 
   calculateMinHeight() {
-    var min_height = 0;
+    var minHeight = 0;
     if (this.way.querySelector('[k="min_height"]') !== null) {
       // if the buiilding part has a min_helght tag, use it.
-      min_height = this.way.querySelector('[k="min_height"]').getAttribute('v');
+      minHeight = this.way.querySelector('[k="min_height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
       // if not, use building:min_level and 3 meters per level.
-      min_height = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
+      minHeight = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
     }
-    return BuildingPart.normalizeLength(min_height);
+    return BuildingPart.normalizeLength(minHeight);
   }
 
   /**
@@ -264,14 +264,14 @@ class BuildingPart {
    * This is complicated by inheritance
    */
   static getMaterial(way) {
-    var material_name = '';
+    var materialName = '';
     var color = '';
     if (way.querySelector('[k="building:facade:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="building:facade:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="building:facade:material"]').getAttribute('v');
     } else if (way.querySelector('[k="building:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="building:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="building:material"]').getAttribute('v');
     }
     if (way.querySelector('[k="colour"]') !== null) {
       // if the buiilding part has a designated colour tag, use it.
@@ -283,10 +283,10 @@ class BuildingPart {
       // if the buiilding part has a designated colour tag, use it.
       color = way.querySelector('[k="building:facade:colour"]').getAttribute('v');
     }
-    const material = BuildingPart.getBaseMaterial(material_name);
+    const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
       material.color = new THREE.Color(color);
-    } else if (material_name === ''){
+    } else if (materialName === ''){
       material.color = new THREE.Color('white');
     }
     return material;
@@ -298,21 +298,21 @@ class BuildingPart {
    * This is complicated by inheritance
    */
   static getRoofMaterial(way) {
-    var material_name = '';
+    var materialName = '';
     var color = '';
     if (way.querySelector('[k="roof:material"]') !== null) {
       // if the buiilding part has a designated material tag, use it.
-      material_name = way.querySelector('[k="roof:material"]').getAttribute('v');
+      materialName = way.querySelector('[k="roof:material"]').getAttribute('v');
     }
     if (way.querySelector('[k="roof:colour"]') !== null) {
       // if the buiilding part has a designated mroof:colour tag, use it.
       color = way.querySelector('[k="roof:colour"]').getAttribute('v');
     }
     var material;
-    if (material_name === '') {
+    if (materialName === '') {
       material = BuildingPart.getMaterial(way);
     } else {
-      material = BuildingPart.getBaseMaterial(material_name);
+      material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
       material.color = new THREE.Color(color);
@@ -320,51 +320,51 @@ class BuildingPart {
     return material;
   }
 
-  static getBaseMaterial(material_name) {
+  static getBaseMaterial(materialName) {
     var material;
-    if (material_name === 'glass') {
+    if (materialName === 'glass') {
       material = new THREE.MeshPhysicalMaterial( {
         color: 0x00374a,
         emissive: 0x011d57,
         reflectivity: 0.1409,
         clearcoat: 1,
       } );
-    } else if (material_name === 'grass'){
+    } else if (materialName === 'grass'){
       material = new THREE.MeshLambertMaterial({
         color: 0x7ec850,
         emissive: 0x000000,
       });
-    } else if (material_name === 'bronze') {
+    } else if (materialName === 'bronze') {
       material = new THREE.MeshPhysicalMaterial({
         color:0xcd7f32,
         emissive: 0x000000,
         metalness: 1,
         roughness: 0.127,
       });
-    } else if (material_name === 'copper') {
+    } else if (materialName === 'copper') {
       material = new THREE.MeshLambertMaterial({
         color: 0xa1c7b6,
         emissive: 0x00000,
         reflectivity: 0,
       });
-    } else if (material_name === 'stainless_steel' || material_name === 'metal') {
+    } else if (materialName === 'stainless_steel' || materialName === 'metal') {
       material = new THREE.MeshPhysicalMaterial({
         color: 0xaaaaaa,
         emissive: 0xaaaaaa,
         metalness: 1,
         roughness: 0.127,
       });
-    } else if (material_name === 'brick'){
+    } else if (materialName === 'brick'){
       material = new THREE.MeshLambertMaterial({
         color: 0xcb4154,
         emissive: 0x1111111,
       });
-    } else if (material_name === 'concrete'){
+    } else if (materialName === 'concrete'){
       material = new THREE.MeshLambertMaterial({
         color: 0x555555,
         emissive: 0x1111111,
       });
-    } else if (material_name === 'marble') {
+    } else if (materialName === 'marble') {
       material = new THREE.MeshLambertMaterial({
         color: 0xffffff,
         emissive: 0x1111111,

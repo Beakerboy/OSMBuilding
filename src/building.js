@@ -194,7 +194,7 @@ class Building {
    */
   isValidData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
-    const building_type = xmlData.querySelector('[k="building"]');
+    const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
     if (xmlData.tagName === 'relation') {
       // get all building relation parts
@@ -211,7 +211,7 @@ class Building {
         }
       }
     } else {
-      if (!building_type) {
+      if (!buildingType) {
         console.log('Outer way is not a building');
         console.log(xmlData);
         return false;
@@ -252,17 +252,17 @@ class Building {
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
    */
-  static repositionPoint(lat_lon, home) {
+  static repositionPoint(latLon, home) {
     const R = 6371 * 1000;   // Earth radius in m
     const circ = 2 * Math.PI * R;  // Circumference
-    const phi = 90 - lat_lon[1];
-    const theta = lat_lon[0] - home[0];
-    const theta_prime = home[1] / 180 * Math.PI;
+    const phi = 90 - latLon[1];
+    const theta = latLon[0] - home[0];
+    const thetaPrime = home[1] / 180 * Math.PI;
     const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
     const y = R * Math.cos(phi / 180 * Math.PI);
     const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
     const abs = Math.sqrt(z**2 + y**2);
-    const arg = Math.atan(y / z) - theta_prime;
+    const arg = Math.atan(y / z) - thetaPrime;
 
     return [x, Math.sin(arg) * abs];
   }
@@ -278,29 +278,29 @@ class Building {
    */
   static getExtents(id, fullXmlData, nodelist) {
     const xmlElement = fullXmlData.getElementById(id);
-    const building_type = xmlElement.tagName.toLowerCase();
+    const buildingType = xmlElement.tagName.toLowerCase();
     var shape;
     var extents = [];
-    if (building_type === 'way') {
+    if (buildingType === 'way') {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
     } else {
-      const relation_type = xmlElement.querySelector('[k="type"]').getAttribute('v');
-      if (relation_type === 'multipolygon') {
-        let outer_members = xmlElement.querySelectorAll('member[role="outer"]');
+      const relationType = xmlElement.querySelector('[k="type"]').getAttribute('v');
+      if (relationType === 'multipolygon') {
+        let outerMembers = xmlElement.querySelectorAll('member[role="outer"]');
         var shape;
         var way;
-        for (let i = 0; i < outer_members.length; i++) {
-          way = fullXmlData.getElementById(outer_members[i].getAttribute('ref'));
+        for (let i = 0; i < outerMembers.length; i++) {
+          way = fullXmlData.getElementById(outerMembers[i].getAttribute('ref'));
           shape = BuildingShapeUtils.createShape(way, nodelist);
-          const way_extents = BuildingShapeUtils.extents(shape);
+          const wayExtents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
-            extents = way_extents;
+            extents = wayExtents;
           } else {
-            extents[0] = Math.min(extents[0], way_extents[0]);
-            extents[1] = Math.min(extents[1], way_extents[1]);
-            extents[2] = Math.max(extents[2], way_extents[2]);
-            extents[3] = Math.max(extents[3], way_extents[3]);
+            extents[0] = Math.min(extents[0], wayExtents[0]);
+            extents[1] = Math.min(extents[1], wayExtents[1]);
+            extents[2] = Math.max(extents[2], wayExtents[2]);
+            extents[3] = Math.max(extents[3], wayExtents[3]);
           }
         }
       } else {
