@@ -194,7 +194,7 @@ class Building {
    */
   isValidData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
-    const building_type = xmlData.querySelector('[k="building"]');
+    const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
     if (xmlData.tagName === 'relation') {
       // get all building relation parts
@@ -211,7 +211,7 @@ class Building {
         }
       }
     } else {
-      if (!building_type) {
+      if (!buildingType) {
         console.log('Outer way is not a building');
         console.log(xmlData);
         return false;
