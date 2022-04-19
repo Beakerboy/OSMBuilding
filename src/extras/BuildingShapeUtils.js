@@ -12,37 +12,12 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
       ref = elements[i].getAttribute('ref');
       node = nodelist[ref];
       if (i === 0) {
-        shape.moveTo(parseFloat(node[1]), parseFloat(node[0]));
+        shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));
       } else {
-        shape.lineTo(parseFloat(node[1]), parseFloat(node[0]));
+        shape.lineTo(parseFloat(node[0]), parseFloat(node[1]));
       }
     }
     return shape;
-  }
-
-  /**
-   * Calculate the radius of a circle that can fit within
-   * this way.
-   */
-  calculateRadius(pts) {
-    const elements = this.way.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    let ref = 0;
-    var node;
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
-      node = this.nodelist[ref];
-      lats.push(node[0]);
-      lons.push(node[1]);
-    }
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-
-    // Set the "home point", the lat lon to center the structure.
-    return Math.min(right - left, top - bottom) / 2;
   }
 
   /**
