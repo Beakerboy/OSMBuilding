@@ -286,7 +286,7 @@ class Building {
     if (buildingType === 'way') {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
-    } else {
+    } else if (buildingType === 'relation'){
       const relationType = xmlElement.querySelector('[k="type"]').getAttribute('v');
       if (relationType === 'multipolygon') {
         let outerMembers = xmlElement.querySelectorAll('member[role="outer"]');
@@ -319,6 +319,8 @@ class Building {
           extents[3] = Math.max(extents[3], nodelist[key][1]);
         }
       }
+    } else {
+      console.log(buildingType + ' is neither way nor relation. Check that the id is correct.');
     }
     return extents;
   }
