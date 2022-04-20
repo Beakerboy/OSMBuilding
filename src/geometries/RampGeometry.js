@@ -20,6 +20,7 @@ class RampGeometry extends THREE.BufferGeometry () {
       points = points.reverse();
     }
     var rampDepth;
+    var nextRampDepth;
     var minDepth;
     var maxDepth;
     var positions = [];
@@ -30,6 +31,7 @@ class RampGeometry extends THREE.BufferGeometry () {
       nextPoint = points[i + 1];
       positions.push(point.x, point.y, 0);
       rampDepth = point.x * Math.sin(angle) - point.y * Math.cos(angle);
+      nextRampDepth = nextPoint.x * Math.sin(angle) - nextPoint.y * Math.cos(angle);
       if (i === 0) {
         minDepth = rampDepth;
         maxDepth = rampDepth;
@@ -40,7 +42,7 @@ class RampGeometry extends THREE.BufferGeometry () {
       positions.push(point.x, point.y, rampDepth);
       positions.push(nextPoint.x, nextPoint.y, 0);
       positions.push(point.x, point.y, rampDepth);
-      positions.push(nextPoint.x, nextPoint.y, rampDepth);
+      positions.push(nextPoint.x, nextPoint.y, nextRampDepth);
       positions.push(nextPoint.x, nextPoint.y, 0);
     }
     const scale = depth / (maxDepth - minDepth);
