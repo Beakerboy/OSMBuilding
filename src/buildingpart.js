@@ -24,7 +24,7 @@ class BuildingPart {
       height: null,
       minHeight: null,
       orientation: null,
-      shape: null,
+      shape: 'flat',
     },
   };
 
