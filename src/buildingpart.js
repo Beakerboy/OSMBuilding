@@ -66,7 +66,7 @@ class BuildingPart {
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
     // the 3rd second '??' should be unnecessary since the options object has a 0 default.
-    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height ?? 0;
+    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
     this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
     this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
     this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
@@ -143,7 +143,9 @@ class BuildingPart {
     var material;
 
     // Flat - Do Nothing
-    if (this.options.roof.shape === 'dome') {
+    if (this.options.roof.shape === 'flat') {
+      this.options.roof.height = this.options.roof.height ?? 0;
+    } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
       const R = this.calculateRadius();
