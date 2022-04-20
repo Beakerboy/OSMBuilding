@@ -23,9 +23,11 @@ class BuildingPart {
   buildingMaterial;
 
   // skillion roof, angle can be given instead of height.
+  // degrees
   roofAngle;
 
   // the compass direction at which the roof is facing.
+  // degrees clockwise from north.
   roofDirection;
 
   // across or along the main direction.
@@ -171,7 +173,7 @@ class BuildingPart {
       //   calculate height from the angle
       // }
       const options = {
-        angle: this.roofDirection / 360 * 2 * Math.PI,
+        angle: (360 - this.roofDirection) / 360 * 2 * Math.PI,
         depth: this.roofHeight,
         pitch: this.roofAngle,
       };
