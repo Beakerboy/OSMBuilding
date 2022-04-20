@@ -48,14 +48,6 @@ class BuildingPart {
     this.nodelist = nodelist;
     this.setOptions(defaultOptions);
     this.shape = this.buildShape();
-    if (this.way.querySelector('[k="roof:direction"]') !== null) {
-      // if the buiilding part has a helght tag, use it.
-      this.roofDirection = this.way.querySelector('[k="roof:direction"]').getAttribute('v');
-    }
-    if (this.way.querySelector('[k="roof:angle"]') !== null) {
-      // if the buiilding part has a angle tag, use it.
-      this.roofAngle = this.way.querySelector('[k="roof:angle"]').getAttribute('v');
-    }
   }
 
   buildShape() {
@@ -69,6 +61,9 @@ class BuildingPart {
   setOptions(defaultOptions) {
     // set values from the options, then override them by the local values if one exists.
     this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
+    if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
+      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + '));
+    }
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
     this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
