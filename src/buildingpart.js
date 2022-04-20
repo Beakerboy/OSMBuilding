@@ -68,12 +68,12 @@ class BuildingPart {
     this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
     this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
     this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
+    if (this.options.roof.shape === 'flat') {
+      this.options.roof.height = 0;
+    }
     this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
     if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
       console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
-    }
-    if (this.options.roof.shape === 'flat') {
-      this.options.roof.height = 0;
     }
   }
 
