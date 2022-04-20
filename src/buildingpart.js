@@ -10,8 +10,6 @@ class BuildingPart {
   // THREE.Shape of the outline.
   shape;
 
-  hasRoof = false;
-
   // array of Cartesian coordinates of every node.
   nodelist = [];
   options = {
