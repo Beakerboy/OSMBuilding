@@ -131,7 +131,7 @@ class BuildingPart {
   createRoof() {
     var way = this.way;
     var material;
-   
+
     // Flat - Do Nothing
     if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
@@ -142,7 +142,7 @@ class BuildingPart {
       if (this.options.roof.height === 0) {
         this.options.roof.height = R;
       }
-      geometry.scale(1, roofHeight / R, 1);
+      geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
