@@ -333,7 +333,7 @@ class Building {
     return {
       id: this.id,
       type: this.type,
-      options: this.options,
+      options: this.outerElement.options,
       parts: partsInfo,
     };
   }
