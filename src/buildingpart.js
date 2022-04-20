@@ -47,6 +47,10 @@ class BuildingPart {
     this.nodelist = nodelist;
     this.setOptions(options);
     this.shape = this.buildShape();
+    if (this.way.querySelector('[k="roof:direction"]') !== null) {
+      // if the buiilding part has a helght tag, use it.
+      this.roofDirection = this.way.querySelector('[k="roof:direction"]').getAttribute('v');
+    }
   }
 
   buildShape() {
@@ -162,6 +166,17 @@ class BuildingPart {
       // if (height is missing) {
       //   calculate height from the angle
       // }
+      const options = {
+        angle: this.roofDirection,
+        depth: this.roofHeight,
+      };
+      const geometry = new RampGeometry(this.shape, options);
+
+      material = BuildingPart.getRoofMaterial(this.way);
+      const roof = new THREE.Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.height - this.roofHeight, 0);
+      scene.add( roof );
     } else if (roofShape === 'onion') {
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
