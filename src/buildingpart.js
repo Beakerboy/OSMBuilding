@@ -10,6 +10,9 @@ class BuildingPart {
   // THREE.Shape of the outline.
   shape;
 
+  // THREE.Mesh of the roof
+  roof;
+
   // array of Cartesian coordinates of every node.
   nodelist = [];
 
@@ -114,7 +117,7 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    this.createRoof();
+    scene.add(this.roof);
     this.createBuilding();
   }
 
@@ -163,7 +166,7 @@ class BuildingPart {
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
-      scene.add( roof );
+      this.roof = roof;
     } else if (this.options.roof.shape === 'skillion') {
       const options = {
         angle: (360 - this.options.roof.direction) / 360 * 2 * Math.PI,
@@ -191,7 +194,7 @@ class BuildingPart {
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
-      scene.add( roof );
+      this.roof = roof;
     } else if (this.options.roof.shape === 'gabled') {
     } else if (this.options.roof.shape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
@@ -205,7 +208,7 @@ class BuildingPart {
       const roof = new THREE.Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-      scene.add( roof );
+      this.roof = roof;
     }
   }
 
