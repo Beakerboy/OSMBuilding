@@ -12,6 +12,7 @@
     "BuildingShapeUtils": true,
     "MultiBuildingPart": true,
     "PyramidGeometry": true,
+    "RampGeometry": true,
     "Shape": true,
     "THREE": true,
     "Vector2": true,
