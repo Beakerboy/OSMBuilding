@@ -21,7 +21,7 @@ class BuildingPart {
     roof: {
       angle: null,
       direction: null,
-      height: 0,
+      height: null,
       minHeight: null,
       orientation: null,
       shape: null,
@@ -116,7 +116,7 @@ class BuildingPart {
   }
 
   createBuilding() {
-    let extrusionHeight = this.options.building.height - this.options.roof.minHeight - this.options.roof.height;
+    let extrusionHeight = this.options.building.height - this.options.roof.minHeight - (this.options.roof.height ?? 0);
 
     let extrudeSettings = {
       bevelEnabled: false,
