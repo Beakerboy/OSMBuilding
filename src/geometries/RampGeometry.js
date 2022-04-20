@@ -90,9 +90,9 @@ class RampGeometry extends THREE.BufferGeometry {
     const faces = THREE.ShapeUtils.triangulateShape(points, holes);
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i];
-      for (i = 0; i < 3; i++) {
-        const x = vertices[2 * face[i]];
-        const y = vertices[2 * face[i] + 1];
+      for (let j = 0; j < 3; j++) {
+        const x = vertices[2 * face[j]];
+        const y = vertices[2 * face[j] + 1];
         const z = (x * Math.sin(angle) - y * Math.cos(angle) - minDepth) * scale;
         positions.push(x, y, z);
       }
