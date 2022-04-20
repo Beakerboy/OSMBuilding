@@ -24,13 +24,13 @@ class RampGeometry extends THREE.BufferGeometry {
       points = points.reverse();
       // Check that any holes are correct direction.
       for (let h = 0; h < holes.length; h++) {
-        const hole = holes[i];
+        const hole = holes[h];
         if (THREE.ShapeUtils.isClockWise(hole)) {
           holes[h] = hole.reverse();
         }
       }
     }
-    
+  
     var rampDepth;
     var nextRampDepth;
     var minDepth;
