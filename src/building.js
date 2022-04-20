@@ -224,8 +224,10 @@ class Building {
         const nodes = way.getElementsByTagName('nd');
         if (nodes.length > 0) {
           // Check that it is a closed way
-          if (nodes[0].getAttribute('ref') !== nodes[nodes.length - 1].getAttribute('ref')) {
-            console.log('Way ' + way.getAttribute('id') + 'not a closed way');
+          const firstRef = nodes[0].getAttribute('ref');
+          const lastRef = nodes[nodes.length - 1].getAttribute('ref');
+          if (firstRef !== lastRef) {
+            console.log('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
             return false;
           }
         } else {
