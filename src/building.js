@@ -320,7 +320,7 @@ class Building {
         }
       }
     } else {
-      console.log(buildingType + ' is neither way nor relation. Check that the id is correct.');
+      console.log('"' + buildingType + '" is neither "way" nor "relation". Check that the id is correct.' + fullXmlData);
     }
     return extents;
   }
