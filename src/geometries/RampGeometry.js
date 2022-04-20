@@ -26,6 +26,9 @@ class RampGeometry extends THREE.BufferGeometry () {
     var rampDepth;
     var minDepth;
     var maxDepth;
+    var positions = [];
+    var point;
+    var nextPoint;
     for (let i = 0; i < points.length - 1; i++) {
       point = points[i];
       nextPoint = points[i + 1];
