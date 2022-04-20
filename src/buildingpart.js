@@ -74,6 +74,9 @@ class BuildingPart {
     if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
       console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
     }
+    if (this.options.roof.shape === 'flat') {
+      this.options.roof.height = 0;
+    }
   }
 
   /**
