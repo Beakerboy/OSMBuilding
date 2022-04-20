@@ -30,7 +30,7 @@ class RampGeometry extends THREE.BufferGeometry {
         }
       }
     }
-  
+
     var rampDepth;
     var nextRampDepth;
     var minDepth;
