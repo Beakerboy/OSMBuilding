@@ -61,6 +61,14 @@ class RampGeometry extends THREE.BufferGeometry {
       positions.push(nextPoint.x, nextPoint.y, 0);
     }
 
+    // The highest and lowest points will be allong the outside
+    // Calculate the scaling factor to get he correct height.
+    const scale = depth / (maxDepth - minDepth);
+    for (let i = 0; i < points.length - 1; i++) {
+      positions[18 * i + 5] = (positions[18 * i + 5] - minDepth) * scale;
+      positions[18 * i + 11] = (positions[18 * i + 11] - minDepth) * scale;
+      positions[18 * i + 14] = (positions[18 * i + 14] - minDepth) * scale;
+    }
     // Add the sides of any holes
     for (let h = 0; h < holes.length; h++) {
       const hole = holes[h];
@@ -69,22 +77,14 @@ class RampGeometry extends THREE.BufferGeometry {
         vertices.push(point.x, point.y);
         nextPoint = hole[i + 1];
         positions.push(point.x, point.y, 0);
-        rampDepth = point.x * Math.sin(angle) - point.y * Math.cos(angle);
-        nextRampDepth = nextPoint.x * Math.sin(angle) - nextPoint.y * Math.cos(angle);
+        rampDepth = (point.x * Math.sin(angle) - point.y * Math.cos(angle)- minDepth) * scale;
+        nextRampDepth = (nextPoint.x * Math.sin(angle) - nextPoint.y * Math.cos(angle) - minDepth) * scale;
         positions.push(point.x, point.y, rampDepth);
         positions.push(nextPoint.x, nextPoint.y, 0);
         positions.push(point.x, point.y, rampDepth);
         positions.push(nextPoint.x, nextPoint.y, nextRampDepth);
         positions.push(nextPoint.x, nextPoint.y, 0);
       }
-    }
-    // The highest and lowest poijts will be allong the outside
-    // Calculate the scaling factor to get he correct height.
-    const scale = depth / (maxDepth - minDepth);
-    for (let i = 0; i < points.length - 1; i++) {
-      positions[18 * i + 5] = (positions[18 * i + 5] - minDepth) * scale;
-      positions[18 * i + 11] = (positions[18 * i + 11] - minDepth) * scale;
-      positions[18 * i + 14] = (positions[18 * i + 14] - minDepth) * scale;
     }
     // Add top of roof
     const faces = THREE.ShapeUtils.triangulateShape(points, holes);
