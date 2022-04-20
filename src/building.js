@@ -137,10 +137,10 @@ class Building {
         const ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
         if (part.tagName.toLowerCase() === 'way') {
-          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist));
+          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
         } else {
           console.log('Adding ' + part.tagName.toLowerCase() + ' ' + ref);
-          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist));
+          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
     } else {
@@ -149,7 +149,7 @@ class Building {
       for (let j = 0; j < parts.length; j++) {
         if (parts[j].querySelector('[k="building:part"]')) {
           const id = parts[j].getAttribute('id');
-          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist));
+          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
       // Filter all relations
@@ -157,7 +157,7 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
           const id = parts[i].getAttribute('id');
-          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist));
+          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
     }
