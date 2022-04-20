@@ -14,26 +14,13 @@ class BuildingPart {
 
   // array of Cartesian coordinates of every node.
   nodelist = [];
-
-  height;
-  minHeight;
-  roofHeight;
+  options = {
+    building: {},
+    roof: {},
+  };
 
   roofMaterial;
   buildingMaterial;
-
-  // skillion roof, angle can be given instead of height.
-  // degrees
-  roofAngle;
-
-  // the compass direction at which the roof is facing.
-  // degrees clockwise from north.
-  roofDirection;
-
-  // across or along the main direction.
-  roofOrientation = 'along';
-
-  roofShape;
 
   fullXmlData;
 
@@ -42,12 +29,12 @@ class BuildingPart {
    * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
-  constructor(id, fullXmlData, nodelist, options = {}) {
+  constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
     this.fullXmlData = fullXmlData;
     this.id = id;
     this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
-    this.setOptions(options);
+    this.setOptions(defaultOptions);
     this.shape = this.buildShape();
     if (this.way.querySelector('[k="roof:direction"]') !== null) {
       // if the buiilding part has a helght tag, use it.
@@ -67,11 +54,15 @@ class BuildingPart {
   /**
    * Set the object's options
    */
-  setOptions(options) {
+  setOptions(defaultOptions) {
     // set values from the options, then override them by the local values if one exists.
-    this.height = this.calculateHeight();
-    this.minHeight = this.calculateMinHeight();
-    this.roofHeight = this.calculateRoofHeight();
+    this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
+    this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
+    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
+    this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
+    this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
+    this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
+    this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
   }
 
   /**
@@ -116,7 +107,7 @@ class BuildingPart {
   }
 
   createBuilding() {
-    let extrusionHeight = this.height - this.minHeight - this.roofHeight;
+    let extrusionHeight = this.options.building.height - this.options.roof.minHeight - this.options.roof.height;
 
     let extrudeSettings = {
       bevelEnabled: false,
@@ -130,7 +121,7 @@ class BuildingPart {
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.minHeight, 0);
+    mesh.position.set( 0, this.options.roof.minHeight, 0);
     scene.add( mesh );
   }
 
@@ -138,81 +129,76 @@ class BuildingPart {
    * Create the 3D render of a roof.
    */
   createRoof() {
-    var roofShape = 'flat';
-    var roofHeight = 0;
     var way = this.way;
     var material;
-    if (this.way.querySelector('[k="roof:shape"]') !== null) {
-      // if the buiilding part has a min_height tag, use it.
-      roofShape = way.querySelector('[k="roof:shape"]').getAttribute('v');
-    }
-    if (this.way.querySelector('[k="roof:height"]') !== null) {
-      // if the building part has a min_height tag, use it.
-      roofHeight = parseFloat(way.querySelector('[k="roof:height"]').getAttribute('v'));
-    }
+   
     // Flat - Do Nothing
-    if (roofShape === 'dome') {
+    if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
-      if (roofHeight === 0) {
-        roofHeight = R;
+      if (this.options.roof.height === 0) {
+        this.options.roof.height = R;
       }
       geometry.scale(1, roofHeight / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
-      const elevation = this.calculateHeight() - this.calculateRoofHeight();
+      const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roofShape === 'skillion') {
-      // if (height is missing) {
-      //   calculate height from the angle
-      // }
+    } else if (this.options.roof.shape === 'skillion') {
       const options = {
-        angle: (360 - this.roofDirection) / 360 * 2 * Math.PI,
-        depth: this.roofHeight,
-        pitch: this.roofAngle,
+        angle: (360 - this.options.roof.direction) / 360 * 2 * Math.PI,
+        depth: this.options.roof.height,
+        pitch: this.options.roof.angle,
       };
       const geometry = new RampGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
-      roof.position.set( 0, this.height - this.roofHeight, 0);
+      roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
-    } else if (roofShape === 'onion') {
+    } else if (this.options.roof.shape === 'onion') {
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
       // Adjust the dome height if needed.
-      if (roofHeight === 0) {
-        roofHeight = R;
+      if (this.options.roof.height === 0) {
+        this.options.roof.height = R;
       }
-      geometry.scale(1, roofHeight / R, 1);
+      geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
-      const elevation = this.calculateHeight() - this.calculateRoofHeight();
+      const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
       scene.add( roof );
-    } else if (roofShape === 'gabled') {
-    } else if (roofShape === 'pyramidal') {
+    } else if (this.options.roof.shape === 'gabled') {
+    } else if (this.options.roof.shape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
         center: center,
-        depth: this.roofHeight,
+        depth: this.options.roof.height,
       };
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
-      roof.position.set( 0, this.height - this.roofHeight, 0);
+      roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
+    }
+  }
+
+  getAttribute(key) {
+    if (this.way.querySelector('[k="' + key + '"]') !== null) {
+      // if the buiilding part has a helght tag, use it.
+      return this.way.querySelector('[k="' + key + '"]').getAttribute('v');
     }
   }
 
@@ -231,7 +217,7 @@ class BuildingPart {
     } else if (this.way.querySelector('[k="building:part"]') !== null) {
       if (this.way.querySelector('[k="building:part"]').getAttribute('v') === 'roof') {
         // a roof has no building part by default.
-        height = 0;
+        height = this.calculateRoofHeight();
       }
     }
 
@@ -254,12 +240,12 @@ class BuildingPart {
    * the height in meters that the roof extends above the main building
    */
   calculateRoofHeight() {
-    var height = 0;
+    var height;
     if (this.way.querySelector('[k="roof:height"]') !== null) {
-      // if the buiilding part has a min_helght tag, use it.
+      // if the buiilding part has a helght tag, use it.
       height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
-      // if not, use building:min_level and 3 meters per level.
+      // if not, use roof:levels and 3 meters per level.
       height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
     }
     return BuildingPart.normalizeLength(height);
