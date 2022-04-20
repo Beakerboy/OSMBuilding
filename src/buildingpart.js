@@ -51,7 +51,7 @@ class BuildingPart {
       // if the buiilding part has a helght tag, use it.
       this.roofDirection = this.way.querySelector('[k="roof:direction"]').getAttribute('v');
     }
-     if (this.way.querySelector('[k="roof:angle"]') !== null) {
+    if (this.way.querySelector('[k="roof:angle"]') !== null) {
       // if the buiilding part has a angle tag, use it.
       this.roofAngle = this.way.querySelector('[k="roof:angle"]').getAttribute('v');
     }
