@@ -93,7 +93,7 @@ class RampGeometry extends THREE.BufferGeometry {
       const x = vertices[2 * face[0]];
       const y = vertices[2 * face[1] + 1];
       const z = (x * Math.sin(angle) - y * Math.cos(angle) - minDepth) * scale;
-      positions.push(vertices[x, y, z);
+      positions.push(x, y, z);
     }
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
     // ToDo - add points correctly so only one face needs to be rendered.
