@@ -110,9 +110,8 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    this.createBuilding();
-
     this.createRoof();
+    this.createBuilding();
   }
 
   createBuilding() {
