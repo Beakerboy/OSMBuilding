@@ -11,7 +11,14 @@ class RampGeometry extends THREE.BufferGeometry {
       shape: shape,
       options: options,
     };
-    const depth = options.depth;
+
+    // The max depth of the geometry
+    var depth = options.depth;
+
+    // If depth is not specified, the angle of the ramp.
+    const pitch = options.pitch;
+
+    // The direction that the downward slope faces,
     const angle = options.angle;
 
     // Get the outer shape and holes.
@@ -63,6 +70,9 @@ class RampGeometry extends THREE.BufferGeometry {
 
     // The highest and lowest points will be allong the outside
     // Calculate the scaling factor to get he correct height.
+    if (!depth) {
+      depth = (maxDepth - minDepth) * Math.tan(pitch);
+    }
     const scale = depth / (maxDepth - minDepth);
     for (let i = 0; i < points.length - 1; i++) {
       positions[18 * i + 5] = (positions[18 * i + 5] - minDepth) * scale;
