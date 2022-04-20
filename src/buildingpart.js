@@ -25,7 +25,7 @@ class BuildingPart {
   // skillion roof, angle can be given instead of height.
   roofAngle;
 
-  // the angle at which the roof is facing.
+  // the compass direction at which the roof is facing.
   roofDirection;
 
   // across or along the main direction.
@@ -50,6 +50,10 @@ class BuildingPart {
     if (this.way.querySelector('[k="roof:direction"]') !== null) {
       // if the buiilding part has a helght tag, use it.
       this.roofDirection = this.way.querySelector('[k="roof:direction"]').getAttribute('v');
+    }
+     if (this.way.querySelector('[k="roof:angle"]') !== null) {
+      // if the buiilding part has a angle tag, use it.
+      this.roofAngle = this.way.querySelector('[k="roof:angle"]').getAttribute('v');
     }
   }
 
@@ -169,6 +173,7 @@ class BuildingPart {
       const options = {
         angle: this.roofDirection / 360 * 2 * Math.PI,
         depth: this.roofHeight,
+        pitch: this.roofAngle,
       };
       const geometry = new RampGeometry(this.shape, options);
 
