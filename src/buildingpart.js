@@ -15,8 +15,17 @@ class BuildingPart {
   // array of Cartesian coordinates of every node.
   nodelist = [];
   options = {
-    building: {},
-    roof: {},
+    building: {
+      height: null,
+    },
+    roof: {
+      angle: null,
+      direction: null,
+      height: null,
+      minHeight: null,
+      orientation: null,
+      shape: null,
+    },
   };
 
   roofMaterial;
@@ -57,10 +66,10 @@ class BuildingPart {
   setOptions(defaultOptions) {
     // set values from the options, then override them by the local values if one exists.
     this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
-    this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
-    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
+    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
+    this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
     this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
     this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
   }
