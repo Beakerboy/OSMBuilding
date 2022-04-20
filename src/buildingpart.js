@@ -21,7 +21,7 @@ class BuildingPart {
     roof: {
       angle: null,
       direction: null,
-      height: null,
+      height: 0,
       minHeight: null,
       orientation: null,
       shape: null,
