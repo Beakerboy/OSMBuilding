@@ -66,7 +66,8 @@ class BuildingPart {
     }
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
-    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
+    // the 3rd second '??' should be unnecessary since the options object has a 0 default.
+    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height ?? 0;
     this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
     this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
     this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
@@ -249,7 +250,7 @@ class BuildingPart {
   calculateRoofHeight() {
     var height;
     if (this.way.querySelector('[k="roof:height"]') !== null) {
-      // if the buiilding part has a helght tag, use it.
+      // if the buiilding part has a roof:height tag, use it.
       height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
       // if not, use roof:levels and 3 meters per level.
