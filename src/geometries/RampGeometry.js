@@ -88,7 +88,6 @@ class RampGeometry extends THREE.BufferGeometry {
     }
     // Add top of roof
     const faces = THREE.ShapeUtils.triangulateShape(points, holes);
-    const vertices = [];
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i];
       const x = vertices[2 * face[0]];
