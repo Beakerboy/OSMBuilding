@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+  <node id="1" lat="3" lon="3"/>
+  <node id="2" lat="3" lon="3.001"/>
+  <node id="4" lat="3.001" lon="3.001"/>
+  <node id="5" lat="3.001" lon="3.0005"/>
+  <way id="3">
+    <nd ref="1"/>
+    <nd ref="2"/>
+    <nd ref="4"/>
+    <nd ref="5"/>
+    <nd ref="1"/>
+    <tag k="building" v="yes"/>
+    <tag k="roof:shape" v="skillion"/>
+    <tag k="roof:direction" v="0"/>
+    <tag k="roof:angle" v="45"/>
+  </way>
+</osm>
