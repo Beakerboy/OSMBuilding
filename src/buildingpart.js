@@ -170,13 +170,13 @@ class BuildingPart {
         angle: this.roofDirection / 360 * 2 * Math.Pi,
         depth: this.roofHeight,
       };
-      // const geometry = new RampGeometry(this.shape, options);
+      const geometry = new RampGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      // const roof = new THREE.Mesh( geometry, material );
-      //roof.rotation.x = -Math.PI / 2;
-      //roof.position.set( 0, this.height - this.roofHeight, 0);
-      //scene.add( roof );
+      const roof = new THREE.Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.height - this.roofHeight, 0);
+      scene.add( roof );
     } else if (roofShape === 'onion') {
       const R = this.calculateRadius();
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
