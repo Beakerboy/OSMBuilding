@@ -44,7 +44,12 @@ class RampGeometry extends THREE.BufferGeometry () {
       positions.push(nextPoint.x, nextPoint.y, rampDepth);
       positions.push(nextPoint.x, nextPoint.y, 0);
     }
-    
+    const scale = depth / (maxDepth - minDepth);
+    for (let i = 0; i < points.length - 1; i++) {
+      positions[i + 5] = (positions[i + 5] - minDepth) * scale;
+      positions[i + 11] = (positions[i + 11] - minDepth) * scale;
+      positions[i + 14] = (positions[i + 14] - minDepth) * scale;
+    }
     this.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
     // ToDo - add points correctly so only one face needs to be rendered.
     this.computeVertexNormals();
