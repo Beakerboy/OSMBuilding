@@ -12,6 +12,8 @@ class BuildingPart {
 
   // array of Cartesian coordinates of every node.
   nodelist = [];
+
+  // Metadata of the building part.
   options = {
     building: {
       height: null,
