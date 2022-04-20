@@ -60,10 +60,7 @@ class BuildingPart {
    */
   setOptions(defaultOptions) {
     // set values from the options, then override them by the local values if one exists.
-    this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
-    if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
-      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
-    }
+
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
     // the 3rd second '??' should be unnecessary since the options object has a 0 default.
@@ -71,6 +68,10 @@ class BuildingPart {
     this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
     this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
     this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
+    this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
+    if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
+      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
+    }
   }
 
   /**
@@ -221,7 +222,7 @@ class BuildingPart {
       height = this.way.querySelector('[k="height"]').getAttribute('v');
     } else if (this.way.querySelector('[k="building:levels"]') !== null) {
       // if not, use building:levels and 3 meters per level.
-      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v') + this.calculateRoofHeight();
+      height = 3 * this.way.querySelector('[k="building:levels"]').getAttribute('v') + this.options.roof.height;
     } else if (this.way.querySelector('[k="building:part"]') !== null) {
       if (this.way.querySelector('[k="building:part"]').getAttribute('v') === 'roof') {
         // a roof has no building part by default.
