@@ -62,7 +62,7 @@ class BuildingPart {
     // set values from the options, then override them by the local values if one exists.
     this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
     if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
-      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + '));
+      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
     }
     this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
     this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
