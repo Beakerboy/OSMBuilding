@@ -167,7 +167,7 @@ class BuildingPart {
       //   calculate height from the angle
       // }
       const options = {
-        angle: this.roofDirection / 360 * 2 * Math.Pi,
+        angle: this.roofDirection / 360 * 2 * Math.PI,
         depth: this.roofHeight,
       };
       const geometry = new RampGeometry(this.shape, options);
