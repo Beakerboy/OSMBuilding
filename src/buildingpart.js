@@ -34,8 +34,9 @@ class BuildingPart {
   fullXmlData;
 
   /**
-   * @param {XMLElement} way - XML Element for the building part.
-   * @param {[[number, number]]} nodelist - Cartesian coordinates of each node keyed by node refID
+   * @param {number} id - the OSM id of the way or multipolygon.
+   * @param {XMLDocument} fullXmlData - XML for the region.
+   * @param {[[number, number],...]} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
