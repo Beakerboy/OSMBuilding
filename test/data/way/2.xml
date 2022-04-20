@@ -11,8 +11,9 @@
     <nd ref="5"/>
     <nd ref="1"/>
     <tag k="building" v="yes"/>
+    <tag k="height" v="10"/>
     <tag k="roof:shape" v="skillion"/>
     <tag k="roof:direction" v="0"/>
-    <tag k="roof:height" v="3"/>
+    <tag k="roof:height" v="5"/>
   </way>
 </osm>
