@@ -39,6 +39,9 @@ class BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
+    if (Object.keys(defaultOptions).length === 0) {
+      defaultOptions = this.options;
+    }
     this.fullXmlData = fullXmlData;
     this.id = id;
     this.way = fullXmlData.getElementById(id);
