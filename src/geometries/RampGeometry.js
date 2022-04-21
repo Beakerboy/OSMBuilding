@@ -25,7 +25,7 @@ class RampGeometry extends THREE.BufferGeometry {
     var points = shape.extractPoints().shape;
     var holes = shape.extractPoints().holes;
 
-    // Ensuse all paths are in the correct direction for the normals
+    // Ensure all paths are in the correct direction for the normals
     const reverse = ! THREE.ShapeUtils.isClockWise( points );
     if ( reverse ) {
       points = points.reverse();
@@ -69,7 +69,7 @@ class RampGeometry extends THREE.BufferGeometry {
     }
 
     // The highest and lowest points will be allong the outside
-    // Calculate the scaling factor to get he correct height.
+    // Calculate the scaling factor to get the correct height.
     if (!depth) {
       depth = (maxDepth - minDepth) * Math.tan(pitch);
     }

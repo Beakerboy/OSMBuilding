@@ -17,22 +17,29 @@ class BuildingPart {
   nodelist = [];
 
   // Metadata of the building part.
-  options = {
+  blankOptions = {
     building: {
+      colour: null,
+      ele: null,
       height: null,
+      levels: null,
+      levelsUnderground: null,
+      material: null,
+      minHeight: null,
+      minLevel: null,
+      walls: null,
     },
     roof: {
       angle: null,
+      colour: null,
       direction: null,
       height: null,
-      minHeight: null,
+      levels: null,
+      material: null,
       orientation: null,
-      shape: 'flat',
+      shape: null,
     },
   };
-
-  roofMaterial;
-  buildingMaterial;
 
   fullXmlData;
 
@@ -44,14 +51,15 @@ class BuildingPart {
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
     if (Object.keys(defaultOptions).length === 0) {
-      defaultOptions = this.options;
+      defaultOptions = this.blankOptions;
     }
+    this.options.inherited = defaultOptions;
     this.fullXmlData = fullXmlData;
     this.id = id;
     this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
-    this.setOptions(defaultOptions);
     this.shape = this.buildShape();
+    this.setOptions();
   }
 
   buildShape() {
@@ -62,22 +70,57 @@ class BuildingPart {
   /**
    * Set the object's options
    */
-  setOptions(defaultOptions) {
+  setOptions() {
     // set values from the options, then override them by the local values if one exists.
+    const specifiedOptions = this.blankOptions;
 
-    this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
-    this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
-    // the 3rd second '??' should be unnecessary since the options object has a 0 default.
-    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
-    this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
-    this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
-    this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
-    if (this.options.roof.shape === 'flat') {
-      this.options.roof.height = 0;
-    }
-    this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
-    if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
-      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
+    specifiedOptions.building.colour = this.getAttribute('colour');
+    specifiedOptions.building.ele = this.getAttribute('ele');
+    specifiedOptions.building.height = BuildingPart.normalizeLength(this.getAttribute('height'));
+    specifiedOptions.building.levels = this.getAttribute('building:levels');
+    specifiedOptions.building.levelsUnderground = this.getAttribute('building:levels:underground');
+    specifiedOptions.building.material = this.getAttribute('building:material');
+    specifiedOptions.building.minHeight = BuildingPart.normalizeLength(this.getAttribute('min_height'));
+    specifiedOptions.building.minLevel = this.getAttribute('building:min_level');
+    specifiedOptions.building.walls = this.getAttribute('walls');
+    specifiedOptions.roof.angle = this.getAttribute('roof:angle');
+    specifiedOptions.roof.colour = this.getAttribute('roof:colour');
+    specifiedOptions.roof.direction = this.getAttribute('roof:direction');
+    specifiedOptions.roof.height = BuildingPart.normalizeLength(this.getAttribute('roof:height'));
+    specifiedOptions.roof.levels = this.getAttribute('roof:levels');
+    specifiedOptions.roof.material = this.getAttribute('roof:material');
+    specifiedOptions.roof.orientation = this.getAttribute('roof:orientation');
+    specifiedOptions.roof.shape = this.getAttribute('roof:shape');
+
+    this.options.specified = specifiedOptions;
+
+    const calculatedOptions = this.blankOptions;
+    // todo replace with some sort of foreach loop.
+    calculatedOptions.building.colour = this.options.specified.building.colour ?? this.options.inherited.building.colour;
+    calculatedOptions.building.ele = this.options.specified.building.ele ?? this.options.inherited.building.ele ?? 0;
+    calculatedOptions.building.levels = this.options.specified.building.levels ?? this.options.inherited.building.levels;
+    calculatedOptions.building.levelsUnderground = this.options.specified.building.levelsUnderground ?? this.options.inherited.building.levelsUnderground;
+    calculatedOptions.building.material = this.options.specified.building.material ?? this.options.inherited.building.material;
+    calculatedOptions.building.minLevel = this.options.specified.building.minLevel ?? this.options.inherited.building.minLevel;
+    calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
+    calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
+    calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
+    calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
+    calculatedOptions.roof.levels = this.options.specified.roof.levels ?? this.options.inherited.roof.levels;
+    calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
+    calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
+    calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
+
+    calculatedOptions.roof.height = this.options.specified.roof.height ??
+      this.options.inherited.roof.height ??
+      (calculatedOptions.roof.levels * 3) ??
+      (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
+      (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calulateRadius(this.shape) : null) ??
+      (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
+    this.options.building = calculatedOptions.building;
+    this.options.roof = calculatedOptions.roof;
+    if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
+      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
   }
 
@@ -86,31 +129,6 @@ class BuildingPart {
    */
   getWidth() {
     return BuildingShapeUtils.getWidth(this.shape);
-  }
-
-  /**
-   * Calculate the radius of a circle that can fit within
-   * this way.
-   */
-  calculateRadius() {
-    const elements = this.way.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    let ref = 0;
-    var node;
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
-      node = this.nodelist[ref];
-      lats.push(node[1]);
-      lons.push(node[0]);
-    }
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-
-    // Set the "home point", the lat lon to center the structure.
-    return Math.min(right - left, top - bottom) / 2;
   }
 
   /**
@@ -147,18 +165,14 @@ class BuildingPart {
     var way = this.way;
     var material;
 
-    // Flat - Do Nothing
     if (this.options.roof.shape === 'flat') {
-      this.options.roof.height = this.options.roof.height ?? 0;
+      // do nothing
     } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
-      const R = this.calculateRadius();
+      const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
-      if (this.options.roof.height === 0) {
-        this.options.roof.height = R;
-      }
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
@@ -181,12 +195,10 @@ class BuildingPart {
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
     } else if (this.options.roof.shape === 'onion') {
-      const R = this.calculateRadius();
+      const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+
       // Adjust the dome height if needed.
-      if (this.options.roof.height === 0) {
-        this.options.roof.height = R;
-      }
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
@@ -254,21 +266,6 @@ class BuildingPart {
   }
 
   /**
-   * the height in meters that the roof extends above the main building
-   */
-  calculateRoofHeight() {
-    var height;
-    if (this.way.querySelector('[k="roof:height"]') !== null) {
-      // if the buiilding part has a roof:height tag, use it.
-      height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
-    } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
-      // if not, use roof:levels and 3 meters per level.
-      height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
-    }
-    return BuildingPart.normalizeLength(height);
-  }
-
-  /**
    * convert an string of length units in various format to
    * a float in meters.
    */
@@ -281,6 +278,13 @@ class BuildingPart {
     //   return parseFloat(substr);
     // }
     return parseFloat(length);
+  }
+
+  /**
+   * Convert a cardinal direction (ESE) to degrees 112°.
+   * North is zero.
+   */
+  static cardinalToDegree(cardinal) {
   }
 
   /**
