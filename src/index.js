@@ -8,7 +8,7 @@ import {
   HemisphereLight,
   DirectionalLight,
 } from "three";
-  
+import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 var camera;
 var renderer;
 var controls;
