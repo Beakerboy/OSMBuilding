@@ -1,3 +1,15 @@
+import {
+  Color,
+  ExtrudeGeometry,
+  Shape,
+  Mesh,
+  MeshLambertMaterial,
+  MeshPhysicalMaterial,
+  SphereGeometry
+} from "three";
+
+import {PyramidGeometry} from "pyramid";
+import {RampGeometry} from "ramp";
 /**
  * An OSM Building Part
  *
@@ -147,10 +159,10 @@ class BuildingPart {
       depth: extrusionHeight,
     };
 
-    var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
+    var geometry = new ExtrudeGeometry(this.shape, extrudeSettings);
 
     // Create the mesh.
-    var mesh = new THREE.Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
+    var mesh = new Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
@@ -171,11 +183,11 @@ class BuildingPart {
     //   find largest circle within the way
     //   R, x, y
       const R = BuildingShapeUtils.calulateRadius(this.shape);
-      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
@@ -190,18 +202,18 @@ class BuildingPart {
       const geometry = new RampGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
     } else if (this.options.roof.shape === 'onion') {
       const R = BuildingShapeUtils.calulateRadius(this.shape);
-      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
 
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
@@ -217,7 +229,7 @@ class BuildingPart {
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       this.roof = roof;
@@ -314,9 +326,9 @@ class BuildingPart {
     }
     const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
-      material.color = new THREE.Color(color);
+      material.color = new Color(color);
     } else if (materialName === ''){
-      material.color = new THREE.Color('white');
+      material.color = new Color('white');
     }
     return material;
   }
@@ -344,7 +356,7 @@ class BuildingPart {
       material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
-      material.color = new THREE.Color(color);
+      material.color = new .Color(color);
     }
     return material;
   }
@@ -352,54 +364,54 @@ class BuildingPart {
   static getBaseMaterial(materialName) {
     var material;
     if (materialName === 'glass') {
-      material = new THREE.MeshPhysicalMaterial( {
+      material = new MeshPhysicalMaterial( {
         color: 0x00374a,
         emissive: 0x011d57,
         reflectivity: 0.1409,
         clearcoat: 1,
       } );
     } else if (materialName === 'grass'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0x7ec850,
         emissive: 0x000000,
       });
     } else if (materialName === 'bronze') {
-      material = new THREE.MeshPhysicalMaterial({
+      material = new MeshPhysicalMaterial({
         color:0xcd7f32,
         emissive: 0x000000,
         metalness: 1,
         roughness: 0.127,
       });
     } else if (materialName === 'copper') {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xa1c7b6,
         emissive: 0x00000,
         reflectivity: 0,
       });
     } else if (materialName === 'stainless_steel' || materialName === 'metal') {
-      material = new THREE.MeshPhysicalMaterial({
+      material = new MeshPhysicalMaterial({
         color: 0xaaaaaa,
         emissive: 0xaaaaaa,
         metalness: 1,
         roughness: 0.127,
       });
     } else if (materialName === 'brick'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xcb4154,
         emissive: 0x1111111,
       });
     } else if (materialName === 'concrete'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0x555555,
         emissive: 0x1111111,
       });
     } else if (materialName === 'marble') {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xffffff,
         emissive: 0x1111111,
       });
     } else {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         emissive: 0x1111111,
       });
     }
