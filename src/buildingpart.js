@@ -194,7 +194,7 @@ class BuildingPart {
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
     } else if (this.options.roof.shape === 'onion') {
-      const R = const R = BuildingShapeUtils.calulateRadius(this.shape);
+      const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
 
       // Adjust the dome height if needed.
