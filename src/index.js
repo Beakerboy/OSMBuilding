@@ -68,7 +68,7 @@ function createScene() {
   addLights();
   camera.position.set(0, 0, 200); // x y z
 
-  controls =new OrbitControls( camera, renderer.domElement );
+  controls = new OrbitControls( camera, renderer.domElement );
   function render() {
     requestAnimationFrame(render);
 
