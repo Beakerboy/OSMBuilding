@@ -164,4 +164,13 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     }
     return count % 2 === 1;
   }
+
+  /**
+   * Calculate the radius of a circle that can fit within a shape.
+   */
+  calculateRadius() {
+    const extents = BuildingShapeUtils.extents(shape);
+    // return half of the shorter side-length.
+    return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
+  }
 }
