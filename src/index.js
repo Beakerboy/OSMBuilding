@@ -42,7 +42,7 @@ function init() {
       for (let i = 0; i < info.parts.length; i++) {
         partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="building ' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <input type="checkbox" id="roof' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
       }
-      elem.innerHTML = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div><div><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString;
+      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
       // Get building details from myObj
       var coll = document.getElementsByClassName('collapsible');
       var i;
