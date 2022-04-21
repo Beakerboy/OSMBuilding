@@ -44,6 +44,20 @@ function init() {
       }
       elem.innerHTML = '<div><span>Type: ' + info.type + '</span></div><div><span> ID: ' + info.id + '</span></div><div><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString;
       // Get building details from myObj
+      var coll = document.getElementsByClassName('collapsible');
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener('click', function() {
+          this.classList.toggle('active');
+          var content = this.nextElementSibling;
+          if (content.style.display === 'block') {
+            content.style.display = 'none';
+          } else {
+            content.style.display = 'block';
+          }
+        });
+      }
     }
   });
   camera = new THREE.PerspectiveCamera(
@@ -100,21 +114,6 @@ function addLights() {
 
 init();
 createScene();
-
-var coll = document.getElementsByClassName('collapsible');
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener('click', function() {
-    this.classList.toggle('active');
-    var content = this.nextElementSibling;
-    if (content.style.display === 'block') {
-      content.style.display = 'none';
-    } else {
-      content.style.display = 'block';
-    }
-  });
-}
 
 window.addEventListener('resize', resize, false);
 
