@@ -356,7 +356,7 @@ class BuildingPart {
       material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
-      material.color = new .Color(color);
+      material.color = new Color(color);
     }
     return material;
   }
