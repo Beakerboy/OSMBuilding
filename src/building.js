@@ -1,3 +1,5 @@
+import {BuildingPart} from './BuildingPart.js';
+import {MultiBuildingPart} from './MultiBuildingPart.js';
 /**
  * A class representing an OSM building
  *
