@@ -8,10 +8,20 @@
 </head>
 
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+    <!-- Import maps polyfill -->
+    <!-- Remove this when import maps will be widely supported -->
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three/build/three.module.js",
+          "pyramid": "https://raw.githubusercontent.com/Beakerboy/Threejs-Geometries/main/src/PyramidGeometry.js",
+          "ramp": "https://raw.githubusercontent.com/Beakerboy/Threejs-Geometries/main/src/PyramidGeometry.js"
+        }
+      }
     </script>
-    <script src="https://threejs.org/examples/js/controls/OrbitControls.js">
-    </script>
+    <script src="./src/index.js"></script>
     <script src="src/apis.js">
     </script>
     <script src="src/building.js">
@@ -25,8 +35,6 @@
     <script src="src/buildingpart.js">
     </script>
     <script src="src/multibuildingpart.js">
-    </script>
-    <script src="src/index.js">
     </script>
 </body>
 
