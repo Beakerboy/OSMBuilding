@@ -1,3 +1,5 @@
+import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
+
 /**
  * An OSM Building Part
  *
