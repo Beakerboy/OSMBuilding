@@ -169,7 +169,7 @@ class BuildingPart {
     } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
-      const R = BuildingShapeUtils.calulateRadius(this.shape)
+      const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
@@ -194,12 +194,10 @@ class BuildingPart {
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       scene.add( roof );
     } else if (this.options.roof.shape === 'onion') {
-      const R = this.calculateRadius();
+      const R = const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+
       // Adjust the dome height if needed.
-      if (this.options.roof.height === 0) {
-        this.options.roof.height = R;
-      }
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
       const roof = new THREE.Mesh( geometry, material );
