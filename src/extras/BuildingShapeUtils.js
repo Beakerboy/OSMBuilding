@@ -1,11 +1,16 @@
-class BuildingShapeUtils extends THREE.ShapeUtils {
+import {
+  Shape,
+  ShapeUtils
+} from "three";
+
+class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Create the shape of this way.
    */
   static createShape(way, nodelist) {
     const elements = way.getElementsByTagName('nd');
-    const shape = new THREE.Shape();
+    const shape = new Shape();
     var ref;
     var node = [];
     for (let i = 0; i < elements.length; i++) {
@@ -176,3 +181,4 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
   }
 }
+export {BuildingShapeUtils};
