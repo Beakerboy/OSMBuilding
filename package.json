@@ -5,11 +5,27 @@
     "type": "git",
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
   },
+  "files": [
+    "build/beakerboygeometries.js",
+    "package.json",
+    "README.md",
+    "src"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "npm run dev",
+    "test": "npm run lint && npm run test-unit",
+    "build": "rollup -c utils/build/rollup.config.js",
+    "build-module": "ONLY_MODULE=true rollup -c utils/build/rollup.config.js"
+  },
   "dependencies": {
     "three": "^0.138.3"
   },
   "devDependencies" : {
     "eslint": "^8.13",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "rollup": "^2.57.0"
   }
 }
