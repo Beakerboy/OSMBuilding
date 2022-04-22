@@ -14,7 +14,7 @@ var renderer;
 var controls;
 var scene = new Scene();
 var home;
-var helper_size;
+var helperSize;
 var building = {};
 
 /**
@@ -36,7 +36,7 @@ function init() {
   }
   Building.create(type, id).then(function(myObj){
     const helperSize = myObj.outer_element.getWidth();
-    const helper = new GridHelper(helperSize / 0.9, helper_size / 9);
+    const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
     scene.add(helper);
 
     myObj.render();
