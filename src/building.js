@@ -130,7 +130,7 @@ class Building {
         mesh.push(...this.parts[i].render());
       }
     } else {
-      mesh.push(..this.outerElement.render());
+      mesh.push(...this.outerElement.render());
     }
     return mesh;
   }
