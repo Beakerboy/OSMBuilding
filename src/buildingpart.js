@@ -31,6 +31,8 @@ class BuildingPart {
 
   // Metadata of the building part.
   blankOptions = {
+    inherited: {},
+    specified: {},
     building: {
       colour: null,
       ele: null,
