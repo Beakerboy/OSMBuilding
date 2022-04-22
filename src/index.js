@@ -39,7 +39,10 @@ function init() {
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
     scene.add(helper);
 
-    myObj.render();
+    const mesh = myObj.render();
+    for (let i = 0; i < mesh.length; i++) {
+      scene.add(mesh[i]);
+    }
   });
   camera = new PerspectiveCamera(
     50,
