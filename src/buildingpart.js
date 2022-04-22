@@ -56,6 +56,8 @@ class BuildingPart {
 
   fullXmlData;
 
+  // THREE.Mesh
+  parts = [];
   /**
    * @param {number} id - the OSM id of the way or multipolygon.
    * @param {XMLDocument} fullXmlData - XML for the region.
@@ -149,8 +151,9 @@ class BuildingPart {
    * Render the building part
    */
   render() {
-    scene.add(this.roof);
+    this.parts.push(this.roof);
     this.createBuilding();
+    return this.parts;
   }
 
   createBuilding() {
@@ -169,7 +172,7 @@ class BuildingPart {
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.set( 0, this.options.roof.minHeight, 0);
-    scene.add( mesh );
+    this.parts.push(mesh);
   }
 
   /**
