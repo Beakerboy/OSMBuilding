@@ -124,8 +124,8 @@ class Building {
   }
 
   render() {
+    const mesh = [];
     if (this.parts.length > 0) {
-      const mesh = [];
       for (let i = 0; i < this.parts.length; i++) {
         mesh.push(...this.parts[i].render());
       }
