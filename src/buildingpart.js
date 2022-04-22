@@ -134,8 +134,6 @@ class BuildingPart {
       (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
       (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calulateRadius(this.shape) : null) ??
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
-    console.log('roof height: ' + calculatedOptions.roof.height);
-    console.log("calc: " + calculatedOptions.roof.levels * 3);
     calculatedOptions.building.height = this.options.specified.building.height ??
       this.options.inherited.building.height ??
       (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height;
@@ -218,7 +216,7 @@ class BuildingPart {
       const roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-      scene.add( roof );
+      this.roof = roof;
     } else if (this.options.roof.shape === 'onion') {
       const R = BuildingShapeUtils.calulateRadius(this.shape);
       const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
