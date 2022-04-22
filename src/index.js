@@ -55,6 +55,8 @@ function init() {
       const info = myObj.getInfo();
       var partsString = '';
       for (let i = 0; i < info.parts.length; i++) {
+        info.parts[i].options.inherited = {};
+        info.parts[i].options.specified = {};
         partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="building ' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <input type="checkbox" id="roof' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
       }
       info.options.inherited = {};
