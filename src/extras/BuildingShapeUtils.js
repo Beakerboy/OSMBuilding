@@ -175,7 +175,7 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @param {THREE.Shape} shape - the shape
    */
-  calculateRadius(shape) {
+  static calculateRadius(shape) {
     const extents = BuildingShapeUtils.extents(shape);
     // return half of the shorter side-length.
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
