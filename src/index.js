@@ -35,7 +35,7 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
-    const helperSize = myObj.outer_element.getWidth();
+    const helperSize = myObj.outerElement.getWidth();
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
     scene.add(helper);
 
