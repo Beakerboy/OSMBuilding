@@ -30,9 +30,7 @@ class BuildingPart {
   nodelist = [];
 
   // Metadata of the building part.
-  options = {
-    inherited: {},
-    specified: {},
+  blankOptions = {
     building: {
       colour: null,
       ele: null,
@@ -65,8 +63,9 @@ class BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
+    this.options = this.blankOptions;
     if (Object.keys(defaultOptions).length === 0) {
-      defaultOptions = this.options;
+      defaultOptions = this.blankOptions;
     }
     this.options.inherited = defaultOptions;
     this.fullXmlData = fullXmlData;
