@@ -1,3 +1,5 @@
+import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
+import {BuildingPart} from './buildingpart.js';
 /**
  * An OSM Building Part
  *
@@ -37,5 +39,5 @@ class MultiBuildingPart extends BuildingPart {
     const y = xy[1];
     return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
   }
-
 }
+export {MultiBuildingPart};

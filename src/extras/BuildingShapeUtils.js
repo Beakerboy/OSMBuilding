@@ -1,11 +1,16 @@
-class BuildingShapeUtils extends THREE.ShapeUtils {
+import {
+  Shape,
+  ShapeUtils,
+} from 'three';
+
+class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Create the shape of this way.
    */
   static createShape(way, nodelist) {
     const elements = way.getElementsByTagName('nd');
-    const shape = new THREE.Shape();
+    const shape = new Shape();
     var ref;
     var node = [];
     for (let i = 0; i < elements.length; i++) {
@@ -166,9 +171,14 @@ class BuildingShapeUtils extends THREE.ShapeUtils {
   }
 
   /**
-   * Convert a cardinal direction (ESE) to degrees 112°.
-   * North is zero.
+   * Calculate the radius of a circle that can fit within a shape.
+   *
+   * @param {THREE.Shape} shape - the shape
    */
-  static cardinalToDegree(cardinal) {
+  static calculateRadius(shape) {
+    const extents = BuildingShapeUtils.extents(shape);
+    // return half of the shorter side-length.
+    return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
   }
 }
+export {BuildingShapeUtils};

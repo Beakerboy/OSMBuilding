@@ -1,3 +1,6 @@
+import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
+import {BuildingPart} from './buildingpart.js';
+import {MultiBuildingPart} from './multibuildingpart.js';
 /**
  * A class representing an OSM building
  *
@@ -121,13 +124,16 @@ class Building {
   }
 
   render() {
+    const mesh = [];
     if (this.parts.length > 0) {
       for (let i = 0; i < this.parts.length; i++) {
-        this.parts[i].render();
+        mesh.push(...this.parts[i].render());
       }
     } else {
-      this.outerElement.render();
+      const parts = this.outerElement.render();
+      mesh.push(parts[0], parts[1]);
     }
+    return mesh;
   }
 
   addParts() {
@@ -338,3 +344,4 @@ class Building {
     };
   }
 }
+export {Building};

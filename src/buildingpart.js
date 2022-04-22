@@ -1,3 +1,16 @@
+import {
+  Color,
+  ExtrudeGeometry,
+  Shape,
+  Mesh,
+  MeshLambertMaterial,
+  MeshPhysicalMaterial,
+  SphereGeometry,
+} from 'three';
+
+import {PyramidGeometry} from 'pyramid';
+import {RampGeometry} from 'ramp';
+import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
  *
@@ -17,25 +30,34 @@ class BuildingPart {
   nodelist = [];
 
   // Metadata of the building part.
-  options = {
+  blankOptions = {
     building: {
+      colour: null,
+      ele: null,
       height: null,
+      levels: null,
+      levelsUnderground: null,
+      material: null,
+      minHeight: null,
+      minLevel: null,
+      walls: null,
     },
     roof: {
       angle: null,
+      colour: null,
       direction: null,
       height: null,
-      minHeight: null,
+      levels: null,
+      material: null,
       orientation: null,
-      shape: 'flat',
+      shape: null,
     },
   };
 
-  roofMaterial;
-  buildingMaterial;
-
   fullXmlData;
 
+  // THREE.Mesh
+  parts = [];
   /**
    * @param {number} id - the OSM id of the way or multipolygon.
    * @param {XMLDocument} fullXmlData - XML for the region.
@@ -43,15 +65,17 @@ class BuildingPart {
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
+    this.options = this.blankOptions;
     if (Object.keys(defaultOptions).length === 0) {
-      defaultOptions = this.options;
+      defaultOptions = this.blankOptions;
     }
+    this.options.inherited = defaultOptions;
     this.fullXmlData = fullXmlData;
     this.id = id;
     this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
-    this.setOptions(defaultOptions);
     this.shape = this.buildShape();
+    this.setOptions();
   }
 
   buildShape() {
@@ -62,23 +86,63 @@ class BuildingPart {
   /**
    * Set the object's options
    */
-  setOptions(defaultOptions) {
+  setOptions() {
     // set values from the options, then override them by the local values if one exists.
+    const specifiedOptions = this.blankOptions;
 
-    this.options.roof.angle = this.getAttribute('roof:angle') ?? defaultOptions.roof.angle;
-    this.options.roof.direction = this.getAttribute('roof:direction') ?? defaultOptions.roof.direction;
-    // the 3rd second '??' should be unnecessary since the options object has a 0 default.
-    this.options.roof.height = this.calculateRoofHeight() ?? defaultOptions.roof.height;
-    this.options.roof.minHeight = this.calculateMinHeight() ?? defaultOptions.roof.minHeight;
-    this.options.roof.orientation = this.getAttribute('roof:orientation') ?? defaultOptions.roof.orientation;
-    this.options.roof.shape = this.getAttribute('roof:shape') ?? defaultOptions.roof.shape;
-    if (this.options.roof.shape === 'flat') {
-      this.options.roof.height = 0;
+    specifiedOptions.building.colour = this.getAttribute('colour');
+    specifiedOptions.building.ele = this.getAttribute('ele');
+    specifiedOptions.building.height = BuildingPart.normalizeLength(this.getAttribute('height'));
+    specifiedOptions.building.levels = this.getAttribute('building:levels');
+    specifiedOptions.building.levelsUnderground = this.getAttribute('building:levels:underground');
+    specifiedOptions.building.material = this.getAttribute('building:material');
+    specifiedOptions.building.minHeight = BuildingPart.normalizeLength(this.getAttribute('min_height'));
+    specifiedOptions.building.minLevel = this.getAttribute('building:min_level');
+    specifiedOptions.building.walls = this.getAttribute('walls');
+    specifiedOptions.roof.angle = this.getAttribute('roof:angle');
+    specifiedOptions.roof.colour = this.getAttribute('roof:colour');
+    specifiedOptions.roof.direction = this.getAttribute('roof:direction');
+    specifiedOptions.roof.height = BuildingPart.normalizeLength(this.getAttribute('roof:height'));
+    specifiedOptions.roof.levels = this.getAttribute('roof:levels');
+    specifiedOptions.roof.material = this.getAttribute('roof:material');
+    specifiedOptions.roof.orientation = this.getAttribute('roof:orientation');
+    specifiedOptions.roof.shape = this.getAttribute('roof:shape');
+
+    this.options.specified = specifiedOptions;
+
+    const calculatedOptions = this.blankOptions;
+    // todo replace with some sort of foreach loop.
+    calculatedOptions.building.colour = this.options.specified.building.colour ?? this.options.inherited.building.colour;
+    calculatedOptions.building.ele = this.options.specified.building.ele ?? this.options.inherited.building.ele ?? 0;
+    calculatedOptions.building.levels = this.options.specified.building.levels ?? this.options.inherited.building.levels;
+    calculatedOptions.building.levelsUnderground = this.options.specified.building.levelsUnderground ?? this.options.inherited.building.levelsUnderground;
+    calculatedOptions.building.material = this.options.specified.building.material ?? this.options.inherited.building.material;
+    calculatedOptions.building.minLevel = this.options.specified.building.minLevel ?? this.options.inherited.building.minLevel;
+    calculatedOptions.building.minHeight = this.options.specified.building.minHeight ?? this.options.inherited.building.minHeight ?? 0;
+    calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
+    calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
+    calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
+    calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
+    calculatedOptions.roof.levels = this.options.specified.roof.levels ?? this.options.inherited.roof.levels;
+    calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
+    calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
+    calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
+
+    calculatedOptions.roof.height = this.options.specified.roof.height ??
+      this.options.inherited.roof.height ??
+      (isNaN(calculatedOptions.roof.levels) ? null : (calculatedOptions.roof.levels * 3)) ??
+      (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
+      (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calculateRadius(this.shape) : null) ??
+      (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
+    calculatedOptions.building.height = this.options.specified.building.height ??
+      this.options.inherited.building.height ??
+      (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height;
+    this.options.building = calculatedOptions.building;
+    this.options.roof = calculatedOptions.roof;
+    if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
+      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
-    this.options.building.height = this.calculateHeight() ?? defaultOptions.building.height;
-    if (this.getAttribute('building:part') && this.options.building.height > defaultOptions.building.height) {
-      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + defaultOptions.building.height + ')');
-    }
+    this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
   }
 
   /**
@@ -89,55 +153,32 @@ class BuildingPart {
   }
 
   /**
-   * Calculate the radius of a circle that can fit within
-   * this way.
-   */
-  calculateRadius() {
-    const elements = this.way.getElementsByTagName('nd');
-    var lats = [];
-    var lons = [];
-    let ref = 0;
-    var node;
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
-      node = this.nodelist[ref];
-      lats.push(node[1]);
-      lons.push(node[0]);
-    }
-    const left = Math.min(...lons);
-    const bottom = Math.min(...lats);
-    const right = Math.max(...lons);
-    const top = Math.max(...lats);
-
-    // Set the "home point", the lat lon to center the structure.
-    return Math.min(right - left, top - bottom) / 2;
-  }
-
-  /**
    * Render the building part
    */
   render() {
-    scene.add(this.roof);
+    this.createRoof();
+    this.parts.push(this.roof);
     this.createBuilding();
+    return this.parts;
   }
 
   createBuilding() {
-    let extrusionHeight = this.options.building.height - this.options.roof.minHeight - (this.options.roof.height ?? 0);
+    let extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
 
     let extrudeSettings = {
       bevelEnabled: false,
       depth: extrusionHeight,
     };
 
-    var geometry = new THREE.ExtrudeGeometry(this.shape, extrudeSettings);
+    var geometry = new ExtrudeGeometry(this.shape, extrudeSettings);
 
     // Create the mesh.
-    var mesh = new THREE.Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
+    var mesh = new Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.options.roof.minHeight, 0);
-    scene.add( mesh );
+    mesh.position.set( 0, this.options.building.minHeight, 0);
+    this.parts.push(mesh);
   }
 
   /**
@@ -147,21 +188,17 @@ class BuildingPart {
     var way = this.way;
     var material;
 
-    // Flat - Do Nothing
     if (this.options.roof.shape === 'flat') {
-      this.options.roof.height = this.options.roof.height ?? 0;
+      // do nothing
     } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
-      const R = this.calculateRadius();
-      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+      const R = BuildingShapeUtils.calculateRadius(this.shape);
+      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
-      if (this.options.roof.height === 0) {
-        this.options.roof.height = R;
-      }
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
@@ -176,20 +213,18 @@ class BuildingPart {
       const geometry = new RampGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-      scene.add( roof );
+      this.roof = roof;
     } else if (this.options.roof.shape === 'onion') {
-      const R = this.calculateRadius();
-      const geometry = new THREE.SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+      const R = BuildingShapeUtils.calculateRadius(this.shape);
+      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
+
       // Adjust the dome height if needed.
-      if (this.options.roof.height === 0) {
-        this.options.roof.height = R;
-      }
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
@@ -205,7 +240,7 @@ class BuildingPart {
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new THREE.Mesh( geometry, material );
+      const roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       this.roof = roof;
@@ -241,33 +276,6 @@ class BuildingPart {
     return BuildingPart.normalizeLength(height);
   }
 
-  calculateMinHeight() {
-    var minHeight = 0;
-    if (this.way.querySelector('[k="min_height"]') !== null) {
-      // if the buiilding part has a min_helght tag, use it.
-      minHeight = this.way.querySelector('[k="min_height"]').getAttribute('v');
-    } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
-      // if not, use building:min_level and 3 meters per level.
-      minHeight = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
-    }
-    return BuildingPart.normalizeLength(minHeight);
-  }
-
-  /**
-   * the height in meters that the roof extends above the main building
-   */
-  calculateRoofHeight() {
-    var height;
-    if (this.way.querySelector('[k="roof:height"]') !== null) {
-      // if the buiilding part has a roof:height tag, use it.
-      height = this.way.querySelector('[k="roof:height"]').getAttribute('v');
-    } else if (this.way.querySelector('[k="roof:levels"]') !== null) {
-      // if not, use roof:levels and 3 meters per level.
-      height = 3 * this.way.querySelector('[k="roof:levels"]').getAttribute('v');
-    }
-    return BuildingPart.normalizeLength(height);
-  }
-
   /**
    * convert an string of length units in various format to
    * a float in meters.
@@ -280,7 +288,16 @@ class BuildingPart {
     // } else if (includes an 'm') {
     //   return parseFloat(substr);
     // }
-    return parseFloat(length);
+    if (length) {
+      return parseFloat(length);
+    }
+  }
+
+  /**
+   * Convert a cardinal direction (ESE) to degrees 112°.
+   * North is zero.
+   */
+  static cardinalToDegree(cardinal) {
   }
 
   /**
@@ -310,9 +327,9 @@ class BuildingPart {
     }
     const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
-      material.color = new THREE.Color(color);
+      material.color = new Color(color);
     } else if (materialName === ''){
-      material.color = new THREE.Color('white');
+      material.color = new Color('white');
     }
     return material;
   }
@@ -340,7 +357,7 @@ class BuildingPart {
       material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
-      material.color = new THREE.Color(color);
+      material.color = new Color(color);
     }
     return material;
   }
@@ -348,54 +365,54 @@ class BuildingPart {
   static getBaseMaterial(materialName) {
     var material;
     if (materialName === 'glass') {
-      material = new THREE.MeshPhysicalMaterial( {
+      material = new MeshPhysicalMaterial( {
         color: 0x00374a,
         emissive: 0x011d57,
         reflectivity: 0.1409,
         clearcoat: 1,
       } );
     } else if (materialName === 'grass'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0x7ec850,
         emissive: 0x000000,
       });
     } else if (materialName === 'bronze') {
-      material = new THREE.MeshPhysicalMaterial({
+      material = new MeshPhysicalMaterial({
         color:0xcd7f32,
         emissive: 0x000000,
         metalness: 1,
         roughness: 0.127,
       });
     } else if (materialName === 'copper') {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xa1c7b6,
         emissive: 0x00000,
         reflectivity: 0,
       });
     } else if (materialName === 'stainless_steel' || materialName === 'metal') {
-      material = new THREE.MeshPhysicalMaterial({
+      material = new MeshPhysicalMaterial({
         color: 0xaaaaaa,
         emissive: 0xaaaaaa,
         metalness: 1,
         roughness: 0.127,
       });
     } else if (materialName === 'brick'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xcb4154,
         emissive: 0x1111111,
       });
     } else if (materialName === 'concrete'){
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0x555555,
         emissive: 0x1111111,
       });
     } else if (materialName === 'marble') {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         color: 0xffffff,
         emissive: 0x1111111,
       });
     } else {
-      material = new THREE.MeshLambertMaterial({
+      material = new MeshLambertMaterial({
         emissive: 0x1111111,
       });
     }
@@ -412,3 +429,4 @@ class BuildingPart {
     };
   }
 }
+export {BuildingPart};
