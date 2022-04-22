@@ -172,7 +172,7 @@ class BuildingPart {
 
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set( 0, this.options.roof.minHeight, 0);
+    mesh.position.set( 0, this.options.building.minHeight, 0);
     this.parts.push(mesh);
   }
 
@@ -269,18 +269,6 @@ class BuildingPart {
     }
 
     return BuildingPart.normalizeLength(height);
-  }
-
-  calculateMinHeight() {
-    var minHeight = 0;
-    if (this.way.querySelector('[k="min_height"]') !== null) {
-      // if the buiilding part has a min_helght tag, use it.
-      minHeight = this.way.querySelector('[k="min_height"]').getAttribute('v');
-    } else if (this.way.querySelector('[k="building:min_level"]') !== null) {
-      // if not, use building:min_level and 3 meters per level.
-      minHeight = 3 * this.way.querySelector('[k="building:min_level"]').getAttribute('v');
-    }
-    return BuildingPart.normalizeLength(minHeight);
   }
 
   /**
