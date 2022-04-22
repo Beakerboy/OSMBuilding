@@ -156,6 +156,7 @@ class BuildingPart {
    * Render the building part
    */
   render() {
+    this.createRoof();
     this.parts.push(this.roof);
     this.createBuilding();
     return this.parts;
