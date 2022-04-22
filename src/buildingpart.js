@@ -119,6 +119,7 @@ class BuildingPart {
     calculatedOptions.building.material = this.options.specified.building.material ?? this.options.inherited.building.material;
     calculatedOptions.building.minLevel = this.options.specified.building.minLevel ?? this.options.inherited.building.minLevel;
     calculatedOptions.building.minHeight = this.options.specified.building.minHeight ?? this.options.inherited.building.minHeight ?? 0;
+    console.log('minheight: ' + calculatedOptions.building.minHeight);
     calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
     calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
     calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
@@ -134,11 +135,15 @@ class BuildingPart {
       (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
       (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calulateRadius(this.shape) : null) ??
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
+    calculatedOptions.building.height = this.options.building.roof.height ??
+      this.options.inherited.building.height ??
+      (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height;
     this.options.building = calculatedOptions.building;
     this.options.roof = calculatedOptions.roof;
     if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
       console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
+    this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
   }
 
   /**
