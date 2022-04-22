@@ -23,7 +23,7 @@ var building = {};
 function init() {
   var type = 'way';
   var id = 66418809;
-  var info = false;
+  var displayInfo = false;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
       .forEach(function(item) {
@@ -33,7 +33,7 @@ function init() {
         } else if (tmp[0] === 'id') {
           id = decodeURIComponent(tmp[1]);
         } else if (tmp[0] === 'info') {
-          info = true;
+          displayInfo = true;
         }
       });
   }
@@ -46,7 +46,7 @@ function init() {
     for (let i = 0; i < mesh.length; i++) {
       scene.add(mesh[i]);
     }
-    if (info) {
+    if (displayInfo) {
       const elem = document.createElement('div');
       elem.setAttribute('id', 'div-building-details');
       elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
@@ -57,6 +57,7 @@ function init() {
       for (let i = 0; i < info.parts.length; i++) {
         partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="building ' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <input type="checkbox" id="roof' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
       }
+      info.options.inherited = {};
       elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
       // Get building details from myObj
       var coll = document.getElementsByClassName('collapsible');
