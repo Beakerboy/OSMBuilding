@@ -6,7 +6,7 @@ import {
   AmbientLight,
   HemisphereLight,
   DirectionalLight,
-} from "three";
+} from 'three';
 import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 
 var camera;
@@ -35,8 +35,8 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
-    const helper_size = myObj.outer_element.getWidth();
-    const helper = new GridHelper(helper_size / 0.9, helper_size / 9);
+    const helperSize = myObj.outer_element.getWidth();
+    const helper = new GridHelper(helperSize / 0.9, helper_size / 9);
     scene.add(helper);
 
     myObj.render();
