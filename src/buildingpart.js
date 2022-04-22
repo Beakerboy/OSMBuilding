@@ -5,11 +5,11 @@ import {
   Mesh,
   MeshLambertMaterial,
   MeshPhysicalMaterial,
-  SphereGeometry
-} from "three";
+  SphereGeometry,
+} from 'three';
 
-import {PyramidGeometry} from "pyramid";
-import {RampGeometry} from "ramp";
+import {PyramidGeometry} from 'pyramid';
+import {RampGeometry} from 'ramp';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
