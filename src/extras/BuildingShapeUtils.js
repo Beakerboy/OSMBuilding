@@ -1,7 +1,7 @@
 import {
   Shape,
-  ShapeUtils
-} from "three";
+  ShapeUtils,
+} from 'three';
 
 class BuildingShapeUtils extends ShapeUtils {
 
