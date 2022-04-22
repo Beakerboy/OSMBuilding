@@ -125,12 +125,14 @@ class Building {
 
   render() {
     if (this.parts.length > 0) {
+      const mesh = [];
       for (let i = 0; i < this.parts.length; i++) {
-        this.parts[i].render();
+        mesh.push(...this.parts[i].render());
       }
     } else {
-      this.outerElement.render();
+      mesh.push(..this.outerElement.render());
     }
+    return mesh;
   }
 
   addParts() {
