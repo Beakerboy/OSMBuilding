@@ -119,7 +119,6 @@ class BuildingPart {
     calculatedOptions.building.material = this.options.specified.building.material ?? this.options.inherited.building.material;
     calculatedOptions.building.minLevel = this.options.specified.building.minLevel ?? this.options.inherited.building.minLevel;
     calculatedOptions.building.minHeight = this.options.specified.building.minHeight ?? this.options.inherited.building.minHeight ?? 0;
-    console.log('minheight: ' + calculatedOptions.building.minHeight);
     calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
     calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
     calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
