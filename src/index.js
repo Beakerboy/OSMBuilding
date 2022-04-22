@@ -9,12 +9,15 @@ import {
 } from 'three';
 import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 import {Building} from './building.js';
+
 var camera;
 var renderer;
 var controls;
 var scene = new Scene();
 var home;
+
 var helperSize;
+
 var building = {};
 
 /**
@@ -23,17 +26,20 @@ var building = {};
 function init() {
   var type = 'way';
   var id = 66418809;
+
   var displayInfo = false;
+
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
       .forEach(function(item) {
-        const tmp = item.split('=');
+        tmp = item.split('=');
         if (tmp[0] === 'type') {
           type = decodeURIComponent(tmp[1]);
         } else if (tmp[0] === 'id') {
           id = decodeURIComponent(tmp[1]);
         } else if (tmp[0] === 'info') {
           displayInfo = true;
+
         }
       });
   }
@@ -108,6 +114,7 @@ function createScene() {
   camera.far = 50000;
   camera.updateProjectionMatrix();
   controls = new OrbitControls( camera, renderer.domElement );
+
   function render() {
     requestAnimationFrame(render);
 
