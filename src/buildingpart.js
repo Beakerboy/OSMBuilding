@@ -118,6 +118,7 @@ class BuildingPart {
     calculatedOptions.building.levelsUnderground = this.options.specified.building.levelsUnderground ?? this.options.inherited.building.levelsUnderground;
     calculatedOptions.building.material = this.options.specified.building.material ?? this.options.inherited.building.material;
     calculatedOptions.building.minLevel = this.options.specified.building.minLevel ?? this.options.inherited.building.minLevel;
+    calculatedOptions.building.minHeight = this.options.specified.building.minHeight ?? this.options.inherited.building.minHeight ?? 0;
     calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
     calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
     calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
@@ -157,7 +158,7 @@ class BuildingPart {
   }
 
   createBuilding() {
-    let extrusionHeight = this.options.building.height - this.options.roof.minHeight - (this.options.roof.height ?? 0);
+    let extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
 
     let extrudeSettings = {
       bevelEnabled: false,
