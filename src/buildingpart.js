@@ -132,7 +132,7 @@ class BuildingPart {
       this.options.inherited.roof.height ??
       (isNaN(calculatedOptions.roof.levels) ? null : (calculatedOptions.roof.levels * 3)) ??
       (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
-      (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calulateRadius(this.shape) : null) ??
+      (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calculateRadius(this.shape) : null) ??
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
     calculatedOptions.building.height = this.options.specified.building.height ??
       this.options.inherited.building.height ??
@@ -193,7 +193,7 @@ class BuildingPart {
     } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
-      const R = BuildingShapeUtils.calulateRadius(this.shape);
+      const R = BuildingShapeUtils.calculateRadius(this.shape);
       const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
@@ -218,7 +218,7 @@ class BuildingPart {
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
       this.roof = roof;
     } else if (this.options.roof.shape === 'onion') {
-      const R = BuildingShapeUtils.calulateRadius(this.shape);
+      const R = BuildingShapeUtils.calculateRadius(this.shape);
       const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
 
       // Adjust the dome height if needed.
