@@ -135,6 +135,7 @@ class BuildingPart {
       (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calulateRadius(this.shape) : null) ??
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
     console.log('roof height: ' + calculatedOptions.roof.height);
+    console.log("calc: " + calculatedOptions.roof.levels * 3);
     calculatedOptions.building.height = this.options.specified.building.height ??
       this.options.inherited.building.height ??
       (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height;
