@@ -340,3 +340,4 @@ class Building {
     };
   }
 }
+export {Building};
