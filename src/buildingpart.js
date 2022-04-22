@@ -288,7 +288,9 @@ class BuildingPart {
     // } else if (includes an 'm') {
     //   return parseFloat(substr);
     // }
-    return parseFloat(length);
+    if(length) {
+      return parseFloat(length);
+    }
   }
 
   /**
