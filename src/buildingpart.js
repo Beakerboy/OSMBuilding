@@ -135,7 +135,7 @@ class BuildingPart {
       (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
       (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calculateRadius(this.shape) : null) ??
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
-    
+
     calculatedOptions.building.height = this.options.specified.building.height ??
       this.options.inherited.building.height ??
       (isNaN(calculatedOptions.building.levels) ? null : (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height) ??
