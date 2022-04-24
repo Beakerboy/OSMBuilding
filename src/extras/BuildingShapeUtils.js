@@ -186,7 +186,12 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static heightFacing(shape, angle) {
     const ys = [];
-
+    const vecs = shape.extractPoints().shape;
+    for (let i = 0; i < vecs.length; i++) {
+       const vec = vecs[i];
+      ys.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
+    }
+    return Math.max(...ys) - Math.min(...ys);
   }
 }
 export {BuildingShapeUtils};
