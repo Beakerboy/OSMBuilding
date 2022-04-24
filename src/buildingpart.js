@@ -129,12 +129,14 @@ class BuildingPart {
     calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
     calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
 
+    const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI);
+    const shapeHeight = extents[3] - extents[1];
     calculatedOptions.roof.height = this.options.specified.roof.height ??
       this.options.inherited.roof.height ??
       (isNaN(calculatedOptions.roof.levels) ? null : (calculatedOptions.roof.levels * 3)) ??
       (calculatedOptions.roof.shape === 'flat' ? 0 : null) ??
       (calculatedOptions.roof.shape === 'dome' || calculatedOptions.roof.shape === 'pyramidal' ? BuildingShapeUtils.calculateRadius(this.shape) : null) ??
-      (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * BuildingShapeUtils.heightFacing(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI) : 22.5) : null);
+      (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * shapeHeight : 22.5) : null);
 
     calculatedOptions.building.height = this.options.specified.building.height ??
       this.options.inherited.building.height ??
