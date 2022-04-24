@@ -56,8 +56,6 @@ class BuildingShapeUtils extends ShapeUtils {
     const points = shape.extractPoints().shape;
     var x = [];
     var y = [];
-    var miny;
-    var maxy;
     var vec;
     for (let i = 0; i < points.length; i++) {
       vec = points[i];
@@ -73,23 +71,21 @@ class BuildingShapeUtils extends ShapeUtils {
    * @param {THREE.Shape} pts - the shape
    * @return {[number, number, number, number]} the extents of the object.
    */
-  static extents(shape) {
-    const xy = BuildingShapeUtils.combineCoordinates(shape);
-    const x = xy[0];
-    const y = xy[1];
+  static extents(shape, angle = 0) {
+    const points = shape.extractPoints().shape;
+    var x = [];
+    var y = [];
+    var vec;
+    for (let i = 0; i < points.length; i++) {
+      vec = points[i];
+      x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
+      y.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
+    }
     const left = Math.min(...x);
     const bottom = Math.min(...y);
     const right = Math.max(...x);
     const top = Math.max(...y);
     return [left, bottom, right, top];
-  }
-
-  static rotatedExtents(shape, angle) {
-    // create rotation matrix
-    // extract vectors
-    // apply matrix to vectors.
-    // const rotatedShape = make shape from vectors
-    // return BuildingShapeUtils.extents(rotatedShape);
   }
 
   /**
