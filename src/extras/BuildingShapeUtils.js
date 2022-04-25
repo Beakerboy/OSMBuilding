@@ -176,5 +176,13 @@ class BuildingShapeUtils extends ShapeUtils {
     // return half of the shorter side-length.
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
   }
+
+  /**
+   * divide a shape by a line
+   */
+   static divideShape(shape, angle, point) {
+     const points = shape.extractPoints().shape;
+     
+   }
 }
 export {BuildingShapeUtils};
