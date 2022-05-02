@@ -187,7 +187,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static longestSideAngle(shape) {
     const newVecs;
-    const shape;
+    const newShape;
     const vecs = shape.extractPoints().shape;
     var p0 = vecs[vecs.length - 2];
     var p1 = vecs[0];
@@ -199,7 +199,8 @@ class BuildingShapeUtils extends ShapeUtils {
         newVecs.push(p1);
       }
     }
-    return Math.max(...BuildingShapeUtils.edgeLength(shape));
+    // convert newVecs into newShape
+    return Math.max(...BuildingShapeUtils.edgeLength(newShape));
   }
 }
 export {BuildingShapeUtils};
