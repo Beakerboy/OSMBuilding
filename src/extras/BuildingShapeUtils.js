@@ -177,5 +177,26 @@ class BuildingShapeUtils extends ShapeUtils {
     // return half of the shorter side-length.
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
   }
+
+  /**
+   * Calculate the angle of the longest side of a shape with 90° vertices.
+   * is begining / end duplicated?
+   *
+   * @param {THREE.Shape} shape - the shape
+   * @return {number}
+   */
+  static longestSideAngle(shape) {
+    const vecs = shape.extractPoints().shape;
+    var p0 = vecs[vecs.length - 2];
+    var p1 = vecs[0];
+    var p2 = vecs[1];
+    for (let i = 0; i < vecs.length - 1; i++) {
+      // Calculate angle
+      angle = Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x));
+      if (angle < 179.5) {
+        newVecs.push(p1);
+      }
+    }
+  }
 }
 export {BuildingShapeUtils};
