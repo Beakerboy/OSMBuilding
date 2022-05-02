@@ -203,6 +203,7 @@ class BuildingShapeUtils extends ShapeUtils {
       p0 = p1;
     }
     // convert newVecs into newShape
+    newShape.setFromPoints(newVecs);
     return Math.max(...BuildingShapeUtils.edgeLength(newShape));
   }
 }
