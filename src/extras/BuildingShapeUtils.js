@@ -66,9 +66,10 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Calculate the Cartesian extents of the shape.
+   * Calculate the Cartesian extents of the shape after rotaing couterclockwise by a given angle.
    *
    * @param {THREE.Shape} pts - the shape
+   * @param {number} angle - angle in radians to rotate shape
    * @return {[number, number, number, number]} the extents of the object.
    */
   static extents(shape, angle = 0) {
@@ -176,13 +177,5 @@ class BuildingShapeUtils extends ShapeUtils {
     // return half of the shorter side-length.
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
   }
-
-  /**
-   * divide a shape by a line
-   */
-   static divideShape(shape, angle, point) {
-     const points = shape.extractPoints().shape;
-     
-   }
 }
 export {BuildingShapeUtils};
