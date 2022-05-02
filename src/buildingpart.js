@@ -10,6 +10,7 @@ import {
 
 import {PyramidGeometry} from 'pyramid';
 import {RampGeometry} from 'ramp';
+import {WedgeGeometry} from 'wedge';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
@@ -236,6 +237,20 @@ class BuildingPart {
       roof.position.set(center[0], elevation, -1 * center[1]);
       this.roof = roof;
     } else if (this.options.roof.shape === 'gabled') {
+      const angle = BuildingShapeUtils.longestSideAngle(this.shape);
+      const center = BuildingShapeUtils.center(this.shape, angle);
+      const options = {
+        center: center,
+        angle: angle,
+        depth: this.options.roof.height,
+      };
+      const geometry = new WedgeGeometry(this.shape, options);
+
+      material = BuildingPart.getRoofMaterial(this.way);
+      const roof = new Mesh(geometry, material);
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set(0, this.options.building.height - this.options.roof.height, 0);
+      this.roof = roof;
     } else if (this.options.roof.shape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
