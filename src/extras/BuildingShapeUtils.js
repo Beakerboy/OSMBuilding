@@ -224,6 +224,7 @@ class BuildingShapeUtils extends ShapeUtils {
       }
       p0 = p1;
     }
+    console.log(newVecs);
     // convert newVecs into newShape
     newShape.setFromPoints(newVecs);
     const lengths = BuildingShapeUtils.edgeLength(newShape);
