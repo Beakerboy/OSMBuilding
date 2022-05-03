@@ -115,7 +115,7 @@ class BuildingShapeUtils extends ShapeUtils {
       p2 = points[i + 1];
       lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     }
-    p1 = points[points.length];
+    p1 = points[points.length - 1];
     p2 = points[0];
     lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     return lengths;
@@ -144,6 +144,22 @@ class BuildingShapeUtils extends ShapeUtils {
     p1 = points[points.length];
     p2 = points[0];
     angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    return angles;
+  }
+
+  /**
+   * Calculate the angle of each of a shape's edge
+   */
+  static edgeDirection(shape) {
+    const points = shape.extractPoints().shape;
+    const angles = [];
+    var p1;
+    var p2;
+    for (let i = 0; i < points.length - 1; i++) {
+      p1 = points[i];
+      p2 = points[i + 1];
+      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
+    }
     return angles;
   }
 
@@ -181,6 +197,51 @@ class BuildingShapeUtils extends ShapeUtils {
     const extents = BuildingShapeUtils.extents(shape);
     // return half of the shorter side-length.
     return Math.min(extents[2] - extents[0], extents[3] - extents[1]) / 2;
+  }
+
+  /**
+   * Calculate the angle of the longest side of a shape with 90° vertices.
+   * is begining / end duplicated?
+   *
+   * @param {THREE.Shape} shape - the shape
+   * @return {number}
+   */
+  static longestSideAngle(shape) {
+    const newVecs = [];
+    const newShape = new Shape();
+    const vecs = shape.extractPoints().shape;
+    var p0 = vecs[vecs.length - 2];
+    var p1;
+    var p2;
+    for (let i = 0; i < vecs.length - 1; i++) {
+      p1 = vecs[i];
+      p2 = vecs[i + 1];
+      // Calculate angle
+      const angle = Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x));
+      if (angle < 179.5) {
+        newVecs.push(p1);
+      }
+      p0 = p1;
+    }
+    // convert newVecs into newShape
+    newShape.setFromPoints(newVecs);
+    const lengths = BuildingShapeUtils.edgeLength(newShape);
+    const directions = BuildingShapeUtils.edgeDirection(newShape);
+    var index;
+    var maxLength = 0;
+    for (let i = 0; i < lengths.length; i++) {
+      if (lengths[i] > maxLength) {
+        index = i;
+        maxLength = lengths[i];
+      }
+    }
+    const angle = directions[index];
+    const extents = BuildingShapeUtils.extents(newShape, angle);
+    // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
+    if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
+      angle = angle > Math.PI / 2 ? angle - Math.PI / 2 : angle + Math.PI / 2;
+    }
+    return angle;
   }
 }
 export {BuildingShapeUtils};

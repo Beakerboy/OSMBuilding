@@ -28,7 +28,7 @@ function init() {
   var id = 66418809;
 
   var displayInfo = false;
-
+  window.showHideDiv = showHideDiv;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
       .forEach(function(item) {
@@ -63,11 +63,16 @@ function init() {
       for (let i = 0; i < info.parts.length; i++) {
         info.parts[i].options.inherited = {};
         info.parts[i].options.specified = {};
-        partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="building ' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <input type="checkbox" id="roof' + info.parts[i].id + '" onclick="ShowHideDiv(this)" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
+        partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="b' + info.parts[i].id + '" /> <input type="checkbox" id="r' + info.parts[i].id + '" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
       }
       info.options.inherited = {};
       info.options.specified = {};
-      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
+      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span style="font-size: .5em">Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
+      for (let i = 0; i < info.parts.length; i++) {
+        const id = info.parts[i].id;
+        document.querySelector('#b' + id).addEventListener('click', showHideDiv('b' + id));
+        document.querySelector('#r' + id).addEventListener('click', showHideDiv('r' + id));
+      }
       // Get building details from myObj
       var coll = document.getElementsByClassName('collapsible');
       var i;
@@ -121,6 +126,11 @@ function createScene() {
     renderer.render(scene, camera);
   }
   render();
+}
+
+function showHideDiv(objectId) {
+  const mesh = scene.getObjectByName(objectId);
+  mesh.visible = false;
 }
 
 function addLights() {
