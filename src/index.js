@@ -130,11 +130,14 @@ function createScene() {
 
 function showHideDiv(objectId) {
   const mesh = scene.getObjectByName(objectId);
-  if (document.querySelector('#' + objectId).checked) {
-    const mesh = scene.getObjectByName(objectId);
-    mesh.visible = false;
+  if (!mesh) {
+    console.log('Mesh ' + objectId + ' not found');
   } else {
-    mesh.visible = true;
+    if (document.querySelector('#' + objectId).checked) { 
+      mesh.visible = false;
+    } else {
+      mesh.visible = true;
+    }
   }
 }
 
