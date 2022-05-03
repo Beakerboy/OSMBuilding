@@ -153,6 +153,8 @@ class BuildingShapeUtils extends ShapeUtils {
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
     const angles = [];
+    var p1;
+    var p2;
     for (let i = 0; i < points.length - 1; i++) {
       p1 = points[i];
       p2 = points[i + 1];
@@ -230,7 +232,7 @@ class BuildingShapeUtils extends ShapeUtils {
     for (let i = 0; i < lengths.length; i++) {
       if (lengths[i] > maxLength) {
         index = i;
-        maxLength = lengths[i]
+        maxLength = lengths[i];
       }
     }
     return directions[index];
