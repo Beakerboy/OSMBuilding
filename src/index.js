@@ -63,7 +63,7 @@ function init() {
       for (let i = 0; i < info.parts.length; i++) {
         info.parts[i].options.inherited = {};
         info.parts[i].options.specified = {};
-        partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="b' + info.parts[i].id + '" onclick="showHideDiv (\'b' + info.parts[i].id + '\')" /> <input type="checkbox" id="r' + info.parts[i].id + '" onclick="showHideDiv(\'r' + info.parts[i].id + '\')" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
+        partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="b' + info.parts[i].id + '" onclick="showHideDiv(\'b' + info.parts[i].id + '\')" /> <input type="checkbox" id="r' + info.parts[i].id + '" onclick="showHideDiv(\'r' + info.parts[i].id + '\')" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
       }
       info.options.inherited = {};
       info.options.specified = {};
