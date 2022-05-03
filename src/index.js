@@ -123,6 +123,11 @@ function createScene() {
   render();
 }
 
+function showHideDiv(object) {
+  const mesh = scene.getObjectByName(object.id);
+  mesh.visible = false;
+}
+
 function addLights() {
   const ambientLight =new AmbientLight( 0xcccccc, 0.2 );
   scene.add( ambientLight );

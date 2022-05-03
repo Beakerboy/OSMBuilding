@@ -57,6 +57,9 @@ class BuildingPart {
 
   fullXmlData;
 
+  // The unique OSM ID of the object.
+  id;
+
   // THREE.Mesh
   parts = [];
   /**
@@ -193,9 +196,10 @@ class BuildingPart {
   createRoof() {
     var way = this.way;
     var material;
-
+    var roof;
     if (this.options.roof.shape === 'flat') {
       // do nothing
+      return;
     } else if (this.options.roof.shape === 'dome') {
     //   find largest circle within the way
     //   R, x, y
@@ -204,12 +208,11 @@ class BuildingPart {
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new Mesh( geometry, material );
+      roof = new Mesh( geometry, material );
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
-      this.roof = roof;
     } else if (this.options.roof.shape === 'skillion') {
       const options = {
         angle: (360 - this.options.roof.direction) / 360 * 2 * Math.PI,
@@ -219,10 +222,9 @@ class BuildingPart {
       const geometry = new RampGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new Mesh( geometry, material );
+      roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-      this.roof = roof;
     } else if (this.options.roof.shape === 'onion') {
       const R = BuildingShapeUtils.calculateRadius(this.shape);
       const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, 0, 2.53 );
@@ -235,7 +237,6 @@ class BuildingPart {
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
-      this.roof = roof;
     } else if (this.options.roof.shape === 'gabled') {
       const angle = BuildingShapeUtils.longestSideAngle(this.shape);
       const center = BuildingShapeUtils.center(this.shape, angle);
@@ -250,7 +251,6 @@ class BuildingPart {
       const roof = new Mesh(geometry, material);
       roof.rotation.x = -Math.PI / 2;
       roof.position.set(0, this.options.building.height - this.options.roof.height, 0);
-      this.roof = roof;
     } else if (this.options.roof.shape === 'pyramidal') {
       const center = BuildingShapeUtils.center(this.shape);
       const options = {
@@ -260,11 +260,14 @@ class BuildingPart {
       const geometry = new PyramidGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
-      const roof = new Mesh( geometry, material );
+      roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-      this.roof = roof;
+    } else {
+      return;
     }
+    roof.name = this.id;
+    this.roof = roof;
   }
 
   getAttribute(key) {
