@@ -108,7 +108,7 @@ class BuildingPart {
     specifiedOptions.roof.colour = this.getAttribute('roof:colour');
     specifiedOptions.roof.direction = this.getAttribute('roof:direction');
     specifiedOptions.roof.height = BuildingPart.normalizeLength(this.getAttribute('roof:height'));
-    specifiedOptions.roof.levels = this.getAttribute('roof:levels');
+    specifiedOptions.roof.levels = this.getAttribute('roof:levels') ? parseFloat(this.getAttribute('roof:levels')) : undefined;
     specifiedOptions.roof.material = this.getAttribute('roof:material');
     specifiedOptions.roof.orientation = this.getAttribute('roof:orientation');
     specifiedOptions.roof.shape = this.getAttribute('roof:shape');
