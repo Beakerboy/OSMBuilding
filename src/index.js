@@ -67,7 +67,7 @@ function init() {
       }
       info.options.inherited = {};
       info.options.specified = {};
-      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span>Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
+      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span style="font-size: .5em">Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
       // Get building details from myObj
       var coll = document.getElementsByClassName('collapsible');
       var i;
