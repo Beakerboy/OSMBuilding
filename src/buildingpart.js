@@ -187,6 +187,7 @@ class BuildingPart {
     // Change the position to compensate for the min_height
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.set( 0, this.options.building.minHeight, 0);
+    mesh.name = 'b' + this.id;
     this.parts.push(mesh);
   }
 
@@ -266,7 +267,7 @@ class BuildingPart {
     } else {
       return;
     }
-    roof.name = this.id;
+    roof.name = 'r' + this.id;
     this.roof = roof;
   }
 
