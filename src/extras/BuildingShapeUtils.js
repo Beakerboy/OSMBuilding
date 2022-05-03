@@ -235,7 +235,7 @@ class BuildingShapeUtils extends ShapeUtils {
         maxLength = lengths[i];
       }
     }
-    const angle = directions[index];
+    var angle = directions[index];
     const extents = BuildingShapeUtils.extents(newShape, angle);
     // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
     if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
