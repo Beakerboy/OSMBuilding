@@ -148,6 +148,20 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
+   * Calculate the angle of each of a shape's edge
+   */
+  static edgeDirection(shape) {
+    const points = shape.extractPoints().shape;
+    const angles = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      p1 = points[i];
+      p2 = points[i + 1];
+      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
+    }
+    return angles;
+  }
+
+  /**
    * Count the number of times that a line horizontal from point intersects shape
    *
    * if an odd number are crossed, it is inside.
@@ -209,7 +223,17 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     // convert newVecs into newShape
     newShape.setFromPoints(newVecs);
-    return Math.max(...BuildingShapeUtils.edgeLength(newShape));
+    const lengths = BuildingShapeUtils.edgeLength(newShape);
+    const directions = BuildingShapeUtils.edgeDirection(newShape);
+    var index;
+    var maxLength = 0;
+    for (let i = 0; i < lengths.length; i++) {
+      if (lengths[i] > maxLength) {
+        index = i;
+        maxLength = lengths[i]
+      }
+    }
+    return directions[index];
   }
 }
 export {BuildingShapeUtils};
