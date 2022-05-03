@@ -80,7 +80,7 @@ class BuildingShapeUtils extends ShapeUtils {
     var y = [];
     var vec;
     for (let i = 0; i < shape.length; i++) {
-      const points = shapep[i].extractPoints().shape;
+      const points = shape[i].extractPoints().shape;
       for (let i = 0; i < points.length; i++) {
         vec = points[i];
         x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
