@@ -239,9 +239,9 @@ class BuildingPart {
       roof.rotation.x = -Math.PI;
       roof.position.set(center[0], elevation, -1 * center[1]);
     } else if (this.options.roof.shape === 'gabled') {
-      var angle = this.options.roof.direction ?? BuildingShapeUtils.longestSideAngle(this.shape);
+      var angle = this.options.roof.direction ?? BuildingShapeUtils.longestSideAngle(this.shape) / 180 * Math.PI;
       if (this.options.roof.orientation === 'across') {
-        angle = angle > 90 ? angle -90 : angle + 90;
+        angle = angle > 90 ? angle - 90 : angle + 90;
       }
       const center = BuildingShapeUtils.center(this.shape, (360 - angle) / 180 * Math.PI);
       const options = {
