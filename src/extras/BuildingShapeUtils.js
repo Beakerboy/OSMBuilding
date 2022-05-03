@@ -68,19 +68,24 @@ class BuildingShapeUtils extends ShapeUtils {
   /**
    * Calculate the Cartesian extents of the shape after rotaing couterclockwise by a given angle.
    *
-   * @param {THREE.Shape} pts - the shape
+   * @param {THREE.Shape} pts - the shape or Array of shapes.
    * @param {number} angle - angle in radians to rotate shape
    * @return {[number, number, number, number]} the extents of the object.
    */
   static extents(shape, angle = 0) {
-    const points = shape.extractPoints().shape;
+    if (!Array.isArray(shape)) {
+      shape = [shape];
+    }
     var x = [];
     var y = [];
     var vec;
-    for (let i = 0; i < points.length; i++) {
-      vec = points[i];
-      x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
-      y.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
+    for (let i = 0; i < shape.length; i++) {
+      const points = shapep[i].extractPoints().shape;
+      for (let i = 0; i < points.length; i++) {
+        vec = points[i];
+        x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
+        y.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
+      }
     }
     const left = Math.min(...x);
     const bottom = Math.min(...y);
