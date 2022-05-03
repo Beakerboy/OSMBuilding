@@ -218,6 +218,7 @@ class BuildingShapeUtils extends ShapeUtils {
       p2 = vecs[i + 1];
       // Calculate angle
       const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
+      console.log(angle);
       // Discard the point if within half a degree of 180.
       if (Math.abs(angle - Math.PI) > Math.PI / 360 / 2 ) {
         newVecs.push(p1);
