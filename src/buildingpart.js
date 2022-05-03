@@ -106,7 +106,7 @@ class BuildingPart {
     specifiedOptions.building.walls = this.getAttribute('walls');
     specifiedOptions.roof.angle = this.getAttribute('roof:angle');
     specifiedOptions.roof.colour = this.getAttribute('roof:colour');
-    specifiedOptions.roof.direction = this.getAttribute('roof:direction');
+    specifiedOptions.roof.direction = BuildingPart.normalizeDirection(this.getAttribute('roof:direction'));
     specifiedOptions.roof.height = BuildingPart.normalizeLength(this.getAttribute('roof:height'));
     specifiedOptions.roof.levels = this.getAttribute('roof:levels') ? parseFloat(this.getAttribute('roof:levels')) : undefined;
     specifiedOptions.roof.material = this.getAttribute('roof:material');
@@ -127,12 +127,15 @@ class BuildingPart {
     calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
     calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
     calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
-    calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
+    
     calculatedOptions.roof.levels = this.options.specified.roof.levels ?? this.options.inherited.roof.levels;
     calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
     calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
     calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
 
+    calculatedOptions.roof.direction = this.options.specified.roof.direction ??
+      this.options.inherited.roof.direction ??
+      BuildingShapeUtils.longestSideAngle(this.shape) / 180 * Math.PI + (calculatedOptions.roof.orientation === 'across' ? 0 : 90);
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.angle / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
     calculatedOptions.roof.height = this.options.specified.roof.height ??
@@ -320,6 +323,15 @@ class BuildingPart {
     }
   }
 
+  static normalizeDirection(direction) {
+    // if (cardinal) {
+    //   convert to degrees
+    //   return degrees;
+    // }
+    if (direction) {
+      return parseFloat(direction);
+    }
+  }
   /**
    * Convert a cardinal direction (ESE) to degrees 112°.
    * North is zero.
