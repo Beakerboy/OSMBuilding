@@ -26,7 +26,7 @@ class MultiBuildingPart extends BuildingPart {
     if (outerMembers.length === 1) {
       return shapes[0];
     }
-    console.log("Multipolygon with multiple outer members");
+    console.log('Multipolygon with multiple outer members');
     return shapes;
   }
 
