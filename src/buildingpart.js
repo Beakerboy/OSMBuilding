@@ -135,7 +135,7 @@ class BuildingPart {
 
     calculatedOptions.roof.direction = this.options.specified.roof.direction ??
       this.options.inherited.roof.direction ??
-      BuildingShapeUtils.longestSideAngle(this.shape) / 180 * Math.PI;
+      BuildingShapeUtils.longestSideAngle(this.shape) / Math.PI * 180;
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
     calculatedOptions.roof.height = this.options.specified.roof.height ??
