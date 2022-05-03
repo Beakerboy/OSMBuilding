@@ -127,7 +127,7 @@ class BuildingPart {
     calculatedOptions.building.walls = this.options.specified.building.walls ?? this.options.inherited.building.walls;
     calculatedOptions.roof.angle = this.options.specified.roof.angle ?? this.options.inherited.roof.angle;
     calculatedOptions.roof.colour = this.options.specified.roof.colour ?? this.options.inherited.roof.colour;
-    
+
     calculatedOptions.roof.levels = this.options.specified.roof.levels ?? this.options.inherited.roof.levels;
     calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
     calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
