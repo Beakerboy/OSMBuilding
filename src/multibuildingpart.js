@@ -23,6 +23,10 @@ class MultiBuildingPart extends BuildingPart {
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
+    if (outerMembers.length === 1) {
+      return shapes[0];
+    }
+    console.log("Multipolygon with multiple outer members");
     return shapes;
   }
 
