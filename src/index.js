@@ -130,7 +130,12 @@ function createScene() {
 
 function showHideDiv(objectId) {
   const mesh = scene.getObjectByName(objectId);
-  mesh.visible = false;
+  if (document.querySelector('#' + objectId).checked) {
+    const mesh = scene.getObjectByName(objectId);
+    mesh.visible = false;
+  } else {
+    mesh.visible = true;
+  }
 }
 
 function addLights() {
