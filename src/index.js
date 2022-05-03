@@ -133,7 +133,7 @@ function showHideDiv(objectId) {
   if (!mesh) {
     console.log('Mesh ' + objectId + ' not found');
   } else {
-    if (document.querySelector('#' + objectId).checked) { 
+    if (document.querySelector('#' + objectId).checked) {
       mesh.visible = false;
     } else {
       mesh.visible = true;
