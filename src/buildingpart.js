@@ -133,9 +133,11 @@ class BuildingPart {
     calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
     calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
 
-    calculatedOptions.roof.direction = this.options.specified.roof.direction ??
-      this.options.inherited.roof.direction ??
-      BuildingShapeUtils.longestSideAngle(this.shape) / Math.PI * 180;
+    const directionalRoofs = ['gabled', 'hipped'];
+    calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
+    if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
+      calculatedOptions.roof.direction = BuildingShapeUtils.longestSideAngle(this.shape) / Math.PI * 180;
+    }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
     calculatedOptions.roof.height = this.options.specified.roof.height ??
@@ -153,6 +155,9 @@ class BuildingPart {
     this.options.roof = calculatedOptions.roof;
     if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
       window.printError('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
+    }
+    if (this.options.roof.shape === 'skillion' && !this.options.roof.direction) {
+      window.printError('Part ' + this.id + ' requires a direction.');
     }
     this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
   }
@@ -323,6 +328,9 @@ class BuildingPart {
     }
   }
 
+  /**
+   * Direction. In degrees, 0-360
+   */
   static normalizeDirection(direction) {
     // if (cardinal) {
     //   convert to degrees
