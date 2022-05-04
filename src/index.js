@@ -65,8 +65,16 @@ function init() {
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
         const folder = gui.addFolder(part.id);
-        folder.add(part.options.building, 'height', 0, 100 ).step(.1);
-        folder.close();
+        const buildingFolder = folder.addFolder('Building');
+        const roofFolder = folder.addFolder('Roof');
+        for (var property in part.options.building) {
+          buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
+          buildingFolder.close();
+        }
+        for (var property in part.options.roof) {
+          roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
+          roofFolder.close();
+        }
         //.onChange(generateGeometry);
       }
     }
