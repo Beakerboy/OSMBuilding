@@ -28,6 +28,7 @@ function init() {
   var id = 66418809;
 
   var displayInfo = false;
+  var errorBox = false;
   window.showHideDiv = showHideDiv;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
@@ -39,7 +40,8 @@ function init() {
           id = decodeURIComponent(tmp[1]);
         } else if (tmp[0] === 'info') {
           displayInfo = true;
-
+        } else if (tmp[0] === 'errorBox') {
+          errorBox = true;
         }
       });
   }
@@ -51,6 +53,13 @@ function init() {
     const mesh = myObj.render();
     for (let i = 0; i < mesh.length; i++) {
       scene.add(mesh[i]);
+    }
+    if (errorBox) {
+      const elem = document.createElement('div');
+      elem.setAttribute('id', 'errorBox');
+      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
+      const target = document.querySelector('canvas');
+      target.before(elem);
     }
     if (displayInfo) {
       const elem = document.createElement('div');
