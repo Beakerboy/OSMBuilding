@@ -152,7 +152,7 @@ class BuildingPart {
     this.options.building = calculatedOptions.building;
     this.options.roof = calculatedOptions.roof;
     if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
-      console.log('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
+      printError('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
     this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
   }
