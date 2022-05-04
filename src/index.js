@@ -56,13 +56,6 @@ function init() {
     for (let i = 0; i < mesh.length; i++) {
       scene.add(mesh[i]);
     }
-    if (errorBox) {
-      const elem = document.createElement('div');
-      elem.setAttribute('id', 'errorBox');
-      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
-      const target = document.querySelector('canvas');
-      target.before(elem);
-    }
     if (displayInfo) {
       const elem = document.createElement('div');
       elem.setAttribute('id', 'div-building-details');
