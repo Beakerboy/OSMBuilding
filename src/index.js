@@ -62,34 +62,12 @@ function init() {
     if (displayInfo) {
       gui = new GUI();
       const info = myObj.getInfo();
+      const folder = gui.addFolder(info.id);
+      createFolders(folder, info);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
         const folder = gui.addFolder(part.id);
-        const buildingFolder = folder.addFolder('Building');
-        const roofFolder = folder.addFolder('Roof');
-        for (var property in part.options.building) {
-          if (part.options.building[property]) {
-            if (property === 'colour') {
-              // ToDo: add support for 'named' colours.
-              buildingFolder.addColor(part.options.building, property);
-            } else {
-              buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
-            }
-            buildingFolder.close();
-          }
-        }
-        for (var property in part.options.roof) {
-          if (part.options.roof[property]) {
-            if (property === 'colour') {
-              roofFolder.addColor(part.options.roof, property);
-            } else {
-              roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
-            }
-            roofFolder.close();
-          }
-        }
-        folder.close();
-        //.onChange(generateGeometry);
+        createFolders(folder, part.options);
       }
     }
   });
@@ -111,6 +89,34 @@ function init() {
   renderer.domElement.style.zIndex = 0;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
+}
+
+function createFolders(folder, options) {
+  const buildingFolder = folder.addFolder('Building');
+  const roofFolder = folder.addFolder('Roof');
+  for (var property in options.building) {
+    if (options.building[property]) {
+      if (property === 'colour') {
+        // ToDo: add support for 'named' colours.
+        buildingFolder.addColor(options.building, property);
+      } else {
+        buildingFolder.add(options.building, property, 0, 100 ).step(.1);
+      }
+      buildingFolder.close();
+    }
+  }
+  for (var property in options.roof) {
+    if (options.roof[property]) {
+      if (property === 'colour') {
+        roofFolder.addColor(options.roof, property);
+      } else {
+        roofFolder.add(options.roof, property, 0, 100 ).step(.1);
+        //.onChange(generateGeometry);
+      }
+      roofFolder.close();
+    }
+  }
+  folder.close();
 }
 
 /**
