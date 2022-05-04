@@ -20,6 +20,8 @@ var helperSize;
 
 var building = {};
 
+var errorBox = false;
+
 /**
  * Initialize the screen
  */
@@ -28,7 +30,6 @@ function init() {
   var id = 66418809;
 
   var displayInfo = false;
-  var errorBox = false;
   window.showHideDiv = showHideDiv;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
