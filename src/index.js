@@ -177,7 +177,7 @@ function resize() {
 function printError(txt) {
   if (errorBox) {
     const element = document.getElementById('errorBox');
-    element.insertAdjacentText('beforeend', txt);
+    element.insertAdjacentText('beforeend', txt + '\n');
   } else {
     console.log(txt);
   }
