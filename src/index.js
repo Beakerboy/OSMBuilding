@@ -69,13 +69,21 @@ function init() {
         const roofFolder = folder.addFolder('Roof');
         for (var property in part.options.building) {
           if (part.options.building[property]) {
-            buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
+            if (property === 'colour') {
+              buildingFolder.addColor(part.options.building, property);
+            } else {
+              buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
+            }
             buildingFolder.close();
           }
         }
         for (var property in part.options.roof) {
           if (part.options.roof[property]) {
-            roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
+            if (property === 'colour') {
+              roofFolder.addColor(part.options.roof, property);
+            } else {
+              roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
+            }
             roofFolder.close();
           }
         }
