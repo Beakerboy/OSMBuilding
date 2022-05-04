@@ -178,3 +178,12 @@ function resize() {
     document.documentElement.clientHeight,
   );
 }
+
+function printError(txt) {
+  if (errorBox) {
+    const element = document.getElementById('errorBox');
+    element.insertAdjacentText('beforeend', txt);
+  } else {
+    console.log(txt);
+  }
+}
