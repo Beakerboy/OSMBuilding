@@ -217,31 +217,35 @@ class BuildingShapeUtils extends ShapeUtils {
       p1 = vecs[i];
       p2 = vecs[i + 1];
       // Calculate angle
-      const angle = Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x));
-      if (angle < 179.5) {
+      const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
+
+      // Discard the point if within half a degree of 180.
+      if (Math.abs(angle - Math.PI) > Math.PI / 360 / 2 ) {
         newVecs.push(p1);
       }
       p0 = p1;
     }
-    // convert newVecs into newShape
-    newShape.setFromPoints(newVecs);
-    const lengths = BuildingShapeUtils.edgeLength(newShape);
-    const directions = BuildingShapeUtils.edgeDirection(newShape);
-    var index;
-    var maxLength = 0;
-    for (let i = 0; i < lengths.length; i++) {
-      if (lengths[i] > maxLength) {
-        index = i;
-        maxLength = lengths[i];
+    if (newVecs.length > 0) {
+      // convert newVecs into newShape
+      newShape.setFromPoints(newVecs);
+      const lengths = BuildingShapeUtils.edgeLength(newShape);
+      const directions = BuildingShapeUtils.edgeDirection(newShape);
+      var index;
+      var maxLength = 0;
+      for (let i = 0; i < lengths.length; i++) {
+        if (lengths[i] > maxLength) {
+          index = i;
+          maxLength = lengths[i];
+        }
       }
+      var angle = directions[index];
+      const extents = BuildingShapeUtils.extents(newShape, Math.PI * 2 - angle);
+      // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
+      if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
+        angle = angle > Math.PI / 2 ? angle - Math.PI / 2 : angle + Math.PI / 2;
+      }
+      return angle;
     }
-    var angle = directions[index];
-    const extents = BuildingShapeUtils.extents(newShape, Math.PI * 2 - angle);
-    // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
-    if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
-      angle = angle > Math.PI / 2 ? angle - Math.PI / 2 : angle + Math.PI / 2;
-    }
-    return angle;
   }
 }
 export {BuildingShapeUtils};
