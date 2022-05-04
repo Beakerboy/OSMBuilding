@@ -68,13 +68,18 @@ function init() {
         const buildingFolder = folder.addFolder('Building');
         const roofFolder = folder.addFolder('Roof');
         for (var property in part.options.building) {
-          buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
-          buildingFolder.close();
+          if (part.options.building[property]) {
+            buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
+            buildingFolder.close();
+          }
         }
         for (var property in part.options.roof) {
-          roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
-          roofFolder.close();
+          if (part.options.roof[property]) {
+            roofFolder.add(part.options.roof, property, 0, 100 ).step(.1);
+            roofFolder.close();
+          }
         }
+        folder.close();
         //.onChange(generateGeometry);
       }
     }
