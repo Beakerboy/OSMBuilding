@@ -6,9 +6,11 @@ import {
   AmbientLight,
   HemisphereLight,
   DirectionalLight,
+  WireframeGeometry,
 } from 'three';
 import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 import {Building} from './building.js';
+import {GUI} from 'https://unpkg.com/three/examples/jsm/libs/lil-gui.module.min.js';
 
 var camera;
 var renderer;
@@ -22,6 +24,7 @@ var building = {};
 
 var errorBox = false;
 
+const gui = new GUI();
 /**
  * Initialize the screen
  */
@@ -57,40 +60,12 @@ function init() {
       scene.add(mesh[i]);
     }
     if (displayInfo) {
-      const elem = document.createElement('div');
-      elem.setAttribute('id', 'div-building-details');
-      elem.setAttribute('style', 'position:absolute; top:10px; display: block; z-index: 100; background-color: #FFFFFF');
-      const target = document.querySelector('canvas');
-      target.before(elem);
       const info = myObj.getInfo();
-      var partsString = '';
       for (let i = 0; i < info.parts.length; i++) {
-        info.parts[i].options.inherited = {};
-        info.parts[i].options.specified = {};
-        partsString += '<div class="building-part collapsible" style="border-style: solid"> <input type="checkbox" id="b' + info.parts[i].id + '" /> <input type="checkbox" id="r' + info.parts[i].id + '" /> <span>Type: ' + info.parts[i].type + '</span><span>ID: ' + info.parts[i].id + '</span></div><div class="content"><span>Options: ' + JSON.stringify(info.parts[i].options) + '</span></div>';
-      }
-      info.options.inherited = {};
-      info.options.specified = {};
-      elem.innerHTML = '<div class="infobox"><div class="topBuilding"><span>Type: ' + info.type + '</span><span> ID: ' + info.id + '</span><span style="font-size: .5em">Options: ' + JSON.stringify(info.options) + '</span></div>' + partsString + '</div>';
-      for (let i = 0; i < info.parts.length; i++) {
-        const id = info.parts[i].id;
-        document.querySelector('#b' + id).addEventListener('click', showHideDiv('b' + id));
-        document.querySelector('#r' + id).addEventListener('click', showHideDiv('r' + id));
-      }
-      // Get building details from myObj
-      var coll = document.getElementsByClassName('collapsible');
-      var i;
-
-      for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener('click', function() {
-          this.classList.toggle('active');
-          var content = this.nextElementSibling;
-          if (content.style.display === 'block') {
-            content.style.display = 'none';
-          } else {
-            content.style.display = 'block';
-          }
-        });
+        const part = info.parts[i];
+        const folder = gui.addFolder(part.id);
+        folder.add(part.building, 'height', 0, 100 ).step(.1);
+        //.onChange(generateGeometry);
       }
     }
   });
@@ -181,4 +156,11 @@ function printError(txt) {
   } else {
     console.log(txt);
   }
+}
+function updateGroupGeometry( mesh, geometry ) {
+  mesh.children[ 0 ].geometry.dispose();
+  mesh.children[ 1 ].geometry.dispose();
+  mesh.children[ 0 ].geometry = new WireframeGeometry(geometry);
+  mesh.children[ 1 ].geometry = geometry;
+  // these do not update nicely together if shared
 }
