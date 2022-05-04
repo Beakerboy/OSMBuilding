@@ -66,6 +66,7 @@ function init() {
         const part = info.parts[i];
         const folder = gui.addFolder(part.id);
         folder.add(part.options.building, 'height', 0, 100 ).step(.1);
+        folder.close();
         //.onChange(generateGeometry);
       }
     }
