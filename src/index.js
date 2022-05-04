@@ -24,7 +24,7 @@ var building = {};
 
 var errorBox = false;
 
-const gui = new GUI();
+var gui;
 /**
  * Initialize the screen
  */
@@ -60,11 +60,12 @@ function init() {
       scene.add(mesh[i]);
     }
     if (displayInfo) {
+      gui = new GUI();
       const info = myObj.getInfo();
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
         const folder = gui.addFolder(part.id);
-        folder.add(part.building, 'height', 0, 100 ).step(.1);
+        folder.add(part.options.building, 'height', 0, 100 ).step(.1);
         //.onChange(generateGeometry);
       }
     }
