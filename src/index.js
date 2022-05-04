@@ -62,8 +62,8 @@ function init() {
     if (displayInfo) {
       gui = new GUI();
       const info = myObj.getInfo();
-      const folder = gui.addFolder(info.id);
-      createFolders(folder, info);
+      const folder = gui.addFolder(info.type + ' - ' + info.id);
+      createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
         const folder = gui.addFolder(part.id);
