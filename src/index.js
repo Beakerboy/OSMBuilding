@@ -70,6 +70,7 @@ function init() {
         for (var property in part.options.building) {
           if (part.options.building[property]) {
             if (property === 'colour') {
+              // ToDo: add support for 'named' colours.
               buildingFolder.addColor(part.options.building, property);
             } else {
               buildingFolder.add(part.options.building, property, 0, 100 ).step(.1);
