@@ -66,7 +66,7 @@ function init() {
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
-        const folder = gui.addFolder(part.id);
+        const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
       }
     }
