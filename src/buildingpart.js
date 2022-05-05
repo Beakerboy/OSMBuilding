@@ -175,7 +175,10 @@ class BuildingPart {
   render() {
     this.createRoof();
     this.parts.push(this.roof);
-    this.createBuilding();
+    if (this.getAttribute('building:material') !== 'roof') {
+      const mesh = this.createBuilding();
+      this.parts.push(mesh);
+    }
     return this.parts;
   }
 
@@ -196,7 +199,7 @@ class BuildingPart {
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.set( 0, this.options.building.minHeight, 0);
     mesh.name = 'b' + this.id;
-    this.parts.push(mesh);
+    return mesh;
   }
 
   /**
