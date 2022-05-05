@@ -226,7 +226,7 @@ class BuildingPart {
       const options = {
         angle: (360 - this.options.roof.direction) / 360 * 2 * Math.PI,
         depth: this.options.roof.height,
-        pitch: this.options.roof.angle,
+        pitch: this.options.roof.angle / 180 * Math.PI,
       };
       const geometry = new RampGeometry(this.shape, options);
 
