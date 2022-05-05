@@ -66,6 +66,8 @@ function init() {
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
+        part.options.building.visible = true;
+        part.options.roof.visible = true;
         const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
       }
