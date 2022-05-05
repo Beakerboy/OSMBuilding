@@ -98,7 +98,7 @@ class BuildingPart {
     specifiedOptions.building.colour = this.getAttribute('colour');
     specifiedOptions.building.ele = this.getAttribute('ele');
     specifiedOptions.building.height = BuildingPart.normalizeLength(this.getAttribute('height'));
-    specifiedOptions.building.levels = this.getAttribute('building:levels');
+    specifiedOptions.building.levels = BuildingPart.normalizeNumber(this.getAttribute('building:levels'));
     specifiedOptions.building.levelsUnderground = this.getAttribute('building:levels:underground');
     specifiedOptions.building.material = this.getAttribute('building:material');
     specifiedOptions.building.minHeight = BuildingPart.normalizeLength(this.getAttribute('min_height'));
@@ -148,9 +148,9 @@ class BuildingPart {
       (calculatedOptions.roof.shape === 'skillion' ? (calculatedOptions.roof.angle ? Math.cos(calculatedOptions.roof.angle / 360 * 2 * Math.PI) * shapeHeight : 22.5) : null);
 
     calculatedOptions.building.height = this.options.specified.building.height ??
-      this.options.inherited.building.height ??
       (isNaN(calculatedOptions.building.levels) ? null : (calculatedOptions.building.levels * 3) + calculatedOptions.roof.height) ??
-      calculatedOptions.roof.height + 3;
+      calculatedOptions.roof.height + 3 ??
+      this.options.inherited.building.height;
     this.options.building = calculatedOptions.building;
     this.options.roof = calculatedOptions.roof;
     if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
@@ -340,6 +340,16 @@ class BuildingPart {
       return parseFloat(direction);
     }
   }
+
+  /**
+   * Number.
+   */
+  static normalizeNumber(number) {
+    if (number) {
+      return parseFloat(number);
+    }
+  }
+
   /**
    * Convert a cardinal direction (ESE) to degrees 112°.
    * North is zero.
