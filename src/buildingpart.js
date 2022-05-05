@@ -175,7 +175,7 @@ class BuildingPart {
   render() {
     this.createRoof();
     this.parts.push(this.roof);
-    if (this.getAttribute('building:material') !== 'roof') {
+    if (this.getAttribute('building:part') !== 'roof') {
       const mesh = this.createBuilding();
       this.parts.push(mesh);
     }
