@@ -130,9 +130,14 @@ class BuildingPart {
 
     calculatedOptions.roof.levels = this.options.specified.roof.levels ?? this.options.inherited.roof.levels;
     calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
-    calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation ?? 'along';
-    calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape ?? 'flat';
+    calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation;
+    calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape;
 
+    // Set the default orientation if the roof shape dictates one.
+    const orientableRoofs = ['gabled', 'round', 'skillion'];
+    if (!calculatedOptions.roof.orientation && calculatedOptions.roof.shape && orientableRoofs.includes(calculatedOptions.roof.shape)) {
+      calculatedOptions.roof.orientation = 'along';
+    }
     const directionalRoofs = ['gabled', 'hipped'];
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
     if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
