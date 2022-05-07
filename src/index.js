@@ -118,6 +118,9 @@ function createFolders(folder, options) {
           roofTypesAvailable.push(options.roof.shape);
         }
         roofFolder.add(options.roof, property, roofTypesAvailable);
+      } else if (property === 'orientation') {
+        const roofOrientationsAvailable = ['across', 'along'];
+        roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         //.onChange(generateGeometry);
