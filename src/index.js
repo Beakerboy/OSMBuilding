@@ -111,6 +111,13 @@ function createFolders(folder, options) {
     if (options.roof[property]) {
       if (property === 'colour') {
         roofFolder.addColor(options.roof, property);
+      } else if (property === 'shape') {
+        const roofTypesAvailable = ['dome', 'flat', 'gabled', 'onion', 'pyramidal', 'skillion', 'hipped', 'round', 'gambrel', 'round'];
+        // If this roof is not supported, add it to the list for sanity.
+        if (!roofTypesAvailable.includes(options.roof.shape)) {
+           roofTypesAvailable.push(options.roof.shape);
+        }
+        roofFolder.add(options.roof, property, roofTypesAvailable);
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         //.onChange(generateGeometry);
