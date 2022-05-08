@@ -222,15 +222,17 @@ class BuildingPart {
     //   find largest circle within the way
     //   R, x, y
       var thetaStart = Math.PI / 2;
+      const R = BuildingShapeUtils.calculateRadius(this.shape);
+      var scale = this.options.roof.height / R;
       if (this.options.roof.shape === 'onion') {
         thetaStart = Math.PI / 4;
+        scale = scale / 1.5;
       }
-      const R = BuildingShapeUtils.calculateRadius(this.shape);
-      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, thetaStart);
+      const geometry = new SphereGeometry(R, 100, 100, 0, 2 * Math.PI, thetaStart);
       // Adjust the dome height if needed.
-      geometry.scale(1, this.options.roof.height / R, 1);
+      geometry.scale(1, scale, 1);
       material = BuildingPart.getRoofMaterial(this.way);
-      roof = new Mesh( geometry, material );
+      roof = new Mesh(geometry, material);
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
