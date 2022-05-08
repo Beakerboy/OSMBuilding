@@ -68,7 +68,7 @@ function init() {
         const part = info.parts[i];
         part.options.building.visible = true;
         part.options.roof.visible = true;
-        part.options.id = part.id
+        part.options.id = part.id;
         const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
       }
