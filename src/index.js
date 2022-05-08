@@ -104,7 +104,7 @@ function createFolders(folder, options) {
         buildingFolder.addColor(options.building, property);
       } else if (property === 'visible') {
         buildingFolder.add(options.building, property);
-          //.onChange(showHideSceneObject('b' + options.id));
+        //.onChange(showHideSceneObject('b' + options.id));
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
