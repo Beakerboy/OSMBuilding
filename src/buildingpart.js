@@ -132,6 +132,7 @@ class BuildingPart {
     calculatedOptions.roof.material = this.options.specified.roof.material ?? this.options.inherited.roof.material;
     calculatedOptions.roof.orientation = this.options.specified.roof.orientation ?? this.options.inherited.roof.orientation;
     calculatedOptions.roof.shape = this.options.specified.roof.shape ?? this.options.inherited.roof.shape;
+    calculatedOptions.roof.visible = true;
 
     // Set the default orientation if the roof shape dictates one.
     const orientableRoofs = ['gabled', 'round', 'skillion'];
@@ -181,10 +182,12 @@ class BuildingPart {
   render() {
     this.createRoof();
     this.parts.push(this.roof);
-    if (this.getAttribute('building:part') !== 'roof') {
-      const mesh = this.createBuilding();
-      this.parts.push(mesh);
+    this.options.building.visible = true;
+    if (this.getAttribute('building:part') === 'roof') {
+      this.options.building.visible = false;
     }
+    const mesh = this.createBuilding();
+    this.parts.push(mesh);
     return this.parts;
   }
 
