@@ -66,8 +66,8 @@ function init() {
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
-        part.options.building.visible = false;
-        part.options.roof.visible = false;
+        part.options.building.visible = true;
+        part.options.roof.visible = true;
         part.options.id = part.id;
         const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
@@ -98,12 +98,13 @@ function createFolders(folder, options) {
   const buildingFolder = folder.addFolder('Building');
   const roofFolder = folder.addFolder('Roof');
   for (var property in options.building) {
-    if (options.building[property] !== null) {
+    if (options.building[property]) {
       if (property === 'colour') {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
       } else if (property === 'visible') {
-        buildingFolder.add(options.building, property).onChange(showHideSceneObject('b' + options.id));
+        buildingFolder.add(options.building, property);
+          //.onChange(showHideSceneObject('b' + options.id));
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
@@ -125,7 +126,8 @@ function createFolders(folder, options) {
         const roofOrientationsAvailable = ['across', 'along'];
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else if (property === 'visible') {
-        roofFolder.add(options.roof, property).onChange(showHideSceneObject('r' + options.id));
+        roofFolder.add(options.roof, property);
+        //.onChange(showHideSceneObject('r' + options.id));
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         // .onChange();
