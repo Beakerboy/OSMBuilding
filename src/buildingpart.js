@@ -233,6 +233,7 @@ class BuildingPart {
       const elevation = this.options.building.height - this.options.roof.height;
       const center = BuildingShapeUtils.center(this.shape);
       roof.rotation.x = -Math.PI;
+      // TODO: onion probably need to be raised by an additional R/2.
       roof.position.set(center[0], elevation, -1 * center[1]);
     } else if (this.options.roof.shape === 'skillion') {
       const options = {
