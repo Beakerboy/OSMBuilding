@@ -33,7 +33,7 @@ function init() {
   var id = 66418809;
 
   var displayInfo = false;
-  window.showHideDiv = showHideDiv;
+  window.showHideSceneObject = showHideSceneObject;
   window.printError = printError;
   if (window.location.search.substr(1) !== null) {
     window.location.search.substr(1).split('&')
