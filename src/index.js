@@ -68,6 +68,7 @@ function init() {
         const part = info.parts[i];
         part.options.building.visible = true;
         part.options.roof.visible = true;
+        part.options.id = part.id
         const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
       }
@@ -101,6 +102,8 @@ function createFolders(folder, options) {
       if (property === 'colour') {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
+      } else if (property === 'visible') {
+        roofFolder.add(options.roof, property).onChange(showHideSceneObject('b' + options.id));
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
@@ -121,9 +124,11 @@ function createFolders(folder, options) {
       } else if (property === 'orientation') {
         const roofOrientationsAvailable = ['across', 'along'];
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
+      } else if (property === 'visible') {
+        roofFolder.add(options.roof, property).onChange(showHideSceneObject('r' + options.id));
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
-        //.onChange(generateGeometry);
+        // .onChange();
       }
       roofFolder.close();
     }
@@ -149,7 +154,7 @@ function createScene() {
   render();
 }
 
-function showHideDiv(objectId) {
+function showHideSceneObject(objectId) {
   const mesh = scene.getObjectByName(objectId);
   if (!mesh) {
     console.log('Mesh ' + objectId + ' not found');
@@ -163,7 +168,7 @@ function showHideDiv(objectId) {
 }
 
 function addLights() {
-  const ambientLight =new AmbientLight( 0xcccccc, 0.2 );
+  const ambientLight = new AmbientLight( 0xcccccc, 0.2 );
   scene.add( ambientLight );
 
   var hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 0.6 );
