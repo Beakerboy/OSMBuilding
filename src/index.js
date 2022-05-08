@@ -157,7 +157,7 @@ function createScene() {
 function showHideSceneObject(objectId) {
   const mesh = scene.getObjectByName(objectId);
   if (!mesh) {
-    console.log('Mesh ' + objectId + ' not found');
+    printError('Mesh ' + objectId + ' not found');
   } else {
     mesh.visible = ! mesh.visible;
   }
