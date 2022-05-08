@@ -159,11 +159,7 @@ function showHideSceneObject(objectId) {
   if (!mesh) {
     console.log('Mesh ' + objectId + ' not found');
   } else {
-    if (document.querySelector('#' + objectId).checked) {
-      mesh.visible = false;
-    } else {
-      mesh.visible = true;
-    }
+    mesh.visible = ! mesh.visible;
   }
 }
 
