@@ -101,8 +101,7 @@ function createFolders(folder, options) {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
       } else if (property === 'visible') {
-        buildingFolder.add(options.building, property);
-        //.onChange(showHideSceneObject('b' + options.id));
+        buildingFolder.add(options.building, property).onChange(showHideSceneObject('b' + options.id));
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
@@ -124,8 +123,7 @@ function createFolders(folder, options) {
         const roofOrientationsAvailable = ['across', 'along'];
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else if (property === 'visible') {
-        roofFolder.add(options.roof, property);
-        //.onChange(showHideSceneObject('r' + options.id));
+        roofFolder.add(options.roof, property).onChange(showHideSceneObject('r' + options.id));
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         // .onChange();
@@ -159,7 +157,7 @@ function showHideSceneObject(objectId) {
   if (!mesh) {
     printError('Mesh ' + objectId + ' not found');
   } else {
-    mesh.visible = ! mesh.visible;
+    mesh.visible = !mesh.visible;
   }
 }
 
