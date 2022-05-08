@@ -98,7 +98,7 @@ function createFolders(folder, options) {
   const buildingFolder = folder.addFolder('Building');
   const roofFolder = folder.addFolder('Roof');
   for (var property in options.building) {
-    if (options.building[property]) {
+    if (options.building[property] !== null) {
       if (property === 'colour') {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
