@@ -66,8 +66,8 @@ function init() {
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
-        part.options.building.visible = true;
-        part.options.roof.visible = true;
+        part.options.building.visible = false;
+        part.options.roof.visible = false;
         part.options.id = part.id;
         const folder = gui.addFolder(part.type + ' - ' + part.id);
         createFolders(folder, part.options);
@@ -103,7 +103,7 @@ function createFolders(folder, options) {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
       } else if (property === 'visible') {
-        roofFolder.add(options.roof, property).onChange(showHideSceneObject('b' + options.id));
+        buildingFolder.add(options.building, property).onChange(showHideSceneObject('b' + options.id));
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
