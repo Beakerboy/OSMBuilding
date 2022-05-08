@@ -217,11 +217,15 @@ class BuildingPart {
     if (this.options.roof.shape === 'flat') {
       // do nothing
       return;
-    } else if (this.options.roof.shape === 'dome') {
+    } else if (this.options.roof.shape === 'dome' || this.options.roof.shape === 'onion') {
     //   find largest circle within the way
     //   R, x, y
+      var thetaStart = Math.PI / 2;
+      if (this.options.roof.shape === 'onion') {
+        thetaStart = Math.PI / 4;
+      }
       const R = BuildingShapeUtils.calculateRadius(this.shape);
-      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI/2 );
+      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, thetaStart);
       // Adjust the dome height if needed.
       geometry.scale(1, this.options.roof.height / R, 1);
       material = BuildingPart.getRoofMaterial(this.way);
@@ -242,18 +246,6 @@ class BuildingPart {
       roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
-    } else if (this.options.roof.shape === 'onion') {
-      const R = BuildingShapeUtils.calculateRadius(this.shape);
-      const geometry = new SphereGeometry( R, 100, 100, 0, 2 * Math.PI, Math.PI / 4);
-
-      // Adjust the dome height if needed.
-      geometry.scale(1, this.options.roof.height / R, 1);
-      material = BuildingPart.getRoofMaterial(this.way);
-      roof = new Mesh(geometry, material);
-      const elevation = this.options.building.height - this.options.roof.height;
-      const center = BuildingShapeUtils.center(this.shape);
-      roof.rotation.x = -Math.PI;
-      roof.position.set(center[0], elevation, -1 * center[1]);
     } else if (this.options.roof.shape === 'gabled') {
       var angle = this.options.roof.direction;
       if (this.options.roof.orientation === 'across') {
