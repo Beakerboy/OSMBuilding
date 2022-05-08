@@ -220,8 +220,14 @@ class BuildingPart {
     var material;
     var roof;
     if (this.options.roof.shape === 'flat') {
-      // do nothing
-      return;
+      let extrusionHeight = this.options.roof.height ?? 0;
+      let extrudeSettings = {
+        bevelEnabled: false,
+        depth: extrusionHeight,
+      };
+      var geometry = new ExtrudeGeometry(this.shape, extrudeSettings);
+      // Create the mesh.
+      roof = new Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
     } else if (this.options.roof.shape === 'dome' || this.options.roof.shape === 'onion') {
     //   find largest circle within the way
     //   R, x, y
