@@ -135,7 +135,7 @@ class BuildingPart {
     calculatedOptions.roof.visible = true;
 
     // Set the default orientation if the roof shape dictates one.
-    const orientableRoofs = ['gabled', 'round', 'skillion'];
+    const orientableRoofs = ['gabled', 'round'];
     if (!calculatedOptions.roof.orientation && calculatedOptions.roof.shape && orientableRoofs.includes(calculatedOptions.roof.shape)) {
       calculatedOptions.roof.orientation = 'along';
     }
