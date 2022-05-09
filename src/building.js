@@ -343,5 +343,19 @@ class Building {
       parts: partsInfo,
     };
   }
+
+  /**
+   * Use the provided options to update and return the geometry
+   * of a part.
+   */
+  getPartGeometry(options) {
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (part.id === options.id) {
+        part.updateOptions(options);
+        return part.render();
+      }
+    }
+  }
 }
 export {Building};
