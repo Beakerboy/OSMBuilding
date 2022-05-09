@@ -139,7 +139,7 @@ function createFolders(folder, options) {
         roofFolder.add(options.roof, property, roofTypesAvailable);
       } else if (property === 'orientation') {
         const roofOrientationsAvailable = ['across', 'along'];
-        roofFolder.add(options.roof, property, roofOrientationsAvailable);
+        roofFolder.add(options.roof, property, roofOrientationsAvailable).onChange(roofGeo);
       } else if (property === 'visible') {
         roofFolder.add(options.roof, property).onChange(roofFunc);
       } else {
