@@ -109,6 +109,10 @@ function createFolders(folder, options) {
     }
   }
   for (var property in options.roof) {
+    const roofFunc = function() {
+      const mesh = scene.getObjectByName('r' + options.id);
+      mesh.visible = !mesh.visible;
+    }
     if (options.roof[property]) {
       if (property === 'colour') {
         roofFolder.addColor(options.roof, property);
@@ -123,7 +127,7 @@ function createFolders(folder, options) {
         const roofOrientationsAvailable = ['across', 'along'];
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else if (property === 'visible') {
-        roofFolder.add(options.roof, property).onChange(showHideSceneObject('r' + options.id));
+        roofFolder.add(options.roof, property).onChange(roofFunc);
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         // .onChange();
