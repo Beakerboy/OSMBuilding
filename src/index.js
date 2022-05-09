@@ -20,6 +20,8 @@ var home;
 
 var helperSize;
 
+// The Building object that is being rendered.
+var mainBuilding;
 var building = {};
 
 var errorBox = false;
@@ -52,6 +54,7 @@ function init() {
       });
   }
   Building.create(type, id).then(function(myObj){
+    mainBuilding = myObj;
     const helperSize = myObj.outerElement.getWidth();
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
     scene.add(helper);
@@ -117,6 +120,12 @@ function createFolders(folder, options) {
     const roofFunc = function() {
       const mesh = scene.getObjectByName('r' + options.id);
       mesh.visible = options.roof.visible;
+    };
+    const roofGeo = function() {
+      const mesh = scene.getObjectByName('r' + options.id);
+      const geo = mainBuilding.getPartGeometry(options);
+      mesh.geometry.dispose();
+      mesh.geometry = geo;
     };
     if (options.roof[property]) {
       if (property === 'colour') {
@@ -197,11 +206,4 @@ function printError(txt) {
   } else {
     console.log(txt);
   }
-}
-function updateGroupGeometry( mesh, geometry ) {
-  mesh.children[ 0 ].geometry.dispose();
-  mesh.children[ 1 ].geometry.dispose();
-  mesh.children[ 0 ].geometry = new WireframeGeometry(geometry);
-  mesh.children[ 1 ].geometry = geometry;
-  // these do not update nicely together if shared
 }
