@@ -349,8 +349,8 @@ class Building {
    * of a part.
    */
   getPartGeometry(options) {
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
+    for (let i = 0; i < this.parts.length; i++) {
+      const part = this.parts[i];
       if (part.id === options.id) {
         part.updateOptions(options);
         return part.render();
