@@ -22,6 +22,7 @@ var helperSize;
 
 // The Building object that is being rendered.
 var mainBuilding;
+
 var building = {};
 
 var errorBox = false;
@@ -136,10 +137,10 @@ function createFolders(folder, options) {
         if (!roofTypesAvailable.includes(options.roof.shape)) {
           roofTypesAvailable.push(options.roof.shape);
         }
-        roofFolder.add(options.roof, property, roofTypesAvailable);
+        roofFolder.add(options.roof, property, roofTypesAvailable).onChange(roofGeo);
       } else if (property === 'orientation') {
         const roofOrientationsAvailable = ['across', 'along'];
-        roofFolder.add(options.roof, property, roofOrientationsAvailable).onChange(roofGeo);
+        roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else if (property === 'visible') {
         roofFolder.add(options.roof, property).onChange(roofFunc);
       } else {
