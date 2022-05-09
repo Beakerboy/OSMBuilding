@@ -501,5 +501,9 @@ class BuildingPart {
       ],
     };
   }
+
+  updateOptions(options) {
+    this.options = options;
+  }
 }
 export {BuildingPart};
