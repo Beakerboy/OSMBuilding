@@ -157,6 +157,7 @@ function showHideSceneObject(objectId) {
   if (!mesh) {
     printError('Mesh ' + objectId + ' not found');
   } else {
+    printError('Mesh ' + objectId + 'visibility is ' + mesh.visible);
     mesh.visible = !mesh.visible;
   }
 }
