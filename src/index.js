@@ -96,12 +96,16 @@ function createFolders(folder, options) {
   const buildingFolder = folder.addFolder('Building');
   const roofFolder = folder.addFolder('Roof');
   for (var property in options.building) {
+    const buildFunc = function() {
+      const mesh = scene.getObjectByName('b' + options.id);
+      mesh.visible = options.building.visible;
+    };
     if (options.building[property]) {
       if (property === 'colour') {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
       } else if (property === 'visible') {
-        buildingFolder.add(options.building, property).onChange(showHideSceneObject('b' + options.id));
+        buildingFolder.add(options.building, property).onChange(buildFunc);
       } else {
         buildingFolder.add(options.building, property, 0, 100 ).step(.1);
       }
@@ -111,7 +115,7 @@ function createFolders(folder, options) {
   for (var property in options.roof) {
     const roofFunc = function() {
       const mesh = scene.getObjectByName('r' + options.id);
-      mesh.visible = !mesh.visible;
+      mesh.visible = options.roof.visible;
     };
     if (options.roof[property]) {
       if (property === 'colour') {
@@ -154,16 +158,6 @@ function createScene() {
     renderer.render(scene, camera);
   }
   render();
-}
-
-function showHideSceneObject(objectId) {
-  const mesh = scene.getObjectByName(objectId);
-  if (!mesh) {
-    printError('Mesh ' + objectId + ' not found');
-  } else {
-    printError('Mesh ' + objectId + 'visibility is ' + mesh.visible);
-    mesh.visible = !mesh.visible;
-  }
 }
 
 function addLights() {
