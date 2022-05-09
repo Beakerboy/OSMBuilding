@@ -123,7 +123,7 @@ function createFolders(folder, options) {
     };
     const roofGeo = function() {
       const mesh = scene.getObjectByName('r' + options.id);
-      const geo = mainBuilding.getPartGeometry(options);
+      const geo = mainBuilding.getPartGeometry(options)[0];
       mesh.geometry.dispose();
       mesh.geometry = geo;
     };
