@@ -112,7 +112,7 @@ function createFolders(folder, options) {
     const roofFunc = function() {
       const mesh = scene.getObjectByName('r' + options.id);
       mesh.visible = !mesh.visible;
-    }
+    };
     if (options.roof[property]) {
       if (property === 'colour') {
         roofFolder.addColor(options.roof, property);
