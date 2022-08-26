@@ -6,6 +6,16 @@ OSM Building Viewer
 ### Visualize an OSM Building in 3D
 
 Visualize an OSM Building from the live OSM data.
+To visualize a building tagged with a way, use the URL:
+https://beakerboy.github.io/OSMBuilding/index.html?id=[id]
+
+If the building is a multipolygon, or a relation, use:
+https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=[id]
+
+...replacing [id] with the actual id of the way or relation.
+
+Additional details will be displayed if "&info" is appended to the URL.
+
 
 Supports:
  * Ways with a building tag
