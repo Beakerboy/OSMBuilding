@@ -328,17 +328,27 @@ class BuildingPart {
   }
 
   /**
-   * convert an string of length units in various format to
+   * Convert an string of length units in various format to
    * a float in meters.
    */
   static normalizeLength(length) {
+    if (length.includes('km')){
+      // remove final character.
+      return parseFloat(length.substring(0, length.length - 2)) * 1000;
+    }
+    if (length.includes('mi')){
+      // remove final character.
+      return parseFloat(length.substring(0, length.length - 2)) * 5280 * 12 * 2.54 / 100;
+    }
+    if (length.includes('nmi')){
+      // remove final character.
+      return parseFloat(length.substring(0, length.length - 2)) * 1852;
+    }
     // if feet and inches {
     //   feet = parseFloat(feet_substr);
     //   inches = parseFloat(inch_substr);
     //   return (feet + inches / 12) * 0.3048;
-    // } else if (includes an 'm') {
-    //   return parseFloat(substr);
-    // }
+    // } else
     if (length) {
       return parseFloat(length);
     }
