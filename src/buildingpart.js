@@ -342,7 +342,7 @@ class BuildingPart {
     }
     if (length.includes('nmi')){
       // remove final character.
-      return parseFloat(length.substring(0, length.length - 2)) * 1852;
+      return parseFloat(length.substring(0, length.length - 3)) * 1852;
     }
     // if feet and inches {
     //   feet = parseFloat(feet_substr);
