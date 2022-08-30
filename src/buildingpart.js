@@ -330,6 +330,9 @@ class BuildingPart {
   /**
    * Convert an string of length units in various format to
    * a float in meters.
+   *
+   * Assuming string ends with the unit, no trailing whitespace.
+   * If there is whitespace between the unit and the number, it will remain.
    */
   static normalizeLength(length) {
     if (typeof length ==='string' || length instanceof String) {
@@ -345,11 +348,23 @@ class BuildingPart {
         // remove final character.
         return parseFloat(length.substring(0, length.length - 3)) * 1852;
       }
-      // if feet and inches {
-      //   feet = parseFloat(feet_substr);
-      //   inches = parseFloat(inch_substr);
-      //   return (feet + inches / 12) * 0.3048;
-      // } else
+      if (length.includes('m')){
+        // remove final character.
+        return parseFloat(length.substring(0, length.length - 1)) * 1000;
+      }
+      if (length.includes("'")){
+        position - length.indexOf("'");
+        inches = parseFloat(length.substring(0, position - 1)) * 12;
+        if (length.length > position) {
+          inches += parsefloat(length.substring(position + 1, length.length - 1));
+          
+        }
+        return inches * 2.54 / 100;
+      }
+      if (length.includes('"')){
+        return parseFloat(length.substring(0, length.length - 1))* 2.54 / 100;
+      }
+      return parseFloat(length);
     }
     if (length) {
       return parseFloat(length);
