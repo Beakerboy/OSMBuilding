@@ -352,8 +352,8 @@ class BuildingPart {
         // remove final character.
         return parseFloat(length.substring(0, length.length - 1)) * 1000;
       }
-      if (length.includes("'")){
-        var position = length.indexOf("'");
+      if (length.includes('\'')){
+        var position = length.indexOf('\'');
         var inches = parseFloat(length.substring(0, position - 1)) * 12;
         if (length.length > position) {
           inches += parseFloat(length.substring(position + 1, length.length - 1));
