@@ -353,11 +353,10 @@ class BuildingPart {
         return parseFloat(length.substring(0, length.length - 1)) * 1000;
       }
       if (length.includes("'")){
-        position - length.indexOf("'");
-        inches = parseFloat(length.substring(0, position - 1)) * 12;
+        var position = length.indexOf("'");
+        var inches = parseFloat(length.substring(0, position - 1)) * 12;
         if (length.length > position) {
-          inches += parsefloat(length.substring(position + 1, length.length - 1));
-          
+          inches += parseFloat(length.substring(position + 1, length.length - 1));
         }
         return inches * 2.54 / 100;
       }
