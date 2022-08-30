@@ -163,8 +163,9 @@ class BuildingPart {
     if (this.getAttribute('building:part') && this.options.building.height > this.options.inherited.building.height) {
       window.printError('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
+    // Should skillion automatically calculate a direction perpendicular to the longest outside edge if unspecified?
     if (this.options.roof.shape === 'skillion' && !this.options.roof.direction) {
-      window.printError('Part ' + this.id + ' requires a direction.');
+      window.printError('Part ' + this.id + ' requires a direction. (https://wiki.openstreetmap.org/wiki/Key:roof:direction)');
     }
     this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
   }
