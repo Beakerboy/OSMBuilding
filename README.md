@@ -16,6 +16,8 @@ https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=[id]
 
 Additional details will be displayed if "&info" is appended to the URL.
 
+Console debug messages can be printed to the screen if "&errorbox" is appended to the url. Helpful since mobile browsers often lack any inspection capability.
+
 
 Supports:
  * Ways with a building tag
