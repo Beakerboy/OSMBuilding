@@ -336,7 +336,7 @@ class BuildingPart {
    * If there is whitespace between the unit and the number, it will remain.
    */
   static normalizeLength(length) {
-    if (typeof length ==='string' || length instanceof String) {
+    if (typeof length === 'string' || length instanceof String) {
       if (length.includes('km')){
         // remove final character.
         return parseFloat(length.substring(0, length.length - 2)) * 1000;
@@ -356,7 +356,7 @@ class BuildingPart {
       if (length.includes('\'')){
         var position = length.indexOf('\'');
         var inches = parseFloat(length.substring(0, position - 1)) * 12;
-        if (length.length > position) {
+        if (length.length > position + 1) {
           inches += parseFloat(length.substring(position + 1, length.length - 1));
         }
         return inches * 2.54 / 100;
