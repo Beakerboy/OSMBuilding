@@ -11,6 +11,7 @@
     <nd ref="4"/>
     <nd ref="1"/>
     <tag k="building" v="yes"/>
+    <tag k="height" v="3600&quot;"/>
     <tag k="roof:shape" v="skillion"/>
     <tag k="roof:direction" v="90"/>
     <tag k="roof:angle" v="45"/>
