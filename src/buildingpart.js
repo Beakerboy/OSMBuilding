@@ -353,7 +353,7 @@ class BuildingPart {
       }
       if (length.includes('m')){
         // remove final character.
-        return parseFloat(length.substring(0, length.length - 1)) * 1000;
+        return parseFloat(length.substring(0, length.length - 1));
       }
       if (length.includes('\'')){
         window.printError('Length includes a single quote.');
