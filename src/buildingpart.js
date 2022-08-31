@@ -336,6 +336,7 @@ class BuildingPart {
    * If there is whitespace between the unit and the number, it will remain.
    */
   static normalizeLength(length) {
+    window.printError('length: ' + length)
     if (typeof length === 'string' || length instanceof String) {
       if (length.includes('km')){
         // remove final character.
@@ -354,6 +355,7 @@ class BuildingPart {
         return parseFloat(length.substring(0, length.length - 1)) * 1000;
       }
       if (length.includes('\'')){
+        window.printError('Length includes a single quote.');
         var position = length.indexOf('\'');
         var inches = parseFloat(length.substring(0, position - 1)) * 12;
         if (length.length > position + 1) {
