@@ -359,7 +359,7 @@ class BuildingPart {
       if (length.includes('\'')){
         window.printError('Length includes a single quote.');
         var position = length.indexOf('\'');
-        var inches = parseFloat(length.substring(0, position - 1)) * 12;
+        var inches = parseFloat(length.substring(0, position)) * 12;
         if (length.length > position + 1) {
           inches += parseFloat(length.substring(position + 1, length.length - 1));
         }
