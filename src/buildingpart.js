@@ -302,8 +302,6 @@ class BuildingPart {
   getAttribute(key) {
     if (this.way.querySelector('[k="' + key + '"]') !== null) {
       // if the buiilding part has a helght tag, use it.
-      window.printError('Element: ' + this.way.querySelector('[k="' + key + '"]').html());
-      window.printError('Attribute: ' + key + ' Value: ' + this.way.querySelector('[k="' + key + '"]').getAttribute('v'));
       return this.way.querySelector('[k="' + key + '"]').getAttribute('v');
     }
   }
