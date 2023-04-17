@@ -1,1 +1,78 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.8.8 (2219277 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="38.2796482" minlon="-84.6401403" maxlat="38.2797774" maxlon="-84.6399630"/>
+ <node id="5548595495" visible="true" version="8" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797196" lon="-84.6401403"/>
+ <node id="5548595496" visible="true" version="9" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797774" lon="-84.6400177"/>
+ <node id="5565188282" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2798666" lon="-84.6396187"/>
+ <node id="5565188283" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2795347" lon="-84.6393663"/>
+ <node id="5565188284" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2792125" lon="-84.6391198"/>
+ <node id="5565188285" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2789368" lon="-84.6397123"/>
+ <node id="5565188287" visible="true" version="3" changeset="89258578" timestamp="2020-08-11T15:06:14Z" user="Beakerboy" uid="33863" lat="38.2795768" lon="-84.6402516"/>
+ <node id="5565188288" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2797487" lon="-84.6398746"/>
+ <node id="5565233048" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2792586" lon="-84.6399826"/>
+ <node id="5565233049" visible="true" version="3" changeset="100911458" timestamp="2021-03-12T13:21:30Z" user="Beakerboy" uid="33863" lat="38.2797305" lon="-84.6399146"/>
+ <node id="5565233050" visible="true" version="6" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797060" lon="-84.6399630"/>
+ <node id="5565233051" visible="true" version="6" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2796482" lon="-84.6400856"/>
+ <node id="8502246824" visible="true" version="4" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797112" lon="-84.6400432"/>
+ <node id="8502246825" visible="true" version="4" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797194" lon="-84.6400498"/>
+ <node id="8502246826" visible="true" version="4" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797061" lon="-84.6400535"/>
+ <node id="8502246827" visible="true" version="4" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797144" lon="-84.6400601"/>
+ <way id="579354478" visible="true" version="13" changeset="120548654" timestamp="2022-05-04T14:57:25Z" user="Beakerboy" uid="33863">
+  <nd ref="5548595495"/>
+  <nd ref="5548595496"/>
+  <nd ref="5565233050"/>
+  <nd ref="5565233051"/>
+  <nd ref="5548595495"/>
+  <tag k="building" v="barn"/>
+  <tag k="building:levels" v="2"/>
+  <tag k="height" v="6"/>
+  <tag k="wall" v="no"/>
+ </way>
+ <way id="581703511" visible="true" version="2" changeset="100586030" timestamp="2021-03-07T18:08:33Z" user="Beakerboy" uid="33863">
+  <nd ref="5565188288"/>
+  <nd ref="5565188282"/>
+  <nd ref="5565188283"/>
+  <nd ref="5565188284"/>
+  <nd ref="5565188285"/>
+  <nd ref="5565233048"/>
+  <nd ref="5565188287"/>
+  <nd ref="5565233051"/>
+  <tag k="barrier" v="fence"/>
+  <tag k="fence_type" v="wood"/>
+  <tag k="material" v="wood"/>
+ </way>
+ <way id="581703513" visible="true" version="3" changeset="100586030" timestamp="2021-03-07T18:08:33Z" user="Beakerboy" uid="33863">
+  <nd ref="5565233049"/>
+  <nd ref="5565233050"/>
+  <tag k="barrier" v="fence"/>
+  <tag k="fence_type" v="metal"/>
+  <tag k="material" v="metal"/>
+ </way>
+ <way id="915308717" visible="true" version="9" changeset="120548654" timestamp="2022-05-04T14:57:25Z" user="Beakerboy" uid="33863">
+  <nd ref="8502246827"/>
+  <nd ref="8502246825"/>
+  <nd ref="8502246824"/>
+  <nd ref="8502246826"/>
+  <nd ref="8502246827"/>
+  <tag k="building:levels" v="2"/>
+  <tag k="building:part" v="yes"/>
+  <tag k="height" v="6"/>
+  <tag k="roof:colour" v="red"/>
+  <tag k="roof:height" v="1"/>
+  <tag k="roof:shape" v="pyramidal"/>
+ </way>
+ <way id="915563505" visible="true" version="7" changeset="120517450" timestamp="2022-05-03T21:48:52Z" user="Beakerboy" uid="33863">
+  <nd ref="5548595495"/>
+  <nd ref="5548595496"/>
+  <nd ref="5565233050"/>
+  <nd ref="5565233051"/>
+  <nd ref="5548595495"/>
+  <tag k="building:levels" v="1"/>
+  <tag k="building:part" v="yes"/>
+  <tag k="colour" v="#fffdd0"/>
+  <tag k="height" v="4.5"/>
+  <tag k="roof:colour" v="red"/>
+  <tag k="roof:height" v="1.5"/>
+  <tag k="roof:shape" v="gabled"/>
+ </way>
+</osm>
