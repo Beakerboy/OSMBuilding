@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<osm version="0.6" generator="CGImap 0.8.8 (4100293 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<osm version="0.6" generator="CGImap 0.8.8 (1576706 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <node id="5548595495" visible="true" version="8" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797196" lon="-84.6401403"/>
+ <node id="5548595496" visible="true" version="9" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797774" lon="-84.6400177"/>
+ <node id="5565233050" visible="true" version="6" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2797060" lon="-84.6399630"/>
+ <node id="5565233051" visible="true" version="6" changeset="120548592" timestamp="2022-05-04T14:56:07Z" user="Beakerboy" uid="33863" lat="38.2796482" lon="-84.6400856"/>
  <way id="915563505" visible="true" version="7" changeset="120517450" timestamp="2022-05-03T21:48:52Z" user="Beakerboy" uid="33863">
   <nd ref="5548595495"/>
   <nd ref="5548595496"/>
