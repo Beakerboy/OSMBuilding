@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.8.8 (4100293 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <way id="915563505" visible="true" version="7" changeset="120517450" timestamp="2022-05-03T21:48:52Z" user="Beakerboy" uid="33863">
+  <nd ref="5548595495"/>
+  <nd ref="5548595496"/>
+  <nd ref="5565233050"/>
+  <nd ref="5565233051"/>
+  <nd ref="5548595495"/>
+  <tag k="building:levels" v="1"/>
+  <tag k="building:part" v="yes"/>
+  <tag k="colour" v="#fffdd0"/>
+  <tag k="height" v="4.5"/>
+  <tag k="roof:colour" v="red"/>
+  <tag k="roof:height" v="1.5"/>
+  <tag k="roof:shape" v="gabled"/>
+ </way>
+</osm>
