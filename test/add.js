@@ -3,5 +3,5 @@ QUnit.test('two numbers', assert => {
 });
 
 QUnit.test('two numbers', assert => {
-  assert.equal(1 + 1, 3);
+  assert.equal(1 + 3, 3);
 });
