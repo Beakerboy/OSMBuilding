@@ -64,9 +64,9 @@ class Building {
       this.nodelist = Building.buildNodeList(this.fullXmlData);
       this.setHome();
       this.repositionNodes();
-      if (outerElementXml.tagName.toLowerCase() === 'way') {
+      if (this.type === 'way') {
         this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-      } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
+      } else if (this.type === 'multipolygon') {
         this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
         const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
