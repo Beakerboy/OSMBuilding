@@ -203,6 +203,7 @@ class Building {
     const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
     if (xmlData.tagName === 'relation') {
+      window.printError('Tagname is "relation"');
       // get all building relation parts
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
