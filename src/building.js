@@ -224,6 +224,7 @@ class Building {
       }
       ways.push(xmlData);
     }
+    console.log("Number of ways: " + ways.length);
     for (let i = 0; i < ways.length; i++) {
       const way = ways[i];
       if (way.tagName.toLowerCase() === 'way') {
