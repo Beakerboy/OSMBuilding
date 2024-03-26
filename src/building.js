@@ -209,13 +209,14 @@ class Building {
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
       var ref = 0;
+      window.printError('Parts: ' + parts.length);
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
         if (part) {
           ways.push(this.fullXmlData.getElementById(ref));
         } else {
-          console.log('Part ' + ref + ' is null.');
+          window.printError('Part #' + i + '(' + ref + ') is null.');
         }
       }
     } else {
