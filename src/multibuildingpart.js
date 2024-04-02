@@ -45,6 +45,6 @@ getWidth() {
     const y = xy[1];
     const widths = Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
     window.printError("Multibuilding Width: " + widths);
-    return widths
+    return widths;
 }
 export {MultiBuildingPart};
