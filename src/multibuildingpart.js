@@ -32,8 +32,19 @@ class MultiBuildingPart extends BuildingPart {
     return shapes;
   }
 
- getWidth() {
-    return BuildingShapeUtils.getWidth(this.shapes[0]);
-  }
+getWidth() {
+    var xy = [[], []];
+    for (let i = 0; i < this.shape.length; i++){
+      const shape = this.shape[i];
+      const newXy = BuildingShapeUtils.combineCoordinates(shape);
+      xy[0] = xy[0].concat(newXy[0]);
+      xy[1] = xy[1].concat(newXy[1]);
+    }
+    
+    const x = xy[0];
+    const y = xy[1];
+    widths = Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
+    window.printError("Multibuilding Width: " + widths);
+    return widths
 }
 export {MultiBuildingPart};
