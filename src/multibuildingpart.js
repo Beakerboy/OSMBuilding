@@ -40,7 +40,7 @@ class MultiBuildingPart extends BuildingPart {
       xy[0] = xy[0].concat(newXy[0]);
       xy[1] = xy[1].concat(newXy[1]);
     }
-    console.log(xy);
+    window.printError("Multibuilding Width: " + xy);
     const x = xy[0];
     const y = xy[1];
     return Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
