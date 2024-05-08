@@ -40,7 +40,7 @@ class MultiBuildingPart extends BuildingPart {
       xy[0] = xy[0].concat(newXy[0]);
       xy[1] = xy[1].concat(newXy[1]);
     }
-  
+
     const x = xy[0];
     const y = xy[1];
     window.printError('Multibuilding x: ' + x);
