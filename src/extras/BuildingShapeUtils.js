@@ -62,8 +62,7 @@ class BuildingShapeUtils extends ShapeUtils {
     for (let i = 0; i < ways.length; i++) {
       if (BuildingShapeUtils.isClosed(ways[i])) {
         output.push(ways[i]);
-      }
-      else {
+      } else {
       }
     }
   }
