@@ -11,3 +11,5 @@ jobs:
       run: yarn run eslint .
     - name: Test
       run: CI=true npm test
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
