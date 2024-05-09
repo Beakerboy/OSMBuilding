@@ -47,7 +47,7 @@ class BuildingShapeUtils extends ShapeUtils {
   static isClosed(way) {
     // Get all the nodes in the way of interest
     const elements = way.getElementsByTagName('nd');
-    return elements[0].getAttribute('ref') == elements[elements.length - 1].getAttribute('ref')
+    return elements[0].getAttribute('ref') === elements[elements.length - 1].getAttribute('ref');
   }
 
   /**
@@ -60,14 +60,14 @@ class BuildingShapeUtils extends ShapeUtils {
   static combineWays(ways) {
     var output = [];
     for (let i = 0; i < ways.length; i++) {
-      if (isClosed(ways[i])) {
-        output.push(ways[i])
+      if (BuildingShapeUtils.isClosed(ways[i])) {
+        output.push(ways[i]);
       }
       else {
       }
     }
   }
-  
+
   /**
    * Find the center of a closed way
    *
