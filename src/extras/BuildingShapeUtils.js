@@ -7,15 +7,26 @@ class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Create the shape of this way.
+   *
+   * @param {DOM.Element} way - OSM XML way element.
+   * @param {[number, number]} nodelist - list of all nodes
+   *
+   * @return {THREE.Shape} shape - the shape
    */
   static createShape(way, nodelist) {
-    const elements = way.getElementsByTagName('nd');
+    // Initialize objects
     const shape = new Shape();
     var ref;
     var node = [];
+
+    // Get all the nodes in the way of interest
+    const elements = way.getElementsByTagName('nd');
+
+    // Get the coordinates of all the nodes and add them to the shape outline.
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute('ref');
       node = nodelist[ref];
+      // The first node requires a differnet function call.
       if (i === 0) {
         shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));
       } else {
@@ -26,7 +37,41 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
+   * Check if a way is a cloased shape.
+   *
+   * @param {DOM.Element} way - OSM XML way element.
+   * @param {[number, number]} nodelist - list of all nodes
+   *
+   * @return {boolean}
+   */
+  static isClosed(way) {
+    // Get all the nodes in the way of interest
+    const elements = way.getElementsByTagName('nd');
+    return elements[0].getAttribute('ref') == elements[elements.length - 1].getAttribute('ref')
+  }
+
+  /**
+   * Combine the ways into one way.
+   *
+   * @param {[DOM.Element]} array - list of OSM XML way elements.
+   *
+   * @return {DOM.Element}
+   */
+  static combineWays(ways) {
+    var output = [];
+    for (let i = 0; i < ways.length; i++) {
+      if (isClosed(ways[i])) {
+        output.push(ways[i])
+      }
+      else {
+      }
+    }
+  }
+  
+  /**
    * Find the center of a closed way
+   *
+   * @param {THREE.Shape} shape - the shape
    *
    * @return {[number, number]} xy - x/y coordinates of the center
    */
@@ -70,6 +115,7 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @param {THREE.Shape} pts - the shape or Array of shapes.
    * @param {number} angle - angle in radians to rotate shape
+   *
    * @return {[number, number, number, number]} the extents of the object.
    */
   static extents(shape, angle = 0) {
