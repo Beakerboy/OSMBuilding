@@ -1,3 +1,5 @@
-QUnit.test('two numbers', assert => {
-  assert.equal(1 + 1, 2);
+QUnit.test('Closed Way', assert => {
+  var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="2"/></way>'
+  let xmlData = new window.DOMParser().parseFromString(way, 'text/xml');
+  assert.true(BuildingShapeUtils.isClosed(xmlData));
 });
