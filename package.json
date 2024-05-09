@@ -9,9 +9,10 @@
     "three": "^0.138.3"
   },
   "devDependencies" : {
+    "coveralls": "*",
     "eslint": "^8.13",
-    "qunit": "^2.4",
-    "coveralls": "*"
+    "jsdom": "*",
+    "qunit": "^2.4"
   },
   "scripts": {
     "test": "qunit"
