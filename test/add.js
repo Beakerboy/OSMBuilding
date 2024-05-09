@@ -1,3 +1,5 @@
+import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
+
 // const jsdom = require('jsdom');
 
 QUnit.module('qunit testing', function() {
