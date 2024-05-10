@@ -1,4 +1,5 @@
 ![Badge](https://github.com/Beakerboy/OSMBuilding/actions/workflows/main.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/Beakerboy/OSMBuilding/badge.svg?branch=main)](https://coveralls.io/github/Beakerboy/OSMBuilding?branch=main)
 
 OSM Building Viewer
 =====================
