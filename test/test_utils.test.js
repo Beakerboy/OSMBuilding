@@ -3,7 +3,7 @@ global.TextEncoder = TextEncoder;
 /**
  * @jest-environment jsdom
  */
-jest.useFakeTimers();
+
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { JSDOM } from 'jsdom';
 
