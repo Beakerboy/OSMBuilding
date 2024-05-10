@@ -1,4 +1,4 @@
-const buildingShapeUtils = require('../src/extras/BuildingShapeUtils');
+import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js'
 const jsdom = require('jsdom');
 
 test('Test Closed Way', () => {
@@ -6,5 +6,5 @@ test('Test Closed Way', () => {
   var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="2"/></way>';
   let parser = new JSDOM.window.DOMParser();
   let xmlData = parser(way);
-  expect(buildingShapeUtils.isClosed(xmlData)).toBe(true);
+  expect(BuildingShapeUtils.isClosed(xmlData)).toBe(true);
 });
