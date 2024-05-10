@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { JSDOM } from 'jsdom';
 
