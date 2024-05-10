@@ -1,6 +1,8 @@
 {
   "name": "OSMBuilding",
   "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
@@ -9,10 +11,21 @@
     "three": "^0.138.3"
   },
   "devDependencies" : {
+    "coveralls": "*",
+    "c8": "*",
     "eslint": "^8.13",
-    "qunit": "^2.4"
+    "jsdom": "*",
+    "jest": "*",
+    "jest-environment-jsdom": "*"
   },
   "scripts": {
-    "test": "qunit"
+    "test": "c8 jest"
+  },
+   "c8": {
+    "all": true,
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   }
 }

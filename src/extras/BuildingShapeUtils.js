@@ -40,7 +40,6 @@ class BuildingShapeUtils extends ShapeUtils {
    * Check if a way is a cloased shape.
    *
    * @param {DOM.Element} way - OSM XML way element.
-   * @param {[number, number]} nodelist - list of all nodes
    *
    * @return {boolean}
    */
