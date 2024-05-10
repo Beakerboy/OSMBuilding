@@ -3,6 +3,7 @@
  */
 jest.useFakeTimers();
 import { TextEncoder } from 'node:util';
+global.TextEncoder = TextEncoder;
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { JSDOM } from 'jsdom';
 
