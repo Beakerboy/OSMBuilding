@@ -2,6 +2,7 @@
   "name": "OSMBuilding",
   "version": "1.0.0",
   "type": "module",
+  "main": "src/index.js"
   "repository": {
     "type": "git",
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
