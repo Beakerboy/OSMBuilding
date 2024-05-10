@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 jest.useFakeTimers();
+import { TextEncoder } from 'node:util';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { JSDOM } from 'jsdom';
 
