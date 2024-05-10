@@ -14,7 +14,8 @@
     "coveralls": "*",
     "eslint": "^8.13",
     "jsdom": "*",
-    "jest": "*"
+    "jest": "*",
+    "jest-environment-jsdom": "*"
   },
   "scripts": {
     "test": "jest"
