@@ -14,9 +14,9 @@
     "coveralls": "*",
     "eslint": "^8.13",
     "jsdom": "*",
-    "qunit": "^2.4"
+    "jest": "*"
   },
   "scripts": {
-    "test": "qunit"
+    "test": "jest"
   }
 }
