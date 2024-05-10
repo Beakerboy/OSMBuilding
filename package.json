@@ -12,12 +12,20 @@
   },
   "devDependencies" : {
     "coveralls": "*",
+    "c8": "*",
     "eslint": "^8.13",
     "jsdom": "*",
     "jest": "*",
     "jest-environment-jsdom": "*"
   },
   "scripts": {
-    "test": "jest"
+    "test": "c8 jest"
+  },
+   "c8": {
+    "all": true,
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   }
 }
