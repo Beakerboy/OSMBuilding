@@ -1,4 +1,4 @@
-import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js'
+import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 const jsdom = require('jsdom');
 
 test('Test Closed Way', () => {
