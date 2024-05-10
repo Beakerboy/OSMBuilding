@@ -17,6 +17,6 @@
     "jest": "*"
   },
   "scripts": {
-    "test": "--experimental-vm-modules jest"
+    "test": "jest"
   }
 }
