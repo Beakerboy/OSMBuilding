@@ -74,6 +74,9 @@ class BuildingShapeUtils extends ShapeUtils {
       way1 = way[i].getElementsByTagName('nd');
       way2 = way[i + 1].getElementsByTagName('nd');
       if (way2[0].getAttribute('ref') === way1[elements.length - 1].getAttribute('ref')) {
+        // combine
+      } else if (way1[0].getAttribute('ref') === way2[elements.length - 1].getAttribute('ref')) {
+        // combine
       }
     }
   }
