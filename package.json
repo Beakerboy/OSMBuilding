@@ -27,5 +27,8 @@
       "lcov",
       "text-summary"
     ]
-  }
+  },
+  "jest": {
+   "setupFiles": ["./test/setup-jest.js"]
+}
 }
