@@ -57,11 +57,23 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {DOM.Element}
    */
   static combineWays(ways) {
-    var output = [];
+    var closedWays = [];
+    var openWays = [];
+    var changed = false;
     for (let i = 0; i < ways.length; i++) {
       if (BuildingShapeUtils.isClosed(ways[i])) {
-        output.push(ways[i]);
+        closedWays.push(ways[i]);
+        changed = true;
       } else {
+        openWays.push(ways[i]);
+      }
+    }
+    ways = openWays;
+    openWays = [];
+    for (let i = 0; i < ways.length - 1; i++) {
+      way1 = way[i].getElementsByTagName('nd');
+      way2 = way[i + 1].getElementsByTagName('nd');
+      if (way2[0].getAttribute('ref') === way1[elements.length - 1].getAttribute('ref')) {
       }
     }
   }
