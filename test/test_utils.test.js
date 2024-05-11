@@ -31,7 +31,7 @@ test('Test combining 2 ways', () => {
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml');
   let xml2 = parser.parseFromString(way2, 'text/xml');
-  let result = BuildingShapeUtils.combineWays([way1, way2]);
+  let result = BuildingShapeUtils.combineWays([xml1, xml2]);
   let expected = parser.parseFromString(way3, 'text/xml');
   expect(result.isEqualNode(expected)).toBe(true);
 });
