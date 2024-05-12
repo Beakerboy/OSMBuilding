@@ -106,7 +106,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static joinWays(way1, way2) {
     const elements = way2.getElementsByTagName('nd');
-    for (let i = 1; i <= elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       way1.appendChild(elements[i]);
     }
     return way1;
