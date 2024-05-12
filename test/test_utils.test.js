@@ -31,10 +31,7 @@ test('Test joining 2 ways', () => {
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
   let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
-  const elements = xml2.getElementsByTagName('nd');
-  expect(elements.length).toBe(4);
   let result = BuildingShapeUtils.joinWays(xml1, xml2);
-  // expect(result.getElementsByTagName('nd').length).toBe(6);
   expect(result.outerHTML).toBe(way3);
 });
 
