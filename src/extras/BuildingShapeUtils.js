@@ -84,6 +84,11 @@ class BuildingShapeUtils extends ShapeUtils {
           }
         }
       }
+      if (BuildingShapeUtils.isClosed(ways[ways.length - 1])) {
+        closedWays.push(ways[ways.length - 1]);
+      } else {
+        openWays.push(way1);
+      }
     }
     return closedWays;
   }
