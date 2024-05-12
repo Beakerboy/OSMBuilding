@@ -10,7 +10,7 @@ class MultiBuildingPart extends BuildingPart {
   buildShape() {
     this.type = 'multipolygon';
     const innerMembers = this.way.querySelectorAll('member[role="inner"]');
-    const outerMembers = BuildingShapeUtils.combineWays(this.way.querySelectorAll('member[role="outer"]'));
+    const outerMembers = this.way.querySelectorAll('member[role="outer"]');
     const innerShapes = [];
     var shapes = [];
     window.printError('Inner members: ' + innerMembers.length);
