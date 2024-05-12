@@ -50,7 +50,8 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Combine the ways into one way.
+   * Walk through an array and seperate any closed ways.
+   * Attempt to find matching open ways to enclose them.
    *
    * @param {[DOM.Element]} array - list of OSM XML way elements.
    *
@@ -79,6 +80,23 @@ class BuildingShapeUtils extends ShapeUtils {
         // combine
       }
     }
+  }
+
+  /**
+   * Append the nodes from one way into another.
+   *
+   * @param {DOM.Element} way1 - an open, non self-intersecring way
+   * @param {DOM.Element} way2
+   *
+   * @return {DOM.Element} way
+   */
+  static joinWays(way1, way2) {
+    const receiver = way1.getElementsByTagName('way')[0];
+    const elements = way2.getElementsByTagName('nd');
+    for (let i = 0; i < elements.length; i++) {
+      receiver.appendChild(elements[i]);
+    }
+    return receiver
   }
 
   /**
