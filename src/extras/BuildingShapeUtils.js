@@ -50,20 +50,67 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Combine the ways into one way.
+   * Walk through an array and seperate any closed ways.
+   * Attempt to find matching open ways to enclose them.
    *
    * @param {[DOM.Element]} array - list of OSM XML way elements.
    *
    * @return {DOM.Element}
    */
   static combineWays(ways) {
-    var output = [];
-    for (let i = 0; i < ways.length; i++) {
-      if (BuildingShapeUtils.isClosed(ways[i])) {
-        output.push(ways[i]);
-      } else {
+    var closedWays = [];
+    var openWays = [];
+    var changed = true;
+    while (changed) {
+      changed = false;
+      for (let i = 0; i < ways.length - 1; i++) {
+        if (BuildingShapeUtils.isClosed(ways[i])) {
+          closedWays.push(ways[i]);
+        } else {
+          const way1 = ways[i].getElementsByTagName('nd');
+          const way2 = ways[i + 1].getElementsByTagName('nd');
+          if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
+            const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
+            const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else {
+            openWays.push(way1);
+          }
+        }
       }
+      const lastWay = ways[ways.length - 1];
+      if (BuildingShapeUtils.isClosed(lastWay)) {
+        closedWays.push(lastWay);
+      } else {
+        openWays.push(lastWay);
+      }
+      ways = openWays;
+      openWays = [];
     }
+    return closedWays;
+  }
+
+  /**
+   * Append the nodes from one way into another.
+   *
+   * @param {DOM.Element} way1 - an open, non self-intersecring way
+   * @param {DOM.Element} way2
+   *
+   * @return {DOM.Element} way
+   */
+  static joinWays(way1, way2) {
+    const elements = way2.getElementsByTagName('nd');
+    for (let i = 1; i < elements.length; i++) {
+      let elem = elements[i].cloneNode();
+      way1.appendChild(elem);
+    }
+    return way1;
   }
 
   /**
