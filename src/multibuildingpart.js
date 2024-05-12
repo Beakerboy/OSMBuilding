@@ -21,7 +21,11 @@ class MultiBuildingPart extends BuildingPart {
     window.printError('Outer members: ' + outerMembers.length);
     for (let j = 0; j < outerMembers.length; j++) {
       const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
-      const shape = BuildingShapeUtils.createShape(way, this.nodelist);
+      ways.push(way);
+    }
+    const closedWays = BuildingShapeUtils.combineWays(ways);
+    for (let j = 0; j < closedWays.length; j++) {
+      const shape = BuildingShapeUtils.createShape(closedWays[i], this.nodelist);
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
