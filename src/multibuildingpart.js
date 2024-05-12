@@ -25,8 +25,8 @@ class MultiBuildingPart extends BuildingPart {
       ways.push(way);
     }
     const closedWays = BuildingShapeUtils.combineWays(ways);
-    for (let j = 0; j < closedWays.length; j++) {
-      const shape = BuildingShapeUtils.createShape(closedWays[i], this.nodelist);
+    for (let k = 0; k < closedWays.length; k++) {
+      const shape = BuildingShapeUtils.createShape(closedWays[k], this.nodelist);
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
