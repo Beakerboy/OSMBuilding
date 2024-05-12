@@ -76,9 +76,17 @@ class BuildingShapeUtils extends ShapeUtils {
       for (let i = 0; i < ways.length - 1; i++) {
         const way1 = ways[i].getElementsByTagName('nd');
         const way2 = ways[i + 1].getElementsByTagName('nd');
-        if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref') ||
-            way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
-          const result = BuildingShapeUtils.joinWays(way1, way2);
+        if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
+          const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
+          if (BuildingShapeUtils.isClosed(result)) {
+            closedWays.push(result);
+          } else {
+            openWays.push(result);
+          }
+          i++;
+          changed = true;
+        } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
+          const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
           if (BuildingShapeUtils.isClosed(result)) {
             closedWays.push(result);
           } else {
