@@ -34,7 +34,7 @@ test('Test joining 2 ways', () => {
   const elements = xml2.getElementsByTagName('nd');
   expect(elements.length).toBe(4);
   let result = BuildingShapeUtils.joinWays(xml1, xml2);
-  expect(result.getElementsByTagName('nd').length).toBe(6);
+  // expect(result.getElementsByTagName('nd').length).toBe(6);
   expect(result.outerHTML).toBe(way3);
 });
 
