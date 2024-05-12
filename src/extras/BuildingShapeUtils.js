@@ -89,6 +89,8 @@ class BuildingShapeUtils extends ShapeUtils {
       } else {
         openWays.push(way1);
       }
+      ways = openWays
+      openWays = []
     }
     return closedWays;
   }
