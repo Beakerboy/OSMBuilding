@@ -61,41 +61,27 @@ class BuildingShapeUtils extends ShapeUtils {
     var closedWays = [];
     var openWays = [];
     var changed = true;
-    for (let i = 0; i < ways.length; i++) {
-      if (BuildingShapeUtils.isClosed(ways[i])) {
-        closedWays.push(ways[i]);
-        changed = true;
-      } else {
-        openWays.push(ways[i]);
-      }
-    }
-    ways = openWays;
-    openWays = [];
     while (changed) {
       changed = false;
       for (let i = 0; i < ways.length - 1; i++) {
-        const way1 = ways[i].getElementsByTagName('nd');
-        const way2 = ways[i + 1].getElementsByTagName('nd');
-        if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
-          const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
-          if (BuildingShapeUtils.isClosed(result)) {
-            closedWays.push(result);
-          } else {
-            openWays.push(result);
-          }
-          i++;
-          changed = true;
-        } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
-          const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
-          if (BuildingShapeUtils.isClosed(result)) {
-            closedWays.push(result);
-          } else {
-            openWays.push(result);
-          }
-          i++;
-          changed = true;
+        if (BuildingShapeUtils.isClosed(ways[i])) {
+          closedWays.push(ways[i]);
         } else {
-          openWays.push(way1);
+          const way1 = ways[i].getElementsByTagName('nd');
+          const way2 = ways[i + 1].getElementsByTagName('nd');
+          if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
+            const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
+            const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else {
+            openWays.push(way1);
+          }
         }
       }
     }
