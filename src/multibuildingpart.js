@@ -19,6 +19,7 @@ class MultiBuildingPart extends BuildingPart {
       innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
     }
     window.printError('Outer members: ' + outerMembers.length);
+    const ways = [];
     for (let j = 0; j < outerMembers.length; j++) {
       const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
       ways.push(way);
