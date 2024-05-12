@@ -114,7 +114,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const receiver = way1.getElementsByTagName('way')[0];
     const elements = way2.getElementsByTagName('nd');
     for (let i = 1; i < elements.length; i++) {
-      way1.appendChild(elements[i]);
+      receiver.appendChild(elements[i]);
     }
     return receiver;
   }
