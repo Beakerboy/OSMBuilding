@@ -33,7 +33,7 @@ test('Test joining 2 ways', () => {
   let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.joinWays(xml1, xml2);
   let expected = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
-  expect(result.isEqualNode(expected)).toBe(true);
+  expect(result.outerHTMl).toBe(expected.outerHTML);
 });
 
 test('Test combining 2 ways', () => {
