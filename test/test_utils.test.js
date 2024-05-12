@@ -45,5 +45,5 @@ test('Test combining 2 ways', () => {
   let result = BuildingShapeUtils.combineWays([xml1, xml2]);
   expect(result.length).toBe(1);
   let expected = parser.parseFromString(way3, 'text/xml');
-  expect(result[0].isEqualNode(expected)).toBe(true);
+  expect(result[0].outerHTML).toBe(way3);
 });
