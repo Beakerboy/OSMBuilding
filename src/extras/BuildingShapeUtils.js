@@ -72,11 +72,11 @@ class BuildingShapeUtils extends ShapeUtils {
     ways = openWays;
     openWays = [];
     for (let i = 0; i < ways.length - 1; i++) {
-      const way1 = way[i].getElementsByTagName('nd');
-      const way2 = way[i + 1].getElementsByTagName('nd');
-      if (way2[0].getAttribute('ref') === way1[elements.length - 1].getAttribute('ref')) {
+      const way1 = ways[i].getElementsByTagName('nd');
+      const way2 = ways[i + 1].getElementsByTagName('nd');
+      if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
         // combine
-      } else if (way1[0].getAttribute('ref') === way2[elements.length - 1].getAttribute('ref')) {
+      } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
         // combine
       }
     }
@@ -96,7 +96,7 @@ class BuildingShapeUtils extends ShapeUtils {
     for (let i = 1; i < elements.length; i++) {
       receiver.appendChild(elements[i]);
     }
-    return receiver
+    return receiver;
   }
 
   /**
