@@ -20,7 +20,7 @@ class Building {
   // DOM Tree of all elements to render
   fullXmlData;
 
-  id = 0;
+  id = '0';
 
   // the list of all nodes with lat/lon coordinates.
   nodelist = [];
