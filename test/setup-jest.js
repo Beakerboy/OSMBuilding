@@ -1,3 +1,2 @@
-// import $ from 'jquery';
-// global.$ = $;
-// global.jQuery = $;
+import pyramid from '../../Threejs-Geometries/pyramid.js';
+global.pyramid = pyramid
