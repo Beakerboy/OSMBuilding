@@ -9,7 +9,6 @@ import { Building } from '../src/building.js';
 import { MultiBuildingPart } from '../src/multibuildingpart.js';
 
 const data = `
-<?xml version="1.0" encoding="UTF-8"?>
 <osm>
   <node id="3" lat="4" lon="4"/>
   <node id="5" lat="4" lon="4.001"/>
