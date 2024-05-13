@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "three": "^0.138.3",
-    "pyramid": "file:../Threejs-Geometries/PyramidGeometry.js"
   },
   "devDependencies" : {
     "coveralls": "*",
@@ -17,7 +16,8 @@
     "eslint": "^8.13",
     "jsdom": "*",
     "jest": "*",
-    "jest-environment-jsdom": "*"
+    "jest-environment-jsdom": "*",
+    "pyramid": "file:../Threejs-Geometries/PyramidGeometry.js"
   },
   "scripts": {
     "test": "c8 jest"
