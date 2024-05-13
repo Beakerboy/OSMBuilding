@@ -10,7 +10,7 @@ jobs:
         mkdir ../pyramid
         wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
         cd ../pyramid
-        npm init pyramid -y 
+        echo '{"name":"pyramid","license":"UNLICENSED","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         npm install
         cd ../OSMBuilding
         yarn --prod=false
