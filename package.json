@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "three": "^0.138.3",
-    "pyramid": "Beakerboy/Threejs-Geometries"
+    "pyramid": "file:../Threejs-Geometries/PyramidGeometry.js"
   },
   "devDependencies" : {
     "coveralls": "*",
