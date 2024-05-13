@@ -9,8 +9,10 @@ jobs:
       run: |
         mkdir ../pyramid
         wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
-        npm init pyramid ../pyramid -y
-        npm install ../pyramid
+        cd ../pyramid
+        npm init pyramid -y 
+        npm install
+        cd ../OSMBuilding
         yarn --prod=false
     - name: Lint
       run: yarn run eslint .
