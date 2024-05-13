@@ -7,8 +7,10 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install modules
       run: |
-        mkdir ../Threejs-Geometries
-        wget -P ../Threejs-Geometries https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
+        mkdir ../pyramid
+        wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
+        cd ..
+        npm init pyramid ./pyramid -y
         yarn --prod=false
     - name: Lint
       run: yarn run eslint .
