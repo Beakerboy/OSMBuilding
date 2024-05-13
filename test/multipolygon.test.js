@@ -37,7 +37,7 @@ test('Test Simple Multipolygon', () => {
   const shape = new MultiBuildingPart('4', xmlData, nodelist);
 });
 
-global window.printError = printError;
+window.printError = printError;
 
 const errors = [];
 
