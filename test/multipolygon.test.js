@@ -36,3 +36,11 @@ test('Test Simple Multipolygon', () => {
   const nodelist = Building.buildNodeList(xmlData);
   const shape = new MultiBuildingPart('4', xmlData, nodelist);
 });
+
+global window.printError = printError;
+
+const errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
