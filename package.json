@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "three": "^0.138.3",
-    "threejs_geometries": "Beakerboy/Threejs-Geometries"
+    "pyramid": "Beakerboy/Threejs-Geometries"
   },
   "devDependencies" : {
     "coveralls": "*",
