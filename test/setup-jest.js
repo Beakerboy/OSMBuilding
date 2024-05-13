@@ -1,2 +1,2 @@
-import pyramid from '../../Threejs-Geometries/pyramid.js';
+import pyramid from '../../Threejs-Geometries/PyramidGeometry.js';
 global.pyramid = pyramid;
