@@ -16,7 +16,10 @@
     "eslint": "^8.13",
     "jsdom": "*",
     "jest": "*",
-    "jest-environment-jsdom": "*"
+    "jest-environment-jsdom": "*",
+    "pyramid": "file:../pyramid",
+    "ramp": "file:../ramp",
+    "wedge": "file:../wedge"
   },
   "scripts": {
     "test": "c8 jest"
@@ -27,8 +30,5 @@
       "lcov",
       "text-summary"
     ]
-  },
-  "jest": {
-   "setupFiles": ["./test/setup-jest.js"]
-}
+  }
 }
