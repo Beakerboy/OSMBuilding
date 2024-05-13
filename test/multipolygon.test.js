@@ -35,6 +35,7 @@ test('Test Simple Multipolygon', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const nodelist = Building.buildNodeList(xmlData);
   const shape = new MultiBuildingPart('4', xmlData, nodelist);
+  expect(shape.id).toBe('4')
 });
 
 window.printError = printError;
