@@ -8,8 +8,7 @@
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
   },
   "dependencies": {
-    "three": "^0.138.3",
-    "botkit": "Beakerboy/Threejs-Geometries",
+    "three": "^0.138.3"
   },
   "devDependencies" : {
     "coveralls": "*",
