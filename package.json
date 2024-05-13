@@ -18,7 +18,8 @@
     "jest": "*",
     "jest-environment-jsdom": "*",
     "pyramid": "file:../pyramid",
-    "ramp": "file:../ramp"
+    "ramp": "file:../ramp",
+    "wedge": "file:../wedge"
   },
   "scripts": {
     "test": "c8 jest"
