@@ -9,7 +9,7 @@ jobs:
       run: |
         yarn --prod=false
         mkdir test/Threejs-Geometries
-        wget https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js test/Threejs-Geometries/
+        wget -P test/Threejs-Geometries https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
     - name: Lint
       run: yarn run eslint .
     - name: Test
