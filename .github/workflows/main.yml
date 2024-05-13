@@ -6,7 +6,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install modules
-      run: yarn --prod=false
+      run: |
+        yarn --prod=false
+        mkdir test/Threejs-Geometries
+        wget https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js test/Threejs-Geometries/
     - name: Lint
       run: yarn run eslint .
     - name: Test
