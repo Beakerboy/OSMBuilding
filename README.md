@@ -25,6 +25,7 @@ Supports:
  * Ways with building parts inside.
  * Building relations with way and/or multipolygon parts
  * Mulipolygon buildings
+ * Multipolygon building with multiple open ways which combine to a closed way.
 
 Roof Types:
  * Flat
