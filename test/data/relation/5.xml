@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm>
-  <node id="12" lat="4" lon="4"/>
+  <node id="4" lat="4" lon="4"/>
   <node id="11" lat="4" lon="4.001"/>
   <node id="6" lat="4.001" lon="4.001"/>
   <node id="7" lat="4.001" lon="4"/>
@@ -18,7 +18,7 @@
     <tag k="roof:angle" v="45"/>
   </relation>
   <way id="1">
-    <nd ref="12"/>
+    <nd ref="4"/>
     <nd ref="11"/>
     <nd ref="6"/>
   </way>
@@ -31,6 +31,6 @@
   <way id="3">
     <nd ref="6"/>
     <nd ref="7"/>
-    <nd ref="12"/>
+    <nd ref="4"/>
   </way>
 </osm>
