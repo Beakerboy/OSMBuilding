@@ -5,7 +5,7 @@
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
-
+import { Shape } from 'three';
 
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
@@ -46,4 +46,12 @@ test('Test combining 2 ways', () => {
   expect(result.length).toBe(1);
   let expected = parser.parseFromString(way3, 'text/xml');
   expect(result[0].outerHTML).toBe(way3);
+});
+
+test('Extents no rotation', () => {
+  shape = new Shape();
+  shape.moveTo(1, 1);
+  shape.lineTo(1, -1);
+  shape.lineTo(-1, 1);
+  expect(BuildingShapeUtils.extents(shape)).toBe([-1, -1, 1, 1])
 });
