@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm>
-  <node id="4" lat="4" lon="4"/>
-  <node id="11" lat="4" lon="4.001"/>
-  <node id="6" lat="4.001" lon="4.001"/>
-  <node id="7" lat="4.001" lon="4"/>
-  <node id="8" lat="4.00025" lon="4.00025"/>
-  <node id="9" lat="4.00025" lon="4.00075"/>
-  <node id="10" lat="4.00075" lon="4.0005"/>
+  <node id="4" lat="7" lon="7"/>
+  <node id="11" lat="7" lon="7.001"/>
+  <node id="6" lat="7.001" lon="7.001"/>
+  <node id="7" lat="7.001" lon="7"/>
+  <node id="8" lat="7.00025" lon="7.00025"/>
+  <node id="9" lat="7.00025" lon="7.00075"/>
+  <node id="10" lat="7.00075" lon="7.0005"/>
   <relation id="5">
     <member ref="1" role="outer"/>
     <member ref="3" role="outer"/>
