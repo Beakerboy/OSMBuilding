@@ -2,10 +2,13 @@
  * @jest-environment jsdom
  */
 
+import {toBeDeepCloseTo} from 'jest-matcher-deep-close-to';
+expect.extend({toBeDeepCloseTo});
+
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
-
+import { Shape } from 'three';
 
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
@@ -46,4 +49,15 @@ test('Test combining 2 ways', () => {
   expect(result.length).toBe(1);
   let expected = parser.parseFromString(way3, 'text/xml');
   expect(result[0].outerHTML).toBe(way3);
+});
+
+test('Extents no rotation', () => {
+  const shape = new Shape();
+  shape.moveTo(1, 1);
+  shape.lineTo(1, -1);
+  shape.lineTo(-1, 1);
+  expect(BuildingShapeUtils.extents(shape)).toStrictEqual([-1, -1, 1, 1]);
+  const angle = 45 / 360 * 2 * 3.1415926535;
+  const sqrt2 = Math.sqrt(2);
+  expect(BuildingShapeUtils.extents(shape, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
 });
