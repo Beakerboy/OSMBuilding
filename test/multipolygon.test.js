@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { Shape } feom 'three';
+import { Shape } from 'three';
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
