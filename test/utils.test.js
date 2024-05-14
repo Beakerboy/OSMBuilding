@@ -55,6 +55,6 @@ test('Extents no rotation', () => {
   shape.lineTo(-1, 1);
   expect(BuildingShapeUtils.extents(shape)).toStrictEqual([-1, -1, 1, 1]);
   const angle = 45 / 360 * 2 * 3.1415926535;
-  const sqrt2 = sqrt(2);
+  const sqrt2 = Math.sqrt(2);
   expect(BuildingShapeUtils.extents(shape, angle)).toStrictEqual([-sqrt2, 0, sqrt2, sqrt2]);
 });
