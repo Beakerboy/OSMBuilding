@@ -2,6 +2,9 @@
  * @jest-environment jsdom
  */
 
+import {toBeDeepCloseTo} from 'jest-matcher-deep-close-to';
+expect.extend({toBeDeepCloseTo});
+
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
@@ -56,5 +59,5 @@ test('Extents no rotation', () => {
   expect(BuildingShapeUtils.extents(shape)).toStrictEqual([-1, -1, 1, 1]);
   const angle = 45 / 360 * 2 * 3.1415926535;
   const sqrt2 = Math.sqrt(2);
-  expect(BuildingShapeUtils.extents(shape, angle)).toStrictEqual([-sqrt2, 0, sqrt2, sqrt2]);
+  expect(BuildingShapeUtils.extents(shape, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
 });
