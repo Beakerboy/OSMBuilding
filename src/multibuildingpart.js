@@ -30,7 +30,7 @@ class MultiBuildingPart extends BuildingPart {
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
-    if (outerMembers.length === 1) {
+    if (closedWays.length === 1) {
       return shapes[0];
     }
     // Multiple outer members
