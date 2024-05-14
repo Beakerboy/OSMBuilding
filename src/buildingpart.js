@@ -82,6 +82,11 @@ class BuildingPart {
     this.setOptions();
   }
 
+  /**
+   * Create the shape of the outer way.
+   *
+   * @return {THREE.Shape} shape - the shape
+   */
   buildShape() {
     this.type = 'way';
     return BuildingShapeUtils.createShape(this.way, this.nodelist);
