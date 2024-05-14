@@ -49,7 +49,7 @@ test('Test combining 2 ways', () => {
 });
 
 test('Extents no rotation', () => {
-  shape = new Shape();
+  const shape = new Shape();
   shape.moveTo(1, 1);
   shape.lineTo(1, -1);
   shape.lineTo(-1, 1);
