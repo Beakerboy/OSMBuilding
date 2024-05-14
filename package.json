@@ -17,7 +17,7 @@
     "jsdom": "*",
     "jest": "*",
     "jest-environment-jsdom": "*",
-    "jest-matcher-deep-close-to", "*",
+    "jest-matcher-deep-close-to": "*",
     "pyramid": "file:../pyramid",
     "ramp": "file:../ramp",
     "wedge": "file:../wedge"
