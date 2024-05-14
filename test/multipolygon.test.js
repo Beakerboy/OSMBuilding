@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { Shape } from 'three';
+import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
@@ -38,6 +38,7 @@ test('Test Simple Multipolygon', () => {
   const shape = new MultiBuildingPart('4', xmlData, nodelist);
   expect(shape.id).toBe('4');
   expect(shape.shape).toBeInstanceOf(Shape);
+  expect(shape.roof).toBeInstanceOf(Mesh);
 });
 
 window.printError = printError;
