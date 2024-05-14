@@ -7,6 +7,11 @@ import {BuildingPart} from './buildingpart.js';
  */
 class MultiBuildingPart extends BuildingPart {
 
+  /**
+   * Create the shape of the outer relation.
+   *
+   * @return {THREE.Shape} shape - the shape
+   */
   buildShape() {
     this.type = 'multipolygon';
     const innerMembers = this.way.querySelectorAll('member[role="inner"]');
