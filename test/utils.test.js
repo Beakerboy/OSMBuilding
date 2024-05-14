@@ -53,5 +53,5 @@ test('Extents no rotation', () => {
   shape.moveTo(1, 1);
   shape.lineTo(1, -1);
   shape.lineTo(-1, 1);
-  expect(BuildingShapeUtils.extents(shape)).toBe([-1, -1, 1, 1])
+  expect(BuildingShapeUtils.extents(shape)).toBe([-1, -1, 1, 1]);
 });
