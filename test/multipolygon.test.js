@@ -37,7 +37,7 @@ test('Test Simple Multipolygon', () => {
   const nodelist = Building.buildNodeList(xmlData);
   const shape = new MultiBuildingPart('4', xmlData, nodelist);
   expect(shape.id).toBe('4');
-  expect(shape.shape).isInstanceOf(Shape);
+  expect(shape.shape).toBeInstanceOf(Shape);
 });
 
 window.printError = printError;
