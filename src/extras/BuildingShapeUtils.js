@@ -333,7 +333,6 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     return angle;
   }
-}
 
   /**
    * Rotate lat/lon to reposition the home point onto 0,0.
@@ -356,4 +355,5 @@ class BuildingShapeUtils extends ShapeUtils {
 
     return [x, Math.sin(arg) * abs];
   }
+}
 export {BuildingShapeUtils};
