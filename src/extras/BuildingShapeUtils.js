@@ -243,7 +243,8 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Calculate the angle of each of a shape's edge
+   * Calculate the angle of each of a shape's edge.
+   * the angle will be PI > x >= -PI
    *
    * @param {THREE.Shape} shape - the shape
    *
@@ -251,17 +252,21 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
+    points.push(points[0]);
     const angles = [];
     var p1;
     var p2;
-    for (let i = 0; i < points.length - 1; i++) {
+    for (let i = 0; i < points.length; i++) {
       p1 = points[i];
       p2 = points[i + 1];
-      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
+      let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
+      if (angle >= Math.PI / 2) {
+        angle -= Math.PI;
+      } else if (angle < -Math.PI / 2) {
+        angle += Math.PI;
+      }
+      angles.push(angle);
     }
-    p1 = points[points.length - 1];
-    p2 = points[0];
-    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     return angles;
   }
 
