@@ -259,6 +259,9 @@ class BuildingShapeUtils extends ShapeUtils {
       p2 = points[i + 1];
       angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     }
+    p1 = points[points.length - 1];
+    p2 = points[0];
+    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     return angles;
   }
 
