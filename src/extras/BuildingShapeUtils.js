@@ -195,6 +195,10 @@ class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Calculate the length of each of a shape's edge
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number, ...]} the esge lwngths.
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
@@ -240,6 +244,10 @@ class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Calculate the angle of each of a shape's edge
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number, ...]} the angles in radians.
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
