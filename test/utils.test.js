@@ -75,5 +75,5 @@ test('Edge Direction', () => {
 });
 
 test('Longest side angle', () => {
-  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3.1415926353 / 4);
+  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(-Math.PI / 4);
 });
