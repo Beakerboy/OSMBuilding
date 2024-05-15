@@ -195,6 +195,10 @@ class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Calculate the length of each of a shape's edge
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number, ...]} the esge lwngths.
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
@@ -240,6 +244,10 @@ class BuildingShapeUtils extends ShapeUtils {
 
   /**
    * Calculate the angle of each of a shape's edge
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number, ...]} the angles in radians.
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
@@ -251,6 +259,9 @@ class BuildingShapeUtils extends ShapeUtils {
       p2 = points[i + 1];
       angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     }
+    p1 = points[points.length - 1];
+    p2 = points[0];
+    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     return angles;
   }
 
@@ -298,45 +309,24 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {number}
    */
   static longestSideAngle(shape) {
-    const newVecs = [];
-    const newShape = new Shape();
     const vecs = shape.extractPoints().shape;
-    var p0 = vecs[vecs.length - 2];
-    var p1;
-    var p2;
-    for (let i = 0; i < vecs.length - 1; i++) {
-      p1 = vecs[i];
-      p2 = vecs[i + 1];
-      // Calculate angle
-      const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
-
-      // Discard the point if within half a degree of 180.
-      if (Math.abs(angle - Math.PI) > Math.PI / 360 / 2 ) {
-        newVecs.push(p1);
+    const lengths = BuildingShapeUtils.edgeLength(shape);
+    const directions = BuildingShapeUtils.edgeDirection(shape);
+    var index;
+    var maxLength = 0;
+    for (let i = 0; i < lengths.length; i++) {
+      if (lengths[i] > maxLength) {
+        index = i;
+        maxLength = lengths[i];
       }
-      p0 = p1;
     }
-    if (newVecs.length > 0) {
-      // convert newVecs into newShape
-      newShape.setFromPoints(newVecs);
-      const lengths = BuildingShapeUtils.edgeLength(newShape);
-      const directions = BuildingShapeUtils.edgeDirection(newShape);
-      var index;
-      var maxLength = 0;
-      for (let i = 0; i < lengths.length; i++) {
-        if (lengths[i] > maxLength) {
-          index = i;
-          maxLength = lengths[i];
-        }
-      }
-      var angle = directions[index];
-      const extents = BuildingShapeUtils.extents(newShape, Math.PI * 2 - angle);
-      // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
-      if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
-        angle = angle > Math.PI / 2 ? angle - Math.PI / 2 : angle + Math.PI / 2;
-      }
-      return angle;
+    var angle = directions[index];
+    const extents = BuildingShapeUtils.extents(shape, -angle);
+    // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
+    if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
+      angle = angle > 0 ? angle - Math.PI / 2 : angle + Math.PI / 2;
     }
+    return angle;
   }
 }
 export {BuildingShapeUtils};

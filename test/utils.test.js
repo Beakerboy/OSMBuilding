@@ -51,13 +51,31 @@ test('Test combining 2 ways', () => {
   expect(result[0].outerHTML).toBe(way3);
 });
 
-test('Extents no rotation', () => {
-  const shape = new Shape();
-  shape.moveTo(1, 1);
-  shape.lineTo(1, -1);
-  shape.lineTo(-1, 1);
-  expect(BuildingShapeUtils.extents(shape)).toStrictEqual([-1, -1, 1, 1]);
+const rightTriangle = new Shape();
+rightTriangle.moveTo(1, 1);
+rightTriangle.lineTo(1, -1);
+rightTriangle.lineTo(-1, 1);
+
+test('Extents no Rotation', () => {
+  expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
+});
+
+test('Extents Rotation', () => {
   const angle = 45 / 360 * 2 * 3.1415926535;
   const sqrt2 = Math.sqrt(2);
-  expect(BuildingShapeUtils.extents(shape, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
+  expect(BuildingShapeUtils.extents(rightTriangle, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
+});
+
+test('Edge Lengths', () => {
+  expect(BuildingShapeUtils.edgeLength(rightTriangle)).toBeDeepCloseTo([2, Math.sqrt(2) * 2, 2]);
+});
+
+test('Edge Direction', () => {
+  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, -Math.PI / 4, 0]);
+});
+
+test('Longest side angle', () => {
+  // A three.Shape object does not repeat the fist and last nodes.
+  expect(rightTriangle.extractPoints().shape.length).toBe(3);
+  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(-Math.PI / 4);
 });
