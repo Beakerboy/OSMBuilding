@@ -51,13 +51,21 @@ test('Test combining 2 ways', () => {
   expect(result[0].outerHTML).toBe(way3);
 });
 
-test('Extents no rotation', () => {
-  const shape = new Shape();
-  shape.moveTo(1, 1);
-  shape.lineTo(1, -1);
-  shape.lineTo(-1, 1);
-  expect(BuildingShapeUtils.extents(shape)).toStrictEqual([-1, -1, 1, 1]);
+const rightTriangle = new Shape();
+  rightTriangle.moveTo(1, 1);
+  rightTriangle.lineTo(1, -1);
+  rightTriangle.lineTo(-1, 1);
+
+test('Extents no Rotation', () => {
+  expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
+});
+
+test('Extents Rotation', () => {
   const angle = 45 / 360 * 2 * 3.1415926535;
   const sqrt2 = Math.sqrt(2);
-  expect(BuildingShapeUtils.extents(shape, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
+  expect(BuildingShapeUtils.extents(rightTriangle, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
+});
+
+test('Longest side angle', () => {
+  expect(BuildingShapeUtils.longestSideAngke(rightTriangle)).toBe(3.1415926353 / 4);
 });
