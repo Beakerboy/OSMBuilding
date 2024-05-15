@@ -334,4 +334,26 @@ class BuildingShapeUtils extends ShapeUtils {
     return angle;
   }
 }
+
+  /**
+   * Rotate lat/lon to reposition the home point onto 0,0.
+   *
+   * @param {[number, number]} lonLat - The longitute and latitude of a point.
+   *
+   * @return {[number, number]} x, y in meters
+   */
+  static repositionPoint(lonLat, home) {
+    const R = 6371 * 1000;   // Earth radius in m
+    const circ = 2 * Math.PI * R;  // Circumference
+    const phi = 90 - lonLat[1];
+    const theta = lonLat[0] - home[0];
+    const thetaPrime = home[1] / 180 * Math.PI;
+    const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
+    const y = R * Math.cos(phi / 180 * Math.PI);
+    const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
+    const abs = Math.sqrt(z**2 + y**2);
+    const arg = Math.atan(y / z) - thetaPrime;
+
+    return [x, Math.sin(arg) * abs];
+  }
 export {BuildingShapeUtils};
