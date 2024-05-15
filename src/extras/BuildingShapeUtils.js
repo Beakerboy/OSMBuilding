@@ -312,7 +312,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const newVecs = [];
     const newShape = new Shape();
     const vecs = shape.extractPoints().shape;
-    var p0 = vecs[vecs.length - 2];
+    var p0 = vecs[vecs.length - 1];
     var p1;
     var p2;
     for (let i = 0; i < vecs.length - 1; i++) {
