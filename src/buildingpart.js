@@ -144,10 +144,20 @@ class BuildingPart {
     if (!calculatedOptions.roof.orientation && calculatedOptions.roof.shape && orientableRoofs.includes(calculatedOptions.roof.shape)) {
       calculatedOptions.roof.orientation = 'along';
     }
-    const directionalRoofs = ['gabled', 'hipped'];
+    // Should Skillion be included here?
+    const directionalRoofs = ['gabled', 'round'];
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
     if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
-      calculatedOptions.roof.direction = BuildingShapeUtils.longestSideAngle(this.shape) / Math.PI * 180;
+      // Radians pi > x >= -pi
+      const longestSide = BuildingShapeUtils.longestSideAngle(this.shape)
+      if (calculatedOptions.roof.orientation) === 'along') {
+        longestSide += Math.PI / 2
+      }
+      if (longestSide < 0) {
+        longestSide += Math.PI
+      }
+      // Convert to angle.
+      calculatedOptions.roof.direction = longestSide / Math.PI * 180;
     }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
