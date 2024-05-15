@@ -67,5 +67,5 @@ test('Extents Rotation', () => {
 });
 
 test('Longest side angle', () => {
-  expect(BuildingShapeUtils.longestSideAngke(rightTriangle)).toBe(3.1415926353 / 4);
+  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3.1415926353 / 4);
 });
