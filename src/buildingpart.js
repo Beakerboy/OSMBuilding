@@ -150,7 +150,7 @@ class BuildingPart {
     if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
       // Radians pi > x >= -pi
       const longestSide = BuildingShapeUtils.longestSideAngle(this.shape)
-      if (calculatedOptions.roof.orientation) === 'along') {
+      if (calculatedOptions.roof.orientation === 'along') {
         longestSide += Math.PI / 2
       }
       if (longestSide < 0) {
