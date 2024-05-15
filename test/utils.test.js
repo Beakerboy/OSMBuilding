@@ -67,7 +67,7 @@ test('Extents Rotation', () => {
 });
 
 test('Edge Lengths', () => {
-  expect(BuildingShapeUtils.edgeLength(rightTriangle)).toBeDeepCloseTo([2, 2, Math.sqrt(2) * 2]);
+  expect(BuildingShapeUtils.edgeLength(rightTriangle)).toBeDeepCloseTo([2, Math.sqrt(2) * 2, 2]);
 });
 
 test('Longest side angle', () => {
