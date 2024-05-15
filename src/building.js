@@ -61,7 +61,7 @@ class Building {
       this.type = 'relation';
     }
     if (this.isValidData(outerElementXml)) {
-      this.nodelist = Building.buildNodeList(this.fullXmlData);
+      this.buildNodeList();
       this.setHome();
       this.repositionNodes();
       if (this.type === 'way') {
@@ -97,13 +97,9 @@ class Building {
 
   /**
    * build an array of all the lat/long values of the nodes
-   *
-   * @param {DOMDocument} fullXmlData
-   *
-   * @return {[[number, number]]} array of coordinate pairs keyed by node id.
    */
-  static buildNodeList(fullXmlData) {
-    const nodeElements = fullXmlData.getElementsByTagName('node');
+  buildNodeList() {
+    const nodeElements = this.fullXmlData.getElementsByTagName('node');
     let id = 0;
     var node;
     var coordinates = [];
@@ -115,7 +111,7 @@ class Building {
       coordinates = [node.getAttribute('lon'), node.getAttribute('lat')];
       nodeList[id] = coordinates;
     }
-    return nodeList;
+    this.nodeList = nodeList;
   }
 
   /**
