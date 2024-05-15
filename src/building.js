@@ -61,7 +61,7 @@ class Building {
       this.type = 'relation';
     }
     if (this.isValidData(outerElementXml)) {
-      this.nodelist = this.buildNodeList(this.fullXmlData);
+      this.nodelist = Building.buildNodeList(this.fullXmlData);
       this.setHome();
       this.repositionNodes();
       if (this.type === 'way') {
