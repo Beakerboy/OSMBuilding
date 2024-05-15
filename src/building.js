@@ -98,7 +98,7 @@ class Building {
   /**
    * build an array of all the lat/long values of the nodes
    *
-   
+   * @return {[[number, number]]} array of coordinate pairs keyed by node id.
    */
   static buildNodeList(fullXmlData) {
     const nodeElements = fullXmlData.getElementsByTagName('node');
