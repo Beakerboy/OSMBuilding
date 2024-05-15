@@ -149,12 +149,12 @@ class BuildingPart {
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
     if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
       // Radians pi > x >= -pi
-      const longestSide = BuildingShapeUtils.longestSideAngle(this.shape)
+      const longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
       if (calculatedOptions.roof.orientation === 'along') {
-        longestSide += Math.PI / 2
+        longestSide += Math.PI / 2;
       }
       if (longestSide < 0) {
-        longestSide += Math.PI
+        longestSide += Math.PI;
       }
       // Convert to angle.
       calculatedOptions.roof.direction = longestSide / Math.PI * 180;
