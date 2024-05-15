@@ -52,9 +52,9 @@ test('Test combining 2 ways', () => {
 });
 
 const rightTriangle = new Shape();
-  rightTriangle.moveTo(1, 1);
-  rightTriangle.lineTo(1, -1);
-  rightTriangle.lineTo(-1, 1);
+rightTriangle.moveTo(1, 1);
+rightTriangle.lineTo(1, -1);
+rightTriangle.lineTo(-1, 1);
 
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
