@@ -39,6 +39,7 @@ test('Test Simple Multipolygon', () => {
   expect(shape.id).toBe('4');
   expect(shape.shape).toBeInstanceOf(Shape);
   // expect(shape.roof).toBeInstanceOf(Mesh);
+  expect(errors.length).toBe(0);
 });
 
 window.printError = printError;
