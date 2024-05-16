@@ -225,8 +225,7 @@ class Building {
       }
     } else {
       if (!buildingType) {
-        console.log('Outer way is not a building');
-        console.log(xmlData);
+        window.printError('Outer way is not a building');
         return false;
       }
       ways.push(xmlData);
