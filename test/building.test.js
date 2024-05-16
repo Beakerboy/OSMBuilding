@@ -57,13 +57,13 @@ beforeEach(() => {
 });
 
 // test('Test Factory', async() => {
-  // fetch.mockResponseOnce(data);
-  // const shape = await Building.create('relation', '4');
-  // expect(fetch).toHaveBeenCalledTimes(2);
+// fetch.mockResponseOnce(data);
+// const shape = await Building.create('relation', '4');
+// expect(fetch).toHaveBeenCalledTimes(2);
 //});
 
-  test('Create Nodelist', () => {
-    let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
-    const list = Building.buildNodeList(xmlData);
-    expect(lisst.length).toBe(4)
-  });
+test('Create Nodelist', () => {
+  let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
+  const list = Building.buildNodeList(xmlData);
+  expect(lisst.length).toBe(4)
+});
