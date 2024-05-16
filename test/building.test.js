@@ -55,11 +55,9 @@ beforeEach(() => {
   fetch.resetMocks();
 });
 
-// test('Test Factory', async() => {
-// fetch.mockResponseOnce(data);
-// const shape = await Building.create('relation', '4');
-// expect(fetch).toHaveBeenCalledTimes(2);
-//});
+test('Test Factory', async() => {
+  const shape = new Building('4', data);
+});
 
 test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
