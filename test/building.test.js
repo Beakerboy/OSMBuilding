@@ -19,7 +19,7 @@ let apis = {
     url: (relationId) => {
       return apis.getRelation.api + relationId + apis.getRelation.parameters;
     },
-  }
+  },
 };
 global.apis = apis;
 
