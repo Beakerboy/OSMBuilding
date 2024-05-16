@@ -62,7 +62,7 @@ test('Test Simple Multipolygon', () => {
 
 window.printError = printError;
 
-const errors = [];
+var errors = [];
 
 function printError(txt) {
   errors.push[txt];
