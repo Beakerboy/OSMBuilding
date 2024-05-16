@@ -14,10 +14,11 @@
     "coveralls": "*",
     "c8": "*",
     "eslint": "^8.13",
-    "jsdom": "*",
     "jest": "*",
     "jest-environment-jsdom": "*",
+    "jest-fetch-mock", "*",
     "jest-matcher-deep-close-to": "*",
+    "jsdom": "*",
     "pyramid": "file:../pyramid",
     "ramp": "file:../ramp",
     "wedge": "file:../wedge"
