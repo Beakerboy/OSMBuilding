@@ -102,8 +102,8 @@ class Building {
     const nodeElements = fullXmlData.getElementsByTagName('node');
     let id = 0;
     var node;
-    var coordinates = [];
-    var nodeList = [];
+    let coordinates = [];
+    const nodeList = {};
     // create a BuildingShape object from the outer and inner elements.
     for (let j = 0; j < nodeElements.length; j++) {
       node = nodeElements[j];
