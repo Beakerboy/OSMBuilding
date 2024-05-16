@@ -6,7 +6,21 @@ import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
-import '../src/apis.js';
+let apis = {
+  bounding: {
+    api:'https://api.openstreetmap.org/api/0.6/map?bbox=',
+    url: (left, bottom, right, top) => {
+      return apis.bounding.api + left + ',' + bottom + ',' + right + ',' + top;
+    },
+  },
+  getRelation: {
+    api:'https://api.openstreetmap.org/api/0.6/relation/',
+    parameters:'/full',
+    url: (relationId) => {
+      return apis.getRelation.api + relationId + apis.getRelation.parameters;
+    },
+  }
+};
 global.apis = apis;
 
 import { Building } from '../src/building.js';
