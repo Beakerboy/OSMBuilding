@@ -70,6 +70,7 @@ test('Create Nodelist', () => {
   const list = Building.buildNodeList(xmlData);
   expect(Object.keys(list).length).toBe(4);
   expect(list['3']).toStrictEqual(['4', '4']);
+  expect(errors.length).toBe(0);
 });
 
 window.printError = printError;
