@@ -83,7 +83,8 @@ class Building {
       }
       this.addParts();
     } else {
-      console.log('XML Not Valid');
+      window.printError('XML Not Valid');
+      throw new Error(invalid XML);
     }
   }
 
@@ -152,7 +153,6 @@ class Building {
         if (part.tagName.toLowerCase() === 'way') {
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
         } else {
-          console.log('Adding ' + part.tagName.toLowerCase() + ' ' + ref);
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
@@ -240,11 +240,11 @@ class Building {
           const firstRef = nodes[0].getAttribute('ref');
           const lastRef = nodes[nodes.length - 1].getAttribute('ref');
           if (firstRef !== lastRef) {
-            console.log('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
+            window.printError('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
             return false;
           }
         } else {
-          console.log('Way ' + way.getAttribute('id') + ' has no nodes.');
+          window.printError('Way ' + way.getAttribute('id') + ' has no nodes.');
           return false;
         }
       } else {
@@ -256,7 +256,7 @@ class Building {
           if (part) {
             ways.push(this.fullXmlData.getElementById(ref));
           } else {
-            console.log('Part ' + ref + ' is null.');
+            window.printError('Part ' + ref + ' is null.');
           }
         }
       }
@@ -315,7 +315,7 @@ class Building {
         }
       }
     } else {
-      console.log('"' + buildingType + '" is neither "way" nor "relation". Check that the id is correct.' + fullXmlData);
+      window.printError('"' + buildingType + '" is neither "way" nor "relation". Check that the id is correct.');
     }
     return extents;
   }
