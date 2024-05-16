@@ -96,15 +96,18 @@ class Building {
   }
 
   /**
-   * build an array of all the lat/long values of the nodes
+   * Extract all nodes from an XML file.
+   *
+   * @param {DOM.Element} fullXmlData - OSM XML with nodes
+   *
+   * @return {Object} dictionary of nodes
    */
   static buildNodeList(fullXmlData) {
     const nodeElements = fullXmlData.getElementsByTagName('node');
     let id = 0;
     var node;
-    var coordinates = [];
-    var nodeList = [];
-    // create a BuildingShape object from the outer and inner elements.
+    let coordinates = [];
+    const nodeList = {};
     for (let j = 0; j < nodeElements.length; j++) {
       node = nodeElements[j];
       id = node.getAttribute('id');
