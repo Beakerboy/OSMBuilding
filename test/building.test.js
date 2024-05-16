@@ -55,12 +55,14 @@ const data = `
 
 beforeEach(() => {
   fetch.resetMocks();
+  errors = [];
 });
 
 test('Test Constructor', async() => {
   const bldg = new Building('4', data);
   expect(bldg.home).toBeDeepCloseTo([4.0005, 4.0005], 10);
   expect(bldg.parts.length).toBe(0);
+  expect(errors.length).toBe(0);
 });
 
 test('Create Nodelist', () => {
@@ -68,11 +70,12 @@ test('Create Nodelist', () => {
   const list = Building.buildNodeList(xmlData);
   expect(Object.keys(list).length).toBe(4);
   expect(list['3']).toStrictEqual(['4', '4']);
+  expect(errors.length).toBe(0);
 });
 
 window.printError = printError;
 
-const errors = [];
+var errors = [];
 
 function printError(txt) {
   errors.push[txt];
