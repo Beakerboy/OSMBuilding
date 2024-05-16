@@ -56,7 +56,8 @@ beforeEach(() => {
 });
 
 test('Test Factory', async() => {
-  const shape = new Building('4', data);
+  const bldg = new Building('4', data);
+  expect(bldg.parts.length).toBe(1);
 });
 
 test('Create Nodelist', () => {
