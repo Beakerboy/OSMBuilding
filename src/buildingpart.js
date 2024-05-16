@@ -348,7 +348,6 @@ class BuildingPart {
    * If there is whitespace between the unit and the number, it will remain.
    */
   static normalizeLength(length) {
-    window.printError('length: ' + length);
     if (typeof length === 'string' || length instanceof String) {
       if (length.includes('km')){
         // remove final character.

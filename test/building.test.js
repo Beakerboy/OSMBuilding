@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import {toBeDeepCloseTo} from 'jest-matcher-deep-close-to';
+expect.extend({toBeDeepCloseTo});
 
 import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
@@ -55,11 +57,11 @@ beforeEach(() => {
   fetch.resetMocks();
 });
 
-// test('Test Factory', async() => {
-// fetch.mockResponseOnce(data);
-// const shape = await Building.create('relation', '4');
-// expect(fetch).toHaveBeenCalledTimes(2);
-//});
+test('Test Constructor', async() => {
+  const bldg = new Building('4', data);
+  expect(bldg.home).toBeDeepCloseTo([4.0005, 4.0005], 10);
+  expect(bldg.parts.length).toBe(0);
+});
 
 test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
@@ -67,3 +69,11 @@ test('Create Nodelist', () => {
   expect(Object.keys(list).length).toBe(4);
   expect(list['3']).toStrictEqual(['4', '4']);
 });
+
+window.printError = printError;
+
+const errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
