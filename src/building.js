@@ -48,6 +48,9 @@ class Building {
 
   /**
    * build an object
+   *
+   * @param {string} id - the unique XML id of the object.
+   * @param {string} FullXmlData - XML data.
    */
   constructor(id, FullXmlData) {
     this.id = id;
