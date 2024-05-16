@@ -64,5 +64,6 @@ beforeEach(() => {
 test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const list = Building.buildNodeList(xmlData);
+  expect(Object.keys(list).length).toBe(4);
   expect(list['3']).toStrictEqual(['4', '4']);
 });
