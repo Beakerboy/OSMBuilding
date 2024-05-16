@@ -243,7 +243,8 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Calculate the angle of each of a shape's edge
+   * Calculate the angle of each of a shape's edge.
+   * the angle will be PI > x >= -PI
    *
    * @param {THREE.Shape} shape - the shape
    *
@@ -251,17 +252,21 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
+    points.push(points[0]);
     const angles = [];
     var p1;
     var p2;
     for (let i = 0; i < points.length - 1; i++) {
       p1 = points[i];
       p2 = points[i + 1];
-      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
+      let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
+      if (angle >= Math.PI / 2) {
+        angle -= Math.PI;
+      } else if (angle < -Math.PI / 2) {
+        angle += Math.PI;
+      }
+      angles.push(angle);
     }
-    p1 = points[points.length - 1];
-    p2 = points[0];
-    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)));
     return angles;
   }
 
@@ -327,6 +332,28 @@ class BuildingShapeUtils extends ShapeUtils {
       angle = angle > 0 ? angle - Math.PI / 2 : angle + Math.PI / 2;
     }
     return angle;
+  }
+
+  /**
+   * Rotate lat/lon to reposition the home point onto 0,0.
+   *
+   * @param {[number, number]} lonLat - The longitute and latitude of a point.
+   *
+   * @return {[number, number]} x, y in meters
+   */
+  static repositionPoint(lonLat, home) {
+    const R = 6371 * 1000;   // Earth radius in m
+    const circ = 2 * Math.PI * R;  // Circumference
+    const phi = 90 - lonLat[1];
+    const theta = lonLat[0] - home[0];
+    const thetaPrime = home[1] / 180 * Math.PI;
+    const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
+    const y = R * Math.cos(phi / 180 * Math.PI);
+    const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
+    const abs = Math.sqrt(z**2 + y**2);
+    const arg = Math.atan(y / z) - thetaPrime;
+
+    return [x, Math.sin(arg) * abs];
   }
 }
 export {BuildingShapeUtils};

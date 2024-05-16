@@ -118,11 +118,12 @@ class Building {
   }
 
   /**
-   *
+   * convert all the longitude latitude values
+   * to meters from the home point.
    */
   repositionNodes() {
     for (const key in this.nodelist) {
-      this.nodelist[key] = Building.repositionPoint(this.nodelist[key], this.home);
+      this.nodelist[key] = BuildingShapeUtils.repositionPoint(this.nodelist[key], this.home);
     }
   }
 
@@ -262,24 +263,6 @@ class Building {
       }
     }
     return true;
-  }
-
-  /**
-   * Rotate lat/lon to reposition the home point onto 0,0.
-   */
-  static repositionPoint(latLon, home) {
-    const R = 6371 * 1000;   // Earth radius in m
-    const circ = 2 * Math.PI * R;  // Circumference
-    const phi = 90 - latLon[1];
-    const theta = latLon[0] - home[0];
-    const thetaPrime = home[1] / 180 * Math.PI;
-    const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
-    const y = R * Math.cos(phi / 180 * Math.PI);
-    const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
-    const abs = Math.sqrt(z**2 + y**2);
-    const arg = Math.atan(y / z) - thetaPrime;
-
-    return [x, Math.sin(arg) * abs];
   }
 
   /**
