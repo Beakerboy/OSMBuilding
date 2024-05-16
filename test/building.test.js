@@ -57,7 +57,7 @@ beforeEach(() => {
 
 test('Test Factory', async() => {
   const bldg = new Building('4', data);
-  expect(bldg.parts).toStrictEqual([4.0005, 4.0005]);
+  expect(bldg.home).toStrictEqual([4.0005, 4.0005]);
   expect(bldg.parts.length).toBe(0);
 });
 
