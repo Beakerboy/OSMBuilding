@@ -38,7 +38,7 @@ beforeEach(() => {
   fetch.resetMocks();
 });
 
-test('Test Factory", () => {
+test('Test Factory', await() => {
   fetch.mockResponseOnce(data);
 
   const shape = await Building.create("relation", '4');
