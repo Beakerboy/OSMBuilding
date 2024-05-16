@@ -46,6 +46,11 @@ const data = `
   </way>
 </osm>`;
 
+beforeEach(() => {
+  fetch.resetMocks();
+  errors = [];
+});
+
 test('Test Simple Multipolygon', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const nodelist = Building.buildNodeList(xmlData);
@@ -53,6 +58,7 @@ test('Test Simple Multipolygon', () => {
   expect(shape.id).toBe('5');
   expect(shape.shape).toBeInstanceOf(Shape);
   // expect(shape.roof).toBeInstanceOf(Mesh);
+  expect(errors.length).toBe(0);
 });
 
 window.printError = printError;
