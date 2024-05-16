@@ -6,6 +6,9 @@ import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
 global.TextEncoder = TextEncoder;
 
+import '../src/apis.js';
+global.apis = apis
+
 import { Building } from '../src/building.js';
 
 import fetchMock from 'jest-fetch-mock';
