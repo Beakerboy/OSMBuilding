@@ -47,7 +47,6 @@ const data = `
 </osm>`;
 
 beforeEach(() => {
-  fetch.resetMocks();
   errors = [];
 });
 
