@@ -8,7 +8,7 @@ global.TextEncoder = TextEncoder;
 
 import { Building } from '../src/building.js';
 
-import fetchMock from "jest-fetch-mock";
+import fetchMock from 'jest-fetch-mock';
 fetchMock.enableMocks();
 
 const data = `
@@ -41,7 +41,7 @@ beforeEach(() => {
 test('Test Factory', async() => {
   fetch.mockResponseOnce(data);
 
-  const shape = await Building.create("relation", '4');
+  const shape = await Building.create('relation', '4');
 
   expect(fetch).toHaveBeenCalledTimes(2);
 });
