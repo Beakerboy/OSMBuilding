@@ -65,5 +65,5 @@ beforeEach(() => {
 test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const list = Building.buildNodeList(xmlData);
-  expect(lisst.length).toBe(4)
+  expect(list.length).toBe(4);
 });
