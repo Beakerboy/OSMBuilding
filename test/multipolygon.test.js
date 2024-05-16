@@ -32,6 +32,10 @@ const data = `
   </way>
 </osm>`;
 
+beforeEach(() => {
+  errors = [];
+});
+
 test('Test Simple Multipolygon', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const nodelist = Building.buildNodeList(xmlData);
