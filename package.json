@@ -16,7 +16,7 @@
     "eslint": "^8.13",
     "jest": "*",
     "jest-environment-jsdom": "*",
-    "jest-fetch-mock", "*",
+    "jest-fetch-mock": "*",
     "jest-matcher-deep-close-to": "*",
     "jsdom": "*",
     "pyramid": "file:../pyramid",
