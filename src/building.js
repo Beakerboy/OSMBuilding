@@ -84,7 +84,7 @@ class Building {
       this.addParts();
     } else {
       window.printError('XML Not Valid');
-      throw new Error(invalid XML);
+      throw new Error('invalid XML');
     }
   }
 
