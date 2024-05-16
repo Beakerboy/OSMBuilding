@@ -57,7 +57,8 @@ beforeEach(() => {
 
 test('Test Factory', async() => {
   const bldg = new Building('4', data);
-  expect(bldg.parts.length).toBe(1);
+  expect(bldg.parts).toStrictEqual([4.0005, 4.0005]);
+  expect(bldg.parts.length).toBe(0);
 });
 
 test('Create Nodelist', () => {
