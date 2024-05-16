@@ -65,3 +65,11 @@ test('Create Nodelist', () => {
   expect(Object.keys(list).length).toBe(4);
   expect(list['3']).toStrictEqual(['4', '4']);
 });
+
+window.printError = printError;
+
+const errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
