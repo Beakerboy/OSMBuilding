@@ -112,7 +112,7 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 If you are submitting a fix for a bug, please include in the pull request a minimal test that fails under the existing code, but passes when the pull request is applied.
 
 #### Features
-Please discuss features before submitting code. This is to minimize any possibly that your valuable time goes to waste. New features must include test that cover all new code.
+Please discuss features before submitting code. This is to minimize any possibly that your valuable time goes to waste. New features must include tests that cover all new code.
 
 ## Styleguides
 The repository contains an eslint configuration file that describes the recommended style. All contributions must pass the linting check.
