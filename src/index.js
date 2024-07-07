@@ -132,7 +132,7 @@ function createFolders(folder, options) {
       if (property === 'colour') {
         roofFolder.addColor(options.roof, property);
       } else if (property === 'shape') {
-        const roofTypesAvailable = ['dome', 'flat', 'gabled', 'onion', 'pyramidal', 'skillion', 'hipped', 'round', 'gambrel', 'round'];
+        const roofTypesAvailable = ['dome', 'flat', 'gabled', 'onion', 'pyramidal', 'skillion', 'hipped', 'round', 'gambrel'];
         // If this roof is not supported, add it to the list for sanity.
         if (!roofTypesAvailable.includes(options.roof.shape)) {
           roofTypesAvailable.push(options.roof.shape);
