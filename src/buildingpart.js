@@ -147,7 +147,7 @@ class BuildingPart {
     // Should Skillion be included here?
     const directionalRoofs = ['gabled', 'round'];
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
-    if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
+    if (calculatedOptions.roof.direction === undefined && directionalRoofs.includes(calculatedOptions.roof.shape)) {
       // Radians pi > x >= -pi
       let longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
       if (longestSide < 0) {
@@ -176,7 +176,7 @@ class BuildingPart {
       window.printError('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
     // Should skillion automatically calculate a direction perpendicular to the longest outside edge if unspecified?
-    if (this.options.roof.shape === 'skillion' && !this.options.roof.direction) {
+    if (this.options.roof.shape === 'skillion' && this.options.roof.direction === undefined) {
       window.printError('Part ' + this.id + ' requires a direction. (https://wiki.openstreetmap.org/wiki/Key:roof:direction)');
     }
     this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
@@ -388,10 +388,10 @@ class BuildingPart {
    * Direction. In degrees, 0-360
    */
   static normalizeDirection(direction) {
-    // if (cardinal) {
-    //   convert to degrees
-    //   return degrees;
-    // }
+    const degrees = this.cardinalToDegree(direction);
+    if (degrees !== undefined) {
+      return degrees;
+    }
     if (direction) {
       return parseFloat(direction);
     }
@@ -411,6 +411,56 @@ class BuildingPart {
    * North is zero.
    */
   static cardinalToDegree(cardinal) {
+    const cardinalUpperCase = `${cardinal}`.toUpperCase();
+    if (cardinalUpperCase === 'N') {
+      return 0;
+    }
+    if (cardinalUpperCase === 'NE') {
+      return 45;
+    }
+    if (cardinalUpperCase === 'E') {
+      return 90;
+    }
+    if (cardinalUpperCase === 'SE') {
+      return 135;
+    }
+    if (cardinalUpperCase === 'S') {
+      return 180;
+    }
+    if (cardinalUpperCase === 'SW') {
+      return 225;
+    }
+    if (cardinalUpperCase === 'W') {
+      return 270;
+    }
+    if (cardinalUpperCase === 'NW') {
+      return 315;
+    }
+    if (cardinalUpperCase === 'NNE') {
+      return 22;
+    }
+    if (cardinalUpperCase === 'ENE') {
+      return 67;
+    }
+    if (cardinalUpperCase === 'ESE') {
+      return 112;
+    }
+    if (cardinalUpperCase === 'SSE') {
+      return 157;
+    }
+    if (cardinalUpperCase === 'SSW') {
+      return 202;
+    }
+    if (cardinalUpperCase === 'WSW') {
+      return 247;
+    }
+    if (cardinalUpperCase === 'WNW') {
+      return 292;
+    }
+    if (cardinalUpperCase === 'NNW') {
+      return 337;
+    }
+    return undefined;
   }
 
   /**
