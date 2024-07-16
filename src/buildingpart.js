@@ -407,60 +407,19 @@ class BuildingPart {
   }
 
   /**
-   * Convert a cardinal direction (ESE) to degrees 112°.
-   * North is zero.
+   * Convert a cardinal direction to degrees.
+   * North is zero and values increase clockwise.
+   *
+   * @param {string} cardinal - the direction.
+   *
+   * @return {int} degrees
    */
   static cardinalToDegree(cardinal) {
     const cardinalUpperCase = `${cardinal}`.toUpperCase();
-    if (cardinalUpperCase === 'N') {
-      return 0;
-    }
-    if (cardinalUpperCase === 'NE') {
-      return 45;
-    }
-    if (cardinalUpperCase === 'E') {
-      return 90;
-    }
-    if (cardinalUpperCase === 'SE') {
-      return 135;
-    }
-    if (cardinalUpperCase === 'S') {
-      return 180;
-    }
-    if (cardinalUpperCase === 'SW') {
-      return 225;
-    }
-    if (cardinalUpperCase === 'W') {
-      return 270;
-    }
-    if (cardinalUpperCase === 'NW') {
-      return 315;
-    }
-    if (cardinalUpperCase === 'NNE') {
-      return 22;
-    }
-    if (cardinalUpperCase === 'ENE') {
-      return 67;
-    }
-    if (cardinalUpperCase === 'ESE') {
-      return 112;
-    }
-    if (cardinalUpperCase === 'SSE') {
-      return 157;
-    }
-    if (cardinalUpperCase === 'SSW') {
-      return 202;
-    }
-    if (cardinalUpperCase === 'WSW') {
-      return 247;
-    }
-    if (cardinalUpperCase === 'WNW') {
-      return 292;
-    }
-    if (cardinalUpperCase === 'NNW') {
-      return 337;
-    }
-    return undefined;
+    degreesTimesTwo = 'N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW'.split(' ').indexOf(cardinalUpperCase) * 45
+    // integer floor
+    return degreesTimesTwo % 2 === 0 ? degreesTimesTwo / 2 : (degreesTimesTwo - 1) / 2;
+    
   }
 
   /**
