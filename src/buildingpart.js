@@ -416,7 +416,11 @@ class BuildingPart {
    */
   static cardinalToDegree(cardinal) {
     const cardinalUpperCase = `${cardinal}`.toUpperCase();
-    let degreesTimesTwo = 'N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW'.split(' ').indexOf(cardinalUpperCase) * 45;
+    const index = 'N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW'.split(' ').indexOf(cardinalUpperCase);
+    if (index === -1) {
+      return undefined;
+    }
+    const degreesTimesTwo = index * 45;
     // integer floor
     return degreesTimesTwo % 2 === 0 ? degreesTimesTwo / 2 : (degreesTimesTwo - 1) / 2;
   }
