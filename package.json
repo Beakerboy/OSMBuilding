@@ -1,36 +1,31 @@
 {
-  "name": "OSMBuilding",
-  "version": "1.0.0",
+  "name": "osmbuilding",
+  "private": true,
+  "version": "2.0.0",
   "type": "module",
-  "main": "src/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
+  },
+  "dependencies": {
+    "three": "^0.166.1"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "@types/three": "^0.166.0",
+    "Threejs-Geometries": "github:Beakerboy/Threejs-Geometries",
+    "lil-gui": "^0.19.2",
+    "svelte": "^4.2.18",
+    "svelte-check": "^3.8.4",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Beakerboy/OSMBuilding.git"
-  },
-  "dependencies": {
-    "three": "^0.138.3"
-  },
-  "devDependencies" : {
-    "coveralls": "*",
-    "c8": "*",
-    "eslint": "^8.13",
-    "jest": "*",
-    "jest-environment-jsdom": "*",
-    "jest-fetch-mock": "*",
-    "jest-matcher-deep-close-to": "*",
-    "jsdom": "*",
-    "pyramid": "file:../pyramid",
-    "ramp": "file:../ramp",
-    "wedge": "file:../wedge"
-  },
-  "scripts": {
-    "test": "c8 jest"
-  },
-   "c8": {
-    "all": true,
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ]
   }
 }

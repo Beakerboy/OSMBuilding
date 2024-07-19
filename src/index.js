@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   GridHelper,
   PerspectiveCamera,
@@ -6,11 +7,10 @@ import {
   AmbientLight,
   HemisphereLight,
   DirectionalLight,
-  WireframeGeometry,
-} from 'three';
-import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
-import {Building} from './building.js';
-import {GUI} from 'https://unpkg.com/three/examples/jsm/libs/lil-gui.module.min.js';
+} from "three";
+import { OrbitControls } from "https://unpkg.com/three/examples/jsm/controls/OrbitControls.js";
+import { Building } from "./buildings/building.js";
+import { GUI } from "lil-gui";
 
 var camera;
 var renderer;
@@ -32,7 +32,7 @@ var gui;
  * Initialize the screen
  */
 function init() {
-  var type = 'way';
+  var type = "way";
   var id = 66418809;
 
   var displayInfo = false;
@@ -40,21 +40,23 @@ function init() {
   window.printError = printError;
 
   if (window.location.search.substr(1) !== null) {
-    window.location.search.substr(1).split('&')
-      .forEach(function(item) {
-        const tmp = item.split('=');
-        if (tmp[0] === 'type') {
+    window.location.search
+      .substr(1)
+      .split("&")
+      .forEach(function (item) {
+        const tmp = item.split("=");
+        if (tmp[0] === "type") {
           type = decodeURIComponent(tmp[1]);
-        } else if (tmp[0] === 'id') {
+        } else if (tmp[0] === "id") {
           id = decodeURIComponent(tmp[1]);
-        } else if (tmp[0] === 'info') {
+        } else if (tmp[0] === "info") {
           displayInfo = true;
-        } else if (tmp[0] === 'errorBox') {
+        } else if (tmp[0] === "errorBox") {
           errorBox = true;
         }
       });
   }
-  Building.create(type, id).then(function(myObj){
+  Building.create(type, id).then(function (myObj) {
     mainBuilding = myObj;
     const helperSize = myObj.outerElement.getWidth();
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
@@ -67,84 +69,91 @@ function init() {
     if (displayInfo) {
       gui = new GUI();
       const info = myObj.getInfo();
-      const folder = gui.addFolder(info.type + ' - ' + info.id);
+      const folder = gui.addFolder(info.type + " - " + info.id);
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
         const part = info.parts[i];
         part.options.id = part.id;
-        const folder = gui.addFolder(part.type + ' - ' + part.id);
+        const folder = gui.addFolder(part.type + " - " + part.id);
         createFolders(folder, part.options);
       }
     }
   });
   camera = new PerspectiveCamera(
     50,
-    document.documentElement.clientWidth /
-      document.documentElement.clientHeight,
+    document.documentElement.clientWidth / document.documentElement.clientHeight,
     0.1,
-    1000,
+    1000
   );
   renderer = new WebGLRenderer({
     alpha: false,
   });
-  renderer.setSize(
-    document.documentElement.clientWidth,
-    document.documentElement.clientHeight-20,
-  );
-  renderer.domElement.style.position = 'absolute';
+  renderer.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight - 20);
+  renderer.domElement.style.position = "absolute";
   renderer.domElement.style.zIndex = 0;
   renderer.domElement.style.top = 0;
   document.body.appendChild(renderer.domElement);
 }
 
 function createFolders(folder, options) {
-  const buildingFolder = folder.addFolder('Building');
-  const roofFolder = folder.addFolder('Roof');
+  const buildingFolder = folder.addFolder("Building");
+  const roofFolder = folder.addFolder("Roof");
   for (var property in options.building) {
-    const buildFunc = function() {
-      const mesh = scene.getObjectByName('b' + options.id);
+    const buildFunc = function () {
+      const mesh = scene.getObjectByName("b" + options.id);
       mesh.visible = options.building.visible;
     };
     if (options.building[property]) {
-      if (property === 'colour') {
+      if (property === "colour") {
         // ToDo: add support for 'named' colours.
         buildingFolder.addColor(options.building, property);
-      } else if (property === 'visible') {
+      } else if (property === "visible") {
         buildingFolder.add(options.building, property).onChange(buildFunc);
       } else {
-        buildingFolder.add(options.building, property, 0, 100 ).step(.1);
+        buildingFolder.add(options.building, property, 0, 100).step(0.1);
       }
       buildingFolder.close();
     }
   }
   for (var property in options.roof) {
-    const roofFunc = function() {
-      const mesh = scene.getObjectByName('r' + options.id);
+    const roofFunc = function () {
+      const mesh = scene.getObjectByName("r" + options.id);
       mesh.visible = options.roof.visible;
     };
-    const roofGeo = function() {
-      const mesh = scene.getObjectByName('r' + options.id);
+    const roofGeo = function () {
+      const mesh = scene.getObjectByName("r" + options.id);
       const geo = mainBuilding.getPartGeometry(options)[0];
       mesh.geometry.dispose();
       mesh.geometry = geo;
     };
     if (options.roof[property]) {
-      if (property === 'colour') {
+      if (property === "colour") {
         roofFolder.addColor(options.roof, property);
-      } else if (property === 'shape') {
-        const roofTypesAvailable = ['dome', 'flat', 'gabled', 'onion', 'pyramidal', 'skillion', 'hipped', 'round', 'gambrel', 'round'];
+      } else if (property === "shape") {
+        const roofTypesAvailable = [
+          "dome",
+          "flat",
+          "gabled",
+          "onion",
+          "pyramidal",
+          "skillion",
+          "hipped",
+          "round",
+          "gambrel",
+          "round",
+        ];
         // If this roof is not supported, add it to the list for sanity.
         if (!roofTypesAvailable.includes(options.roof.shape)) {
           roofTypesAvailable.push(options.roof.shape);
         }
         roofFolder.add(options.roof, property, roofTypesAvailable).onChange(roofGeo);
-      } else if (property === 'orientation') {
-        const roofOrientationsAvailable = ['across', 'along'];
+      } else if (property === "orientation") {
+        const roofOrientationsAvailable = ["across", "along"];
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
-      } else if (property === 'visible') {
+      } else if (property === "visible") {
         roofFolder.add(options.roof, property).onChange(roofFunc);
       } else {
-        roofFolder.add(options.roof, property, 0, 100 ).step(.1);
+        roofFolder.add(options.roof, property, 0, 100).step(0.1);
         // .onChange();
       }
       roofFolder.close();
@@ -161,7 +170,7 @@ function createScene() {
   camera.position.set(0, 0, 200); // x y z
   camera.far = 50000;
   camera.updateProjectionMatrix();
-  controls = new OrbitControls( camera, renderer.domElement );
+  controls = new OrbitControls(camera, renderer.domElement);
 
   function render() {
     requestAnimationFrame(render);
@@ -172,38 +181,33 @@ function createScene() {
 }
 
 function addLights() {
-  const ambientLight = new AmbientLight( 0xcccccc, 0.2 );
-  scene.add( ambientLight );
+  const ambientLight = new AmbientLight(0xcccccc, 0.2);
+  scene.add(ambientLight);
 
-  var hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-  hemiLight.position.set( 0, 500, 0 );
-  scene.add( hemiLight );
+  var hemiLight = new HemisphereLight(0xffffff, 0xffffff, 0.6);
+  hemiLight.position.set(0, 500, 0);
+  scene.add(hemiLight);
 
-  var dirLight = new DirectionalLight( 0xffffff, 1 );
-  dirLight.position.set( -1, 0.75, 1 );
-  dirLight.position.multiplyScalar( 1000 );
-  scene.add( dirLight );
+  var dirLight = new DirectionalLight(0xffffff, 1);
+  dirLight.position.set(-1, 0.75, 1);
+  dirLight.position.multiplyScalar(1000);
+  scene.add(dirLight);
 }
 
 init();
 createScene();
-window.addEventListener('resize', resize, false);
+window.addEventListener("resize", resize, false);
 
 function resize() {
-  camera.aspect =
-    document.documentElement.clientWidth /
-    document.documentElement.clientHeight;
+  camera.aspect = document.documentElement.clientWidth / document.documentElement.clientHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(
-    document.documentElement.clientWidth,
-    document.documentElement.clientHeight,
-  );
+  renderer.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 }
 
 function printError(txt) {
   if (errorBox) {
-    const element = document.getElementById('errorBox');
-    element.insertAdjacentText('beforeend', txt + '\n');
+    const element = document.getElementById("errorBox");
+    element.insertAdjacentText("beforeend", txt + "\n");
   } else {
     console.log(txt);
   }

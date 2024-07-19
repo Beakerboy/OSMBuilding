@@ -1,30 +1,30 @@
-import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
-import {BuildingPart} from './buildingpart.js';
+// @ts-nocheck
+import { BuildingShapeUtils } from "./BuildingShapeUtils.js";
+import { BuildingPart } from "./buildingpart.js";
 /**
  * An OSM Building Part
  *
  * A building part includes a main building and a roof.
  */
 class MultiBuildingPart extends BuildingPart {
-
   /**
    * Create the shape of the outer relation.
    *
    * @return {THREE.Shape} shape - the shape
    */
   buildShape() {
-    this.type = 'multipolygon';
+    this.type = "multipolygon";
     const innerMembers = this.way.querySelectorAll('member[role="inner"]');
     const outerMembers = this.way.querySelectorAll('member[role="outer"]');
     const innerShapes = [];
     var shapes = [];
     for (let i = 0; i < innerMembers.length; i++) {
-      const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
+      const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute("ref"));
       innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
     }
     const ways = [];
     for (let j = 0; j < outerMembers.length; j++) {
-      const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
+      const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute("ref"));
       ways.push(way);
     }
     const closedWays = BuildingShapeUtils.combineWays(ways);
@@ -42,7 +42,7 @@ class MultiBuildingPart extends BuildingPart {
 
   getWidth() {
     var xy = [[], []];
-    for (let i = 0; i < this.shape.length; i++){
+    for (let i = 0; i < this.shape.length; i++) {
       const shape = this.shape[i];
       const newXy = BuildingShapeUtils.combineCoordinates(shape);
       xy[0] = xy[0].concat(newXy[0]);
@@ -51,11 +51,11 @@ class MultiBuildingPart extends BuildingPart {
 
     const x = xy[0];
     const y = xy[1];
-    window.printError('Multibuilding x: ' + x);
-    window.printError('Multibuilding y: ' + y);
+    window.printError("Multibuilding x: " + x);
+    window.printError("Multibuilding y: " + y);
     const widths = Math.max(Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y));
-    window.printError('Multibuilding Width: ' + widths);
+    window.printError("Multibuilding Width: " + widths);
     return widths;
   }
 }
-export {MultiBuildingPart};
+export { MultiBuildingPart };

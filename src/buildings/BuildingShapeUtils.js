@@ -1,10 +1,7 @@
-import {
-  Shape,
-  ShapeUtils,
-} from 'three';
+// @ts-nocheck
+import { Shape, ShapeUtils } from "three";
 
 class BuildingShapeUtils extends ShapeUtils {
-
   /**
    * Create the shape of this way.
    *
@@ -20,11 +17,11 @@ class BuildingShapeUtils extends ShapeUtils {
     var node = [];
 
     // Get all the nodes in the way of interest
-    const elements = way.getElementsByTagName('nd');
+    const elements = way.getElementsByTagName("nd");
 
     // Get the coordinates of all the nodes and add them to the shape outline.
     for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
+      ref = elements[i].getAttribute("ref");
       node = nodelist[ref];
       // The first node requires a differnet function call.
       if (i === 0) {
@@ -45,8 +42,8 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static isClosed(way) {
     // Get all the nodes in the way of interest
-    const elements = way.getElementsByTagName('nd');
-    return elements[0].getAttribute('ref') === elements[elements.length - 1].getAttribute('ref');
+    const elements = way.getElementsByTagName("nd");
+    return elements[0].getAttribute("ref") === elements[elements.length - 1].getAttribute("ref");
   }
 
   /**
@@ -67,14 +64,14 @@ class BuildingShapeUtils extends ShapeUtils {
         if (BuildingShapeUtils.isClosed(ways[i])) {
           closedWays.push(ways[i]);
         } else {
-          const way1 = ways[i].getElementsByTagName('nd');
-          const way2 = ways[i + 1].getElementsByTagName('nd');
-          if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
+          const way1 = ways[i].getElementsByTagName("nd");
+          const way2 = ways[i + 1].getElementsByTagName("nd");
+          if (way2[0].getAttribute("ref") === way1[way1.length - 1].getAttribute("ref")) {
             const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
             openWays.push(result);
             i++;
             changed = true;
-          } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
+          } else if (way1[0].getAttribute("ref") === way2[way2.length - 1].getAttribute("ref")) {
             const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
             openWays.push(result);
             i++;
@@ -105,7 +102,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {DOM.Element} way
    */
   static joinWays(way1, way2) {
-    const elements = way2.getElementsByTagName('nd');
+    const elements = way2.getElementsByTagName("nd");
     for (let i = 1; i < elements.length; i++) {
       let elem = elements[i].cloneNode();
       way1.appendChild(elem);
@@ -122,7 +119,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static center(shape) {
     const extents = BuildingShapeUtils.extents(shape);
-    const center = [(extents[0] + extents[2] ) / 2, (extents[1]  + extents[3] ) / 2];
+    const center = [(extents[0] + extents[2]) / 2, (extents[1] + extents[3]) / 2];
     return center;
   }
 
@@ -230,12 +227,12 @@ class BuildingShapeUtils extends ShapeUtils {
     p2 = points[1];
     angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     for (let i = 1; i < points.length - 1; i++) {
-      p0 = points[i-1];
+      p0 = points[i - 1];
       p1 = points[i];
       p2 = points[i + 1];
       angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
     }
-    p0 = points[points.length-1];
+    p0 = points[points.length - 1];
     p1 = points[points.length];
     p2 = points[0];
     angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
@@ -259,7 +256,7 @@ class BuildingShapeUtils extends ShapeUtils {
     for (let i = 0; i < points.length - 1; i++) {
       p1 = points[i];
       p2 = points[i + 1];
-      let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
+      let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
       if (angle >= Math.PI / 2) {
         angle -= Math.PI;
       } else if (angle < -Math.PI / 2) {
@@ -284,11 +281,11 @@ class BuildingShapeUtils extends ShapeUtils {
     var nextvec;
     for (let i = 0; i < vecs.length - 1; i++) {
       vec = vecs[i];
-      nextvec = vecs[i+1];
+      nextvec = vecs[i + 1];
       if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
-      if ((vec.x >= point[0] || nextvec.x >= point[0]) && (vec.y >= point[1] !== nextvec.y >= point[1])) {
+      if ((vec.x >= point[0] || nextvec.x >= point[0]) && vec.y >= point[1] !== nextvec.y >= point[1]) {
         count++;
       }
     }
@@ -328,7 +325,7 @@ class BuildingShapeUtils extends ShapeUtils {
     var angle = directions[index];
     const extents = BuildingShapeUtils.extents(shape, -angle);
     // If the shape is taller than it is wide after rotation, we are off by 90 degrees.
-    if ((extents[3] - extents[1]) > (extents[2] - extents[0])) {
+    if (extents[3] - extents[1] > extents[2] - extents[0]) {
       angle = angle > 0 ? angle - Math.PI / 2 : angle + Math.PI / 2;
     }
     return angle;
@@ -342,18 +339,18 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {[number, number]} x, y in meters
    */
   static repositionPoint(lonLat, home) {
-    const R = 6371 * 1000;   // Earth radius in m
-    const circ = 2 * Math.PI * R;  // Circumference
+    const R = 6371 * 1000; // Earth radius in m
+    const circ = 2 * Math.PI * R; // Circumference
     const phi = 90 - lonLat[1];
     const theta = lonLat[0] - home[0];
-    const thetaPrime = home[1] / 180 * Math.PI;
-    const x = R * Math.sin(theta / 180 * Math.PI) * Math.sin(phi / 180 * Math.PI);
-    const y = R * Math.cos(phi / 180 * Math.PI);
-    const z = R * Math.sin(phi / 180 * Math.PI) * Math.cos(theta / 180 * Math.PI);
-    const abs = Math.sqrt(z**2 + y**2);
+    const thetaPrime = (home[1] / 180) * Math.PI;
+    const x = R * Math.sin((theta / 180) * Math.PI) * Math.sin((phi / 180) * Math.PI);
+    const y = R * Math.cos((phi / 180) * Math.PI);
+    const z = R * Math.sin((phi / 180) * Math.PI) * Math.cos((theta / 180) * Math.PI);
+    const abs = Math.sqrt(z ** 2 + y ** 2);
     const arg = Math.atan(y / z) - thetaPrime;
 
     return [x, Math.sin(arg) * abs];
   }
 }
-export {BuildingShapeUtils};
+export { BuildingShapeUtils };

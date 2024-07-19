@@ -1,45 +1,47 @@
-![Badge](https://github.com/Beakerboy/OSMBuilding/actions/workflows/main.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/Beakerboy/OSMBuilding/badge.svg?branch=main)](https://coveralls.io/github/Beakerboy/OSMBuilding?branch=main)
+# Svelte + TS + Vite
 
-OSM Building Viewer
-=====================
+This template should help get you started developing with Svelte and TypeScript in Vite.
 
-### Visualize an OSM Building in 3D
+## Recommended IDE Setup
 
-Visualize an OSM Building from the live OSM data.
-To visualize a building tagged with a way, use the URL:
-https://beakerboy.github.io/OSMBuilding/index.html?id=[id]
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
 
-If the building is a multipolygon, or a relation, use:
-https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=[id]
+## Need an official Svelte framework?
 
-...replacing [id] with the actual id of the way or relation.
+Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
 
-Additional details will be displayed if "&info" is appended to the URL.
+## Technical considerations
 
-Console debug messages can be printed to the screen if "&errorBox" is appended to the url. Helpful since mobile browsers often lack any inspection capability.
+**Why use this over SvelteKit?**
 
+- It brings its own routing solution which might not be preferable for some users.
+- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
 
-Supports:
- * Ways with a building tag
- * Ways with building parts inside.
- * Building relations with way and/or multipolygon parts
- * Mulipolygon buildings
- * Multipolygon building with multiple open ways which combine to a closed way.
+This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-Roof Types:
- * Flat
- * Skillion
- * Dome
- * Pyramidal
- * Gabled
+Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
-Examples:
- * Simple building with no parts - [Washington Monument](https://beakerboy.github.io/OSMBuilding/index.html?id=766761337)
- * Glass - [Petronas Towers](https://beakerboy.github.io/OSMBuilding/index.html?id=279944536)
- * Dome roof, Gabled roof, and Skillion ramp - [Jefferson Memorial](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=3461570)
- * Dome, Gabled, and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12286916)
- * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
- * Building Relation [Burj Khalifa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=7584462)
- * Multipolygon with no parts - [Freer Art Gallery](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=1029355)
- * Relation with multipolygon parts - [Leaning Tower of Pisa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12982338)
+**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+
+Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+
+**Why include `.vscode/extensions.json`?**
+
+Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+
+**Why enable `allowJs` in the TS template?**
+
+While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
+
+**Why is HMR not preserving my local component state?**
+
+HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
+
+If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+
+```ts
+// store.ts
+// An extremely simple external store
+import { writable } from 'svelte/store'
+export default writable(0)
+```

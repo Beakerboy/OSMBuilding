@@ -1,6 +1,7 @@
-import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
-import {BuildingPart} from './buildingpart.js';
-import {MultiBuildingPart} from './multibuildingpart.js';
+// @ts-nocheck
+import { BuildingShapeUtils } from "./BuildingShapeUtils.js";
+import { BuildingPart } from "./buildingpart.js";
+import { MultiBuildingPart } from "./multibuildingpart.js";
 /**
  * A class representing an OSM building
  *
@@ -20,7 +21,7 @@ class Building {
   // DOM Tree of all elements to render
   fullXmlData;
 
-  id = '0';
+  id = "0";
 
   // the list of all nodes with lat/lon coordinates.
   nodelist = [];
@@ -34,12 +35,12 @@ class Building {
    */
   static async create(type, id) {
     var data;
-    if (type === 'way') {
+    if (type === "way") {
       data = await Building.getWayData(id);
     } else {
       data = await Building.getRelationData(id);
     }
-    let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
+    let xmlData = new window.DOMParser().parseFromString(data, "text/xml");
     const nodelist = Building.buildNodeList(xmlData);
     const extents = Building.getExtents(id, xmlData, nodelist);
     const innerData = await Building.getInnerData(...extents);
@@ -54,28 +55,28 @@ class Building {
    */
   constructor(id, FullXmlData) {
     this.id = id;
-    this.fullXmlData = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
+    this.fullXmlData = new window.DOMParser().parseFromString(FullXmlData, "text/xml");
     const outerElementXml = this.fullXmlData.getElementById(id);
-    if (outerElementXml.tagName.toLowerCase() === 'way') {
-      this.type = 'way';
-    } else if (outerElementXml.querySelector('[k="type"]').getAttribute('v') === 'multipolygon') {
-      this.type = 'multipolygon';
+    if (outerElementXml.tagName.toLowerCase() === "way") {
+      this.type = "way";
+    } else if (outerElementXml.querySelector('[k="type"]').getAttribute("v") === "multipolygon") {
+      this.type = "multipolygon";
     } else {
-      this.type = 'relation';
+      this.type = "relation";
     }
     if (this.isValidData(outerElementXml)) {
       this.nodelist = Building.buildNodeList(this.fullXmlData);
       this.setHome();
       this.repositionNodes();
-      if (this.type === 'way') {
+      if (this.type === "way") {
         this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-      } else if (this.type === 'multipolygon') {
+      } else if (this.type === "multipolygon") {
         this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
       } else {
-        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute("ref");
         const outline = this.fullXmlData.getElementById(outlineRef);
         const outlineType = outline.tagName.toLowerCase();
-        if (outlineType === 'way') {
+        if (outlineType === "way") {
           this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
         } else {
           this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
@@ -83,8 +84,8 @@ class Building {
       }
       this.addParts();
     } else {
-      window.printError('XML Not Valid');
-      throw new Error('invalid XML');
+      window.printError("XML Not Valid");
+      throw new Error("invalid XML");
     }
   }
 
@@ -107,15 +108,15 @@ class Building {
    * @return {Object} dictionary of nodes
    */
   static buildNodeList(fullXmlData) {
-    const nodeElements = fullXmlData.getElementsByTagName('node');
+    const nodeElements = fullXmlData.getElementsByTagName("node");
     let id = 0;
     var node;
     let coordinates = [];
     const nodeList = {};
     for (let j = 0; j < nodeElements.length; j++) {
       node = nodeElements[j];
-      id = node.getAttribute('id');
-      coordinates = [node.getAttribute('lon'), node.getAttribute('lat')];
+      id = node.getAttribute("id");
+      coordinates = [node.getAttribute("lon"), node.getAttribute("lat")];
       nodeList[id] = coordinates;
     }
     return nodeList;
@@ -145,12 +146,12 @@ class Building {
   }
 
   addParts() {
-    if (this.type === 'relation') {
+    if (this.type === "relation") {
       let parts = this.fullXmlData.getElementById(this.id).querySelectorAll('member[role="part"]');
       for (let i = 0; i < parts.length; i++) {
-        const ref = parts[i].getAttribute('ref');
+        const ref = parts[i].getAttribute("ref");
         const part = this.fullXmlData.getElementById(ref);
-        if (part.tagName.toLowerCase() === 'way') {
+        if (part.tagName.toLowerCase() === "way") {
           this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
         } else {
           this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
@@ -158,18 +159,18 @@ class Building {
       }
     } else {
       // Filter to all ways
-      var parts = this.fullXmlData.getElementsByTagName('way');
+      var parts = this.fullXmlData.getElementsByTagName("way");
       for (let j = 0; j < parts.length; j++) {
         if (parts[j].querySelector('[k="building:part"]')) {
-          const id = parts[j].getAttribute('id');
+          const id = parts[j].getAttribute("id");
           this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
       // Filter all relations
-      parts = this.fullXmlData.getElementsByTagName('relation');
+      parts = this.fullXmlData.getElementsByTagName("relation");
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
-          const id = parts[i].getAttribute('id');
+          const id = parts[i].getAttribute("id");
           this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
         }
       }
@@ -209,53 +210,55 @@ class Building {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
-    if (xmlData.tagName === 'relation') {
+    if (xmlData.tagName === "relation") {
       // get all building relation parts
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
       var ref = 0;
       for (let i = 0; i < parts.length; i++) {
-        ref = parts[i].getAttribute('ref');
+        ref = parts[i].getAttribute("ref");
         const part = this.fullXmlData.getElementById(ref);
         if (part) {
           ways.push(this.fullXmlData.getElementById(ref));
         } else {
-          window.printError('Part #' + i + '(' + ref + ') is null.');
+          window.printError("Part #" + i + "(" + ref + ") is null.");
         }
       }
     } else {
       if (!buildingType) {
-        window.printError('Outer way is not a building');
+        window.printError("Outer way is not a building");
         return false;
       }
       ways.push(xmlData);
     }
     for (let i = 0; i < ways.length; i++) {
       const way = ways[i];
-      if (way.tagName.toLowerCase() === 'way') {
-        const nodes = way.getElementsByTagName('nd');
+      if (way.tagName.toLowerCase() === "way") {
+        const nodes = way.getElementsByTagName("nd");
         if (nodes.length > 0) {
           // Check that it is a closed way
-          const firstRef = nodes[0].getAttribute('ref');
-          const lastRef = nodes[nodes.length - 1].getAttribute('ref');
+          const firstRef = nodes[0].getAttribute("ref");
+          const lastRef = nodes[nodes.length - 1].getAttribute("ref");
           if (firstRef !== lastRef) {
-            window.printError('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
+            window.printError(
+              "Way " + way.getAttribute("id") + " is not a closed way. " + firstRef + " !== " + lastRef + "."
+            );
             return false;
           }
         } else {
-          window.printError('Way ' + way.getAttribute('id') + ' has no nodes.');
+          window.printError("Way " + way.getAttribute("id") + " has no nodes.");
           return false;
         }
       } else {
         let parts = way.querySelectorAll('member[role="part"]');
         var ref = 0;
         for (let i = 0; i < parts.length; i++) {
-          ref = parts[i].getAttribute('ref');
+          ref = parts[i].getAttribute("ref");
           const part = this.fullXmlData.getElementById(ref);
           if (part) {
             ways.push(this.fullXmlData.getElementById(ref));
           } else {
-            window.printError('Part ' + ref + ' is null.');
+            window.printError("Part " + ref + " is null.");
           }
         }
       }
@@ -277,17 +280,17 @@ class Building {
     const buildingType = xmlElement.tagName.toLowerCase();
     var shape;
     var extents = [];
-    if (buildingType === 'way') {
+    if (buildingType === "way") {
       shape = BuildingShapeUtils.createShape(xmlElement, nodelist);
       extents = BuildingShapeUtils.extents(shape);
-    } else if (buildingType === 'relation'){
-      const relationType = xmlElement.querySelector('[k="type"]').getAttribute('v');
-      if (relationType === 'multipolygon') {
+    } else if (buildingType === "relation") {
+      const relationType = xmlElement.querySelector('[k="type"]').getAttribute("v");
+      if (relationType === "multipolygon") {
         let outerMembers = xmlElement.querySelectorAll('member[role="outer"]');
         var shape;
         var way;
         for (let i = 0; i < outerMembers.length; i++) {
-          way = fullXmlData.getElementById(outerMembers[i].getAttribute('ref'));
+          way = fullXmlData.getElementById(outerMembers[i].getAttribute("ref"));
           shape = BuildingShapeUtils.createShape(way, nodelist);
           const wayExtents = BuildingShapeUtils.extents(shape);
           if (i === 0) {
@@ -346,4 +349,4 @@ class Building {
     }
   }
 }
-export {Building};
+export { Building };
