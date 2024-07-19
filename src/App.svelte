@@ -1,13 +1,9 @@
 <script lang="ts">
-  import Counter from "./lib/Counter.svelte";
+  import Init from "./Init.svelte";
 </script>
 
 <main>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
+  <Init />
 </main>
 
 <style>

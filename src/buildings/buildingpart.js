@@ -193,7 +193,7 @@ class BuildingPart {
     this.options.building = calculatedOptions.building;
     this.options.roof = calculatedOptions.roof;
     if (this.getAttribute("building:part") && this.options.building.height > this.options.inherited.building.height) {
-      window.printError(
+      console.error(
         "Way " +
           this.id +
           " is taller than building. (" +
@@ -205,7 +205,7 @@ class BuildingPart {
     }
     // Should skillion automatically calculate a direction perpendicular to the longest outside edge if unspecified?
     if (this.options.roof.shape === "skillion" && !this.options.roof.direction) {
-      window.printError(
+      console.error(
         "Part " + this.id + " requires a direction. (https://wiki.openstreetmap.org/wiki/Key:roof:direction)"
       );
     }
@@ -396,7 +396,7 @@ class BuildingPart {
         return parseFloat(length.substring(0, length.length - 1));
       }
       if (length.includes("'")) {
-        window.printError("Length includes a single quote.");
+        console.error("Length includes a single quote.");
         var position = length.indexOf("'");
         var inches = parseFloat(length.substring(0, position)) * 12;
         if (length.length > position + 1) {

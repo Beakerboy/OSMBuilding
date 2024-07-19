@@ -2,6 +2,7 @@
 import { BuildingShapeUtils } from "./BuildingShapeUtils.js";
 import { BuildingPart } from "./buildingpart.js";
 import { MultiBuildingPart } from "./multibuildingpart.js";
+import { apis } from "../apis";
 /**
  * A class representing an OSM building
  *
@@ -84,7 +85,7 @@ class Building {
       }
       this.addParts();
     } else {
-      window.printError("XML Not Valid");
+      console.error("XML Not Valid");
       throw new Error("invalid XML");
     }
   }
@@ -221,12 +222,12 @@ class Building {
         if (part) {
           ways.push(this.fullXmlData.getElementById(ref));
         } else {
-          window.printError("Part #" + i + "(" + ref + ") is null.");
+          console.error("Part #" + i + "(" + ref + ") is null.");
         }
       }
     } else {
       if (!buildingType) {
-        window.printError("Outer way is not a building");
+        console.error("Outer way is not a building");
         return false;
       }
       ways.push(xmlData);
@@ -240,13 +241,13 @@ class Building {
           const firstRef = nodes[0].getAttribute("ref");
           const lastRef = nodes[nodes.length - 1].getAttribute("ref");
           if (firstRef !== lastRef) {
-            window.printError(
+            console.error(
               "Way " + way.getAttribute("id") + " is not a closed way. " + firstRef + " !== " + lastRef + "."
             );
             return false;
           }
         } else {
-          window.printError("Way " + way.getAttribute("id") + " has no nodes.");
+          console.error("Way " + way.getAttribute("id") + " has no nodes.");
           return false;
         }
       } else {
@@ -258,7 +259,7 @@ class Building {
           if (part) {
             ways.push(this.fullXmlData.getElementById(ref));
           } else {
-            window.printError("Part " + ref + " is null.");
+            console.error("Part " + ref + " is null.");
           }
         }
       }
@@ -317,7 +318,7 @@ class Building {
         }
       }
     } else {
-      window.printError('"' + buildingType + '" is neither "way" nor "relation". Check that the id is correct.');
+      console.error('"' + buildingType + '" is neither "way" nor "relation". Check that the id is correct.');
     }
     return extents;
   }

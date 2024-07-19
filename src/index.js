@@ -165,34 +165,7 @@ function createFolders(folder, options) {
 /**
  * Create the scene
  */
-function createScene() {
-  addLights();
-  camera.position.set(0, 0, 200); // x y z
-  camera.far = 50000;
-  camera.updateProjectionMatrix();
-  controls = new OrbitControls(camera, renderer.domElement);
 
-  function render() {
-    requestAnimationFrame(render);
-
-    renderer.render(scene, camera);
-  }
-  render();
-}
-
-function addLights() {
-  const ambientLight = new AmbientLight(0xcccccc, 0.2);
-  scene.add(ambientLight);
-
-  var hemiLight = new HemisphereLight(0xffffff, 0xffffff, 0.6);
-  hemiLight.position.set(0, 500, 0);
-  scene.add(hemiLight);
-
-  var dirLight = new DirectionalLight(0xffffff, 1);
-  dirLight.position.set(-1, 0.75, 1);
-  dirLight.position.multiplyScalar(1000);
-  scene.add(dirLight);
-}
 
 init();
 createScene();
