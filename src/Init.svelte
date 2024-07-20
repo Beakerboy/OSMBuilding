@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { T, extend, useThrelte } from "@threlte/core";
+  import { OrbitControls } from "@threlte/extras";
   import { Building } from "./buildings/building.js";
   import {
     GridHelper,
@@ -13,7 +15,6 @@
   import { GUI } from "lil-gui";
   import { createFolders } from "./createFolders";
   import { onMount } from "svelte";
-  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
   /**
    * Initialize the screen
@@ -23,7 +24,7 @@
   let errorBox = false;
   let mainBuilding;
   let camera;
-  let renderer;
+  const { renderer } = useThrelte();
 
   let displayInfo = false;
   const params = new URLSearchParams(document.location.search);
@@ -75,10 +76,7 @@
     1000
   );
   onMount(() => {
-    renderer = new WebGLRenderer({
-      canvas: document.getElementById("mainCanvas")!,
-      alpha: false,
-    });
+    const { renderer } = useThrelte();
     renderer.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight - 20);
     createScene(renderer, camera);
   });
@@ -102,7 +100,6 @@
     camera.position.set(0, 0, 200); // x y z
     camera.far = 50000;
     camera.updateProjectionMatrix();
-    let controls = new OrbitControls(camera, renderer.domElement);
 
     function render() {
       requestAnimationFrame(render);
@@ -113,6 +110,16 @@
   }
 </script>
 
-<div>
-  <canvas id="mainCanvas" />
-</div>
+<T.PerspectiveCamera
+  let:ref
+  makeDefault
+  position={[10, 10, 10]}
+  on:create={({ ref }) => {
+    ref.lookAt(0, 0, 0);
+  }}
+>
+  <T.AmbientLight color={0xcccccc} intensity={0.2} />
+  <T.HemisphereLight skyColor={0xffffff} groundColor={0xffffff} intensity={0.6} position={[0, 500, 0]} />
+  <T.DirectionalLight skyColor={0xffffff} intensity={1} position={[-1, 0.75, 1]} position.multiplyScalar(1000) />
+  <OrbitControls args={[ref, renderer.domElement]} />
+</T.PerspectiveCamera>

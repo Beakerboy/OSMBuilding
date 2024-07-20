@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { Canvas } from "@threlte/core";
   import Init from "./Init.svelte";
 </script>
 
-<main>
+<Canvas>
   <Init />
-</main>
+</Canvas>
 
 <style>
 </style>

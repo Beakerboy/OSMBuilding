@@ -14,6 +14,8 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@threlte/core": "^7.3.1",
+    "@threlte/extras": "^8.11.4",
     "@tsconfig/svelte": "^5.0.4",
     "@types/three": "^0.166.0",
     "Threejs-Geometries": "github:Beakerboy/Threejs-Geometries",
