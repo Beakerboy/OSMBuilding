@@ -147,7 +147,7 @@ class BuildingPart {
     // Should Skillion be included here?
     const directionalRoofs = ['gabled', 'round'];
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
-    if (!calculatedOptions.roof.direction && directionalRoofs.includes(calculatedOptions.roof.shape)) {
+    if (calculatedOptions.roof.direction === undefined && directionalRoofs.includes(calculatedOptions.roof.shape)) {
       // Radians pi > x >= -pi
       let longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
       if (longestSide < 0) {
@@ -176,7 +176,7 @@ class BuildingPart {
       window.printError('Way ' + this.id + ' is taller than building. (' + this.options.building.height + '>' + this.options.inherited.building.height + ')');
     }
     // Should skillion automatically calculate a direction perpendicular to the longest outside edge if unspecified?
-    if (this.options.roof.shape === 'skillion' && !this.options.roof.direction) {
+    if (this.options.roof.shape === 'skillion' && this.options.roof.direction === undefined) {
       window.printError('Part ' + this.id + ' requires a direction. (https://wiki.openstreetmap.org/wiki/Key:roof:direction)');
     }
     this.extrusionHeight = this.options.building.height - this.options.building.minHeight - this.options.roof.height;
@@ -388,10 +388,10 @@ class BuildingPart {
    * Direction. In degrees, 0-360
    */
   static normalizeDirection(direction) {
-    // if (cardinal) {
-    //   convert to degrees
-    //   return degrees;
-    // }
+    const degrees = this.cardinalToDegree(direction);
+    if (degrees !== undefined) {
+      return degrees;
+    }
     if (direction) {
       return parseFloat(direction);
     }
@@ -407,10 +407,22 @@ class BuildingPart {
   }
 
   /**
-   * Convert a cardinal direction (ESE) to degrees 112°.
-   * North is zero.
+   * Convert a cardinal direction to degrees.
+   * North is zero and values increase clockwise.
+   *
+   * @param {string} cardinal - the direction.
+   *
+   * @return {int} degrees
    */
   static cardinalToDegree(cardinal) {
+    const cardinalUpperCase = `${cardinal}`.toUpperCase();
+    const index = 'N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW'.split(' ').indexOf(cardinalUpperCase);
+    if (index === -1) {
+      return undefined;
+    }
+    const degreesTimesTwo = index * 45;
+    // integer floor
+    return degreesTimesTwo % 2 === 0 ? degreesTimesTwo / 2 : (degreesTimesTwo - 1) / 2;
   }
 
   /**
