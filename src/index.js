@@ -97,6 +97,12 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
+/**
+ * Create GUI folders for the options of a building and roof.
+ *
+ * @param {GUI} folder The way or relation
+ * @param {Object} options The data for a specific way
+ */
 function createFolders(folder, options) {
   const buildingFolder = folder.addFolder('Building');
   const roofFolder = folder.addFolder('Roof');
