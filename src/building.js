@@ -131,6 +131,11 @@ class Building {
     }
   }
 
+  /**
+   * Create the array of building parts.
+   *
+   * @return {array} mesh - an array or Three.Mesh objects
+   */
   render() {
     const mesh = [];
     if (this.parts.length > 0) {
