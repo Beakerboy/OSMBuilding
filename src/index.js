@@ -28,6 +28,7 @@ var building = {};
 var errorBox = false;
 
 var gui;
+
 /**
  * Initialize the screen
  */
@@ -177,6 +178,9 @@ function createScene() {
   render();
 }
 
+/**
+ * Add lights to the scene
+ */
 function addLights() {
   const ambientLight = new AmbientLight( 0xcccccc, 0.2 );
   scene.add( ambientLight );
@@ -195,6 +199,9 @@ init();
 createScene();
 window.addEventListener('resize', resize, false);
 
+/**
+ * Set the camera position
+ */
 function resize() {
   camera.aspect =
     document.documentElement.clientWidth /
@@ -206,6 +213,12 @@ function resize() {
   );
 }
 
+/**
+ * Manage error messages by either printing to the console or
+ * the configured errorBox element.
+ *
+ * @param {text} str The text to add to the error log
+ */
 function printError(txt) {
   if (errorBox) {
     const element = document.getElementById('errorBox');
