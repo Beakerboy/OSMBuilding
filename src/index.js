@@ -40,20 +40,18 @@ function init() {
 
   window.printError = printError;
 
-  if (window.location.search.substr(1) !== null) {
-    window.location.search.substr(1).split('&')
-      .forEach(function(item) {
-        const tmp = item.split('=');
-        if (tmp[0] === 'type') {
-          type = decodeURIComponent(tmp[1]);
-        } else if (tmp[0] === 'id') {
-          id = decodeURIComponent(tmp[1]);
-        } else if (tmp[0] === 'info') {
-          displayInfo = true;
-        } else if (tmp[0] === 'errorBox') {
-          errorBox = true;
-        }
-      });
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('type')) {
+    type = params.get('type');
+  }
+  if (params.has('id')) {
+    id = params.get('id');
+  }
+  if (params.has('info')) {
+    displayInfo = true;
+  }
+  if (params.has('errorBox')) {
+    errorBox = true;
   }
   Building.create(type, id).then(function(myObj){
     mainBuilding = myObj;
