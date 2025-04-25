@@ -137,7 +137,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const newWay = way.cloneNode(true);
     newWay.innerHTML = '';
     for (let i = 0; i < elements.length; i++) {
-      let elem = elements[elements.length - 1 + i].cloneNode();
+      let elem = elements[elements.length - 1 - i].cloneNode();
       newWay.appendChild(elem);
     }
     return newWay;
