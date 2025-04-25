@@ -20,6 +20,15 @@ test('Test Closed Way', () => {
   expect(BuildingShapeUtils.isClosed(xmlData)).toBe(true);
 });
 
+test('Reverse ways', () => {
+  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
+  var way2 = '<way id="1"><nd ref="3"/><nd ref="2"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
+  let result = BuildingShapeUtils.reverseWay(xml1);
+  expect(result.outerHTML).toBe(way2);
+});
+
 test('Test Open Way', () => {
   var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="6"/></way>';
   let parser = new window.DOMParser();
