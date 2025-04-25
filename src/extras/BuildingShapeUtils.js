@@ -86,10 +86,10 @@ class BuildingShapeUtils extends ShapeUtils {
             i++;
             changed = true;
           } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i])
+            const tempway = BuildingShapeUtils.reverseWay(ways[i]);
             const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
           } else if (way1[way1.length - 1].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i + 1])
+            const tempway = BuildingShapeUtils.reverseWay(ways[i + 1]);
             const result = BuildingShapeUtils.joinWays(ways[i], tempway);
           } else {
             openWays.push(ways[i]);
@@ -141,7 +141,7 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     return newWay;
   }
-  
+
   /**
    * Find the center of a closed way
    *
