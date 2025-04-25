@@ -66,3 +66,19 @@ test('Test combining 3 ways 1->2->3', () => {
   let expected = parser.parseFromString(way4, 'text/xml');
   expect(result[0].outerHTML).toBe(way3);
 });
+
+test('Test combining 4 ways', () => {
+  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
+  var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="5"/></way>';
+  var way3 = '<way id="3"><nd ref="6"/><nd ref="5"/></way>';
+  var way4 = '<way id="4"><nd ref="6"/><nd ref="1"/><nd ref="1"/></way>';
+  var way5 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="6"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
+  let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
+  let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
+  let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
+  expect(result.length).toBe(1);
+  let expected = parser.parseFromString(way4, 'text/xml');
+  expect(result[0].outerHTML).toBe(way3);
+});
