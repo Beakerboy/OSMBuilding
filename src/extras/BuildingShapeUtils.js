@@ -67,8 +67,14 @@ class BuildingShapeUtils extends ShapeUtils {
         if (BuildingShapeUtils.isClosed(ways[i])) {
           closedWays.push(ways[i]);
         } else {
+          // These are HTMLCollections of nodes, not ways.
           const way1 = ways[i].getElementsByTagName('nd');
           const way2 = ways[i + 1].getElementsByTagName('nd');
+
+          // If the first node of way2 is the same as the last in way one, they can be combined
+          // Or if the first node of way1 is the same as the last in way2
+          // Need to extend this to tip-to-tip connections as well.
+          // Need to add a "reverse way" function somewhere.
           if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
             const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
             openWays.push(result);
@@ -79,8 +85,20 @@ class BuildingShapeUtils extends ShapeUtils {
             openWays.push(result);
             i++;
             changed = true;
+          } else if (way1[way1.length - 1].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
+            const tempway = BuildingShapeUtils.reverseWay(ways[i + 1]);
+            const result = BuildingShapeUtils.joinWays(ways[i], tempway);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
+            const tempway = BuildingShapeUtils.reverseWay(ways[i]);
+            const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
+            openWays.push(result);
+            i++;
+            changed = true;
           } else {
-            openWays.push(way1);
+            openWays.push(ways[i]);
           }
         }
       }
@@ -111,6 +129,24 @@ class BuildingShapeUtils extends ShapeUtils {
       way1.appendChild(elem);
     }
     return way1;
+  }
+
+  /**
+   * Reverse the order of nodes in a way.
+   *
+   * @param {DOM.Element} way - a way
+   *
+   * @return {DOM.Element} way
+   */
+  static reverseWay(way) {
+    const elements = way.getElementsByTagName('nd');
+    const newWay = way.cloneNode(true);
+    newWay.innerHTML = '';
+    for (let i = 0; i < elements.length; i++) {
+      let elem = elements[elements.length - 1 - i].cloneNode();
+      newWay.appendChild(elem);
+    }
+    return newWay;
   }
 
   /**
