@@ -88,7 +88,6 @@ class BuildingShapeUtils extends ShapeUtils {
           } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
             const tempway = BuildingShapeUtils.reverseWay(ways[i])
             const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
-          }
           } else if (way1[way1.length - 1].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
             const tempway = BuildingShapeUtils.reverseWay(ways[i + 1])
             const result = BuildingShapeUtils.joinWays(ways[i], tempway);
@@ -126,6 +125,23 @@ class BuildingShapeUtils extends ShapeUtils {
     return way1;
   }
 
+  /**
+   * Reverse the order of nodes in a way.
+   *
+   * @param {DOM.Element} way - a way
+   *
+   * @return {DOM.Element} way
+   */
+  static reverseWay(way) {
+    const elements = way.getElementsByTagName('nd');
+    const newWay = way.cloneNode(true);
+    for (let i = 0; i < elements.length; i++) {
+      let elem = elements[elements.length - 1 + i].cloneNode();
+      newWay.replaceChild(elements[i], elem);
+    }
+    return newWay;
+  }
+  
   /**
    * Find the center of a closed way
    *
