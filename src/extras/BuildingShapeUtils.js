@@ -67,8 +67,14 @@ class BuildingShapeUtils extends ShapeUtils {
         if (BuildingShapeUtils.isClosed(ways[i])) {
           closedWays.push(ways[i]);
         } else {
+          // These are HTMLCollections of nodes, not ways.
           const way1 = ways[i].getElementsByTagName('nd');
           const way2 = ways[i + 1].getElementsByTagName('nd');
+
+          // If the first node of way2 is the same as the last in way one, they can be combined
+          // Or if the first node of way1 is the same as the last in way2
+          // Need to extend this to tip-to-tip connections as well.
+          // Need to add a "reverse way" function somewhere.
           if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
             const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
             openWays.push(result);
