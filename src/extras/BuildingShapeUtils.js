@@ -135,9 +135,10 @@ class BuildingShapeUtils extends ShapeUtils {
   static reverseWay(way) {
     const elements = way.getElementsByTagName('nd');
     const newWay = way.cloneNode(true);
+    newWay.innerHTML = '';
     for (let i = 0; i < elements.length; i++) {
       let elem = elements[elements.length - 1 + i].cloneNode();
-      newWay.replaceChild(elements[i], elem);
+      newWay.appendChild(elem);
     }
     return newWay;
   }
