@@ -20,7 +20,7 @@ test('Test Closed Way', () => {
   expect(BuildingShapeUtils.isClosed(xmlData)).toBe(true);
 });
 
-test('Reverse ways', () => {
+test('Reverse way', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
   var way2 = '<way id="1"><nd ref="3"/><nd ref="2"/><nd ref="1"/></way>';
   let parser = new window.DOMParser();
