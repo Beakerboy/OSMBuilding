@@ -85,15 +85,15 @@ class BuildingShapeUtils extends ShapeUtils {
             openWays.push(result);
             i++;
             changed = true;
-          } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i]);
-            const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
-            openWays.push(result);
-            i++;
-            changed = true;
           } else if (way1[way1.length - 1].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
             const tempway = BuildingShapeUtils.reverseWay(ways[i + 1]);
             const result = BuildingShapeUtils.joinWays(ways[i], tempway);
+            openWays.push(result);
+            i++;
+            changed = true;
+          } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
+            const tempway = BuildingShapeUtils.reverseWay(ways[i]);
+            const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
             openWays.push(result);
             i++;
             changed = true;
