@@ -16,7 +16,7 @@ const data = `
   <node id="6" lat="4.001" lon="4.001"/>
   <node id="7" lat="4.001" lon="4"/>
   <relation id="4">
-    <member ref="1" role="outer"/>
+    <member ref="1" role="outer" type="way"/>
     <tag k="type" v="multipolygon"/>
     <tag k="building" v="yes"/>
     <tag k="roof:shape" v="skillion"/>
