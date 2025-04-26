@@ -33,11 +33,16 @@ class Building {
    * Create new building
    */
   static async create(type, id) {
-    var data;
-    if (type === 'way') {
-      data = await Building.getWayData(id);
-    } else {
-      data = await Building.getRelationData(id);
+    let data;
+    try {
+      if (type === 'way') {
+        data = await Building.getWayData(id);
+      } else {
+        data = await Building.getRelationData(id);
+      }
+    } catch (e) {
+      alert(e);
+      throw e;
     }
     let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
     const nodelist = Building.buildNodeList(xmlData);
@@ -63,29 +68,32 @@ class Building {
     } else {
       this.type = 'relation';
     }
-    if (this.isValidData(outerElementXml)) {
-      this.nodelist = Building.buildNodeList(this.fullXmlData);
-      this.setHome();
-      this.repositionNodes();
-      if (this.type === 'way') {
-        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-      } else if (this.type === 'multipolygon') {
-        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
-      } else {
-        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.fullXmlData.getElementById(outlineRef);
-        const outlineType = outline.tagName.toLowerCase();
-        if (outlineType === 'way') {
-          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-        } else {
-          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
-        }
-      }
-      this.addParts();
-    } else {
-      window.printError('XML Not Valid');
-      throw new Error('invalid XML');
+    try {
+      this.validateData(outerElementXml);
+    } catch (e) {
+      const errorText = `Rendering of ${outerElementXml.tagName.toLowerCase()} ${id} is not is not possible. ${e}`;
+      alert(errorText);
+      window.printError(errorText);
+      throw new Error('invalid XML data');
     }
+    this.nodelist = Building.buildNodeList(this.fullXmlData);
+    this.setHome();
+    this.repositionNodes();
+    if (this.type === 'way') {
+      this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+    } else if (this.type === 'multipolygon') {
+      this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
+    } else {
+      const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+      const outline = this.fullXmlData.getElementById(outlineRef);
+      const outlineType = outline.tagName.toLowerCase();
+      if (outlineType === 'way') {
+        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+      } else {
+        this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
+      }
+    }
+    this.addParts();
   }
 
   /**
@@ -189,15 +197,27 @@ class Building {
   static async getWayData(id) {
     let restPath = apis.getWay.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The way ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The way ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   static async getRelationData(id) {
     let restPath = apis.getRelation.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The relation ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The relation ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   /**
@@ -212,7 +232,7 @@ class Building {
   /**
    * validate that we have the ID of a building way.
    */
-  isValidData(xmlData) {
+  validateData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
@@ -220,7 +240,7 @@ class Building {
       // get all building relation parts
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
-      var ref = 0;
+      let ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
@@ -232,8 +252,9 @@ class Building {
       }
     } else {
       if (!buildingType) {
-        window.printError('Outer way is not a building');
-        return false;
+        const errorText = 'Outer way is not a building';
+        window.printError(errorText);
+        throw errorText;
       }
       ways.push(xmlData);
     }
@@ -246,16 +267,18 @@ class Building {
           const firstRef = nodes[0].getAttribute('ref');
           const lastRef = nodes[nodes.length - 1].getAttribute('ref');
           if (firstRef !== lastRef) {
-            window.printError('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
-            return false;
+            const errorText = 'Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.';
+            window.printError(errorText);
+            throw errorText;
           }
         } else {
-          window.printError('Way ' + way.getAttribute('id') + ' has no nodes.');
-          return false;
+          const errorText = 'Way ' + way.getAttribute('id') + ' has no nodes.';
+          window.printError(errorText);
+          throw errorText;
         }
       } else {
         let parts = way.querySelectorAll('member[role="part"]');
-        var ref = 0;
+        let ref = 0;
         for (let i = 0; i < parts.length; i++) {
           ref = parts[i].getAttribute('ref');
           const part = this.fullXmlData.getElementById(ref);
