@@ -43,7 +43,7 @@ class Building {
     const nodelist = Building.buildNodeList(xmlData);
     const extents = Building.getExtents(id, xmlData, nodelist);
     const innerData = await Building.getInnerData(...extents);
-    const [augmentedNodelist, augmentedWays] = await Building.buildAugmentedData(innerData)
+    const [augmentedNodelist, augmentedWays] = await Building.buildAugmentedData(innerData);
     return new Building(id, innerData, augmentedNodelist, augmentedWays);
   }
 
@@ -138,16 +138,16 @@ class Building {
     await Promise.all(Array.from(memberWays).map(async currentWay => {
       const wayID = currentWay.getAttribute('ref');
       if (completedWays.has(wayID)) {
-        return
+        return;
       }
-      printError('Additional downloading way ' + wayID);
+      window.printError('Additional downloading way ' + wayID);
       const wayData = new DOMParser().parseFromString(await Building.getWayData(wayID), 'text/xml');
-      printError(`Way ${wayID} was downloaded`);
+      window.printError(`Way ${wayID} was downloaded`);
       waysList[wayID] = wayData.querySelector('way');
       wayData.querySelectorAll('node').forEach(i => {
         nodeList[i.getAttribute('id')] = [i.getAttribute('lon'), i.getAttribute('lat')];
       });
-    }))
+    }));
     return [nodeList, waysList];
   }
 
@@ -211,7 +211,11 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
           const id = parts[i].getAttribute('id');
-          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
+          try {
+            this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
+          } catch (e) {
+            window.printError(e);
+          }
         }
       }
     }

@@ -14,22 +14,29 @@ class MultiBuildingPart extends BuildingPart {
    */
   buildShape() {
     this.type = 'multipolygon';
-    const innerMembers = this.way.querySelectorAll('member[role="inner"]');
-    const outerMembers = this.way.querySelectorAll('member[role="outer"]');
+    const innerMembers = this.way.querySelectorAll('member[role="inner"][type="way"]');
+    const outerMembers = this.way.querySelectorAll('member[role="outer"][type="way"]');
     const innerShapes = [];
-    let shapes = [];
+    const shapes = [];
     for (let i = 0; i < innerMembers.length; i++) {
-      const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
-      innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist, this.augmentedNodelist));
+      const wayID = innerMembers[i].getAttribute('ref');
+      const way = this.fullXmlData.getElementById(wayID);
+      if (way) {
+        innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist, this.augmentedNodelist));
+      } else {
+        window.printError(`Missing way ${wayID} for relation ${this.id} for inner members`);
+        innerShapes.push(BuildingShapeUtils.createShape(this.augmentedWays[wayID], this.nodelist, this.augmentedNodelist));
+      }
     }
     const ways = [];
     for (let j = 0; j < outerMembers.length; j++) {
-      const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
+      const wayID = outerMembers[j].getAttribute('ref');
+      const way = this.fullXmlData.getElementById(wayID);
       if (way) {
         ways.push(way);
       } else {
-        printError(`Missing way ${outerMembers[j].getAttribute('ref')} for relation ${this.id}`);
-        ways.push(this.augmentedWays[outerMembers[j].getAttribute('ref')])
+        window.printError(`Missing way ${wayID} for relation ${this.id}`);
+        ways.push(this.augmentedWays[wayID]);
       }
     }
     const closedWays = BuildingShapeUtils.combineWays(ways);

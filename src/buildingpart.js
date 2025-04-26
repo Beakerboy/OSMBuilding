@@ -66,9 +66,11 @@ class BuildingPart {
    * @param {number} id - the OSM id of the way or multipolygon.
    * @param {XMLDocument} fullXmlData - XML for the region.
    * @param {[[number, number],...]} nodelist - Cartesian coordinates of each node keyed by node refID
-   * @param {object} options - default values for the building part.
+   * @param augmentedNodelist - list of nodes outside bbox
+   * @param augmentedWays - list of ways outside bbox
+   * @param {object} defaultOptions - default values for the building part.
    */
-  constructor(id, fullXmlData, nodelist, augmentedNodelist, augmentedWays, defaultOptions = {}) {
+  constructor(id, fullXmlData, nodelist, augmentedNodelist = {}, augmentedWays = {}, defaultOptions = {}) {
     this.options = this.blankOptions;
     if (Object.keys(defaultOptions).length === 0) {
       defaultOptions = this.blankOptions;

@@ -10,6 +10,7 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @param {DOM.Element} way - OSM XML way element.
    * @param {[number, number]} nodelist - list of all nodes
+   * @param augmentedNodelist - list of nodes outside bbox
    *
    * @return {THREE.Shape} shape - the shape
    */
