@@ -17,19 +17,24 @@ class MultiBuildingPart extends BuildingPart {
     const innerMembers = this.way.querySelectorAll('member[role="inner"]');
     const outerMembers = this.way.querySelectorAll('member[role="outer"]');
     const innerShapes = [];
-    var shapes = [];
+    let shapes = [];
     for (let i = 0; i < innerMembers.length; i++) {
       const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
-      innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
+      innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist, this.augmentedNodelist));
     }
     const ways = [];
     for (let j = 0; j < outerMembers.length; j++) {
       const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
-      ways.push(way);
+      if (way) {
+        ways.push(way);
+      } else {
+        printError(`Missing way ${outerMembers[j].getAttribute('ref')} for relation ${this.id}`);
+        ways.push(this.augmentedWays[outerMembers[j].getAttribute('ref')])
+      }
     }
     const closedWays = BuildingShapeUtils.combineWays(ways);
     for (let k = 0; k < closedWays.length; k++) {
-      const shape = BuildingShapeUtils.createShape(closedWays[k], this.nodelist);
+      const shape = BuildingShapeUtils.createShape(closedWays[k], this.nodelist, this.augmentedNodelist);
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }

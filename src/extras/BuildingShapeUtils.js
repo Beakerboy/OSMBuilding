@@ -13,7 +13,7 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @return {THREE.Shape} shape - the shape
    */
-  static createShape(way, nodelist) {
+  static createShape(way, nodelist, augmentedNodelist = {}) {
     // Initialize objects
     const shape = new Shape();
     var ref;
@@ -25,7 +25,7 @@ class BuildingShapeUtils extends ShapeUtils {
     // Get the coordinates of all the nodes and add them to the shape outline.
     for (let i = 0; i < elements.length; i++) {
       ref = elements[i].getAttribute('ref');
-      node = nodelist[ref];
+      node = nodelist[ref] ?? augmentedNodelist[ref];
       // The first node requires a differnet function call.
       if (i === 0) {
         shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));

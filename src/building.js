@@ -43,7 +43,8 @@ class Building {
     const nodelist = Building.buildNodeList(xmlData);
     const extents = Building.getExtents(id, xmlData, nodelist);
     const innerData = await Building.getInnerData(...extents);
-    return new Building(id, innerData);
+    const [augmentedNodelist, augmentedWays] = await Building.buildAugmentedData(innerData)
+    return new Building(id, innerData, augmentedNodelist, augmentedWays);
   }
 
   /**
@@ -52,9 +53,11 @@ class Building {
    * @param {string} id - the unique XML id of the object.
    * @param {string} FullXmlData - XML data.
    */
-  constructor(id, FullXmlData) {
+  constructor(id, FullXmlData, augmentedNodelist, augmentedWays) {
     this.id = id;
     this.fullXmlData = new window.DOMParser().parseFromString(FullXmlData, 'text/xml');
+    this.augmentedNodelist = augmentedNodelist;
+    this.augmentedWays = augmentedWays;
     const outerElementXml = this.fullXmlData.getElementById(id);
     if (outerElementXml.tagName.toLowerCase() === 'way') {
       this.type = 'way';
@@ -68,17 +71,17 @@ class Building {
       this.setHome();
       this.repositionNodes();
       if (this.type === 'way') {
-        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays);
       } else if (this.type === 'multipolygon') {
-        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
+        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays);
       } else {
         const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
         const outline = this.fullXmlData.getElementById(outlineRef);
         const outlineType = outline.tagName.toLowerCase();
         if (outlineType === 'way') {
-          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays);
         } else {
-          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
+          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays);
         }
       }
       this.addParts();
@@ -121,6 +124,34 @@ class Building {
     return nodeList;
   }
 
+
+  /**
+   * @param {DOM.Element} fullXmlData - OSM XML with nodes
+   * @return {Promise<({}|*)[]>}
+   */
+  static async buildAugmentedData(fullXmlData) {
+    const xmlData = new DOMParser().parseFromString(fullXmlData, 'text/xml');
+    const completedWays = new Set(Array.from(xmlData.getElementsByTagName('way')).map(i => i.getAttribute('id')));
+    const memberWays = xmlData.querySelectorAll('member[type="way"]');
+    const nodeList = {};
+    const waysList = {};
+    await Promise.all(Array.from(memberWays).map(async currentWay => {
+      const wayID = currentWay.getAttribute('ref');
+      if (completedWays.has(wayID)) {
+        return
+      }
+      printError('Additional downloading way ' + wayID);
+      const wayData = new DOMParser().parseFromString(await Building.getWayData(wayID), 'text/xml');
+      printError(`Way ${wayID} was downloaded`);
+      waysList[wayID] = wayData.querySelector('way');
+      wayData.querySelectorAll('node').forEach(i => {
+        nodeList[i.getAttribute('id')] = [i.getAttribute('lon'), i.getAttribute('lat')];
+      });
+    }))
+    return [nodeList, waysList];
+  }
+
+
   /**
    * convert all the longitude latitude values
    * to meters from the home point.
@@ -128,6 +159,9 @@ class Building {
   repositionNodes() {
     for (const key in this.nodelist) {
       this.nodelist[key] = BuildingShapeUtils.repositionPoint(this.nodelist[key], this.home);
+    }
+    for (const key in this.augmentedNodelist) {
+      this.augmentedNodelist[key] = BuildingShapeUtils.repositionPoint(this.augmentedNodelist[key], this.home);
     }
   }
 
@@ -158,9 +192,9 @@ class Building {
         const ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
         if (part.tagName.toLowerCase() === 'way') {
-          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
+          this.parts.push(new BuildingPart(ref, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
         } else {
-          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist, this.outerElement.options));
+          this.parts.push(new MultiBuildingPart(ref, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
         }
       }
     } else {
@@ -169,7 +203,7 @@ class Building {
       for (let j = 0; j < parts.length; j++) {
         if (parts[j].querySelector('[k="building:part"]')) {
           const id = parts[j].getAttribute('id');
-          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
         }
       }
       // Filter all relations
@@ -177,7 +211,7 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
           const id = parts[i].getAttribute('id');
-          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.augmentedNodelist, this.augmentedWays, this.outerElement.options));
         }
       }
     }

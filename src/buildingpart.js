@@ -68,7 +68,7 @@ class BuildingPart {
    * @param {[[number, number],...]} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
-  constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
+  constructor(id, fullXmlData, nodelist, augmentedNodelist, augmentedWays, defaultOptions = {}) {
     this.options = this.blankOptions;
     if (Object.keys(defaultOptions).length === 0) {
       defaultOptions = this.blankOptions;
@@ -78,6 +78,8 @@ class BuildingPart {
     this.id = id;
     this.way = fullXmlData.getElementById(id);
     this.nodelist = nodelist;
+    this.augmentedNodelist = augmentedNodelist;
+    this.augmentedWays = augmentedWays;
     this.shape = this.buildShape();
     this.setOptions();
   }
@@ -89,7 +91,7 @@ class BuildingPart {
    */
   buildShape() {
     this.type = 'way';
-    return BuildingShapeUtils.createShape(this.way, this.nodelist);
+    return BuildingShapeUtils.createShape(this.way, this.nodelist, this.augmentedNodelist);
   }
 
   /**
