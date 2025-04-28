@@ -33,7 +33,7 @@ test('Test combining 2 ways 1->2', () => {
   // Expect one closed way with 3 unique nodes.
   expect(result.length).toBe(1);
   expect(BuildingShapeUtils.isClosed(result[0]));
-  expect(result[0].getElementsByTagName('nd').length).toBe(4)
+  expect(result[0].getElementsByTagName('nd').length).toBe(4);
   // expect result to contain nodes 1, 2 and 3.
 });
 
