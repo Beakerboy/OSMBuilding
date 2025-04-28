@@ -50,6 +50,20 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
+   * Check if a way is self-intersecting.
+   *
+   * @param {DOM.Element} way - OSM XML way element.
+   *
+   * @return {boolean}
+   */
+  static isSelfIntersecting(way) {
+    if (isClosed(way))){
+      // Drop the final node.
+    }
+    // Check if the same node ref appears multiple times
+  }
+  
+  /**
    * Walk through an array and seperate any closed ways.
    * Attempt to find matching open ways to enclose them.
    *
