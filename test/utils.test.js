@@ -75,3 +75,32 @@ test('Longest side angle', () => {
   expect(rightTriangle.extractPoints().shape.length).toBe(3);
   expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(-Math.PI / 4);
 });
+
+// Combine these next 4 into a test runner.
+test('non-intersecting open way', () => {
+  const way = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
+  let parser = new window.DOMParser();
+  let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+  expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(false);
+});
+
+test('non-intersecting closed way', () => {
+  const way = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+  expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(false);
+});
+
+test('intersecting open way', () => {
+  const way = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>';
+  let parser = new window.DOMParser();
+  let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+  expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(true);
+});
+
+test('intersecting closed way', () => {
+  const way = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+  expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(true);
+});
