@@ -70,7 +70,7 @@ test('Test combining 3 ways 1->2->3', () => {
   expect(result.length).toBe(1);
 });
 
-/**test('Test combining 4 ways', () => {
+test('Test combining 4 ways', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/></way>';
   var way3 = '<way id="3"><nd ref="4"/><nd ref="1"/></way>';
@@ -83,7 +83,7 @@ test('Test combining 3 ways 1->2->3', () => {
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3, xml4]);
   expect(result.length).toBe(1);
 });
-*/
+
 /**test('Test combining 4 ways, one not part of loop', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/></way>';
