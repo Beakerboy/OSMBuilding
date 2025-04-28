@@ -34,10 +34,11 @@ test('Test combining 2 ways 1->2', () => {
   expect(result[0].outerHTML).toBe(way3);
 });
 
-test('Test combining 2 ways 2->1', () => {
-  var way2 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
-  var way1 = '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="1"/></way>';
-  var way3 = '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
+test('Test combining 3 ways 2->1->3', () => {
+  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
+  var way2 = '<way id="2"><nd ref="3"/><nd ref="1"/></way>';
+  var way3 = '<way id="3"><nd ref="2"/><nd ref="3"/></way>';
+  var way4 = '<way id="2"><nd ref="3"/><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
   let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
