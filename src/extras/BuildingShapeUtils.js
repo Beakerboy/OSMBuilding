@@ -62,7 +62,7 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     // Check if the same node ref appears multiple times
   }
-  
+
   /**
    * Walk through an array and seperate any closed ways.
    * Attempt to find matching open ways to enclose them.
