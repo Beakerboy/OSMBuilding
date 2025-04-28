@@ -42,15 +42,33 @@ class Building {
   type;
   options;
 
+  static async getRelationDataWithChildRelations(id) {
+    const xmlData = new window.DOMParser().parseFromString(await Building.getRelationData(id), 'text/xml');
+    await Promise.all(Array.from(xmlData.querySelectorAll('member[type=relation]')).map(async r => {
+      const childId = r.getAttribute('ref');
+      if (r.getAttribute('id') === childId) {
+        return;
+      }
+      const childData = new window.DOMParser().parseFromString(await Building.getRelationData(childId), 'text/xml');
+      childData.querySelectorAll('node, way, relation').forEach(i => {
+        if (xmlData.querySelector(`${i.tagName}[id="${i.getAttribute('id')}"]`)) {
+          return;
+        }
+        xmlData.querySelector('osm').appendChild(i);
+      });
+    }));
+    return new XMLSerializer().serializeToString(xmlData);
+  }
+
   /**
    * Download data for new building
    */
   static async downloadDataAroundBuilding(type, id) {
-    var data;
+    let data;
     if (type === 'way') {
       data = await Building.getWayData(id);
     } else {
-      data = await Building.getRelationData(id);
+      data = await Building.getRelationDataWithChildRelations(id);
     }
     let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
     const nodelist = Building.buildNodeList(xmlData);
