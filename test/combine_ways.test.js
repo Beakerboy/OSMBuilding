@@ -30,9 +30,10 @@ test('Test combining 2 ways 1->2', () => {
   let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
   let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
+  // Expect one closed way with 3 unique nodes.
   expect(result.length).toBe(1);
   expect(BuildingShapeUtils.isClosed(result[0]));
-  // expect 4 nodes
+  expect(result[0].getElementsByTagName('nd').length).toBe(4)
   // expect result to contain nodes 1, 2 and 3.
 });
 
