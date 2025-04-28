@@ -57,7 +57,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {boolean}
    */
   static isSelfIntersecting(way) {
-    if (isClosed(way))){
+    if (isClosed(way)){
       // Drop the final node.
     }
     // Check if the same node ref appears multiple times
