@@ -31,6 +31,7 @@ test('Test combining 2 ways 1->2', () => {
   let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
   expect(result.length).toBe(1);
+  expect(BuildingShapeUtils.isClosed(result[1]));
 });
 
 test('Test combining 3 ways 2->1->3', () => {
@@ -43,6 +44,7 @@ test('Test combining 3 ways 2->1->3', () => {
   let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
   expect(result.length).toBe(1);
+  expect(BuildingShapeUtils.isClosed(result[1]));
 });
 
 test('Test combining 2 unaligned ways', () => {
@@ -55,6 +57,7 @@ test('Test combining 2 unaligned ways', () => {
   let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
   expect(result.length).toBe(1);
+  expect(BuildingShapeUtils.isClosed(result[1]));
 });
 
 test('Test combining 3 ways 1->2->3', () => {
@@ -68,6 +71,7 @@ test('Test combining 3 ways 1->2->3', () => {
   let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
   expect(result.length).toBe(1);
+  expect(BuildingShapeUtils.isClosed(result[1]));
 });
 
 test('Test combining 4 ways', () => {
@@ -82,6 +86,7 @@ test('Test combining 4 ways', () => {
   let xml4 = parser.parseFromString(way4, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3, xml4]);
   expect(result.length).toBe(1);
+  expect(BuildingShapeUtils.isClosed(result[1]));
 });
 
 /**test('Test combining 4 ways, one not part of loop', () => {
