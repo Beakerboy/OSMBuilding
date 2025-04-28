@@ -52,7 +52,7 @@ test('Test combining 3 ways 2->1->3', () => {
 test('Test combining 2 unaligned ways', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="2"/></way>';
-  var way2 = '<way id="3"><nd ref="3"/><nd ref="1"/></way>';
+  var way3 = '<way id="3"><nd ref="3"/><nd ref="1"/></way>';
   var way4 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>';
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
