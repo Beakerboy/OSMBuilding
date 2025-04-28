@@ -60,7 +60,12 @@ class BuildingShapeUtils extends ShapeUtils {
     if (BuildingShapeUtils.isClosed(way)){
       // Drop the final node.
     }
-    // Check if the same node ref appears multiple times
+    // create empty array
+    // foreach (node in way)
+    //   if (the ref value exists in the array)
+    //     return true;
+    //   push ref value to array
+    // return false;
   }
 
   /**
