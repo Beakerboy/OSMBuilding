@@ -57,7 +57,7 @@ test('Test combining 2 unaligned ways', () => {
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
   let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
-  let xml3 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
+  let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3]);
   expect(result.length).toBe(1);
   expect(result[0].outerHTML).toBe(way4);
