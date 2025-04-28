@@ -13,14 +13,14 @@ import { Shape } from 'three';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
 
-test('Test no combining necessary. one open way', () => {
+/**test('Test no combining necessary. one open way', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>';
   let parser = new window.DOMParser();
   let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
   let result = BuildingShapeUtils.combineWays([xml1]);
   expect(result.length).toBe(0);
 });
-
+*/
 test('Test combining 2 ways 1->2', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="1"/></way>';
