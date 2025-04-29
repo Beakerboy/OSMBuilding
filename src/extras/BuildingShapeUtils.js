@@ -78,7 +78,7 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @param {[DOM.Element]} array - list of OSM XML way elements.
    *
-   * @return {DOM.Element}
+   * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
     var closedWays = [];
