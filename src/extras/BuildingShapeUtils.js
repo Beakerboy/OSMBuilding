@@ -276,7 +276,12 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Calculate the angle at each of a shape's vertex
+   * Calculate the angle at each of a shape's vertex.
+   * The angle will be PI > x >= -PI
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number, ...]} the angles in radians.
    */
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
@@ -288,18 +293,33 @@ class BuildingShapeUtils extends ShapeUtils {
     p1 = points[0];
     p2 = points[1];
     let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
+    if (angle >= Math.PI) {
+      angle -= Math.PI;
+    } else if (angle < -Math.PI) {
+      angle += Math.PI;
+    }
     angles.push(angle);
     for (let i = 1; i < points.length - 1; i++) {
       p0 = points[i - 1];
       p1 = points[i];
       p2 = points[i + 1];
       angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
+      if (angle >= Math.PI) {
+        angle -= Math.PI;
+      } else if (angle < -Math.PI) {
+        angle += Math.PI;
+      }
       angles.push(angle);
     }
     p0 = points[points.length - 2];
     p1 = points[points.length - 1];
     p2 = points[0];
     angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
+    if (angle >= Math.PI) {
+      angle -= Math.PI;
+    } else if (angle < -Math.PI) {
+      angle += Math.PI;
+    }
     angles.push(angle);
     return angles;
   }
