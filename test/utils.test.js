@@ -52,6 +52,11 @@ rightTriangle.moveTo(1, 1);
 rightTriangle.lineTo(1, -1);
 rightTriangle.lineTo(-1, 1);
 
+const rightTriangle2 = new Shape();
+rightTriangle2.moveTo(1, 1);
+rightTriangle2.lineTo(-1, 1);
+rightTriangle2.lineTo(1, -1);
+
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
 });
@@ -67,7 +72,11 @@ test('Edge Lengths', () => {
 });
 
 test('Edge Direction', () => {
-  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, -Math.PI / 4, 0]);
+  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, Math.PI / 4, 0]);
+});
+
+test('Edge Direction', () => {
+  expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([Math.PI, -Math.PI / 4, Math.PI / 2]);
 });
 
 test('Longest side angle', () => {
@@ -101,10 +110,6 @@ test('Vertex Angles', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
 });
 
-const rightTriangle2 = new Shape();
-rightTriangle2.moveTo(1, 1);
-rightTriangle2.lineTo(-1, 1);
-rightTriangle2.lineTo(1, -1);
 test('Vertex Angles counterclockwise', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
 });
