@@ -81,59 +81,83 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
-    var closedWays = [];
-    var openWays = [];
-    var changed = true;
-    while (changed) {
-      changed = false;
-      for (let i = 0; i < ways.length - 1; i++) {
-        if (BuildingShapeUtils.isClosed(ways[i])) {
-          closedWays.push(ways[i]);
-        } else {
-          // These are HTMLCollections of nodes, not ways.
-          const way1 = ways[i].getElementsByTagName('nd');
-          const way2 = ways[i + 1].getElementsByTagName('nd');
+    const closedWays = [];
+    const wayBegins = {};
+    const wayEnds = {};
 
-          // If the first node of way2 is the same as the last in way one, they can be combined
-          // Or if the first node of way1 is the same as the last in way2
-          // Need to extend this to tip-to-tip connections as well.
-          // Need to add a "reverse way" function somewhere.
-          if (way2[0].getAttribute('ref') === way1[way1.length - 1].getAttribute('ref')) {
-            const result = BuildingShapeUtils.joinWays(ways[i], ways[i + 1]);
-            openWays.push(result);
-            i++;
-            changed = true;
-          } else if (way1[0].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
-            const result = BuildingShapeUtils.joinWays(ways[i + 1], ways[i]);
-            openWays.push(result);
-            i++;
-            changed = true;
-          } else if (way1[way1.length - 1].getAttribute('ref') === way2[way2.length - 1].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i + 1]);
-            const result = BuildingShapeUtils.joinWays(ways[i], tempway);
-            openWays.push(result);
-            i++;
-            changed = true;
-          } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i+1]);
-            const result = BuildingShapeUtils.joinWays(tempway, ways[i]);
-            openWays.push(result);
-            i++;
-            changed = true;
-          } else {
-            openWays.push(ways[i]);
-          }
-        }
-      }
-      const lastWay = ways[ways.length - 1];
-      if (BuildingShapeUtils.isClosed(lastWay)) {
-        closedWays.push(lastWay);
+    ways.forEach(w => {
+      const firstNodeID = w.querySelector('nd').getAttribute('ref');
+      if (wayBegins[firstNodeID]) {
+        wayBegins[firstNodeID].push(w);
       } else {
-        openWays.push(lastWay);
+        wayBegins[firstNodeID] = [w];
       }
-      ways = openWays;
-      openWays = [];
+
+      const lastNodeID = w.querySelector('nd:last-of-type').getAttribute('ref');
+      if (wayEnds[lastNodeID]) {
+        wayEnds[lastNodeID].push(w);
+      } else {
+        wayEnds[lastNodeID] = [w];
+      }
+    });
+
+    const usedWays = new Set();
+
+    function tryMakeRing(currentRingWays) {
+      if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
+          currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
+        return currentRingWays;
+      }
+
+      const lastWay = currentRingWays[currentRingWays.length - 1];
+      const lastNodeID = lastWay.querySelector('nd:last-of-type').getAttribute('ref');
+      for (let way of wayBegins[lastNodeID] ?? []) {
+        const wayID = way.getAttribute('id');
+        if (usedWays.has(wayID)) {
+          continue;
+        }
+        usedWays.add(wayID);
+        currentRingWays.push(way);
+        if (tryMakeRing(currentRingWays).length) {
+          return currentRingWays;
+        }
+        currentRingWays.pop();
+        usedWays.delete(wayID);
+      }
+
+      for (let way of wayEnds[lastNodeID] ?? []) {
+        const wayID = way.getAttribute('id');
+        if (usedWays.has(wayID)) {
+          continue;
+        }
+        usedWays.add(wayID);
+        currentRingWays.push(BuildingShapeUtils.reverseWay(way));
+        if (tryMakeRing(currentRingWays).length) {
+          return currentRingWays;
+        }
+        currentRingWays.pop();
+        usedWays.delete(wayID);
+      }
+
+      return [];
     }
+
+    ways.forEach(w => {
+      const wayID = w.getAttribute('id');
+      if (usedWays.has(wayID)){
+        return;
+      }
+      usedWays.add(wayID);
+      const result = tryMakeRing([w]);
+      if (result.length) {
+        let ring = result[0];
+        result.slice(1).forEach(w => {
+          ring = this.joinWays(ring, w);
+        });
+        closedWays.push(ring);
+      }
+    });
+
     return closedWays;
   }
 
