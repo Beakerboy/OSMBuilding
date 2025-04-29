@@ -98,5 +98,5 @@ test('Get Width', () => {
 });
 
 test('Vertex Angles', () => {
-  expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
+  expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
 });
