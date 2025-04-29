@@ -63,7 +63,7 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     const refs = [];
     for (let i = 0; i < nodes.length - 1; i++) {
-      if (refs.inclides(nodes[i].getAttribute('ref')){
+      if (refs.includes(nodes[i].getAttribute('ref'))){
         return true;
       }
       nodes.push(nodes[i].getAttribute('ref'));
