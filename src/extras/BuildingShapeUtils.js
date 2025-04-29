@@ -37,7 +37,7 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Check if a way is a cloased shape.
+   * Check if a way is a closed shape.
    *
    * @param {DOM.Element} way - OSM XML way element.
    *
@@ -62,12 +62,13 @@ class BuildingShapeUtils extends ShapeUtils {
       nodes.pop();
     }
     const refs = [];
-    
-    // foreach (node in way)
-    //   if (the ref value exists in the array)
-    //     return true;
-    //   push ref value to array
-    // return false;
+    for (let i = 0; i < nodes.length - 1; i++) {
+      if (refs.inclides(nodes[i].getAttribute('ref')){
+        return true;
+      }
+      nodes.push(nodes[i].getAttribute('ref'));
+    }
+    return false;
   }
 
   /**
