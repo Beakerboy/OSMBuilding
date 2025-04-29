@@ -13,16 +13,12 @@ import { Shape } from 'three';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
 
-test('Test no combining necessary. one open way', () => {
-  var way = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>';
-  let parser = new window.DOMParser();
-  let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
-  let result = BuildingShapeUtils.combineWays([xml]);
-  expect(result.length).toBe(0);
-});
-
 describe('Combine Ways', () => {
   test.each([
+    [
+      ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>',
+      ], 0, 0, 'Single Open Way',
+    ],
     [
       [
         '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
@@ -63,7 +59,22 @@ describe('Combine Ways', () => {
       [
         '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
         '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
-      ], 0, 0, 'Test combining 2 open ways',
+      ], 0, 0, 'Test combining 2 open ways into one open way',
+    ],
+    [
+      [
+        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+        '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
+        '<way id="3"><nd ref="4"/><nd ref="5"/></way>',
+      ], 0, 0, 'Test combining 3 open ways into 2 open ways',
+    ],
+    [
+      [
+        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+        '<way id="2"><nd ref="2"/><nd ref="4"/></way>',
+        '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
+        '<way id="4"><nd ref="1"/><nd ref="3"/></way>',
+      ], 1, 3, 'Combining 4 open ways into 1 closed & 1 remaining open way',
     ],
   ])('${description}', (ways, length, nodes, description) => {
     let parser = new window.DOMParser();
