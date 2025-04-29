@@ -14,8 +14,8 @@ class MultiBuildingPart extends BuildingPart {
    */
   buildShape() {
     this.type = 'multipolygon';
-    const innerMembers = this.way.querySelectorAll('member[role="inner"]');
-    const outerMembers = this.way.querySelectorAll('member[role="outer"]');
+    const innerMembers = this.way.querySelectorAll('member[role="inner"][type="way"]');
+    const outerMembers = this.way.querySelectorAll('member[role="outer"][type="way"]');
     const innerShapes = [];
     var shapes = [];
     for (let i = 0; i < innerMembers.length; i++) {
@@ -25,7 +25,10 @@ class MultiBuildingPart extends BuildingPart {
     const ways = [];
     for (let j = 0; j < outerMembers.length; j++) {
       const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
-      ways.push(way);
+      if (way === null) {
+        throw `Incompleted way ${outerMembers[j].getAttribute('ref')}`;
+      }
+      ways.push(way.cloneNode(true));
     }
     const closedWays = BuildingShapeUtils.combineWays(ways);
     for (let k = 0; k < closedWays.length; k++) {

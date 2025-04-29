@@ -198,7 +198,11 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
           const id = parts[i].getAttribute('id');
-          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          try {
+            this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          } catch (e) {
+            window.printError(e);
+          }
         }
       }
     }
