@@ -305,13 +305,12 @@ class BuildingShapeUtils extends ShapeUtils {
     p2 = points[1];
 
     angles.push(calcAngle(p0, p1, p2));
-    for (let i = 1; i < points.length - 1; i++) {
+    for (let i = 1; i < points.length; i++) {
       p0 = points[i - 1];
       p1 = points[i];
-      p2 = points[i + 1];
+      p2 = points[(i + 1) % points.length];
       angles.push(calcAngle(p0, p1, p2));
     }
-    angles.push(calcAngle(p0, p1, p2));
     return angles;
   }
 
