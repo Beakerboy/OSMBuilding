@@ -293,9 +293,9 @@ class BuildingShapeUtils extends ShapeUtils {
     function calcAngle(p0, p1, p2) {
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x);
       if (angle >= Math.PI) {
-        angle -= Math.PI;
+        angle -= 2 * Math.PI;
       } else if (angle < -Math.PI) {
-        angle += Math.PI;
+        angle += 2 * Math.PI;
       }
       return angle;
     }
