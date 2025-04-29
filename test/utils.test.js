@@ -113,7 +113,7 @@ describe('Surrounds', () => {
   test.each([
     [[-1, -1], false, 'Outside'],
     [[1, 1], true, 'Inside'],
-  ])('${description}',(point, expected, description) => {
+  ])('${description}', (point, expected, description) => {
     expect(BuildingShapeUtils.surrounds(rightTriangle, point)).toBe(expected);
   });
 });
