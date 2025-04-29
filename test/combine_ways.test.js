@@ -84,12 +84,14 @@ test('Test combining 3 ways 1->2->3', () => {
 
 describe('Combine Ways', () => {
   test.each([
-    [[
-      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-      '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
-      '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
-      '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
-    ], 1, 4, 'Test combining 4 ways',
+    [
+      [
+        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+        '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
+        '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
+        '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
+      ], 1, 4, 'Test combining 4 ways'
+    ],
   ])('${description}', (ways, length, nodes, description) => {
     let parser = new window.DOMParser();
     xml = [];
