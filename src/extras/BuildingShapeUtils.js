@@ -344,11 +344,12 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Count the number of times that a line horizontal from point intersects shape
+   * Is the given point within the given shape?
    *
-   * if an odd number are crossed, it is inside.
-   * todo, test holes
-   * Test edge conditions.
+   * @param {THREE.Shape} shape - the shape
+   * @param {[number, number]} point - an x, y pair.
+   *
+   * @return {boolean}
    */
   static surrounds(shape, point) {
     var count = 0;
