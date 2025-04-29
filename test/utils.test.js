@@ -92,3 +92,11 @@ describe('isSelfIntersecting', () => {
 test('Center', () => {
   expect(BuildingShapeUtils.center(rightTriangle)).toStrictEqual([0, 0]);
 });
+
+test('Get Width', () => {
+  expect(BuildingShapeUtils.getWidth(rightTriangle)).toBe(2);
+});
+
+test('Vertex Angles', () => {
+  expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
+});
