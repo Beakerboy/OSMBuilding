@@ -88,6 +88,12 @@ describe.each([
       '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="2"/><nd ref="5"/><nd ref="1"/></way>',
     ], 0, 0, 'Closed way is self intersecting',
   ],
+  [
+    [
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="3"/><nd ref="1"/></way>',
+    ], 0, 0, 'Open way is self intersecting',
+  ],
 ])('Combine Ways', (ways, length, nodes, description) => {
   test(`${description}`, () => {
     let parser = new window.DOMParser();
