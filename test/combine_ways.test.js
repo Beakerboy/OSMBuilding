@@ -59,6 +59,12 @@ describe('Combine Ways', () => {
         '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
       ], 1, 5, 'Test combining 4 ways',
     ],
+    [
+      [
+        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+        '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
+      ], 0, 0, 'Test combining 2 open ways',
+    ],
   ])('${description}', (ways, length, nodes, description) => {
     let parser = new window.DOMParser();
     const xml = [];
@@ -67,8 +73,10 @@ describe('Combine Ways', () => {
     }
     let result = BuildingShapeUtils.combineWays(xml);
     expect(result.length).toBe(length);
-    expect(BuildingShapeUtils.isClosed(result[0]));
-    expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
-    expect(result[0].getElementsByTagName('nd').length).toBe(nodes);
+    if (length) {
+      expect(BuildingShapeUtils.isClosed(result[0]));
+      expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
+      expect(result[0].getElementsByTagName('nd').length).toBe(nodes);
+    }
   });
 });
