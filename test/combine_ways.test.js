@@ -13,70 +13,70 @@ import { Shape } from 'three';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
 
-describe('Combine Ways', () => {
-  test.each([
+describe.each([
+  [
+    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>',
+    ], 0, 0, 'Single Open Way',
+  ],
+  [
     [
-      ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>',
-      ], 0, 0, 'Single Open Way',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="2"/><nd ref="3"/></way>',
+      '<way id="3"><nd ref="3"/><nd ref="1"/></way>',
+    ], 1, 4, 'Test combining 3 ways 1->2->3',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="2"/><nd ref="3"/></way>',
-        '<way id="3"><nd ref="3"/><nd ref="1"/></way>',
-      ], 1, 4, 'Test combining 3 ways 1->2->3',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="1"/></way>',
+      '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
+    ], 1, 4, 'Test combining 3 ways 2->1->3',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="3"/><nd ref="1"/></way>',
-        '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
-      ], 1, 4, 'Test combining 3 ways 2->1->3',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
+      '<way id="3"><nd ref="3"/><nd ref="1"/></way>',
+    ], 1, 4, 'Test combining tip to tip',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
-        '<way id="3"><nd ref="3"/><nd ref="1"/></way>',
-      ], 1, 4, 'Test combining tip to tip',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="1"/><nd ref="3"/></way>',
+      '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
+    ], 1, 4, 'Test combining tail to tail',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="1"/><nd ref="3"/></way>',
-        '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
-      ], 1, 4, 'Test combining tail to tail',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
+      '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
+      '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
+    ], 1, 5, 'Test combining 4 ways',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
-        '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
-        '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
-      ], 1, 5, 'Test combining 4 ways',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
+    ], 0, 0, 'Test combining 2 open ways into one open way',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
-      ], 0, 0, 'Test combining 2 open ways into one open way',
-    ],
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
+      '<way id="3"><nd ref="4"/><nd ref="5"/></way>',
+    ], 0, 0, 'Test combining 3 open ways into 2 open ways',
+  ],
+  [
     [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="3"/><nd ref="2"/></way>',
-        '<way id="3"><nd ref="4"/><nd ref="5"/></way>',
-      ], 0, 0, 'Test combining 3 open ways into 2 open ways',
-    ],
-    [
-      [
-        '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-        '<way id="2"><nd ref="2"/><nd ref="4"/></way>',
-        '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
-        '<way id="4"><nd ref="1"/><nd ref="3"/></way>',
-      ], 1, 3, 'Combining 4 open ways into 1 closed & 1 remaining open way',
-    ],
-  ])('${description}', (ways, length, nodes, description) => {
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="2"/><nd ref="4"/></way>',
+      '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
+      '<way id="4"><nd ref="1"/><nd ref="3"/></way>',
+    ], 1, 3, 'Combining 4 open ways into 1 closed & 1 remaining open way',
+  ],
+])('Combine Ways', (ways, length, nodes, description) => {
+  test(`${description}`, () => {
     let parser = new window.DOMParser();
     const xml = [];
     for (const way of ways){
