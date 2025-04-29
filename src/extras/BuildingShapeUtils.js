@@ -57,7 +57,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {boolean}
    */
   static isSelfIntersecting(way) {
-    const nodes = way.getElementsByTagName('nd');
+    const nodes = Array.from(way.getElementsByTagName('nd'));
     if (BuildingShapeUtils.isClosed(way)){
       nodes.pop();
     }
