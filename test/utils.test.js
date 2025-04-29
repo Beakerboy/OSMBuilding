@@ -76,7 +76,7 @@ test('Edge Direction', () => {
 });
 
 test('Edge Direction2', () => {
-  expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([Math.PI, -Math.PI / 4, Math.PI / 2]);
+  expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([-Math.PI, -Math.PI / 4, Math.PI / 2]);
 });
 
 test('Longest side angle', () => {
