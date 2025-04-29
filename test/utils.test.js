@@ -114,7 +114,7 @@ describe('Surrounds', () => {
    [[-1, -1], false, "Outside",],
    [[1, 1], true, "Inside",],
    ])('${description}',(point, expected, description) => {
-     expect(BuildingShapeUtils.surrounds(rightTriange, point).toBe(expected);
+     expect(BuildingShapeUtils.surrounds(rightTriangle, point)).toBe(expected);
    });
 });
 
