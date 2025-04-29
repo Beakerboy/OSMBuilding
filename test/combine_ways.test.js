@@ -94,7 +94,7 @@ describe('Combine Ways', () => {
     ],
   ])('${description}', (ways, length, nodes, description) => {
     let parser = new window.DOMParser();
-    xml = [];
+    const xml = [];
     for (const way of ways){
       xml.push(parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0]);
     }
