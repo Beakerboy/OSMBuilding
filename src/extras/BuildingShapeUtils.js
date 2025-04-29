@@ -287,17 +287,20 @@ class BuildingShapeUtils extends ShapeUtils {
     p0 = points[points.length - 1];
     p1 = points[0];
     p2 = points[1];
-    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x)
+    angles.push(angle);
     for (let i = 1; i < points.length - 2; i++) {
       p0 = points[i - 1];
       p1 = points[i];
       p2 = points[i + 1];
-      angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+      angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x)
+      angles.push(angle);
     }
     p0 = points[0];
     p1 = points[points.length - 1];
     p2 = points[points.length - 2];
-    angles.push(Math.atan((p2.y - p1.y) / (p2.x - p1.x)) - Math.atan((p0.y - p1.y) / (p0.x - p1.x)));
+    angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) - Math.atan2(p0.y - p1.y, p0.x - p1.x)
+    angles.push(angle);
     return angles;
   }
 
