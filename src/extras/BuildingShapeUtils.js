@@ -367,7 +367,7 @@ class BuildingShapeUtils extends ShapeUtils {
       const intersection = (point[1] - intercept) / slope;
       if (intersection > point[0]) {
         count++;
-      } else if (intersection == point[0]) {
+      } else if (intersection === point[0]) {
         return true;
       }
     }
