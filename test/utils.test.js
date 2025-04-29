@@ -111,8 +111,9 @@ test('Vertex Angles counterclockwise', () => {
 
 describe.each([
   [[-1, -1], false, 'Outside'],
-  [[1, 1], true, 'Border'],
+  [[1, 1], true, 'Share Node'],
   [[.5, .5], true, 'Inside'],
+  [[0, 0], true, 'Border'],
 ])('Surrounds', (point, expected, description) => {
   test(`${description}`, () => {
     expect(BuildingShapeUtils.surrounds(rightTriangle, point)).toBe(expected);
