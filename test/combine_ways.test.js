@@ -78,9 +78,9 @@ describe.each([
   [
     [
       '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>',
-      '<way id="2"><nd ref="3"/><nd ref="1"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="5"/><nd ref="1"/></way>',
       '<way id="3"><nd ref="3"/><nd ref="4"/><nd ref="1"/></way>',
-    ], 1, 5, 'Dealing with amiguity',
+    ], 1, 5, 'Dealing with amiguity. Only make one closed way',
   ],
 ])('Combine Ways', (ways, length, nodes, description) => {
   test(`${description}`, () => {
