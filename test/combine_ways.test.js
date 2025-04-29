@@ -82,19 +82,26 @@ test('Test combining 3 ways 1->2->3', () => {
   expect(result[0].getElementsByTagName('nd').length).toBe(4);
 });
 
-test('Test combining 4 ways', () => {
+tests = [
+  [[
+    '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+    '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
+    '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
+    '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
+  ], 1, 4],
+];
+test.each()('Test combining 4 ways', (ways, length, nodes) => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/></way>';
   var way3 = '<way id="3"><nd ref="4"/><nd ref="1"/></way>';
   var way4 = '<way id="4"><nd ref="2"/><nd ref="3"/></way>';
   let parser = new window.DOMParser();
-  let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
-  let xml2 = parser.parseFromString(way2, 'text/xml').getElementsByTagName('way')[0];
-  let xml3 = parser.parseFromString(way3, 'text/xml').getElementsByTagName('way')[0];
-  let xml4 = parser.parseFromString(way4, 'text/xml').getElementsByTagName('way')[0];
-  let result = BuildingShapeUtils.combineWays([xml1, xml2, xml3, xml4]);
-  expect(result.length).toBe(1);
+  xml = [];
+  for (const way on ways){
+    xml.push(parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0]);
+  let result = BuildingShapeUtils.combineWays(xml);
+  expect(result.length).toBe(length);
   expect(BuildingShapeUtils.isClosed(result[0]));
   expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
-  expect(result[0].getElementsByTagName('nd').length).toBe(5);
+  expect(result[0].getElementsByTagName('nd').length).toBe(nodes);
 });
