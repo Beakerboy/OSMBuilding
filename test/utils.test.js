@@ -120,4 +120,7 @@ describe.each([
   });
 });
 
-// test calcRadius
+test('Calculate Radius', () => {
+  expect(BuildingShapeUtils.calculateRadius(rightTriangle)).toBe(1);
+});
+
