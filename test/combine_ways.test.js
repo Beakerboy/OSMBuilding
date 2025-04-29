@@ -73,7 +73,7 @@ describe.each([
       '<way id="2"><nd ref="2"/><nd ref="4"/></way>',
       '<way id="3"><nd ref="2"/><nd ref="3"/></way>',
       '<way id="4"><nd ref="1"/><nd ref="3"/></way>',
-    ], 1, 3, 'Combining 4 open ways into 1 closed & 1 remaining open way',
+    ], 1, 4, 'Combining 4 open ways into 1 closed & 1 remaining open way',
   ],
 ])('Combine Ways', (ways, length, nodes, description) => {
   test(`${description}`, () => {
