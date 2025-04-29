@@ -61,12 +61,12 @@ class BuildingShapeUtils extends ShapeUtils {
     if (BuildingShapeUtils.isClosed(way)){
       nodes.pop();
     }
-    const refs = [];
+    const refs = new Set();
     for (let i = 0; i < nodes.length - 1; i++) {
-      if (refs.includes(nodes[i].getAttribute('ref'))){
+      if (refs.has(nodes[i].getAttribute('ref'))){
         return true;
       }
-      refs.push(nodes[i].getAttribute('ref'));
+      refs.add(nodes[i].getAttribute('ref'));
     }
     return false;
   }
