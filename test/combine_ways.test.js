@@ -82,23 +82,24 @@ test('Test combining 3 ways 1->2->3', () => {
   expect(result[0].getElementsByTagName('nd').length).toBe(4);
 });
 
-tests = [
-  [[
-    '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
-    '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
-    '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
-    '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
-  ], 1, 4],
-];
-test.each()('Test combining 4 ways', (ways, length, nodes) => {
-  let parser = new window.DOMParser();
-  xml = [];
-  for (const way of ways){
-    xml.push(parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0]);
-  }
-  let result = BuildingShapeUtils.combineWays(xml);
-  expect(result.length).toBe(length);
-  expect(BuildingShapeUtils.isClosed(result[0]));
-  expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
-  expect(result[0].getElementsByTagName('nd').length).toBe(nodes);
+describe('Combine Ways', () => {
+  test.each([
+    [[
+      '<way id="1"><nd ref="1"/><nd ref="2"/></way>',
+      '<way id="2"><nd ref="3"/><nd ref="4"/></way>',
+      '<way id="3"><nd ref="4"/><nd ref="1"/></way>',
+      '<way id="4"><nd ref="2"/><nd ref="3"/></way>',
+    ], 1, 4, 'Test combining 4 ways',
+  ])('${description}', (ways, length, nodes, description) => {
+    let parser = new window.DOMParser();
+    xml = [];
+    for (const way of ways){
+      xml.push(parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0]);
+    }
+    let result = BuildingShapeUtils.combineWays(xml);
+    expect(result.length).toBe(length);
+    expect(BuildingShapeUtils.isClosed(result[0]));
+    expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
+    expect(result[0].getElementsByTagName('nd').length).toBe(nodes);
+  });
 });
