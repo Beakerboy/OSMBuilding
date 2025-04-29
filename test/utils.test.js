@@ -77,10 +77,10 @@ test('Longest side angle', () => {
 });
 
 describe.each([
-    ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
-    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
-    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>', true, 'open intersecting'],
-    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>', true, 'closed intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>', true, 'open intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>', true, 'closed intersecting'],
 ])('isSelfIntersecting', (way, expected, description) => {
   test(`${description}`, () => {
     let parser = new window.DOMParser();
