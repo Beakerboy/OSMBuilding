@@ -66,7 +66,7 @@ class BuildingShapeUtils extends ShapeUtils {
       if (refs.includes(nodes[i].getAttribute('ref'))){
         return true;
       }
-      nodes.push(nodes[i].getAttribute('ref'));
+      refs.push(nodes[i].getAttribute('ref'));
     }
     return false;
   }
