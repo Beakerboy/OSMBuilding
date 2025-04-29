@@ -109,12 +109,12 @@ test('Vertex Angles counterclockwise', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
 });
 
-describe('Surrounds', () => {
-  test.each([
-    [[-1, -1], false, 'Outside'],
-    [[1, 1], true, 'Border'],
-    [[.5, .5], true, 'Inside'],
-  ])(`${description}`, (point, expected, description) => {
+describe.each([
+  [[-1, -1], false, 'Outside'],
+  [[1, 1], true, 'Border'],
+  [[.5, .5], true, 'Inside'],
+])('Surrounds', (point, expected, description) => {
+  test(`${description}`, () => {
     expect(BuildingShapeUtils.surrounds(rightTriangle, point)).toBe(expected);
   });
 });
