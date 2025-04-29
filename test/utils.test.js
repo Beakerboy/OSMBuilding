@@ -88,3 +88,7 @@ describe('isSelfIntersecting', () => {
     expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(expected);
   });
 });
+
+test('Center', () => {
+  expect(BuildingShapeUtils.center(rightTriangle)).toStrictEqual([0, 0]);
+});
