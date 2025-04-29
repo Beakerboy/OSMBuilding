@@ -102,9 +102,9 @@ test('Vertex Angles', () => {
 });
 
 const rightTriangle2 = new Shape();
-rightTriangle.moveTo(1, 1);
-rightTriangle.lineTo(-1, 1);
-rightTriangle.lineTo(1, -1);
+rightTriangle2.moveTo(1, 1);
+rightTriangle2.lineTo(-1, 1);
+rightTriangle2.lineTo(1, -1);
 test('Vertex Angles counterclockwise', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
 });
