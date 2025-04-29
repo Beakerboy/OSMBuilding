@@ -108,6 +108,14 @@ rightTriangle2.lineTo(1, -1);
 test('Vertex Angles counterclockwise', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
 });
-// test surrounds
+
+describe('Surrounds', () => {
+ test.each([
+   [[-1, -1], false, "Outside",],
+   [[1, 1], true, "Inside",],
+   ])('${description}',(point, expected, description) => {
+     expect(BuildingShapeUtils.surrounds(rightTriange, point).toBe(expected);
+   });
+});
 
 // test calcRadius
