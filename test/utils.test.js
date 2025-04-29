@@ -72,10 +72,10 @@ test('Edge Lengths', () => {
 });
 
 test('Edge Direction', () => {
-  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, Math.PI / 4, 0]);
+  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, 3 * Math.PI / 4, 0]);
 });
 
-test('Edge Direction', () => {
+test('Edge Direction2', () => {
   expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([Math.PI, -Math.PI / 4, Math.PI / 2]);
 });
 
