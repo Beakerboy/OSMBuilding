@@ -91,14 +91,11 @@ tests = [
   ], 1, 4],
 ];
 test.each()('Test combining 4 ways', (ways, length, nodes) => {
-  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/></way>';
-  var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/></way>';
-  var way3 = '<way id="3"><nd ref="4"/><nd ref="1"/></way>';
-  var way4 = '<way id="4"><nd ref="2"/><nd ref="3"/></way>';
   let parser = new window.DOMParser();
   xml = [];
   for (const way of ways){
     xml.push(parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0]);
+  }
   let result = BuildingShapeUtils.combineWays(xml);
   expect(result.length).toBe(length);
   expect(BuildingShapeUtils.isClosed(result[0]));
