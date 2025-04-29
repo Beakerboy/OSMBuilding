@@ -75,3 +75,16 @@ test('Longest side angle', () => {
   expect(rightTriangle.extractPoints().shape.length).toBe(3);
   expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(-Math.PI / 4);
 });
+
+describe('isSelfIntersecting', () => {
+  test.each([
+    ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
+    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
+    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>', true, 'open intersecting'],
+    ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>', true, 'closed intersecting'],
+  ])('${description}', (way, expected, description) => {
+    let parser = new window.DOMParser();
+    let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+    expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(expected);
+  });
+});

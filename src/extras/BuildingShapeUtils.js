@@ -37,7 +37,7 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Check if a way is a cloased shape.
+   * Check if a way is a closed shape.
    *
    * @param {DOM.Element} way - OSM XML way element.
    *
@@ -47,6 +47,29 @@ class BuildingShapeUtils extends ShapeUtils {
     // Get all the nodes in the way of interest
     const elements = way.getElementsByTagName('nd');
     return elements[0].getAttribute('ref') === elements[elements.length - 1].getAttribute('ref');
+  }
+
+  /**
+   * Check if a way is self-intersecting.
+   *
+   * @param {DOM.Element} way - OSM XML way element.
+   *
+   * @return {boolean}
+   */
+  static isSelfIntersecting(way) {
+    const nodes = Array.from(way.getElementsByTagName('nd'));
+    if (BuildingShapeUtils.isClosed(way)){
+      nodes.pop();
+    }
+    const refs = new Set();
+    for (const node of nodes) {
+      const ref = node.getAttribute('ref');
+      if (refs.has(ref)){
+        return true;
+      }
+      refs.add(ref);
+    }
+    return false;
   }
 
   /**
@@ -92,8 +115,8 @@ class BuildingShapeUtils extends ShapeUtils {
             i++;
             changed = true;
           } else if (way1[0].getAttribute('ref') === way2[0].getAttribute('ref')) {
-            const tempway = BuildingShapeUtils.reverseWay(ways[i]);
-            const result = BuildingShapeUtils.joinWays(tempway, ways[i + 1]);
+            const tempway = BuildingShapeUtils.reverseWay(ways[i+1]);
+            const result = BuildingShapeUtils.joinWays(tempway, ways[i]);
             openWays.push(result);
             i++;
             changed = true;
