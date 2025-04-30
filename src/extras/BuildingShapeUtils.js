@@ -178,7 +178,7 @@ class BuildingShapeUtils extends ShapeUtils {
       usedWays.add(wayID);
       const result = tryMakeRing([w]);
       if (result.length) {
-        ring = this.joinAllWays(result)
+        const ring = this.joinAllWays(result);
         closedWays.push(ring);
       }
     });
