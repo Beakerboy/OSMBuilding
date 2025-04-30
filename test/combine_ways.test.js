@@ -107,9 +107,6 @@ describe.each([
     }
     let result = BuildingShapeUtils.combineWays(xml);
     expect(result.length).toBe(length);
-    if (errorMsgs.length) {
-      expect(errorMsgs[0]).toBe('');
-    }
     expect(errorMsgs.length).toBe(errors.length);
     if (errors.length) {
       // Check that message text matches.
