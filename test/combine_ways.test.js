@@ -109,7 +109,9 @@ describe.each([
     expect(result.length).toBe(length);
     expect(errorMsgs.length).toBe(errors.length);
     if (errors.length) {
-      // Check that message text matches.
+      for (const error of errors) {
+          expect(errorMsgs.shift()).toBe(error);
+      }
     }
     if (length) {
       expect(BuildingShapeUtils.isClosed(result[0]));
