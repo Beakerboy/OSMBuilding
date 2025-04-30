@@ -103,6 +103,7 @@ describe.each([
     }
     let result = BuildingShapeUtils.combineWays(xml);
     expect(result.length).toBe(length);
+    expect(errorMsgs.length).toBe(errors.length);
     if (length) {
       expect(BuildingShapeUtils.isClosed(result[0]));
       expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
@@ -113,8 +114,8 @@ describe.each([
 
 window.printError = printError;
 
-var errors = [];
+var errorMsgs = [];
 
 function printError(txt) {
-  errors.push[txt];
+  errorMsgs.push[txt];
 }
