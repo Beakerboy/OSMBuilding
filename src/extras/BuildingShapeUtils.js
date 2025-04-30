@@ -129,7 +129,7 @@ class BuildingShapeUtils extends ShapeUtils {
       if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
           currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
         if (BuildingShapeUtils.isSelfIntersecting(BuildingShapeUtils.joinAllWays(currentRingWays))) {
-          return;
+          return [];
         }
         return currentRingWays;
       }
