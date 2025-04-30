@@ -76,20 +76,21 @@ class BuildingShapeUtils extends ShapeUtils {
    * Walk through an array and seperate any closed ways.
    * Attempt to find matching open ways to enclose them.
    *
-   * @param {[DOM.Element]} array - list of OSM XML way elements.
+   * @param {[DOM.Element]} ways - array of OSM XML way elements.
    *
    * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
     const validWays = [];
 
+    // Check if the provided array contains any self-intersecting ways.
+    // Remove them and notify the user.
     for (const way of ways) {
       if (BuildingShapeUtils.isSelfIntersecting(way)) {
         const id = way.getAttribute('id');
         const msg = 'Way ' + id + ' is self-intersecting';
         window.printError(msg);
       } else {
-        const i = 3 + 'q';
         validWays.push(way);
       }
     }
@@ -98,6 +99,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const wayBegins = {};
     const wayEnds = {};
 
+    // Create lists of the first and last nodes in each way.
     validWays.forEach(w => {
       const firstNodeID = w.querySelector('nd').getAttribute('ref');
       if (wayBegins[firstNodeID]) {
@@ -116,14 +118,26 @@ class BuildingShapeUtils extends ShapeUtils {
 
     const usedWays = new Set();
 
+    /**
+     * Use recursion to attempt to build a ring from ways.
+     *
+     * @param {[DOM.Element]} currentRingWays - array of OSM XML way elements.
+     */
     function tryMakeRing(currentRingWays) {
+
+      // Check if the array contains ways which will together form a ring. Return the array if it does.
       if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
           currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
+        if (BuildingShapeUtils.isSelfIntersecting(BuildingShapeUtils.joinAllWays(currentRingWays))) {
+          return [];
+        }
         return currentRingWays;
       }
 
       const lastWay = currentRingWays[currentRingWays.length - 1];
       const lastNodeID = lastWay.querySelector('nd:last-of-type').getAttribute('ref');
+
+      // Check if any of the unused ways can complete a ring as the are.
       for (let way of wayBegins[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
         if (usedWays.has(wayID)) {
@@ -138,6 +152,7 @@ class BuildingShapeUtils extends ShapeUtils {
         usedWays.delete(wayID);
       }
 
+      // Check if any of the unused ways can complete a ring if reversed.
       for (let way of wayEnds[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
         if (usedWays.has(wayID)) {
@@ -163,14 +178,15 @@ class BuildingShapeUtils extends ShapeUtils {
       usedWays.add(wayID);
       const result = tryMakeRing([w]);
       if (result.length) {
-        let ring = result[0];
-        result.slice(1).forEach(w => {
-          ring = this.joinWays(ring, w);
-        });
+        const ring = this.joinAllWays(result);
         closedWays.push(ring);
       }
     });
 
+    // Notify the user if there are unused ways.
+    // if (validWays.length !== usedWays.length) {
+    //   window.printError('Unused ways in relation')
+    // }
     return closedWays;
   }
 
@@ -184,11 +200,28 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static joinWays(way1, way2) {
     const elements = way2.getElementsByTagName('nd');
+    const newWay = way1.cloneNode(true);
     for (let i = 1; i < elements.length; i++) {
       let elem = elements[i].cloneNode();
-      way1.appendChild(elem);
+      newWay.appendChild(elem);
     }
-    return way1;
+    return newWay;
+  }
+
+  /**
+   * Append the nodes from one way into another.
+   *
+   * @param {DOM.Element} way1 - an open, non self-intersecring way
+   * @param {DOM.Element} way2
+   *
+   * @return {DOM.Element} way
+   */
+  static joinAllWays(ways) {
+    let way = ways[0];
+    ways.slice(1).forEach(w => {
+      way = this.joinWays(way, w);
+    });
+    return way;
   }
 
   /**
