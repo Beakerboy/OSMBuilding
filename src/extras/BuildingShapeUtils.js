@@ -81,7 +81,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
-    cnst validWays = [];
+    const validWays = [];
 
     for (const way of ways) {
       if (BuildingShapeUtils.isSelfIntersecting(w)) {
