@@ -13,6 +13,10 @@ import { Shape } from 'three';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
 
+beforeEach(() => {
+  errorMsgs = [];
+});
+
 describe.each([
   [
     ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/></way>',
