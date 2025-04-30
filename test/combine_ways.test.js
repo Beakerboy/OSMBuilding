@@ -110,3 +110,11 @@ describe.each([
     }
   });
 });
+
+window.printError = printError;
+
+var errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
