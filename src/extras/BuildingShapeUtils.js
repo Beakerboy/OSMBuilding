@@ -119,7 +119,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const usedWays = new Set();
 
     /**
-     * 
+     * Use recursion to attempt to build a ring from ways.
      *
      * @param {[DOM.Element]} currentRingWays - array of OSM XML way elements.
      */
@@ -133,6 +133,8 @@ class BuildingShapeUtils extends ShapeUtils {
 
       const lastWay = currentRingWays[currentRingWays.length - 1];
       const lastNodeID = lastWay.querySelector('nd:last-of-type').getAttribute('ref');
+
+      // Check if any of the unused ways can complete a ring as the are.
       for (let way of wayBegins[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
         // Add to check if wayID intersects with any of the other ways
@@ -150,6 +152,7 @@ class BuildingShapeUtils extends ShapeUtils {
         usedWays.delete(wayID);
       }
 
+      // Check if any of the unused ways can complete a ring if reversed.
       for (let way of wayEnds[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
         if (usedWays.has(wayID)) {
@@ -167,7 +170,6 @@ class BuildingShapeUtils extends ShapeUtils {
       return [];
     }
 
-    
     validWays.forEach(w => {
       const wayID = w.getAttribute('id');
       if (usedWays.has(wayID)){
@@ -184,6 +186,10 @@ class BuildingShapeUtils extends ShapeUtils {
       }
     });
 
+    // Notify the user if there are unused ways.
+    // if (validWays.length !== usedWays.length) {
+    //   window.printError('Unused ways in relation')
+    // }
     return closedWays;
   }
 
