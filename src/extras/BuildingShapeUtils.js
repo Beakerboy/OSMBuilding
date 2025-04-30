@@ -85,7 +85,7 @@ class BuildingShapeUtils extends ShapeUtils {
 
     for (const way of ways) {
       if (BuildingShapeUtils.isSelfIntersecting(way)) {
-        const id = way.getAttribute();
+        const id = way.getAttribute('id');
         const msg = 'Way ' + id + ' is self-intersecting';
         window.printError(msg);
       } else {
