@@ -178,10 +178,7 @@ class BuildingShapeUtils extends ShapeUtils {
       usedWays.add(wayID);
       const result = tryMakeRing([w]);
       if (result.length) {
-        let ring = result[0];
-        result.slice(1).forEach(w => {
-          ring = this.joinWays(ring, w);
-        });
+        ring = this.joinAllWays(result)
         closedWays.push(ring);
       }
     });
@@ -203,11 +200,28 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static joinWays(way1, way2) {
     const elements = way2.getElementsByTagName('nd');
+    const newWay = way1.cloneNode(true);
     for (let i = 1; i < elements.length; i++) {
       let elem = elements[i].cloneNode();
-      way1.appendChild(elem);
+      newWay.appendChild(elem);
     }
-    return way1;
+    return newWay;
+  }
+
+  /**
+   * Append the nodes from one way into another.
+   *
+   * @param {DOM.Element} way1 - an open, non self-intersecring way
+   * @param {DOM.Element} way2
+   *
+   * @return {DOM.Element} way
+   */
+  static joinAllWays(ways) {
+    let way = ways[0];
+    ways.slice(1).forEach(w => {
+      way = this.joinWays(way, w);
+    });
+    return way;
   }
 
   /**
