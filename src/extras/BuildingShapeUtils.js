@@ -81,11 +81,24 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
+    const validWays = [];
+
+    for (const way of ways) {
+      if (BuildingShapeUtils.isSelfIntersecting(way)) {
+        const id = way.getAttribute('id');
+        const msg = 'Way ' + id + ' is self-intersecting';
+        window.printError(msg);
+      } else {
+        const i = 3 + 'q';
+        validWays.push(way);
+      }
+    }
+
     const closedWays = [];
     const wayBegins = {};
     const wayEnds = {};
 
-    ways.forEach(w => {
+    validWays.forEach(w => {
       const firstNodeID = w.querySelector('nd').getAttribute('ref');
       if (wayBegins[firstNodeID]) {
         wayBegins[firstNodeID].push(w);
@@ -142,7 +155,7 @@ class BuildingShapeUtils extends ShapeUtils {
       return [];
     }
 
-    ways.forEach(w => {
+    validWays.forEach(w => {
       const wayID = w.getAttribute('id');
       if (usedWays.has(wayID)){
         return;
