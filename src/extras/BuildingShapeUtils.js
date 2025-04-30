@@ -128,6 +128,9 @@ class BuildingShapeUtils extends ShapeUtils {
       // Check if the array contains ways which will together form a ring. Return the array if it does.
       if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
           currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
+        if (this.isSelfIntersecting(this.joinAllWays(currentRingWays))) {
+          return;
+        }
         return currentRingWays;
       }
 
@@ -137,9 +140,6 @@ class BuildingShapeUtils extends ShapeUtils {
       // Check if any of the unused ways can complete a ring as the are.
       for (let way of wayBegins[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
-        // Add to check if wayID intersects with any of the other ways
-        // if (usedWays.has(wayID) ||
-        //      isSelfIntersecting(self.join(currentRingWays, way))) {
         if (usedWays.has(wayID)) {
           continue;
         }
