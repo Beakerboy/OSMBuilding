@@ -128,7 +128,7 @@ class BuildingShapeUtils extends ShapeUtils {
       // Check if the array contains ways which will together form a ring. Return the array if it does.
       if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
           currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
-        if (this.isSelfIntersecting(this.joinAllWays(currentRingWays))) {
+        if (BuildingShapeUtils.isSelfIntersecting(BuildingShapeUtils.joinAllWays(currentRingWays))) {
           return;
         }
         return currentRingWays;
