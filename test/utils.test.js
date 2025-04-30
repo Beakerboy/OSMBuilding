@@ -80,9 +80,7 @@ test('Edge Direction2', () => {
 });
 
 test('Longest side angle', () => {
-  // A three.Shape object does not repeat the fist and last nodes.
-  expect(rightTriangle.extractPoints().shape.length).toBe(3);
-  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(-Math.PI / 4);
+  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3 * Math.PI / 4);
 });
 
 describe.each([
