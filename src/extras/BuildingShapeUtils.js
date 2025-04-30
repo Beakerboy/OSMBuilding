@@ -409,14 +409,12 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Calculate the angle of the longest side of a shape with 90° vertices.
-   * is begining / end duplicated?
+   * Return the angle of the longest side of a shape with 90° vertices.
    *
    * @param {THREE.Shape} shape - the shape
    * @return {number}
    */
   static longestSideAngle(shape) {
-    const vecs = shape.extractPoints().shape;
     const lengths = BuildingShapeUtils.edgeLength(shape);
     const directions = BuildingShapeUtils.edgeDirection(shape);
     var index;
