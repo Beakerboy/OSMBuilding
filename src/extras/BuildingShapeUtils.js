@@ -76,20 +76,21 @@ class BuildingShapeUtils extends ShapeUtils {
    * Walk through an array and seperate any closed ways.
    * Attempt to find matching open ways to enclose them.
    *
-   * @param {[DOM.Element]} array - list of OSM XML way elements.
+   * @param {[DOM.Element]} ways - array of OSM XML way elements.
    *
    * @return {[DOM.Element]} array of closed ways.
    */
   static combineWays(ways) {
     const validWays = [];
 
+    // Check if the provided array contains any self-intersecting ways.
+    // Remove them and notify the user.
     for (const way of ways) {
       if (BuildingShapeUtils.isSelfIntersecting(way)) {
         const id = way.getAttribute('id');
         const msg = 'Way ' + id + ' is self-intersecting';
         window.printError(msg);
       } else {
-        const i = 3 + 'q';
         validWays.push(way);
       }
     }
@@ -98,6 +99,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const wayBegins = {};
     const wayEnds = {};
 
+    // Create lists of the first and last nodes in each way.
     validWays.forEach(w => {
       const firstNodeID = w.querySelector('nd').getAttribute('ref');
       if (wayBegins[firstNodeID]) {
@@ -116,7 +118,14 @@ class BuildingShapeUtils extends ShapeUtils {
 
     const usedWays = new Set();
 
+    /**
+     * 
+     *
+     * @param {[DOM.Element]} currentRingWays - array of OSM XML way elements.
+     */
     function tryMakeRing(currentRingWays) {
+
+      // Check if the array contains ways which will together form a ring. Return the array if it does.
       if (currentRingWays[0].querySelector('nd').getAttribute('ref') ===
           currentRingWays[currentRingWays.length - 1].querySelector('nd:last-of-type').getAttribute('ref')) {
         return currentRingWays;
@@ -126,6 +135,9 @@ class BuildingShapeUtils extends ShapeUtils {
       const lastNodeID = lastWay.querySelector('nd:last-of-type').getAttribute('ref');
       for (let way of wayBegins[lastNodeID] ?? []) {
         const wayID = way.getAttribute('id');
+        // Add to check if wayID intersects with any of the other ways
+        // if (usedWays.has(wayID) ||
+        //      isSelfIntersecting(self.join(currentRingWays, way))) {
         if (usedWays.has(wayID)) {
           continue;
         }
@@ -155,6 +167,7 @@ class BuildingShapeUtils extends ShapeUtils {
       return [];
     }
 
+    
     validWays.forEach(w => {
       const wayID = w.getAttribute('id');
       if (usedWays.has(wayID)){
