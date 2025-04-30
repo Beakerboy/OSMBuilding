@@ -90,6 +90,7 @@ class BuildingShapeUtils extends ShapeUtils {
         const i = 3 + 'q';
         window.printError(msg);
       } else {
+        const i = 3 + 'q';
         validWays.push(way);
       }
     }
