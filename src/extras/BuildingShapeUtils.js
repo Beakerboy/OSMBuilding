@@ -84,10 +84,10 @@ class BuildingShapeUtils extends ShapeUtils {
     const validWays = [];
 
     for (const way of ways) {
-      if (BuildingShapeUtils.isSelfIntersecting(w)) {
+      if (BuildingShapeUtils.isSelfIntersecting(way)) {
         const id = w.getAttribute();
         const msg = 'Way ' + id + ' is self-intersecting';
-        window.printError(msg)
+        window.printError(msg);
       } else {
         validWays.push(way);
       }
@@ -154,7 +154,7 @@ class BuildingShapeUtils extends ShapeUtils {
       return [];
     }
 
-    valisWays.forEach(w => {
+    validWays.forEach(w => {
       const wayID = w.getAttribute('id');
       if (usedWays.has(wayID)){
         return;
