@@ -124,5 +124,5 @@ window.printError = printError;
 var errorMsgs = [];
 
 function printError(txt) {
-  errorMsgs.push[txt];
+  errorMsgs.push(txt);
 }
