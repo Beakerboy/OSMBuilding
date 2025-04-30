@@ -104,6 +104,9 @@ describe.each([
     let result = BuildingShapeUtils.combineWays(xml);
     expect(result.length).toBe(length);
     expect(errorMsgs.length).toBe(errors.length);
+    if (errors.length) {
+      // Check that message text matches.
+    }
     if (length) {
       expect(BuildingShapeUtils.isClosed(result[0]));
       expect(BuildingShapeUtils.isSelfIntersecting(result[0])).toBe(false);
