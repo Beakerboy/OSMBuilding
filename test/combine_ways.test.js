@@ -110,7 +110,7 @@ describe.each([
     expect(errorMsgs.length).toBe(errors.length);
     if (errors.length) {
       for (const error of errors) {
-          expect(errorMsgs.shift()).toBe(error);
+        expect(errorMsgs.shift()).toBe(error);
       }
     }
     if (length) {
