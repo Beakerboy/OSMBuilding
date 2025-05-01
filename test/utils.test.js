@@ -118,11 +118,6 @@ test('Extents Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
 });
 
-/** Test primaryDirection */
-// test('', () => {
-//
-// });
-
 /** Test edgeLength */
 test('Edge Lengths', () => {
   expect(BuildingShapeUtils.edgeLength(rightTriangle)).toBeDeepCloseTo([2, Math.sqrt(2) * 2, 2]);
