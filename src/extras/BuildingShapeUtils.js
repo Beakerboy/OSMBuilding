@@ -333,12 +333,9 @@ class BuildingShapeUtils extends ShapeUtils {
     var p2;
     for (let i = 0; i < points.length - 1; i++) {
       p1 = points[i];
-      p2 = points[i + 1];
+      p2 = points[(i + 1) % points.length];
       lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     }
-    p1 = points[points.length - 1];
-    p2 = points[0];
-    lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     return lengths;
   }
 
