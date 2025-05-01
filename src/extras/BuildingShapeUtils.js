@@ -315,14 +315,6 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * Assuming the shape is all right angles,
-   * Find the orientation of the longest edge.
-   */
-  static primaryDirection(shape) {
-    const points = shape.extractPoints().shape;
-  }
-
-  /**
    * Calculate the length of each of a shape's edge
    *
    * @param {THREE.Shape} shape - the shape
