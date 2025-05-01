@@ -297,17 +297,16 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @return {[number, number, number, number]} the extents of the object.
    */
-  static extents(shape, angle = 0) {
-    if (!Array.isArray(shape)) {
-      shape = [shape];
+  static extents(shapes, angle = 0) {
+    if (!Array.isArray(shapes)) {
+      shapes = [shapes];
     }
     var x = [];
     var y = [];
     var vec;
-    for (let i = 0; i < shape.length; i++) {
-      const points = shape[i].extractPoints().shape;
-      for (let i = 0; i < points.length; i++) {
-        vec = points[i];
+    for (const shape of shapes) {
+      const points = shape.extractPoints().shape;
+      for (const vec of points) {
         x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
         y.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
       }
@@ -331,7 +330,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const lengths = [];
     var p1;
     var p2;
-    for (let i = 0; i < points.length; i++) {
+    for (const i in points) {
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
@@ -364,7 +363,7 @@ class BuildingShapeUtils extends ShapeUtils {
       return angle;
     }
 
-    for (let i = 0; i < points.length; i++) {
+    for (const i in points) {
       p0 = points[i - 1 < 0 ? points.length - 1 : i - 1];
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
