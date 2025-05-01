@@ -128,12 +128,13 @@ test('Vertex Angles counterclockwise', () => {
 
 /** Test edgeDirection */
 
-test('Edge Direction', () => {
-  expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, 3 * Math.PI / 4, 0]);
-});
-
-test('Edge Direction2', () => {
-  expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([-Math.PI, -Math.PI / 4, Math.PI / 2]);
+describe.each([
+  [rightTriangle, [-Math.PI / 2, 3 * Math.PI / 4, 0], 'CW'],
+  [rightTriangle2, [-Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
+])('Edge Direction', (shape, expected, description) =>{
+  test(`${description}`, () => {
+    expect(BuildingShapeUtils.edgeDirection(shape)).toBeDeepCloseTo(expected);
+  });
 });
 
 /** Test surrounds */
