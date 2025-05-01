@@ -331,7 +331,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const lengths = [];
     var p1;
     var p2;
-    for (let i = 0; i < points.length - 1; i++) {
+    for (let i = 0; i < points.length; i++) {
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
@@ -364,13 +364,8 @@ class BuildingShapeUtils extends ShapeUtils {
       return angle;
     }
 
-    p0 = points[points.length - 1];
-    p1 = points[0];
-    p2 = points[1];
-
-    angles.push(calcAngle(p0, p1, p2));
     for (let i = 1; i < points.length; i++) {
-      p0 = points[i - 1];
+      p0 = points[i - 1 < 0 ? points.length - 1 : i - 1];
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       angles.push(calcAngle(p0, p1, p2));
