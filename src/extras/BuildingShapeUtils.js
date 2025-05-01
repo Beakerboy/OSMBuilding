@@ -268,10 +268,15 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * can points be an array of shapes?
+   * Extract point data from a shape.
+   * Combine all the x values into one array and
+   * y values into another
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number], [number]} array of xs and ys.
    */
   static combineCoordinates(shape) {
-    //console.log('Shape: ' + JSON.stringify(shape));
     const points = shape.extractPoints().shape;
     var x = [];
     var y = [];
