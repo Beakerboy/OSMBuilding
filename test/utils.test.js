@@ -94,8 +94,8 @@ test('Get Width', () => {
 
 /** Test combineCoordinates */
 test('Combine Coordinates', () => {
-  expect(BuildingShapeUtils.combineCoordinates(rightTriangle)).toStrictEqual([[1, 1],[1, -1],[-1, 1]]);
-})
+  expect(BuildingShapeUtils.combineCoordinates(rightTriangle)).toStrictEqual([[1, 1], [1, -1], [-1, 1]]);
+});
 
 /** Test extents */
 const rightTriangle = new Shape();
