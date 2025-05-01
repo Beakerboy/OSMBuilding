@@ -14,7 +14,9 @@ import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 // import { JSDOM } from 'jsdom';
 
 
-// Test createShape
+/** Test createShape */
+
+/** Test isClosed */
 
 test('Test Closed Way', () => {
   var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="2"/></way>';
@@ -23,21 +25,29 @@ test('Test Closed Way', () => {
   expect(BuildingShapeUtils.isClosed(xmlData)).toBe(true);
 });
 
-test('Reverse way', () => {
-  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
-  var way2 = '<way id="1"><nd ref="3"/><nd ref="2"/><nd ref="1"/></way>';
-  let parser = new window.DOMParser();
-  let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
-  let result = BuildingShapeUtils.reverseWay(xml1);
-  expect(result.outerHTML).toBe(way2);
-});
-
 test('Test Open Way', () => {
   var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="6"/></way>';
   let parser = new window.DOMParser();
   let xmlData = parser.parseFromString(way, 'text/xml');
   expect(BuildingShapeUtils.isClosed(xmlData)).toBe(false);
 });
+
+/** Test isSelfIntersecting */
+
+describe.each([
+  ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>', true, 'open intersecting'],
+  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>', true, 'closed intersecting'],
+])('isSelfIntersecting', (way, expected, description) => {
+  test(`${description}`, () => {
+    let parser = new window.DOMParser();
+    let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
+    expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(expected);
+  });
+});
+
+/** Test joinWays */
 
 test('Test joining 2 ways', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
@@ -49,6 +59,35 @@ test('Test joining 2 ways', () => {
   let result = BuildingShapeUtils.joinWays(xml1, xml2);
   expect(result.outerHTML).toBe(way3);
 });
+
+/** Test joinAllWays */
+
+/** Test reverseWay */
+
+test('Reverse way', () => {
+  var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
+  var way2 = '<way id="1"><nd ref="3"/><nd ref="2"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xml1 = parser.parseFromString(way1, 'text/xml').getElementsByTagName('way')[0];
+  let result = BuildingShapeUtils.reverseWay(xml1);
+  expect(result.outerHTML).toBe(way2);
+});
+
+/** Test center */
+
+test('Center', () => {
+  expect(BuildingShapeUtils.center(rightTriangle)).toStrictEqual([0, 0]);
+});
+
+/** Test getWidth */
+
+test('Get Width', () => {
+  expect(BuildingShapeUtils.getWidth(rightTriangle)).toBe(2);
+});
+
+/** Test combineCoordinates */
+
+/** Test extents */
 
 const rightTriangle = new Shape();
 rightTriangle.moveTo(1, 1);
@@ -70,9 +109,24 @@ test('Extents Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle, angle)).toBeDeepCloseTo([-sqrt2, 0, sqrt2, sqrt2], 10);
 });
 
+/** Test primaryDirection */
+
+/** Test edgeLength */
 test('Edge Lengths', () => {
   expect(BuildingShapeUtils.edgeLength(rightTriangle)).toBeDeepCloseTo([2, Math.sqrt(2) * 2, 2]);
 });
+
+/** Test vertexAngle */
+
+test('Vertex Angles', () => {
+  expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
+});
+
+test('Vertex Angles counterclockwise', () => {
+  expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
+});
+
+/** Test edgeDirection */
 
 test('Edge Direction', () => {
   expect(BuildingShapeUtils.edgeDirection(rightTriangle)).toBeDeepCloseTo([-Math.PI / 2, 3 * Math.PI / 4, 0]);
@@ -82,37 +136,10 @@ test('Edge Direction2', () => {
   expect(BuildingShapeUtils.edgeDirection(rightTriangle2)).toBeDeepCloseTo([-Math.PI, -Math.PI / 4, Math.PI / 2]);
 });
 
+/** Test surrounds */
+
 test('Longest side angle', () => {
   expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3 * Math.PI / 4);
-});
-
-describe.each([
-  ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
-  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
-  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="2"/></way>', true, 'open intersecting'],
-  ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="3"/><nd ref="1"/></way>', true, 'closed intersecting'],
-])('isSelfIntersecting', (way, expected, description) => {
-  test(`${description}`, () => {
-    let parser = new window.DOMParser();
-    let xml = parser.parseFromString(way, 'text/xml').getElementsByTagName('way')[0];
-    expect(BuildingShapeUtils.isSelfIntersecting(xml)).toBe(expected);
-  });
-});
-
-test('Center', () => {
-  expect(BuildingShapeUtils.center(rightTriangle)).toStrictEqual([0, 0]);
-});
-
-test('Get Width', () => {
-  expect(BuildingShapeUtils.getWidth(rightTriangle)).toBe(2);
-});
-
-test('Vertex Angles', () => {
-  expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
-});
-
-test('Vertex Angles counterclockwise', () => {
-  expect(BuildingShapeUtils.vertexAngle(rightTriangle2)).toStrictEqual([-Math.PI / 2, -Math.PI / 4, -Math.PI / 4]);
 });
 
 describe.each([
