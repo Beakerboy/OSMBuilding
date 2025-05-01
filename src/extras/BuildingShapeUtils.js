@@ -23,11 +23,13 @@ class BuildingShapeUtils extends ShapeUtils {
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
+    let first = true;
+    for (const element of elements) {
+      ref = element.getAttribute('ref');
       node = nodelist[ref];
-      // The first node requires a differnet function call.
-      if (i === 0) {
+      // Th node requires a differnet function call.
+      if (first) {
+        first = false;
         shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));
       } else {
         shape.lineTo(parseFloat(node[0]), parseFloat(node[1]));
