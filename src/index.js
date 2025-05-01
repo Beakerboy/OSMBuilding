@@ -148,6 +148,8 @@ function createFolders(folder, options) {
         roofFolder.add(options.roof, property, roofOrientationsAvailable);
       } else if (property === 'visible') {
         roofFolder.add(options.roof, property).onChange(roofFunc);
+      } else if (property === 'direction') {
+        roofFolder.add(options.roof, property, 0, 180 ).step(.5).onChange(roofGeo);
       } else {
         roofFolder.add(options.roof, property, 0, 100 ).step(.1);
         // .onChange();
