@@ -15,9 +15,11 @@ import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 
 
 /** Test createShape */
+// test('', () => {
+//
+// });
 
 /** Test isClosed */
-
 test('Test Closed Way', () => {
   var way = '<way id="1"><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="2"/></way>';
   let parser = new window.DOMParser();
@@ -33,7 +35,6 @@ test('Test Open Way', () => {
 });
 
 /** Test isSelfIntersecting */
-
 describe.each([
   ['<way id="1"><nd ref="1"/><nd ref="2"/></way>', false, 'open non-intersecting'],
   ['<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>', false, 'closed non-intersecting'],
@@ -48,7 +49,6 @@ describe.each([
 });
 
 /** Test joinWays */
-
 test('Test joining 2 ways', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
   var way2 = '<way id="2"><nd ref="3"/><nd ref="4"/><nd ref="1"/></way>';
@@ -73,7 +73,6 @@ test('Test joining 2 ways', () => {
 });
 
 /** Test reverseWay */
-
 test('Reverse way', () => {
   var way1 = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/></way>';
   var way2 = '<way id="1"><nd ref="3"/><nd ref="2"/><nd ref="1"/></way>';
@@ -84,21 +83,21 @@ test('Reverse way', () => {
 });
 
 /** Test center */
-
 test('Center', () => {
   expect(BuildingShapeUtils.center(rightTriangle)).toStrictEqual([0, 0]);
 });
 
 /** Test getWidth */
-
 test('Get Width', () => {
   expect(BuildingShapeUtils.getWidth(rightTriangle)).toBe(2);
 });
 
 /** Test combineCoordinates */
+// test('', () => {
+//
+// });
 
 /** Test extents */
-
 const rightTriangle = new Shape();
 rightTriangle.moveTo(1, 1);
 rightTriangle.lineTo(1, -1);
@@ -120,6 +119,9 @@ test('Extents Rotation', () => {
 });
 
 /** Test primaryDirection */
+// test('', () => {
+//
+// });
 
 /** Test edgeLength */
 test('Edge Lengths', () => {
@@ -127,7 +129,6 @@ test('Edge Lengths', () => {
 });
 
 /** Test vertexAngle */
-
 test('Vertex Angles', () => {
   expect(BuildingShapeUtils.vertexAngle(rightTriangle)).toStrictEqual([Math.PI / 2, Math.PI / 4, Math.PI / 4]);
 });
@@ -137,7 +138,6 @@ test('Vertex Angles counterclockwise', () => {
 });
 
 /** Test edgeDirection */
-
 describe.each([
   [rightTriangle, [-Math.PI / 2, 3 * Math.PI / 4, 0], 'CW'],
   [rightTriangle2, [-Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
@@ -148,7 +148,6 @@ describe.each([
 });
 
 /** Test surrounds */
-
 describe.each([
   [[-1, -1], false, 'Outside'],
   [[1, 1], true, 'Share Node'],
@@ -161,15 +160,16 @@ describe.each([
 });
 
 /** Test calculateRadius */
-
 test('Calculate Radius', () => {
   expect(BuildingShapeUtils.calculateRadius(rightTriangle)).toBe(1);
 });
 
 /** Test longestSideAngle */
-
 test('Longest side angle', () => {
   expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3 * Math.PI / 4);
 });
 
 /** Test repositionPoint */
+// test('', () => {
+//
+// });
