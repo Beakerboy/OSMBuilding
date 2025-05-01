@@ -201,10 +201,10 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {DOM.Element} way
    */
   static joinWays(way1, way2) {
-    const elements = way2.getElementsByTagName('nd');
+    const nodes = way2.getElementsByTagName('nd');
     const newWay = way1.cloneNode(true);
-    for (let i = 1; i < elements.length; i++) {
-      let elem = elements[i].cloneNode();
+    for (const node of nodes) {
+      let elem = node.cloneNode();
       newWay.appendChild(elem);
     }
     return newWay;
