@@ -384,7 +384,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
-    points.push(points[0]);
     const angles = [];
     var p1;
     var p2;
