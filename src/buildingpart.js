@@ -154,7 +154,7 @@ class BuildingPart {
         longestSide += Math.PI;
       }
       // Convert to angle.
-      calculatedOptions.roof.direction = longestSide / Math.PI * 180;
+      calculatedOptions.roof.direction = longestSide / Math.PI * 180 + Math.PI / 2;
     }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
