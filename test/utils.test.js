@@ -165,6 +165,9 @@ test('Longest side angle', () => {
 });
 
 /** Test repositionPoint */
-// test('', () => {
-//
-// });
+test('Reposition Point', () => {
+  const point = [11.0155721, 49.583313];
+  const home = [11.015512, 49.5833659];
+  const expected = [4.332747472, -5.882209889];
+  expect(BuildingShapeUtils.repositionPoint(point,home))toStrictEqual();
+});
