@@ -138,10 +138,6 @@ test('Edge Direction2', () => {
 
 /** Test surrounds */
 
-test('Longest side angle', () => {
-  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3 * Math.PI / 4);
-});
-
 describe.each([
   [[-1, -1], false, 'Outside'],
   [[1, 1], true, 'Share Node'],
@@ -153,7 +149,16 @@ describe.each([
   });
 });
 
+/** Test calculateRadius */
+
 test('Calculate Radius', () => {
   expect(BuildingShapeUtils.calculateRadius(rightTriangle)).toBe(1);
 });
 
+/** Test longestSideAngle */
+
+test('Longest side angle', () => {
+  expect(BuildingShapeUtils.longestSideAngle(rightTriangle)).toBe(3 * Math.PI / 4);
+});
+
+/** Test repositionPoint */
