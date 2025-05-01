@@ -150,11 +150,9 @@ class BuildingPart {
     if (calculatedOptions.roof.direction === undefined && directionalRoofs.includes(calculatedOptions.roof.shape)) {
       // Radians pi > x >= -pi
       let longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
-      if (longestSide < 0) {
-        longestSide += Math.PI;
-      }
+
       // Convert to angle.
-      calculatedOptions.roof.direction = longestSide / Math.PI * 180 + 90;
+      calculatedOptions.roof.direction = this.atanRadToCompassDeg(longestSide);
     }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
@@ -278,12 +276,12 @@ class BuildingPart {
     } else if (this.options.roof.shape === 'gabled') {
       var angle = this.options.roof.direction;
       if (this.options.roof.orientation === 'across') {
-        angle = angle > 90 ? angle - 90 : angle + 90;
+        angle = (angle + 90) % 360;
       }
       const center = BuildingShapeUtils.center(this.shape, angle / 180 * Math.PI);
       const options = {
         center: center,
-        angle: angle / 360 * 2 * Math.PI,
+        angle: (360 - angle) / 360 * 2 * Math.PI,
         depth: this.options.roof.height,
       };
       const geometry = new WedgeGeometry(this.shape, options);
@@ -425,6 +423,18 @@ class BuildingPart {
     return degreesTimesTwo % 2 === 0 ? degreesTimesTwo / 2 : (degreesTimesTwo - 1) / 2;
   }
 
+  /**
+   * OSM compass degrees are 0-360 clockwise.
+   *
+   * @return {number} degrees
+   */
+  static atanRadToCompassDeg(rad) {
+    if (rad > 0) {
+      rad = rad - 2 * Math.PI;
+    }
+    return ((rad * -1 + Math.PI / 2) % (2 * Math.PI)) * 360;
+  }
+  
   /**
    * Get the THREE.material for a given way
    *
