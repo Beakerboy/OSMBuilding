@@ -23,11 +23,13 @@ class BuildingShapeUtils extends ShapeUtils {
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
-    for (let i = 0; i < elements.length; i++) {
-      ref = elements[i].getAttribute('ref');
+    let first = true;
+    for (const element of elements) {
+      ref = element.getAttribute('ref');
       node = nodelist[ref];
-      // The first node requires a differnet function call.
-      if (i === 0) {
+      // Th node requires a differnet function call.
+      if (first) {
+        first = false;
         shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));
       } else {
         shape.lineTo(parseFloat(node[0]), parseFloat(node[1]));
@@ -199,10 +201,10 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {DOM.Element} way
    */
   static joinWays(way1, way2) {
-    const elements = way2.getElementsByTagName('nd');
+    const nodes = way2.getElementsByTagName('nd');
     const newWay = way1.cloneNode(true);
-    for (let i = 1; i < elements.length; i++) {
-      let elem = elements[i].cloneNode();
+    for (let i = 1; i < nodes.length; i++) {
+      let elem = nodes[i].cloneNode();
       newWay.appendChild(elem);
     }
     return newWay;
@@ -268,10 +270,15 @@ class BuildingShapeUtils extends ShapeUtils {
   }
 
   /**
-   * can points be an array of shapes?
+   * Extract point data from a shape.
+   * Combine all the x values into one array and
+   * y values into another
+   *
+   * @param {THREE.Shape} shape - the shape
+   *
+   * @return {[number], [number]} array of xs and ys.
    */
   static combineCoordinates(shape) {
-    //console.log('Shape: ' + JSON.stringify(shape));
     const points = shape.extractPoints().shape;
     var x = [];
     var y = [];
@@ -292,17 +299,16 @@ class BuildingShapeUtils extends ShapeUtils {
    *
    * @return {[number, number, number, number]} the extents of the object.
    */
-  static extents(shape, angle = 0) {
-    if (!Array.isArray(shape)) {
-      shape = [shape];
+  static extents(shapes, angle = 0) {
+    if (!Array.isArray(shapes)) {
+      shapes = [shapes];
     }
     var x = [];
     var y = [];
     var vec;
-    for (let i = 0; i < shape.length; i++) {
-      const points = shape[i].extractPoints().shape;
-      for (let i = 0; i < points.length; i++) {
-        vec = points[i];
+    for (const shape of shapes) {
+      const points = shape.extractPoints().shape;
+      for (const vec of points) {
         x.push(vec.x * Math.cos(angle) - vec.y * Math.sin(angle));
         y.push(vec.x * Math.sin(angle) + vec.y * Math.cos(angle));
       }
@@ -312,14 +318,6 @@ class BuildingShapeUtils extends ShapeUtils {
     const right = Math.max(...x);
     const top = Math.max(...y);
     return [left, bottom, right, top];
-  }
-
-  /**
-   * Assuming the shape is all right angles,
-   * Find the orientation of the longest edge.
-   */
-  static primaryDirection(shape) {
-    const points = shape.extractPoints().shape;
   }
 
   /**
@@ -334,14 +332,11 @@ class BuildingShapeUtils extends ShapeUtils {
     const lengths = [];
     var p1;
     var p2;
-    for (let i = 0; i < points.length - 1; i++) {
+    for (const i in points) {
       p1 = points[i];
-      p2 = points[i + 1];
+      p2 = points[(i + 1) % points.length];
       lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     }
-    p1 = points[points.length - 1];
-    p2 = points[0];
-    lengths.push(Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2));
     return lengths;
   }
 
@@ -370,13 +365,8 @@ class BuildingShapeUtils extends ShapeUtils {
       return angle;
     }
 
-    p0 = points[points.length - 1];
-    p1 = points[0];
-    p2 = points[1];
-
-    angles.push(calcAngle(p0, p1, p2));
-    for (let i = 1; i < points.length; i++) {
-      p0 = points[i - 1];
+    for (const i in points) {
+      p0 = points[i - 1 < 0 ? points.length - 1 : i - 1];
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       angles.push(calcAngle(p0, p1, p2));
@@ -394,13 +384,12 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
-    points.push(points[0]);
     const angles = [];
     var p1;
     var p2;
-    for (let i = 0; i < points.length - 1; i++) {
+    for (const i in points) {
       p1 = points[i];
-      p2 = points[i + 1];
+      p2 = points[(i + 1) % points.length];
       let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
       if (angle >= Math.PI) {
         angle -= 2 * Math.PI;
