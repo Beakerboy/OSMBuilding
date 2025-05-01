@@ -434,7 +434,7 @@ class BuildingPart {
     }
     return ((rad * -1 + Math.PI / 2) % (2 * Math.PI)) * 360;
   }
-  
+
   /**
    * Get the THREE.material for a given way
    *
