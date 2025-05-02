@@ -429,7 +429,7 @@ class BuildingPart {
    * @return {number} degrees
    */
   static atanRadToCompassDeg(rad) {
-    return ((Math.PI - rad + 3 * Math.PI / 4) % (2 * Math.PI)) * 180 / Math.PI;
+    return ((Math.PI - rad + 3 * Math.PI / 2) % (2 * Math.PI)) * 180 / Math.PI;
   }
 
   /**
