@@ -7,5 +7,6 @@ test('Test Cardinal to Degree', () => {
 });
 
 test('radToDeg', () => {
-  expect (BuildingPart.atanRadToCompassDeg(0).toBe(90);
+  expect (BuildingPart.atanRadToCompassDeg(0)).toBe(90);
+  expect (BuildingPart.atanRadToCompassDeg(Math.PI / 2)).toBe(0);
 });
