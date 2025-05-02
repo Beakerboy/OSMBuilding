@@ -420,6 +420,15 @@ class BuildingShapeUtils extends ShapeUtils {
       if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
+      if (nextvec.x === vec.x) {
+        // vertical line
+        if (vec.x === point[0]) {
+          return true;
+        }
+        if (vec.x > point[0] && (vec.y > point[1] || nextvec.y > point[1]) && !(vec.y > point[1] && nextvec.y > point[1])){
+          count++;
+        }
+      }
       const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
       const intercept = vec.y / slope / vec.x;
       const intersection = (point[1] - intercept) / slope;
