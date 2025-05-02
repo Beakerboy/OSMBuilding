@@ -151,7 +151,7 @@ test('Vertex Angles counterclockwise', () => {
 /** Test edgeDirection */
 describe.each([
   [rightTriangle, [-Math.PI / 2, 3 * Math.PI / 4, 0], 'CW'],
-  [rightTriangle2, [-Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
+  [rightTriangle2, [Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
 ])('Edge Direction', (shape, expected, description) =>{
   test(`${description}`, () => {
     expect(BuildingShapeUtils.edgeDirection(shape)).toBeDeepCloseTo(expected);
