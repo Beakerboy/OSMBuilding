@@ -269,7 +269,7 @@ class BuildingPart {
       const center = BuildingShapeUtils.center(this.shape, angle / 180 * Math.PI);
       const options = {
         center: center,
-        angle: (360 - angle) / 360 * 2 * Math.PI,
+        angle: angle / 180 * Math.PI,
         depth: this.options.roof.height,
       };
       const geometry = new WedgeGeometry(this.shape, options);
