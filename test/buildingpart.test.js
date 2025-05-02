@@ -1,4 +1,5 @@
 import { BuildingPart } from '../src/buildingpart.js';
+import { TextEncoder } from 'node:util';
 
 const data = `
 <osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (3529586 spike-06.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
