@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { BuildingPart } from '../src/buildingpart.js';
+import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
 const data = `
@@ -60,6 +61,7 @@ test('Constructor', () => {
   expect(part.options.roof.orientation).toBe('along');
 
   //
+  expect(BuildingShapeUtils.longestSideAngle(part.shape).toBe(Math.PI / 2)
   expect(part.options.roof.direction).toBe(0);
   expect(errors.length).toBe(0);
 });
