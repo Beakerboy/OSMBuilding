@@ -292,7 +292,6 @@ class BuildingPart {
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
     } else {
-      
       let extrusionHeight = this.options.roof.height ?? 0;
       let extrudeSettings = {
         bevelEnabled: false,
