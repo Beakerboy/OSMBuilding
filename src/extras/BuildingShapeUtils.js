@@ -350,6 +350,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
+    points.pop();
     const angles = [];
     var p0;
     var p1;
@@ -384,6 +385,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
+    ponts.pop();
     const angles = [];
     var p1;
     var p2;
