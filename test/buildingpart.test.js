@@ -61,7 +61,14 @@ test('Constructor', () => {
   expect(part.options.roof.orientation).toBe('along');
 
   // Troubleshoot Bug
-  expect(BuildingShapeUtils.edgeDirection(part.shape)).toStrictEqual([0, 0, 0, 0]);
+  const shape = part.shape.extractPoints().shape;
+  let value = [shape[0].x,part.shape[0].y];
+  expect(value).toStrictEqual([-4.332738077015795, -5.882209888874915]);
+  let value = [shape[1].x,part.shape[1].y];
+  expect(part.shape.extractPoints().shape[1]).tovalueStrictEqual([-4.332738077015795, 5.88221335051411]);
+  let value = [shape[2].x,part.shape[2].y];
+  expect(part.shape.extractPoints().shape[1]).tovalueStrictEqual([4.332747472106493, 5.88221335051411]);
+  expect(BuildingShapeUtils.edgeDirection(part.shape)).toStrictEqual([Math.PI / 2, 0, -Math.PI / 2, Math.PI]);
   expect(BuildingShapeUtils.longestSideAngle(part.shape)).toBe(Math.PI / 2);
   expect(part.options.roof.direction).toBe(0);
   expect(errors.length).toBe(0);
