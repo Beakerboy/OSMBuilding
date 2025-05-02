@@ -63,6 +63,7 @@ test('Test Constructor', async() => {
   const bldg = new Building('31361386', data);
   expect(bldg.home).toBeDeepCloseTo([11.015512, 49.5833659], 10);
   expect(bldg.parts.length).toBe(0);
+  expect(bldg.nodelist['349300285']).toStrictEqual([4.332747472234555, -5.882209888874915]);
   expect(errors.length).toBe(0);
 });
 
