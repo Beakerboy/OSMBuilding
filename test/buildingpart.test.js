@@ -65,9 +65,9 @@ test('Constructor', () => {
   let value = [shape[0].x, shape[0].y];
   expect(value).toStrictEqual([-4.332738077015795, -5.882209888874915]);
   value = [shape[1].x, shape[1].y];
-  expect(part.shape.extractPoints().shape[1]).toStrictEqual([-4.332738077015795, 5.88221335051411]);
+  expect(value).toStrictEqual([-4.332738077015795, 5.88221335051411]);
   value = [shape[2].x, shape[2].y];
-  expect(part.shape.extractPoints().shape[1]).toStrictEqual([4.332747472106493, 5.88221335051411]);
+  expect(value).toStrictEqual([4.332747472106493, 5.88221335051411]);
   expect(BuildingShapeUtils.edgeDirection(part.shape)).toStrictEqual([Math.PI / 2, 0, -Math.PI / 2, Math.PI]);
   expect(BuildingShapeUtils.longestSideAngle(part.shape)).toBe(Math.PI / 2);
   expect(part.options.roof.direction).toBe(0);
