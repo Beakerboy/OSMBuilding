@@ -9,7 +9,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * Create the shape of this way.
    *
    * @param {DOM.Element} way - OSM XML way element.
-   * @param {[number, number]} nodelist - list of all nodes
+   * @param {number => number[2]} nodelist - dictionary of all nodes
    *
    * @return {THREE.Shape} shape - the shape
    */
