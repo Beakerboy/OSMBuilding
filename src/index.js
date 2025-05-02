@@ -61,7 +61,11 @@ function init() {
 
     const mesh = myObj.render();
     for (let i = 0; i < mesh.length; i++) {
-      scene.add(mesh[i]);
+      if (mesh[i] && mesh[i].isObject3D) {
+        scene.add(mesh[i]);
+      } else {
+        window.printError('not Object');
+      }
     }
     if (displayInfo) {
       gui = new GUI();
