@@ -160,7 +160,7 @@ describe.each([
 
 /** Test surrounds */
 describe.each([
-  [[-1, -1], false, 'Outside'],
+  [[-.5, -.5], false, 'Outside'],
   [[1, 1], true, 'Share Node'],
   [[.5, .5], true, 'Inside'],
   [[0, 0], true, 'Border'],
