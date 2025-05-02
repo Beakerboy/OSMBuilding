@@ -436,7 +436,7 @@ class BuildingShapeUtils extends ShapeUtils {
         const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
         const intercept = vec.y - slope * vec.x;
         const intersection = (point[1] - intercept) / slope;
-        if (intersection > point[0]) {
+        if (intersection > point[0] && intersection < Math.max(nextvec.x, vec.x) && intersection > Math.min(nextvec.x, vec.x)) {
           count++;
         } else if (intersection === point[0]) {
           return true;
