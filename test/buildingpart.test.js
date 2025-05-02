@@ -52,6 +52,9 @@ test('Constructor', () => {
     '349300295': [4.332747472234555, 5.88221335051411],
   };
   const part = new BuildingPart('31361386', xmlData, nodes);
+  expect(part.options.building.levels).toBe(1);
+  expect(part.options.roof.levels).toBe(2);
+  expect(part.options.roof.shape).toBe('gabled');
   expect(errors.length).toBe(0);
 });
 
