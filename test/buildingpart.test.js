@@ -60,7 +60,8 @@ test('Constructor', () => {
   // Gabled with unspecified orientation shal be 'along'
   expect(part.options.roof.orientation).toBe('along');
 
-  //
+  // Troubleshoot Bug
+  expect(BuildingShapeUtils.edgeDirection(part.shape)).toStrictEqual([0,0,0,0]);
   expect(BuildingShapeUtils.longestSideAngle(part.shape)).toBe(Math.PI / 2);
   expect(part.options.roof.direction).toBe(0);
   expect(errors.length).toBe(0);
