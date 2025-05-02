@@ -148,11 +148,10 @@ class BuildingPart {
     const directionalRoofs = ['gabled', 'round'];
     calculatedOptions.roof.direction = this.options.specified.roof.direction ?? this.options.inherited.roof.direction;
     if (calculatedOptions.roof.direction === undefined && directionalRoofs.includes(calculatedOptions.roof.shape)) {
-      // Radians pi > x >= -pi
       let longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
 
       // Convert to angle.
-      calculatedOptions.roof.direction = BuildingPart.atanRadToCompassDeg(longestSide);
+      calculatedOptions.roof.direction = (BuildingPart.atanRadToCompassDeg(longestSide) + 90) % 360;
     }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];

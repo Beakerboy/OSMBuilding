@@ -70,7 +70,7 @@ test('Constructor', () => {
   expect(value).toStrictEqual([4.332747472106493, 5.88221335051411]);
   expect(BuildingShapeUtils.edgeDirection(part.shape)).toStrictEqual([Math.PI / 2, 0, -Math.PI / 2, Math.PI]);
   expect(BuildingShapeUtils.longestSideAngle(part.shape)).toBe(Math.PI / 2);
-  expect(part.options.roof.direction).toBe(0);
+  expect(part.options.roof.direction).toBe(90);
   expect(errors.length).toBe(0);
 });
 
