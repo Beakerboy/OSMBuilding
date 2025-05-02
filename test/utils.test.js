@@ -25,6 +25,7 @@ test('', () => {
     3: [-1, 1],
   };
   const shape = BuildingShapeUtils.createShape(xmlData, nodelist);
+  expect(shape.extractpoints().length).toBe(3);
 });
 
 /** Test isClosed */
