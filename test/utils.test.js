@@ -116,13 +116,13 @@ const rightTriangle = new Shape();
 rightTriangle.moveTo(1, 1);
 rightTriangle.lineTo(1, -1);
 rightTriangle.lineTo(-1, 1);
-rightTriangle.lineTo(1, -1);
+rightTriangle.lineTo(1, 1);
 
 const rightTriangle2 = new Shape();
 rightTriangle2.moveTo(1, 1);
 rightTriangle2.lineTo(-1, 1);
 rightTriangle2.lineTo(1, -1);
-rightTriangle2.lineTo(1, -1);
+rightTriangle2.lineTo(1, 1);
 
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
