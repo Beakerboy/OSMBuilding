@@ -24,7 +24,7 @@ test('', () => {
     2: [1, -1],
     3: [-1, 1],
   };
-  const shape = BuildingShapeUtils.cretaeshape(xmlData, nodelist);
+  const shape = BuildingShapeUtils.createShape(xmlData, nodelist);
 });
 
 /** Test isClosed */
