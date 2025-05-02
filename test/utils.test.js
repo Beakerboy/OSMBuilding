@@ -27,10 +27,10 @@ test('', () => {
   const shape = BuildingShapeUtils.createShape(xmlData, nodelist);
   expect(shape.extractPoints().shape.length).toBe(4);
   const points = shape.extractPoints().shape;
-  expect([points[1].x, points[1].y]).toBe(nodelist[1]);
-  expect([points[2].x, points[2].y]).toBe(nodelist[2]);
-  expect([points[3].x, points[3].y]).toBe(nodelist[3]);
-  expect([points[4].x, points[4].y]).toBe(nodelist[1]);
+  expect([points[0].x, points[0].y]).toBe(nodelist[1]);
+  expect([points[1].x, points[1].y]).toBe(nodelist[2]);
+  expect([points[2].x, points[2].y]).toBe(nodelist[3]);
+  expect([points[0].x, points[0].y]).toBe(nodelist[1]);
 });
 
 /** Test isClosed */
