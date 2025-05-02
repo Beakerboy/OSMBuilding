@@ -151,6 +151,10 @@ class Building {
     return mesh;
   }
 
+  /**
+   * Inspect XML data for building parts and add them to the array.
+   *
+   */
   addParts() {
     if (this.type === 'relation') {
       let parts = this.fullXmlData.getElementById(this.id).querySelectorAll('member[role="part"]');
