@@ -5,3 +5,7 @@ test('Test Cardinal to Degree', () => {
   expect(BuildingPart.cardinalToDegree('sSw')).toBe(202);
   expect(BuildingPart.cardinalToDegree('Wse')).toBeUndefined();
 });
+
+test('radToDeg', () => {
+  expect (BuildingPart.atanRadToCompassDeg(0).toBe(90);
+});
