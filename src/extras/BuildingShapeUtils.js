@@ -416,11 +416,12 @@ class BuildingShapeUtils extends ShapeUtils {
   static surrounds(shape, point) {
     var count = 0;
     const vecs = shape.extractPoints().shape;
+    vecs.pop();
     var vec;
     var nextvec;
-    for (let i = 0; i < vecs.length - 1; i++) {
+    for (let i = 0; i < vecs.length; i++) {
       vec = vecs[i];
-      nextvec = vecs[i+1];
+      nextvec = vecs[(i + 1) % vecs.length];
       if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
