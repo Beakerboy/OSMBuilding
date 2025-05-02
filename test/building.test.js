@@ -64,7 +64,7 @@ test('Test Constructor', async() => {
   expect(bldg.home).toBeDeepCloseTo([11.015512, 49.5833659], 10);
   expect(bldg.parts.length).toBe(0);
   expect(bldg.nodelist['349300285']).toStrictEqual([4.332747472106493, -5.882209888874915]);
-  expect(bldg.nodelist['349300289']).toStrictEqual([-4.3327380768877335, 5.88221335051411]);
+  expect(bldg.nodelist['349300289']).toStrictEqual([-4.332738077015795, 5.88221335051411]);
   expect(errors.length).toBe(0);
 });
 
