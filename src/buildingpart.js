@@ -230,18 +230,7 @@ class BuildingPart {
     var way = this.way;
     var material;
     var roof;
-    if (this.options.roof.shape === 'flat') {
-      let extrusionHeight = this.options.roof.height ?? 0;
-      let extrudeSettings = {
-        bevelEnabled: false,
-        depth: extrusionHeight,
-      };
-      var geometry = new ExtrudeGeometry(this.shape, extrudeSettings);
-      // Create the mesh.
-      roof = new Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
-      roof.rotation.x = -Math.PI / 2;
-      roof.position.set(0, this.options.building.height - this.options.roof.height, 0);
-    } else if (this.options.roof.shape === 'dome' || this.options.roof.shape === 'onion') {
+    if (this.options.roof.shape === 'dome' || this.options.roof.shape === 'onion') {
     //   find largest circle within the way
     //   R, x, y
       var thetaStart = Math.PI / 2;
@@ -303,7 +292,19 @@ class BuildingPart {
       roof.rotation.x = -Math.PI / 2;
       roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
     } else {
-      return;
+      let extrusionHeight = this.options.roof.height ?? 0;
+      let extrudeSettings = {
+        bevelEnabled: false,
+        depth: extrusionHeight,
+      };
+      var geometry = new ExtrudeGeometry(this.shape, extrudeSettings);
+      // Create the mesh.
+      roof = new Mesh(geometry, [BuildingPart.getRoofMaterial(this.way), BuildingPart.getMaterial(this.way)]);
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set(0, this.options.building.height - this.options.roof.height, 0);
+      if (this.options.roof.shape !== 'flat') {
+        window.printError('Unknown roof shape on '+ this.id + ': '+ this.options.roof.shape);
+      }
     }
     roof.name = 'r' + this.id;
     this.roof = roof;

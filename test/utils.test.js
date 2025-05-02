@@ -116,11 +116,13 @@ const rightTriangle = new Shape();
 rightTriangle.moveTo(1, 1);
 rightTriangle.lineTo(1, -1);
 rightTriangle.lineTo(-1, 1);
+rightTriangle.lineTo(1, 1);
 
 const rightTriangle2 = new Shape();
 rightTriangle2.moveTo(1, 1);
 rightTriangle2.lineTo(-1, 1);
 rightTriangle2.lineTo(1, -1);
+rightTriangle2.lineTo(1, 1);
 
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
@@ -149,7 +151,7 @@ test('Vertex Angles counterclockwise', () => {
 /** Test edgeDirection */
 describe.each([
   [rightTriangle, [-Math.PI / 2, 3 * Math.PI / 4, 0], 'CW'],
-  [rightTriangle2, [-Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
+  [rightTriangle2, [Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
 ])('Edge Direction', (shape, expected, description) =>{
   test(`${description}`, () => {
     expect(BuildingShapeUtils.edgeDirection(shape)).toBeDeepCloseTo(expected);
@@ -158,7 +160,8 @@ describe.each([
 
 /** Test surrounds */
 describe.each([
-  [[-1, -1], false, 'Outside'],
+  [[-.5, -.5], false, 'Outside but crossing'],
+  [[-1.5, -1.5], false, 'Outside no crossings'],
   [[1, 1], true, 'Share Node'],
   [[.5, .5], true, 'Inside'],
   [[0, 0], true, 'Border'],
@@ -180,8 +183,8 @@ test('Longest side angle', () => {
 
 /** Test repositionPoint */
 test('Reposition Point', () => {
-  const point = [11.0155721, 49.583313];
+  const point = [11.0154519, 49.5834188];
   const home = [11.015512, 49.5833659];
-  const expected = [4.332747472234555, -5.882209888874915];
+  const expected = [-4.3327380768877335, 5.88221335051411];
   expect(BuildingShapeUtils.repositionPoint(point, home)).toStrictEqual(expected);
 });

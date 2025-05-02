@@ -280,6 +280,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static combineCoordinates(shape) {
     const points = shape.extractPoints().shape;
+    points.pop();
     var x = [];
     var y = [];
     var vec;
@@ -329,6 +330,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
+    points.pop();
     const lengths = [];
     var p1;
     var p2;
@@ -350,6 +352,7 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
+    points.pop();
     const angles = [];
     var p0;
     var p1;
@@ -384,18 +387,14 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
+    points.pop();
     const angles = [];
     var p1;
     var p2;
-    for (const i in points) {
+    for (let i = 0; i < points.length; i++) {
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
-      if (angle >= Math.PI) {
-        angle -= 2 * Math.PI;
-      } else if (angle < -Math.PI) {
-        angle += 2* Math.PI;
-      }
       angles.push(angle);
     }
     return angles;
@@ -412,21 +411,36 @@ class BuildingShapeUtils extends ShapeUtils {
   static surrounds(shape, point) {
     var count = 0;
     const vecs = shape.extractPoints().shape;
+    vecs.pop();
     var vec;
     var nextvec;
-    for (let i = 0; i < vecs.length - 1; i++) {
+    for (let i = 0; i < vecs.length; i++) {
       vec = vecs[i];
-      nextvec = vecs[i+1];
+      nextvec = vecs[(i + 1) % vecs.length];
       if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
-      const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
-      const intercept = vec.y / slope / vec.x;
-      const intersection = (point[1] - intercept) / slope;
-      if (intersection > point[0]) {
-        count++;
-      } else if (intersection === point[0]) {
-        return true;
+      if (nextvec.x === vec.x) {
+        // vertical line
+        if (vec.x === point[0]) {
+          return true;
+        }
+        if (vec.x > point[0] && (vec.y > point[1] || nextvec.y > point[1]) && !(vec.y > point[1] && nextvec.y > point[1])){
+          count++;
+        }
+      } else if (nextvec.y === vec.y) {
+        if (vec.y === point[1] && (vec.x > point[0] || nextvec.x > point[0]) && !(vec.x > point[0] && nextvec.x > point[0])){
+          return true;
+        }
+      } else {
+        const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
+        const intercept = vec.y - slope * vec.x;
+        const intersection = (point[1] - intercept) / slope;
+        if (intersection > point[0] && intersection < Math.max(nextvec.x, vec.x) && intersection > Math.min(nextvec.x, vec.x)) {
+          count++;
+        } else if (intersection === point[0]) {
+          return true;
+        }
       }
     }
     return count % 2 === 1;

@@ -31,26 +31,27 @@ import fetchMock from 'jest-fetch-mock';
 fetchMock.enableMocks();
 
 const data = `
-<osm>
-  <node id="3" lat="4" lon="4"/>
-  <node id="5" lat="4" lon="4.001"/>
-  <node id="6" lat="4.001" lon="4.001"/>
-  <node id="7" lat="4.001" lon="4"/>
-  <relation id="4">
-    <member ref="1" role="outer"/>
-    <tag k="type" v="multipolygon"/>
-    <tag k="building" v="yes"/>
-    <tag k="roof:shape" v="skillion"/>
-    <tag k="roof:direction" v="0"/>
-    <tag k="roof:angle" v="45"/>
-  </relation>
-  <way id="1">
-    <nd ref="3"/>
-    <nd ref="5"/>
-    <nd ref="6"/>
-    <nd ref="7"/>
-    <nd ref="3"/>
-  </way>
+<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (3529586 spike-06.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<node id="349300285" visible="true" version="2" changeset="16924847" timestamp="2013-07-12T11:32:52Z" user="Oberaffe" uid="56597" lat="49.5833130" lon="11.0155721"/>
+<node id="349300289" visible="true" version="2" changeset="16924847" timestamp="2013-07-12T11:32:52Z" user="Oberaffe" uid="56597" lat="49.5834188" lon="11.0154519"/>
+<node id="349300292" visible="true" version="2" changeset="16924847" timestamp="2013-07-12T11:32:52Z" user="Oberaffe" uid="56597" lat="49.5833130" lon="11.0154519"/>
+<node id="349300295" visible="true" version="2" changeset="16924847" timestamp="2013-07-12T11:32:52Z" user="Oberaffe" uid="56597" lat="49.5834188" lon="11.0155721"/>
+<way id="31361386" visible="true" version="7" changeset="103461964" timestamp="2021-04-23T08:01:35Z" user="hans007" uid="376477">
+<nd ref="349300292"/>
+<nd ref="349300289"/>
+<nd ref="349300295"/>
+<nd ref="349300285"/>
+<nd ref="349300292"/>
+<tag k="addr:city" v="Erlangen"/>
+<tag k="addr:country" v="DE"/>
+<tag k="addr:housenumber" v="30"/>
+<tag k="addr:postcode" v="91052"/>
+<tag k="addr:street" v="Badstraße"/>
+<tag k="building" v="detached"/>
+<tag k="building:levels" v="1"/>
+<tag k="roof:levels" v="2"/>
+<tag k="roof:shape" v="gabled"/>
+</way>
 </osm>`;
 
 beforeEach(() => {
@@ -59,9 +60,11 @@ beforeEach(() => {
 });
 
 test('Test Constructor', async() => {
-  const bldg = new Building('4', data);
-  expect(bldg.home).toBeDeepCloseTo([4.0005, 4.0005], 10);
+  const bldg = new Building('31361386', data);
+  expect(bldg.home).toBeDeepCloseTo([11.015512, 49.5833659], 10);
   expect(bldg.parts.length).toBe(0);
+  expect(bldg.nodelist['349300285']).toStrictEqual([4.332747472106493, -5.882209888874915]);
+  expect(bldg.nodelist['349300289']).toStrictEqual([-4.332738077015795, 5.88221335051411]);
   expect(errors.length).toBe(0);
 });
 
@@ -69,7 +72,8 @@ test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const list = Building.buildNodeList(xmlData);
   expect(Object.keys(list).length).toBe(4);
-  expect(list['3']).toStrictEqual(['4', '4']);
+  // Long / Lat
+  expect(list['349300285']).toStrictEqual(['11.0155721', '49.5833130']);
   expect(errors.length).toBe(0);
 });
 
