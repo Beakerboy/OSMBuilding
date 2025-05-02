@@ -15,9 +15,17 @@ import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 
 
 /** Test createShape */
-// test('', () => {
-//
-// });
+test('', () => {
+  var way = '<way id="1"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/></way>';
+  let parser = new window.DOMParser();
+  let xmlData = parser.parseFromString(way, 'text/xml');
+  let nodelist = {
+    1: [1, 1],
+    2: [1, -1],
+    3: [-1, 1],
+  }
+  const shape = BuildingShapeUtils.cretaeshape(xmlData, nodelist);
+});
 
 /** Test isClosed */
 test('Test Closed Way', () => {
