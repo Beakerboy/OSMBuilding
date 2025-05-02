@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { BuildingPart } from '../src/buildingpart.js';
 import { TextEncoder } from 'node:util';
 
