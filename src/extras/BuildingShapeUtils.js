@@ -428,14 +428,19 @@ class BuildingShapeUtils extends ShapeUtils {
         if (vec.x > point[0] && (vec.y > point[1] || nextvec.y > point[1]) && !(vec.y > point[1] && nextvec.y > point[1])){
           count++;
         }
-      }
-      const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
-      const intercept = vec.y / slope / vec.x;
-      const intersection = (point[1] - intercept) / slope;
-      if (intersection > point[0]) {
-        count++;
-      } else if (intersection === point[0]) {
-        return true;
+      } else if (nextvec.y === vec.y) {
+        if (vec.y === point[1] && (vec.x > point[0] || nextvec.x > point[0]) && !(vec.x > point[0] && nextvec.x > point[0])){
+          return true;
+        }
+      } else {
+        const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
+        const intercept = vec.y / slope / vec.x;
+        const intersection = (point[1] - intercept) / slope;
+        if (intersection > point[0]) {
+          count++;
+        } else if (intersection === point[0]) {
+          return true;
+        }
       }
     }
     return count % 2 === 1;
