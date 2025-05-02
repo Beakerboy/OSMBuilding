@@ -24,6 +24,10 @@ const data = `
 </way>
 </osm>`;
 
+beforeEach(() => {
+  errors = [];
+});
+
 test('Test Cardinal to Degree', () => {
   expect(BuildingPart.cardinalToDegree('N')).toBe(0);
   expect(BuildingPart.cardinalToDegree('sSw')).toBe(202);
@@ -42,7 +46,15 @@ test('Constructor', () => {
     '349300289': [11.0154519, 49.5834188],
     '349300292': [11.0154519, 49.5833130],
     '349300295': [11.0155721, 49.5834188],
-  }
-  const part = new BuildingPart('31361386', xmlData, nodes)
+  };
+  const part = new BuildingPart('31361386', xmlData, nodes);
   expect(errors.length).toBe(0);
 });
+
+window.printError = printError;
+
+var errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
