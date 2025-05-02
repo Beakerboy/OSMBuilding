@@ -391,7 +391,7 @@ class BuildingShapeUtils extends ShapeUtils {
     const angles = [];
     var p1;
     var p2;
-    for (const i in points) {
+    for (let i = 0; i < points.length; i++) {
       p1 = points[i];
       p2 = points[(i + 1) % points.length];
       let angle = Math.atan2((p2.y - p1.y), (p2.x - p1.x));
