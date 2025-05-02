@@ -55,6 +55,9 @@ test('Constructor', () => {
   expect(part.options.building.levels).toBe(1);
   expect(part.options.roof.levels).toBe(2);
   expect(part.options.roof.shape).toBe('gabled');
+
+  // Gabled with unspecified orientation shal be 'along'
+  expect(part.options.roof.orientation).toBe('along');
   expect(errors.length).toBe(0);
 });
 
