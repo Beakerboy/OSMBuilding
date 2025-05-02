@@ -9,7 +9,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * Create the shape of this way.
    *
    * @param {DOM.Element} way - OSM XML way element.
-   * @param {[number, number]} nodelist - list of all nodes
+   * @param {number => number[2]} nodelist - dictionary of all nodes
    *
    * @return {THREE.Shape} shape - the shape
    */
@@ -27,7 +27,7 @@ class BuildingShapeUtils extends ShapeUtils {
     for (const element of elements) {
       ref = element.getAttribute('ref');
       node = nodelist[ref];
-      // Th node requires a differnet function call.
+      // The first node requires a different function call.
       if (first) {
         first = false;
         shape.moveTo(parseFloat(node[0]), parseFloat(node[1]));

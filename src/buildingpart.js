@@ -429,12 +429,9 @@ class BuildingPart {
    * @return {number} degrees
    */
   static atanRadToCompassDeg(rad) {
-    if (rad > 0) {
-      rad = rad - 2 * Math.PI;
-    }
-    return ((rad * -1 + Math.PI / 2) % (2 * Math.PI)) * 360;
+    return ((Math.PI - rad + 3 * Math.PI / 2) % (2 * Math.PI)) * 180 / Math.PI;
   }
-  
+
   /**
    * Get the THREE.material for a given way
    *
