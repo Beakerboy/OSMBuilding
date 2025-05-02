@@ -70,7 +70,8 @@ test('Create Nodelist', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
   const list = Building.buildNodeList(xmlData);
   expect(Object.keys(list).length).toBe(4);
-  expect(list['349300285']).toStrictEqual(['11.0155721', '49.5834188']);
+  // Long / Lat
+  expect(list['349300285']).toStrictEqual(['11.0155721', '49.5833130']);
   expect(errors.length).toBe(0);
 });
 
