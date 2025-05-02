@@ -152,7 +152,7 @@ class BuildingPart {
       let longestSide = BuildingShapeUtils.longestSideAngle(this.shape);
 
       // Convert to angle.
-      calculatedOptions.roof.direction = this.atanRadToCompassDeg(longestSide);
+      calculatedOptions.roof.direction = BuildingPart.atanRadToCompassDeg(longestSide);
     }
     const extents = BuildingShapeUtils.extents(this.shape, calculatedOptions.roof.direction / 360 * 2 * Math.PI);
     const shapeHeight = extents[3] - extents[1];
