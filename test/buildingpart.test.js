@@ -61,6 +61,7 @@ test('Constructor', () => {
   expect(part.options.roof.orientation).toBe('along');
 
   // toDo: Mock BuildingShapeUtils and test options
+  expect(part.options.roof.direction).toBe(90);
   expect(errors.length).toBe(0);
 });
 
