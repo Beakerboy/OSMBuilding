@@ -162,7 +162,7 @@ describe.each([
   [rectangle, [Math.PI / 2, 0, -Math.PI / 2, Math.PI], 'Rect'],
 ])('Edge Direction', (shape, expected, description) =>{
   test(`${description}`, () => {
-    expect(BuildingShapeUtils.edgeDirection(shape)).toBeDeepCloseTo(expected);
+    expect(BuildingShapeUtils.edgeDirection(shape)).toStrictEqual(expected);
   });
 });
 
