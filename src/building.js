@@ -30,9 +30,9 @@ class Building {
   options;
 
   /**
-   * Create new building
+   * Download data for new building
    */
-  static async create(type, id) {
+  static async downloadDataAroundBuilding(type, id) {
     var data;
     if (type === 'way') {
       data = await Building.getWayData(id);
@@ -42,8 +42,7 @@ class Building {
     let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
     const nodelist = Building.buildNodeList(xmlData);
     const extents = Building.getExtents(id, xmlData, nodelist);
-    const innerData = await Building.getInnerData(...extents);
-    return new Building(id, innerData);
+    return await Building.getInnerData(...extents);
   }
 
   /**
