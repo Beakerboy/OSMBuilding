@@ -8,13 +8,22 @@ import {MultiBuildingPart} from './multibuildingpart.js';
  * XML data from the API.
  */
 class Building {
-  // Latitude and longitude that transitioned to (0, 0)
+  /**
+   * Latitude and longitude that transitions to (0, 0)
+   * @type {number[2]}
+   */
   home = [];
 
-  // the parts
+  /**
+   * The parts.
+   * @type {BuildingPart[]}
+   */
   parts = [];
 
-  // the BuildingPart of the outer building parimeter
+  /**
+   * The building part of the outer parimeter.
+   * @type {BuildingPart}
+   */
   outerElement;
 
   // DOM Tree of all elements to render
@@ -139,7 +148,10 @@ class Building {
     const mesh = [];
     if (this.parts.length > 0) {
       this.outerElement.options.building.visible = false;
-      mesh.push(...this.outerElement.render());
+      const outerMeshes = this.outerElement.render();
+      outerMeshes[0].visible = false;
+      outerMeshes[1].visible = false;
+      mesh.push(...outerMeshes);
       for (let i = 0; i < this.parts.length; i++) {
         mesh.push(...this.parts[i].render());
       }
