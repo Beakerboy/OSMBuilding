@@ -87,7 +87,7 @@ test('Invisible Outer Building', () => {
 });
 
 test('Visible Outer Building', () => {
-  const bldg = new Building();
+  const bldg = new Building('31361386', data);
   const mesh = bldg.render();
   //expect outer building and roof to be visible
   expect(mesh[0].visible).toBe(false);
