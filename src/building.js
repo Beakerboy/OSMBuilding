@@ -75,29 +75,30 @@ class Building {
     } else {
       this.type = 'relation';
     }
-    if (this.isValidData(outerElementXml)) {
-      this.nodelist = Building.buildNodeList(this.fullXmlData);
-      this.setHome();
-      this.repositionNodes();
-      if (this.type === 'way') {
-        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-      } else if (this.type === 'multipolygon') {
-        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
-      } else {
-        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.fullXmlData.getElementById(outlineRef);
-        const outlineType = outline.tagName.toLowerCase();
-        if (outlineType === 'way') {
-          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-        } else {
-          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
-        }
-      }
-      this.addParts();
-    } else {
-      window.printError('XML Not Valid');
-      throw new Error('invalid XML');
+    try {
+      this.validateData(outerElementXml);
+    } catch (e) {
+      throw new Error(`Rendering of ${outerElementXml.tagName.toLowerCase()} ${id} is not is not possible. ${e}`);
     }
+
+    this.nodelist = Building.buildNodeList(this.fullXmlData);
+    this.setHome();
+    this.repositionNodes();
+    if (this.type === 'way') {
+      this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+    } else if (this.type === 'multipolygon') {
+      this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
+    } else {
+      const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+      const outline = this.fullXmlData.getElementById(outlineRef);
+      const outlineType = outline.tagName.toLowerCase();
+      if (outlineType === 'way') {
+        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+      } else {
+        this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
+      }
+    }
+    this.addParts();
   }
 
   /**
@@ -248,7 +249,7 @@ class Building {
   /**
    * validate that we have the ID of a building way.
    */
-  isValidData(xmlData) {
+  validateData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
@@ -256,7 +257,7 @@ class Building {
       // get all building relation parts
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
-      var ref = 0;
+      let ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
@@ -268,8 +269,7 @@ class Building {
       }
     } else {
       if (!buildingType) {
-        window.printError('Outer way is not a building');
-        return false;
+        throw new Error('Outer way is not a building');
       }
       ways.push(xmlData);
     }
@@ -282,16 +282,14 @@ class Building {
           const firstRef = nodes[0].getAttribute('ref');
           const lastRef = nodes[nodes.length - 1].getAttribute('ref');
           if (firstRef !== lastRef) {
-            window.printError('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
-            return false;
+            throw new Error('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
           }
         } else {
-          window.printError('Way ' + way.getAttribute('id') + ' has no nodes.');
-          return false;
+          throw new Error('Way ' + way.getAttribute('id') + ' has no nodes.');
         }
       } else {
         let parts = way.querySelectorAll('member[role="part"]');
-        var ref = 0;
+        let ref = 0;
         for (let i = 0; i < parts.length; i++) {
           ref = parts[i].getAttribute('ref');
           const part = this.fullXmlData.getElementById(ref);
