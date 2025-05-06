@@ -97,6 +97,50 @@ test('Visible Outer Building', () => {
   expect(mesh[1].visible).toBe(true);
 });
 
+
+test('Test with neighboring incomplete building:part relation', () => {
+  const data = `<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+ <node id="1" lat="59.9297360" lon="30.4883115"/>
+ <node id="2" lat="59.9293517" lon="30.4883115"/>
+ <node id="3" lat="59.9293516" lon="30.4892180"/>
+ <node id="4" lat="59.9297360" lon="30.4892179"/>
+ <node id="5" lat="59.9279610" lon="30.4840202"/>
+ <node id="6" lat="59.9295379" lon="30.4879181"/>
+ <node id="7" lat="59.9283455" lon="30.4831137"/>
+ <way id="222">
+  <nd ref="3"/>
+  <nd ref="4"/>
+  <nd ref="1"/>
+ </way>
+ <way id="333">
+  <nd ref="1"/>
+  <nd ref="2"/>
+  <nd ref="3"/>
+ </way>
+ <way id="444">
+  <nd ref="5"/>
+  <nd ref="6"/>
+  <nd ref="7"/>
+ </way>
+ <relation id="42">
+  <member type="way" ref="222" role="outer"/>
+  <member type="way" ref="333" role="outer"/>
+  <tag k="building" v="apartments"/>
+  <tag k="type" v="multipolygon"/>
+ </relation>
+ <relation id="40">
+  <member type="way" ref="444" role="outer"/>
+  <member type="way" ref="1000" role="outer"/>
+  <tag k="building:part" v="yes"/>
+  <tag k="type" v="multipolygon"/>
+ </relation>
+</osm>
+`;
+  expect(new Building('42', data).id).toBe('42');
+});
+
+
 window.printError = printError;
 
 var errors = [];
