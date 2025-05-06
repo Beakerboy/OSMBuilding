@@ -77,6 +77,23 @@ test('Create Nodelist', () => {
   expect(errors.length).toBe(0);
 });
 
+
+test('Invisible Outer Building', () => {
+  const bldg = new Building();
+  const mesh = bldg.render();
+  //expect outer building and roof to not be visible
+  expect(mesh[0].visible).toBe(false);
+  expect(mesh[1].visible).toBe(false);
+});
+
+test('Visible Outer Building', () => {
+  const bldg = new Building();
+  const mesh = bldg.render();
+  //expect outer building and roof to be visible
+  expect(mesh[0].visible).toBe(false);
+  expect(mesh[1].visible).toBe(false);
+});
+
 window.printError = printError;
 
 var errors = [];
