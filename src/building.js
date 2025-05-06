@@ -148,7 +148,10 @@ class Building {
     const mesh = [];
     if (this.parts.length > 0) {
       this.outerElement.options.building.visible = false;
-      mesh.push(...this.outerElement.render());
+      const outerMeshes = this.outerElement.render()
+      outerMeshes[0].visible = false;
+      outerMeshes[1].visible = false;
+      mesh.push(...outerMeshes);
       for (let i = 0; i < this.parts.length; i++) {
         mesh.push(...this.parts[i].render());
       }
