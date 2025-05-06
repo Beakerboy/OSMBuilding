@@ -26,7 +26,10 @@ class Building {
    */
   outerElement;
 
-  // DOM Tree of all elements to render
+  /**
+   * DOM Tree of all elements to render
+   * @type {DOM.Element}
+   */
   fullXmlData;
 
   id = '0';
