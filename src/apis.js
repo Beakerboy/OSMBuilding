@@ -1,5 +1,5 @@
 const osmApiUrl = new URLSearchParams(location.search).get('osmApiUrl') || 'https://api.openstreetmap.org/api/0.6';
-const apis = {
+export const apis = {
   bounding: {
     api: osmApiUrl + '/map?bbox=',
     url: (left, bottom, right, top) => {

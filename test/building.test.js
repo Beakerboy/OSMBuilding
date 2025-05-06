@@ -6,23 +6,10 @@ expect.extend({toBeDeepCloseTo});
 
 import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
+import {expect, test, beforeEach, describe} from '@jest/globals';
 global.TextEncoder = TextEncoder;
 
-let apis = {
-  bounding: {
-    api:'https://api.openstreetmap.org/api/0.6/map?bbox=',
-    url: (left, bottom, right, top) => {
-      return apis.bounding.api + left + ',' + bottom + ',' + right + ',' + top;
-    },
-  },
-  getRelation: {
-    api:'https://api.openstreetmap.org/api/0.6/relation/',
-    parameters:'/full',
-    url: (relationId) => {
-      return apis.getRelation.api + relationId + apis.getRelation.parameters;
-    },
-  },
-};
+import {apis} from '../src/apis.js';
 global.apis = apis;
 
 import { Building } from '../src/building.js';
@@ -55,8 +42,22 @@ const data = `
 </osm>`;
 
 beforeEach(() => {
-  fetch.resetMocks();
+  fetchMock.resetMocks();
   errors = [];
+});
+
+describe.each([
+  [['way', -1], ['', { status: 404 }], /^The way -1 was not found on the server.\nURL: /],
+  [['way', -1], ['', { status: 410 }], /^The way -1 was deleted.\nURL: /],
+  [['way', -1], ['', { status: 509 }], /^HTTP 509.\nURL: /],
+  [['relation', -1], ['', { status: 404 }], /^The relation -1 was not found on the server.\nURL: /],
+  [['relation', -1], ['', { status: 410 }], /^The relation -1 was deleted.\nURL: /],
+  [['relation', -1], ['', { status: 509 }], /^HTTP 509.\nURL: /],
+])('Test API error handling', (args, response, matcher) => {
+  test(`Test API error for ${args[0]} ${args[1]} with HTTP ${response[1].status}`, async() => {
+    fetch.mockResponses(response);
+    await expect(Building.downloadDataAroundBuilding(...args)).rejects.toMatch(matcher);
+  });
 });
 
 test('Test Constructor', async() => {
