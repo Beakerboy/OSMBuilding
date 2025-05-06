@@ -8,13 +8,22 @@ import {MultiBuildingPart} from './multibuildingpart.js';
  * XML data from the API.
  */
 class Building {
-  // Latitude and longitude that transitioned to (0, 0)
+  /**
+   * Latitude and longitude that transitions to (0, 0)
+   * @type {number[2]}
+   */
   home = [];
 
-  // the parts
+  /**
+   * The parts.
+   * @type {BuildingPart[]}
+   */
   parts = [];
 
-  // the BuildingPart of the outer building parimeter
+  /**
+   * The building part of the outer parimeter.
+   * @type {BuildingPart}
+   */
   outerElement;
 
   // DOM Tree of all elements to render
