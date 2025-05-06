@@ -79,6 +79,9 @@ function init() {
         createFolders(folder, part.options);
       }
     }
+  }).catch(err => {
+    window.printError(err);
+    alert(err);
   });
   camera = new PerspectiveCamera(
     50,

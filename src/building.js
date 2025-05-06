@@ -192,24 +192,39 @@ class Building {
   static async getWayData(id) {
     let restPath = apis.getWay.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The way ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The way ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   static async getRelationData(id) {
     let restPath = apis.getRelation.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The relation ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The relation ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   /**
-   * Fetch way data from OSM
+   * Fetch map data data from OSM
    */
   static async getInnerData(left, bottom, right, top) {
-    let response = await fetch(apis.bounding.url(left, bottom, right, top));
-    let res = await response.text();
-    return res;
+    let url = apis.bounding.url(left, bottom, right, top);
+    let response = await fetch(url);
+    if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${url}`;
+    }
+    return await response.text();
   }
 
   /**
