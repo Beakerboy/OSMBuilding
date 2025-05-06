@@ -69,7 +69,7 @@ test('Test data validation open outline', () => {
     <tag k="building" v="yes"/>
   </way>`;
   expect(() => new Building('1', data))
-    .toThrow(new Error('Rendering of way 1 is not is not possible. Error: Way 1 is not a closed way. 2 !== 4.'));
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 is not a closed way. 2 !== 4.'));
 });
 
 test('Test data validation with not building', () => {
@@ -82,7 +82,7 @@ test('Test data validation with not building', () => {
     <tag k="not:building" v="yes"/>
   </way>`;
   expect(() => new Building('1', data))
-    .toThrow(new Error('Rendering of way 1 is not is not possible. Error: Outer way is not a building'));
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Outer way is not a building'));
 });
 
 test('Test data validation with empty way', () => {
@@ -91,7 +91,7 @@ test('Test data validation with empty way', () => {
     <tag k="building" v="yes"/>
   </way>`;
   expect(() => new Building('1', data))
-    .toThrow(new Error('Rendering of way 1 is not is not possible. Error: Way 1 has no nodes.'));
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 has no nodes.'));
 });
 
 test('Test Constructor', async() => {

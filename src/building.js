@@ -78,7 +78,7 @@ class Building {
     try {
       this.validateData(outerElementXml);
     } catch (e) {
-      throw new Error(`Rendering of ${outerElementXml.tagName.toLowerCase()} ${id} is not is not possible. ${e}`);
+      throw new Error(`Rendering of ${outerElementXml.tagName.toLowerCase()} ${id} is not possible. ${e}`);
     }
 
     this.nodelist = Building.buildNodeList(this.fullXmlData);
