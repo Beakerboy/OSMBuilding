@@ -193,7 +193,6 @@ class BuildingPart {
     this.createRoof();
     this.parts.push(this.roof);
     const mesh = this.createBuilding();
-    this.options.building.visible = true;
     if (this.getAttribute('building:part') === 'roof') {
       mesh.visible = false;
       this.options.building.visible = false;

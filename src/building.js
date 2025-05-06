@@ -150,7 +150,9 @@ class Building {
       this.outerElement.options.building.visible = false;
       const outerMeshes = this.outerElement.render();
       outerMeshes[0].visible = false;
+      this.outerElement.options.roof.visible = false;
       outerMeshes[1].visible = false;
+      this.outerElement.options.building.visible = false;
       mesh.push(...outerMeshes);
       for (let i = 0; i < this.parts.length; i++) {
         mesh.push(...this.parts[i].render());

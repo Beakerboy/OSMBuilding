@@ -84,6 +84,7 @@ test('Invisible Outer Building', () => {
   const mesh = bldg.render();
   //expect outer building and roof to not be visible
   expect(mesh[0].visible).toBe(false);
+  expect(bldg.outerElement.options.building.visible).toBe(false);
   expect(mesh[1].visible).toBe(false);
 });
 
