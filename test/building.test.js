@@ -60,6 +60,40 @@ describe.each([
   });
 });
 
+test('Test data validation open outline', () => {
+  const data = `
+  <way id="1">
+    <nd ref="2"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <tag k="building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 is not a closed way. 2 !== 4.'));
+});
+
+test('Test data validation with not building', () => {
+  const data = `
+  <way id="1">
+    <nd ref="2"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <nd ref="2"/>
+    <tag k="not:building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Outer way is not a building'));
+});
+
+test('Test data validation with empty way', () => {
+  const data = `
+  <way id="1">
+    <tag k="building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 has no nodes.'));
+});
+
 test('Test Constructor', async() => {
   const bldg = new Building('31361386', data);
   expect(bldg.home).toBeDeepCloseTo([11.015512, 49.5833659], 10);
