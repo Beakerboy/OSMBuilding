@@ -7,6 +7,21 @@ import {BuildingPart} from './buildingpart.js';
  */
 class MultiBuildingPart extends BuildingPart {
 
+  makeRings(members) {
+    const ways = [];
+    for (let j = 0; j < members.length; j++) {
+      const wayID = members[j].getAttribute('ref');
+      const way = this.fullXmlData.getElementById(wayID);
+      if (way) {
+        ways.push(way.cloneNode(true));
+      } else {
+        window.printError(`Missing way ${wayID} for relation ${this.id}`);
+        ways.push(this.augmentedWays[wayID].cloneNode(true));
+      }
+    }
+    return BuildingShapeUtils.combineWays(ways);
+  }
+
   /**
    * Create the shape of the outer relation.
    *
@@ -16,27 +31,15 @@ class MultiBuildingPart extends BuildingPart {
     this.type = 'multipolygon';
     const innerMembers = this.way.querySelectorAll('member[role="inner"][type="way"]');
     const outerMembers = this.way.querySelectorAll('member[role="outer"][type="way"]');
-    const innerShapes = [];
-    var shapes = [];
-    for (let i = 0; i < innerMembers.length; i++) {
-      const way = this.fullXmlData.getElementById(innerMembers[i].getAttribute('ref'));
-      innerShapes.push(BuildingShapeUtils.createShape(way, this.nodelist));
-    }
-    const ways = [];
-    for (let j = 0; j < outerMembers.length; j++) {
-      const way = this.fullXmlData.getElementById(outerMembers[j].getAttribute('ref'));
-      if (way === null) {
-        throw `Incompleted way ${outerMembers[j].getAttribute('ref')}`;
-      }
-      ways.push(way.cloneNode(true));
-    }
-    const closedWays = BuildingShapeUtils.combineWays(ways);
-    for (let k = 0; k < closedWays.length; k++) {
-      const shape = BuildingShapeUtils.createShape(closedWays[k], this.nodelist);
+    const shapes = [];
+    const innerShapes = this.makeRings(innerMembers).map(ring => BuildingShapeUtils.createShape(ring, this.nodelist, this.augmentedNodelist));
+    const closedOuterWays = this.makeRings(outerMembers);
+    for (let k = 0; k < closedOuterWays.length; k++) {
+      const shape = BuildingShapeUtils.createShape(closedOuterWays[k], this.nodelist, this.augmentedNodelist);
       shape.holes.push(...innerShapes);
       shapes.push(shape);
     }
-    if (closedWays.length === 1) {
+    if (closedOuterWays.length === 1) {
       return shapes[0];
     }
     // Multiple outer members
