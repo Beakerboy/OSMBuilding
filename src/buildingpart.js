@@ -458,7 +458,13 @@ class BuildingPart {
     }
     const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
-      material.color = new Color(color);
+      if (material instanceof MeshPhysicalMaterial) {
+        material.emissive = new Color(color);
+        material.emissiveIntensity = 0.5;
+        material.roughness = 0.5;
+      } else {
+        material.color = new Color(color);
+      }
     } else if (materialName === ''){
       material.color = new Color('white');
     }
@@ -488,7 +494,11 @@ class BuildingPart {
       material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
-      material.color = new Color(color);
+      if (material instanceof MeshPhysicalMaterial) {
+        material.emissive = new Color(color);
+      } else {
+        material.color = new Color(color);
+      }
     }
     return material;
   }
