@@ -13,12 +13,15 @@ jobs:
         wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
         wget -P ../ramp https://beakerboy.github.io/Threejs-Geometries/src/RampGeometry.js
         wget -P ../wedge https://beakerboy.github.io/Threejs-Geometries/src/WedgeGeometry.js
+        wget -P ../hipped https://beakerboy.github.io/Threejs-Geometries/src/HippedGeometry.js
         cd ../pyramid
         echo '{"name":"pyramid","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         cd ../ramp
         echo '{"name":"ramp","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         cd ../wedge
         echo '{"name":"wedge","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
+        cd ../hipped
+        echo '{"name":"hipped","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         cd ../OSMBuilding
         yarn --prod=false
     - name: Lint
