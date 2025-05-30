@@ -23,6 +23,10 @@ class BuildingShapeUtils extends ShapeUtils {
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
+    // If the first and last point are identical, remove the last copy.
+    if (elements[0][0] === elements[elements.length - 1][0] && elements[0][1] === elements[elements.length - 1][1]) {
+      elements.pop();
+    }
     let first = true;
     for (const element of elements) {
       ref = element.getAttribute('ref');
