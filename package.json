@@ -22,7 +22,8 @@
     "hipped": "file:../hipped",
     "pyramid": "file:../pyramid",
     "ramp": "file:../ramp",
-    "wedge": "file:../wedge"
+    "wedge": "file:../wedge",
+    "straight-skeleton": "1.1.0"
   },
   "scripts": {
     "test": "c8 jest"
