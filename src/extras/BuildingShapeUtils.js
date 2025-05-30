@@ -30,7 +30,7 @@ class BuildingShapeUtils extends ShapeUtils {
       nodes.push(nodelist[ref]);
     }
     // If the first and last point are identical, remove the last copy.
-    if (nodes[0][0] === nodes[elements.length - 1][0] && nodes[0][1] === nodes[elements.length - 1][1]) {
+    if (nodes.length > 1 && nodes[0][0] === nodes[elements.length - 1][0] && nodes[0][1] === nodes[elements.length - 1][1]) {
       nodes.pop();
     }
     let first = true;
