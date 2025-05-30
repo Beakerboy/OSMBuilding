@@ -33,7 +33,7 @@ class BuildingShapeUtils extends ShapeUtils {
     if (nodes[0][0] === nodes[elements.length - 1][0] && nodes[0][1] === nodes[elements.length - 1][1]) {
       nodes.pop();
     }
-    const first = true;
+    let first = true;
     for (const node of nodes) {
       // The first node requires a different function call.
       if (first) {
