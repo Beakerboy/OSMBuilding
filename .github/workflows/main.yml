@@ -10,6 +10,7 @@ jobs:
         mkdir ../pyramid
         mkdir ../ramp
         mkdir ../wedge
+        mkdir ../hipped
         wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
         wget -P ../ramp https://beakerboy.github.io/Threejs-Geometries/src/RampGeometry.js
         wget -P ../wedge https://beakerboy.github.io/Threejs-Geometries/src/WedgeGeometry.js
