@@ -11,7 +11,7 @@ import {
 import {PyramidGeometry} from 'pyramid';
 import {RampGeometry} from 'ramp';
 import {WedgeGeometry} from 'wedge';
-import {WedgeGeometry} from 'hipped';
+import {HippedGeometry} from 'hipped';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
