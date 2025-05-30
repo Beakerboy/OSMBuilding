@@ -19,6 +19,7 @@
     "jest-fetch-mock": "*",
     "jest-matcher-deep-close-to": "*",
     "jsdom": "*",
+    "hipped": "file:../hipped",
     "pyramid": "file:../pyramid",
     "ramp": "file:../ramp",
     "wedge": "file:../wedge"
