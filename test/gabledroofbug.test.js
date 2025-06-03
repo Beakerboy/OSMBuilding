@@ -33,7 +33,7 @@ const data = `
 
 let accessCount = 0;
 const fetch = function (input) {
-  accessCoint++;
+  accessCount++;
   if (accessCount === 1) {
     return data;
   }
