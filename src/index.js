@@ -29,14 +29,95 @@ var errorBox = false;
 
 var gui;
 
+async function getFileFromForm() {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      inset: '0',
+      background: '#222',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: '9999',
+    });
+
+    const container = document.createElement('div');
+    Object.assign(container.style, {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '1rem',
+    });
+
+    const text = document.createElement('p');
+    text.textContent = 'Select .osm file:';
+    Object.assign(text.style, {
+      color: '#eee',
+      margin: '0',
+      fontSize: '1.5rem',
+      fontFamily: 'Arial',
+    });
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    Object.assign(input.style, {
+      fontSize: '1.5rem',
+      padding: '0.5rem 1rem',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+      backgroundColor: '#333',
+      color: '#eee',
+      border: '1px solid #555',
+    });
+
+    container.appendChild(text);
+    container.appendChild(input);
+    overlay.appendChild(container);
+    document.body.appendChild(overlay);
+
+    input.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsText(file);
+        overlay.remove();
+      }
+    });
+
+    overlay.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      overlay.style.cursor = 'copy';
+    });
+
+    overlay.addEventListener('dragleave', () => {
+      overlay.style.cursor = '';
+    });
+
+    overlay.addEventListener('drop', async(event) => {
+      event.preventDefault();
+      overlay.style.cursor = '';
+
+      const file = event.dataTransfer.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsText(file);
+        overlay.remove();
+      }
+    });
+  });
+}
+
 /**
  * Initialize the screen
  */
 function init() {
-  var type = 'way';
-  var id = 66418809;
+  let type = 'way';
+  let id = 66418809;
 
-  var displayInfo = false;
+  let displayInfo = false;
 
   window.printError = printError;
 
@@ -53,7 +134,18 @@ function init() {
   if (params.has('errorBox')) {
     errorBox = true;
   }
-  Building.downloadDataAroundBuilding(type, id).then(function(innerData){
+  const fileUrl = new URLSearchParams(location.search).get('fromFile');
+  async function downloadInnerData() {
+    if (fileUrl === '') {
+      return await getFileFromForm();
+    } else if (fileUrl !== null) {
+      printError('Loading map data from URL');
+      return await (await fetch(new URLSearchParams(location.search).get('fromFile'))).text();
+    } else {
+      return await Building.downloadDataAroundBuilding(type, id);
+    }
+  }
+  downloadInnerData().then(function(innerData){
     mainBuilding = new Building(id, innerData);
     const helperSize = mainBuilding.outerElement.getWidth();
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
