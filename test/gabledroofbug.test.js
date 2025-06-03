@@ -38,3 +38,10 @@ beforeEach(() => {
 test('Constructor', () => {
   let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
 });
+window.printError = printError;
+
+var errors = [];
+
+function printError(txt) {
+  errors.push[txt];
+}
