@@ -31,8 +31,21 @@ const data = `
 </way>
 </osm>`;
 
+let accessCount = 0;
+const fetch = function (input) {
+  accessCoint++;
+  if (accessCount === 1) {
+    return data;
+  }
+  throw new Error(input);
+}
+
 beforeEach(() => {
   errors = [];
+});
+
+test ('', () => {
+  Building.downloadDataAroundBuilding('way', '31361386');
 });
 
 test('Constructor', () => {
