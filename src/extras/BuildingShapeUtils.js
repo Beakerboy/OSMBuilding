@@ -17,14 +17,14 @@ class BuildingShapeUtils extends ShapeUtils {
     // Initialize objects
     const shape = new Shape();
     var ref;
-   const nodes = [];
+    const nodes = [];
 
     // Get all the nodes in the way of interest
     /** {HTMLCollection} */
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
-    
+
     for (const element of elements) {
       ref = element.getAttribute('ref');
       nodes.push(nodelist[ref]);
