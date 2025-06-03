@@ -36,7 +36,8 @@ beforeEach(() => {
 });
 
 test('Constructor', () => {
-  let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
+  const bldg = new Building('31361386', data);
+  expect(bldg.parts.length),toBe(1);
 });
 
 window.printError = printError;
