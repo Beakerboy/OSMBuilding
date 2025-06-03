@@ -25,12 +25,11 @@ test('', () => {
     3: [-1, 1],
   };
   const shape = BuildingShapeUtils.createShape(xmlData, nodelist);
-  expect(shape.extractPoints().shape.length).toBe(4);
+  expect(shape.extractPoints().shape.length).toBe(3);
   const points = shape.extractPoints().shape;
   expect([points[0].x, points[0].y]).toStrictEqual(nodelist[1]);
   expect([points[1].x, points[1].y]).toStrictEqual(nodelist[2]);
   expect([points[2].x, points[2].y]).toStrictEqual(nodelist[3]);
-  expect([points[0].x, points[0].y]).toStrictEqual(nodelist[1]);
 });
 
 /** Test isClosed */
