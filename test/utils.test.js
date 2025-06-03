@@ -124,6 +124,13 @@ rightTriangle2.lineTo(-1, 1);
 rightTriangle2.lineTo(1, -1);
 rightTriangle2.lineTo(1, 1);
 
+const rectangle = new Shape();
+rectangle.moveTo(-4.332738077015795, -5.882209888874915);
+rectangle.lineTo(-4.332738077015795, 5.88221335051411);
+rectangle.lineTo(4.332747472106493, 5.88221335051411);
+rectangle.lineTo(4.332747472106493, -5.882209888874915);
+rectangle.lineTo(-4.332738077015795, -5.882209888874915);
+
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
 });
@@ -152,9 +159,10 @@ test('Vertex Angles counterclockwise', () => {
 describe.each([
   [rightTriangle, [-Math.PI / 2, 3 * Math.PI / 4, 0], 'CW'],
   [rightTriangle2, [Math.PI, -Math.PI / 4, Math.PI / 2], 'CCW'],
+  [rectangle, [Math.PI / 2, 0, -Math.PI / 2, Math.PI], 'Rect'],
 ])('Edge Direction', (shape, expected, description) =>{
   test(`${description}`, () => {
-    expect(BuildingShapeUtils.edgeDirection(shape)).toBeDeepCloseTo(expected);
+    expect(BuildingShapeUtils.edgeDirection(shape)).toStrictEqual(expected);
   });
 });
 

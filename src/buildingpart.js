@@ -11,6 +11,7 @@ import {
 import {PyramidGeometry} from 'pyramid';
 import {RampGeometry} from 'ramp';
 import {WedgeGeometry} from 'wedge';
+import {HippedGeometry} from 'hipped';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
@@ -285,6 +286,15 @@ class BuildingPart {
       };
       const geometry = new PyramidGeometry(this.shape, options);
 
+      material = BuildingPart.getRoofMaterial(this.way);
+      roof = new Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
+    } else if (this.options.roof.shape === 'hipped') {
+      const options = {
+        depth: this.options.roof.height,
+      };
+      const geometry = new HippedGeometry(this.shape, options);
       material = BuildingPart.getRoofMaterial(this.way);
       roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
