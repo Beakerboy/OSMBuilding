@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { BuildingPart } from '../src/buildingpart.js';
+import { Building } from '../src/building.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
