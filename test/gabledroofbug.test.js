@@ -37,7 +37,7 @@ beforeEach(() => {
 
 test('Constructor', () => {
   const bldg = new Building('31361386', data);
-  expect(bldg.parts.length),toBe(1);
+  expect(bldg.parts.length).toBe(1);
 });
 
 window.printError = printError;
