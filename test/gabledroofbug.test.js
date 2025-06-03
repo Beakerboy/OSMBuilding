@@ -38,6 +38,11 @@ beforeEach(() => {
 test('Constructor', () => {
   const bldg = new Building('31361386', data);
   expect(bldg.parts.length).toBe(1);
+  const part = bldg.parts[0];
+  const meshes = part.render();
+  const roofmesh = meshes[0];
+  const roofGeometry = roofmesh.geometry;
+  expect(roofGeometry.constructor.name).toBe('WedgeGeometry');
 });
 
 window.printError = printError;
