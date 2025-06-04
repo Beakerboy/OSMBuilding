@@ -46,6 +46,7 @@ test ('Factory', () => {
     [data],
   );
   Building.downloadDataAroundBuilding('way', '31361386');
+  expect(global.fetch).toHaveBeenCalledTimes(2);
 });
 
 window.printError = printError;
