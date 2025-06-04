@@ -34,16 +34,8 @@ const data = `<?xml version='1.0' encoding='UTF-8'?>
 </way>
 </osm>`;
 
-let accessCount = 0;
-
-const mockResponse = {
-  ok: true,
-  status: 200,
-  text: jest.fn().mockResolvedValue(data),
-};
-global.fetch = jest.fn().mockResolvedValue(mockResponse);
-
 beforeEach(() => {
+  fetchMock.resetMocks();
   errors = [];
 });
 
@@ -51,7 +43,10 @@ test ('', () => {
   Building.downloadDataAroundBuilding('way', '31361386');
 });
 
-test('Constructor', () => {
+test('Factory', () => {
+  fetch.mockResponses(
+    [data],
+  );
   const bldg = new Building('31361386', data);
   expect(bldg.parts.length).toBe(1);
   const part = bldg.parts[0];
