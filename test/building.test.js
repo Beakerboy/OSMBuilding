@@ -6,23 +6,10 @@ expect.extend({toBeDeepCloseTo});
 
 import { Shape, Mesh } from 'three';
 import { TextEncoder } from 'node:util';
+import {expect, test, beforeEach, describe} from '@jest/globals';
 global.TextEncoder = TextEncoder;
 
-let apis = {
-  bounding: {
-    api:'https://api.openstreetmap.org/api/0.6/map?bbox=',
-    url: (left, bottom, right, top) => {
-      return apis.bounding.api + left + ',' + bottom + ',' + right + ',' + top;
-    },
-  },
-  getRelation: {
-    api:'https://api.openstreetmap.org/api/0.6/relation/',
-    parameters:'/full',
-    url: (relationId) => {
-      return apis.getRelation.api + relationId + apis.getRelation.parameters;
-    },
-  },
-};
+import {apis} from '../src/apis.js';
 global.apis = apis;
 
 import { Building } from '../src/building.js';
@@ -55,8 +42,56 @@ const data = `
 </osm>`;
 
 beforeEach(() => {
-  fetch.resetMocks();
+  fetchMock.resetMocks();
   errors = [];
+});
+
+describe.each([
+  [['way', -1], ['', { status: 404 }], /^The way -1 was not found on the server.\nURL: /],
+  [['way', -1], ['', { status: 410 }], /^The way -1 was deleted.\nURL: /],
+  [['way', -1], ['', { status: 509 }], /^HTTP 509.\nURL: /],
+  [['relation', -1], ['', { status: 404 }], /^The relation -1 was not found on the server.\nURL: /],
+  [['relation', -1], ['', { status: 410 }], /^The relation -1 was deleted.\nURL: /],
+  [['relation', -1], ['', { status: 509 }], /^HTTP 509.\nURL: /],
+])('Test API error handling', (args, response, matcher) => {
+  test(`Test API error for ${args[0]} ${args[1]} with HTTP ${response[1].status}`, async() => {
+    fetch.mockResponses(response);
+    await expect(Building.downloadDataAroundBuilding(...args)).rejects.toMatch(matcher);
+  });
+});
+
+test('Test data validation open outline', () => {
+  const data = `
+  <way id="1">
+    <nd ref="2"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <tag k="building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 is not a closed way. 2 !== 4.'));
+});
+
+test('Test data validation with not building', () => {
+  const data = `
+  <way id="1">
+    <nd ref="2"/>
+    <nd ref="3"/>
+    <nd ref="4"/>
+    <nd ref="2"/>
+    <tag k="not:building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Outer way is not a building'));
+});
+
+test('Test data validation with empty way', () => {
+  const data = `
+  <way id="1">
+    <tag k="building" v="yes"/>
+  </way>`;
+  expect(() => new Building('1', data))
+    .toThrow(new Error('Rendering of way 1 is not possible. Error: Way 1 has no nodes.'));
 });
 
 test('Test Constructor', async() => {
@@ -75,6 +110,205 @@ test('Create Nodelist', () => {
   // Long / Lat
   expect(list['349300285']).toStrictEqual(['11.0155721', '49.5833130']);
   expect(errors.length).toBe(0);
+});
+
+
+test('Invisible Outer Building', () => {
+  const bldg = new Building('31361386', data);
+  bldg.parts = [bldg.outerElement];
+  const mesh = bldg.render();
+  //expect outer building and roof to not be visible
+  expect(mesh[0].visible).toBe(false);
+  expect(bldg.outerElement.options.building.visible).toBe(false);
+  expect(mesh[1].visible).toBe(false);
+});
+
+test('Visible Outer Building', () => {
+  const bldg = new Building('31361386', data);
+  const mesh = bldg.render();
+  //expect outer building and roof to be visible
+  expect(mesh[0].visible).toBe(true);
+  expect(mesh[1].visible).toBe(true);
+});
+
+
+test('Test with neighboring incomplete building:part relation', () => {
+  const data = `<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+ <node id="1" lat="59.9297360" lon="30.4883115"/>
+ <node id="2" lat="59.9293517" lon="30.4883115"/>
+ <node id="3" lat="59.9293516" lon="30.4892180"/>
+ <node id="4" lat="59.9297360" lon="30.4892179"/>
+ <node id="5" lat="59.9279610" lon="30.4840202"/>
+ <node id="6" lat="59.9295379" lon="30.4879181"/>
+ <node id="7" lat="59.9283455" lon="30.4831137"/>
+ <way id="222">
+  <nd ref="3"/>
+  <nd ref="4"/>
+  <nd ref="1"/>
+ </way>
+ <way id="333">
+  <nd ref="1"/>
+  <nd ref="2"/>
+  <nd ref="3"/>
+ </way>
+ <way id="444">
+  <nd ref="5"/>
+  <nd ref="6"/>
+  <nd ref="7"/>
+ </way>
+ <relation id="42">
+  <member type="way" ref="222" role="outer"/>
+  <member type="way" ref="333" role="outer"/>
+  <tag k="building" v="apartments"/>
+  <tag k="type" v="multipolygon"/>
+ </relation>
+ <relation id="40">
+  <member type="way" ref="444" role="outer"/>
+  <member type="way" ref="1000" role="outer"/>
+  <tag k="building:part" v="yes"/>
+  <tag k="type" v="multipolygon"/>
+ </relation>
+</osm>
+`;
+  expect(new Building('42', data).id).toBe('42');
+});
+
+const typeBuildingWithMultipolygonOutline = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6">
+  <node id="1" lat="59.938127" lon="30.4980057"/>
+  <node id="2" lat="59.9380365" lon="30.4992843"/>
+  <node id="3" lat="59.9384134" lon="30.4993839"/>
+  <node id="4" lat="59.9385087" lon="30.4981066"/>
+  <node id="5" lat="59.9381203" lon="30.4989364"/>
+  <node id="6" lat="59.93838" lon="30.499005"/>
+  <node id="7" lat="59.9384221" lon="30.498439"/>
+  <node id="8" lat="59.9381551" lon="30.4983684"/>
+  <way id="20">
+    <nd ref="4"/>
+    <nd ref="3"/>
+    <nd ref="2"/>
+    <nd ref="1"/>
+  </way>
+  <way id="21">
+    <nd ref="1"/>
+    <nd ref="4"/>
+  </way>
+  <way id="22">
+    <nd ref="6"/>
+    <nd ref="7"/>
+  </way>
+  <way id="23">
+    <nd ref="5"/>
+    <nd ref="6"/>
+  </way>
+  <way id="24">
+    <nd ref="8"/>
+    <nd ref="5"/>
+  </way>
+  <way id="25">
+    <nd ref="7"/>
+    <nd ref="8"/>
+  </way>
+  <relation id="40">
+    <member type="way" ref="20" role="outer"/>
+    <member type="way" ref="21" role="outer"/>
+    <member type="way" ref="22" role="inner"/>
+    <member type="way" ref="23" role="inner"/>
+    <member type="way" ref="24" role="inner"/>
+    <member type="way" ref="25" role="inner"/>
+    <tag k="building" v="school"/>
+    <tag k="building:levels" v="3"/>
+    <tag k="roof:shape" v="flat"/>
+    <tag k="type" v="multipolygon"/>
+  </relation>
+  <relation id="42">
+    <member type="relation" ref="40" role="outline"/>
+    <tag k="type" v="building"/>
+  </relation>
+</osm>
+`;
+const typeBuildingRelationFullResponse = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6">
+  <relation id="40">
+    <member type="way" ref="20" role="outer"/>
+    <member type="way" ref="21" role="outer"/>
+    <member type="way" ref="22" role="inner"/>
+    <member type="way" ref="23" role="inner"/>
+    <member type="way" ref="24" role="inner"/>
+    <member type="way" ref="25" role="inner"/>
+    <tag k="building" v="school"/>
+    <tag k="building:levels" v="3"/>
+    <tag k="roof:shape" v="flat"/>
+    <tag k="type" v="multipolygon"/>
+  </relation>
+  <relation id="42">
+    <member type="relation" ref="40" role="outline"/>
+    <tag k="type" v="building"/>
+  </relation>
+</osm>
+`;
+const outlineRelationFullResponse = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6">
+  <node id="1" lat="59.938127" lon="30.4980057"/>
+  <node id="2" lat="59.9380365" lon="30.4992843"/>
+  <node id="3" lat="59.9384134" lon="30.4993839"/>
+  <node id="4" lat="59.9385087" lon="30.4981066"/>
+  <node id="5" lat="59.9381203" lon="30.4989364"/>
+  <node id="6" lat="59.93838" lon="30.499005"/>
+  <node id="7" lat="59.9384221" lon="30.498439"/>
+  <node id="8" lat="59.9381551" lon="30.4983684"/>
+  <way id="20">
+    <nd ref="4"/>
+    <nd ref="3"/>
+    <nd ref="2"/>
+    <nd ref="1"/>
+  </way>
+  <way id="21">
+    <nd ref="1"/>
+    <nd ref="4"/>
+  </way>
+  <way id="22">
+    <nd ref="6"/>
+    <nd ref="7"/>
+  </way>
+  <way id="23">
+    <nd ref="5"/>
+    <nd ref="6"/>
+  </way>
+  <way id="24">
+    <nd ref="8"/>
+    <nd ref="5"/>
+  </way>
+  <way id="25">
+    <nd ref="7"/>
+    <nd ref="8"/>
+  </way>
+  <relation id="40">
+    <member type="way" ref="20" role="outer"/>
+    <member type="way" ref="21" role="outer"/>
+    <member type="way" ref="22" role="inner"/>
+    <member type="way" ref="23" role="inner"/>
+    <member type="way" ref="24" role="inner"/>
+    <member type="way" ref="25" role="inner"/>
+    <tag k="building" v="school"/>
+    <tag k="building:levels" v="3"/>
+    <tag k="roof:shape" v="flat"/>
+    <tag k="type" v="multipolygon"/>
+  </relation>
+</osm>
+`;
+
+test('Test downloading type=building with multipolygon outline and multiple inner ways', async() => {
+  fetch.mockResponses(
+    [typeBuildingRelationFullResponse],    // /relation/42/full
+    [outlineRelationFullResponse],         // /relation/40/full
+    [typeBuildingWithMultipolygonOutline], // /map call
+  );
+  const innerData = await Building.downloadDataAroundBuilding('relation', '42');
+  const building = new Building('42', innerData);
+  expect(building.id).toBe('42');
+  expect(building.outerElement.shape.holes.length).toBe(1);
 });
 
 window.printError = printError;

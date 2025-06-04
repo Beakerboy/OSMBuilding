@@ -19,9 +19,9 @@ const data = `
   <node id="9" lat="4.00025" lon="4.00075"/>
   <node id="10" lat="4.00075" lon="4.0005"/>
   <relation id="5">
-    <member ref="1" role="outer"/>
-    <member ref="3" role="outer"/>
-    <member ref="2" role="inner"/>
+    <member ref="1" role="outer" type="way"/>
+    <member ref="3" role="outer" type="way"/>
+    <member ref="2" role="inner" type="way"/>
     <tag k="type" v="multipolygon"/>
     <tag k="building" v="yes"/>
     <tag k="roof:shape" v="skillion"/>

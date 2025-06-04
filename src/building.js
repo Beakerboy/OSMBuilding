@@ -1,3 +1,4 @@
+import {apis} from './apis.js';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 import {BuildingPart} from './buildingpart.js';
 import {MultiBuildingPart} from './multibuildingpart.js';
@@ -8,16 +9,28 @@ import {MultiBuildingPart} from './multibuildingpart.js';
  * XML data from the API.
  */
 class Building {
-  // Latitude and longitude that transitioned to (0, 0)
+  /**
+   * Latitude and longitude that transitions to (0, 0)
+   * @type {number[2]}
+   */
   home = [];
 
-  // the parts
+  /**
+   * The parts.
+   * @type {BuildingPart[]}
+   */
   parts = [];
 
-  // the BuildingPart of the outer building parimeter
+  /**
+   * The building part of the outer parimeter.
+   * @type {BuildingPart}
+   */
   outerElement;
 
-  // DOM Tree of all elements to render
+  /**
+   * DOM Tree of all elements to render
+   * @type {DOM.Element}
+   */
   fullXmlData;
 
   id = '0';
@@ -29,21 +42,38 @@ class Building {
   type;
   options;
 
+  static async getRelationDataWithChildRelations(id) {
+    const xmlData = new window.DOMParser().parseFromString(await Building.getRelationData(id), 'text/xml');
+    await Promise.all(Array.from(xmlData.querySelectorAll('member[type=relation]')).map(async r => {
+      const childId = r.getAttribute('ref');
+      if (r.getAttribute('id') === childId) {
+        return;
+      }
+      const childData = new window.DOMParser().parseFromString(await Building.getRelationData(childId), 'text/xml');
+      childData.querySelectorAll('node, way, relation').forEach(i => {
+        if (xmlData.querySelector(`${i.tagName}[id="${i.getAttribute('id')}"]`)) {
+          return;
+        }
+        xmlData.querySelector('osm').appendChild(i);
+      });
+    }));
+    return new XMLSerializer().serializeToString(xmlData);
+  }
+
   /**
-   * Create new building
+   * Download data for new building
    */
-  static async create(type, id) {
-    var data;
+  static async downloadDataAroundBuilding(type, id) {
+    let data;
     if (type === 'way') {
       data = await Building.getWayData(id);
     } else {
-      data = await Building.getRelationData(id);
+      data = await Building.getRelationDataWithChildRelations(id);
     }
     let xmlData = new window.DOMParser().parseFromString(data, 'text/xml');
     const nodelist = Building.buildNodeList(xmlData);
     const extents = Building.getExtents(id, xmlData, nodelist);
-    const innerData = await Building.getInnerData(...extents);
-    return new Building(id, innerData);
+    return await Building.getInnerData(...extents);
   }
 
   /**
@@ -63,29 +93,30 @@ class Building {
     } else {
       this.type = 'relation';
     }
-    if (this.isValidData(outerElementXml)) {
-      this.nodelist = Building.buildNodeList(this.fullXmlData);
-      this.setHome();
-      this.repositionNodes();
-      if (this.type === 'way') {
-        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-      } else if (this.type === 'multipolygon') {
-        this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
-      } else {
-        const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
-        const outline = this.fullXmlData.getElementById(outlineRef);
-        const outlineType = outline.tagName.toLowerCase();
-        if (outlineType === 'way') {
-          this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
-        } else {
-          this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
-        }
-      }
-      this.addParts();
-    } else {
-      window.printError('XML Not Valid');
-      throw new Error('invalid XML');
+    try {
+      this.validateData(outerElementXml);
+    } catch (e) {
+      throw new Error(`Rendering of ${outerElementXml.tagName.toLowerCase()} ${id} is not possible. ${e}`);
     }
+
+    this.nodelist = Building.buildNodeList(this.fullXmlData);
+    this.setHome();
+    this.repositionNodes();
+    if (this.type === 'way') {
+      this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+    } else if (this.type === 'multipolygon') {
+      this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
+    } else {
+      const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+      const outline = this.fullXmlData.getElementById(outlineRef);
+      const outlineType = outline.tagName.toLowerCase();
+      if (outlineType === 'way') {
+        this.outerElement = new BuildingPart(id, this.fullXmlData, this.nodelist);
+      } else {
+        this.outerElement = new MultiBuildingPart(outlineRef, this.fullXmlData, this.nodelist);
+      }
+    }
+    this.addParts();
   }
 
   /**
@@ -140,7 +171,12 @@ class Building {
     const mesh = [];
     if (this.parts.length > 0) {
       this.outerElement.options.building.visible = false;
-      mesh.push(...this.outerElement.render());
+      const outerMeshes = this.outerElement.render();
+      outerMeshes[0].visible = false;
+      this.outerElement.options.roof.visible = false;
+      outerMeshes[1].visible = false;
+      this.outerElement.options.building.visible = false;
+      mesh.push(...outerMeshes);
       for (let i = 0; i < this.parts.length; i++) {
         mesh.push(...this.parts[i].render());
       }
@@ -181,7 +217,11 @@ class Building {
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].querySelector('[k="building:part"]')) {
           const id = parts[i].getAttribute('id');
-          this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          try {
+            this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+          } catch (e) {
+            window.printError(e);
+          }
         }
       }
     }
@@ -193,30 +233,45 @@ class Building {
   static async getWayData(id) {
     let restPath = apis.getWay.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The way ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The way ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   static async getRelationData(id) {
     let restPath = apis.getRelation.url(id);
     let response = await fetch(restPath);
-    let text = await response.text();
-    return text;
+    if (response.status === 404) {
+      throw `The relation ${id} was not found on the server.\nURL: ${restPath}`;
+    } else if (response.status === 410) {
+      throw `The relation ${id} was deleted.\nURL: ${restPath}`;
+    } else if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${restPath}`;
+    }
+    return await response.text();
   }
 
   /**
-   * Fetch way data from OSM
+   * Fetch map data data from OSM
    */
   static async getInnerData(left, bottom, right, top) {
-    let response = await fetch(apis.bounding.url(left, bottom, right, top));
-    let res = await response.text();
-    return res;
+    let url = apis.bounding.url(left, bottom, right, top);
+    let response = await fetch(url);
+    if (response.status !== 200) {
+      throw `HTTP ${response.status}.\nURL: ${url}`;
+    }
+    return await response.text();
   }
 
   /**
    * validate that we have the ID of a building way.
    */
-  isValidData(xmlData) {
+  validateData(xmlData) {
     // Check that it is a building (<tag k="building" v="*"/> exists)
     const buildingType = xmlData.querySelector('[k="building"]');
     const ways = [];
@@ -224,7 +279,7 @@ class Building {
       // get all building relation parts
       // todo: multipolygon inner and outer roles.
       let parts = xmlData.querySelectorAll('member[role="part"]');
-      var ref = 0;
+      let ref = 0;
       for (let i = 0; i < parts.length; i++) {
         ref = parts[i].getAttribute('ref');
         const part = this.fullXmlData.getElementById(ref);
@@ -236,8 +291,7 @@ class Building {
       }
     } else {
       if (!buildingType) {
-        window.printError('Outer way is not a building');
-        return false;
+        throw new Error('Outer way is not a building');
       }
       ways.push(xmlData);
     }
@@ -250,16 +304,14 @@ class Building {
           const firstRef = nodes[0].getAttribute('ref');
           const lastRef = nodes[nodes.length - 1].getAttribute('ref');
           if (firstRef !== lastRef) {
-            window.printError('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
-            return false;
+            throw new Error('Way ' + way.getAttribute('id') + ' is not a closed way. ' + firstRef + ' !== ' + lastRef + '.');
           }
         } else {
-          window.printError('Way ' + way.getAttribute('id') + ' has no nodes.');
-          return false;
+          throw new Error('Way ' + way.getAttribute('id') + ' has no nodes.');
         }
       } else {
         let parts = way.querySelectorAll('member[role="part"]');
-        var ref = 0;
+        let ref = 0;
         for (let i = 0; i < parts.length; i++) {
           ref = parts[i].getAttribute('ref');
           const part = this.fullXmlData.getElementById(ref);

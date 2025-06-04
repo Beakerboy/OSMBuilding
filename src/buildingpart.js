@@ -11,6 +11,7 @@ import {
 import {PyramidGeometry} from 'pyramid';
 import {RampGeometry} from 'ramp';
 import {WedgeGeometry} from 'wedge';
+import {HippedGeometry} from 'hipped';
 import {BuildingShapeUtils} from './extras/BuildingShapeUtils.js';
 /**
  * An OSM Building Part
@@ -193,7 +194,6 @@ class BuildingPart {
     this.createRoof();
     this.parts.push(this.roof);
     const mesh = this.createBuilding();
-    this.options.building.visible = true;
     if (this.getAttribute('building:part') === 'roof') {
       mesh.visible = false;
       this.options.building.visible = false;
@@ -286,6 +286,15 @@ class BuildingPart {
       };
       const geometry = new PyramidGeometry(this.shape, options);
 
+      material = BuildingPart.getRoofMaterial(this.way);
+      roof = new Mesh( geometry, material );
+      roof.rotation.x = -Math.PI / 2;
+      roof.position.set( 0, this.options.building.height - this.options.roof.height, 0);
+    } else if (this.options.roof.shape === 'hipped') {
+      const options = {
+        depth: this.options.roof.height,
+      };
+      const geometry = new HippedGeometry(this.shape, options);
       material = BuildingPart.getRoofMaterial(this.way);
       roof = new Mesh( geometry, material );
       roof.rotation.x = -Math.PI / 2;
@@ -459,7 +468,13 @@ class BuildingPart {
     }
     const material = BuildingPart.getBaseMaterial(materialName);
     if (color !== '') {
-      material.color = new Color(color);
+      if (material instanceof MeshPhysicalMaterial) {
+        material.emissive = new Color(color);
+        material.emissiveIntensity = 0.5;
+        material.roughness = 0.5;
+      } else {
+        material.color = new Color(color);
+      }
     } else if (materialName === ''){
       material.color = new Color('white');
     }
@@ -489,7 +504,11 @@ class BuildingPart {
       material = BuildingPart.getBaseMaterial(materialName);
     }
     if (color !== '') {
-      material.color = new Color(color);
+      if (material instanceof MeshPhysicalMaterial) {
+        material.emissive = new Color(color);
+      } else {
+        material.color = new Color(color);
+      }
     }
     return material;
   }

@@ -53,13 +53,13 @@ function init() {
   if (params.has('errorBox')) {
     errorBox = true;
   }
-  Building.create(type, id).then(function(myObj){
-    mainBuilding = myObj;
-    const helperSize = myObj.outerElement.getWidth();
+  Building.downloadDataAroundBuilding(type, id).then(function(innerData){
+    mainBuilding = new Building(id, innerData);
+    const helperSize = mainBuilding.outerElement.getWidth();
     const helper = new GridHelper(helperSize / 0.9, helperSize / 9);
     scene.add(helper);
 
-    const mesh = myObj.render();
+    const mesh = mainBuilding.render();
     for (let i = 0; i < mesh.length; i++) {
       if (mesh[i] && mesh[i].isObject3D) {
         scene.add(mesh[i]);
@@ -69,7 +69,7 @@ function init() {
     }
     if (displayInfo) {
       gui = new GUI();
-      const info = myObj.getInfo();
+      const info = mainBuilding.getInfo();
       const folder = gui.addFolder(info.type + ' - ' + info.id);
       createFolders(folder, info.options);
       for (let i = 0; i < info.parts.length; i++) {
@@ -79,6 +79,9 @@ function init() {
         createFolders(folder, part.options);
       }
     }
+  }).catch(err => {
+    window.printError(err);
+    alert(err);
   });
   camera = new PerspectiveCamera(
     50,

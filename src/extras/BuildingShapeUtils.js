@@ -17,16 +17,24 @@ class BuildingShapeUtils extends ShapeUtils {
     // Initialize objects
     const shape = new Shape();
     var ref;
-    var node = [];
+    const nodes = [];
 
     // Get all the nodes in the way of interest
+    /** {HTMLCollection} */
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
-    let first = true;
+
     for (const element of elements) {
       ref = element.getAttribute('ref');
-      node = nodelist[ref];
+      nodes.push(nodelist[ref]);
+    }
+    // If the first and last point are identical, remove the last copy.
+    if (nodes.length > 1 && nodes[0][0] === nodes[elements.length - 1][0] && nodes[0][1] === nodes[elements.length - 1][1]) {
+      nodes.pop();
+    }
+    let first = true;
+    for (const node of nodes) {
       // The first node requires a different function call.
       if (first) {
         first = false;
@@ -37,7 +45,6 @@ class BuildingShapeUtils extends ShapeUtils {
     }
     return shape;
   }
-
   /**
    * Check if a way is a closed shape.
    *
