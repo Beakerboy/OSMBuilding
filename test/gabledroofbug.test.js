@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import {jest} from '@jest/globals'
+import {jest} from '@jest/globals';
 import { Building } from '../src/building.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
