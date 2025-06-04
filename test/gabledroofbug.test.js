@@ -173,7 +173,7 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(global.fetch).toHaveBeenCalledTimes(3);
   expect(global.fetch.mock.calls[0][0]).toBe('https://api.openstreetmap.org/api/0.6/relation/42/full');
   expect(global.fetch.mock.calls[1][0]).toBe('https://api.openstreetmap.org/api/0.6/relation/40/full');
-  expect(global.fetch.mock.calls[2][0]).toBe('/map');
+  expect(global.fetch.mock.calls[2][0]).toBe('https://api.openstreetmap.org/api/0.6/map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
 beforeEach(() => {
