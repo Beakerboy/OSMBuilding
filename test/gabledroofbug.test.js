@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 import {jest} from '@jest/globals';
+import fetchMock from 'jest-fetch-mock';
+fetchMock.enableMocks();
 import { Building } from '../src/building.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
