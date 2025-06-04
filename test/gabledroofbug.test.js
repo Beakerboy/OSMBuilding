@@ -34,13 +34,12 @@ const data = `
 
 let accessCount = 0;
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ text: data}),
-    ok: true,
-    status: 200,
-  }),
-);
+const mockResponse = {
+  ok: true,
+  status: 200,
+  text: jest.fn().mockResolvedValue(data),
+};
+global.fetch = jest.fn().mockResolvedValue(mockResponse);
 
 beforeEach(() => {
   errors = [];
