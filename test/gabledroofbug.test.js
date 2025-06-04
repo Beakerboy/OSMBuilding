@@ -171,8 +171,8 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(building.id).toBe('42');
   expect(building.outerElement.shape.holes.length).toBe(1);
   expect(global.fetch).toHaveBeenCalledTimes(3);
-  expect(global.fetch.mock.calls[0][0]).toBe('/relation/42/full');
-  expect(global.fetch.mock.calls[1][0]).toBe('/relation/40/full');
+  expect(global.fetch.mock.calls[0][0]).toBe('https://api.openstreetmap.org/api/0.6/relation/42/full');
+  expect(global.fetch.mock.calls[1][0]).toBe('https://api.openstreetmap.org/api/0.6/relation/40/full');
   expect(global.fetch.mock.calls[2][0]).toBe('/map');
 });
 
