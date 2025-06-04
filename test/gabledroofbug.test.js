@@ -43,6 +43,7 @@ beforeEach(() => {
 test ('Factory', () => {
   fetch.mockResponses(
     [data],
+    [data],
   );
   Building.downloadDataAroundBuilding('way', '31361386');
 });
