@@ -32,13 +32,13 @@ const data = `
 </osm>`;
 
 let accessCount = 0;
-const fetch = function (input) {
+const fetch = function(input) {
   accessCount++;
   if (accessCount === 1) {
     return data;
   }
   throw new Error(input);
-}
+};
 
 beforeEach(() => {
   errors = [];
