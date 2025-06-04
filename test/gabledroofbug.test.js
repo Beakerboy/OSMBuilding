@@ -37,6 +37,8 @@ let accessCount = 0;
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({ data: data}),
+    ok: true,
+    status: 200
   }),
 );
 
