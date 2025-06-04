@@ -32,7 +32,7 @@ const data = `
 </osm>`;
 
 let accessCount = 0;
-const fetch = function(input) {
+global.fetch = function(input) {
   accessCount++;
   if (accessCount === 1) {
     return data;
