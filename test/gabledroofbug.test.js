@@ -34,10 +34,10 @@ const data = `
 let accessCount = 0;
 
 global.fetch = jest.fn(() =>
-     Promise.resolve({
-       json: () => Promise.resolve({ data: data}),
-     })
-   );
+  Promise.resolve({
+    json: () => Promise.resolve({ data: data}),
+  })
+);
 
 beforeEach(() => {
   errors = [];
