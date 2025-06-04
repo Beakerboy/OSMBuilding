@@ -32,13 +32,12 @@ const data = `
 </osm>`;
 
 let accessCount = 0;
-global.fetch = function(input) {
-  accessCount++;
-  if (accessCount === 1) {
-    return data;
-  }
-  throw new Error(input);
-};
+
+global.fetch = jest.fn(() =>
+     Promise.resolve({
+       json: () => Promise.resolve({ data: data}),
+     })
+   );
 
 beforeEach(() => {
   errors = [];
