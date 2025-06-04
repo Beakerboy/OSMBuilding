@@ -40,9 +40,8 @@ beforeEach(() => {
   errors = [];
 });
 
-test ('Factory', () => {
+test ('Factory', async() => {
   fetch.mockResponses(
-    [data],
     [data],
     [data],
     [data],
