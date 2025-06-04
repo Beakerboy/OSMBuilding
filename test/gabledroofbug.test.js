@@ -44,6 +44,8 @@ test ('Factory', () => {
   fetch.mockResponses(
     [data],
     [data],
+    [data],
+    [data],
   );
   Building.downloadDataAroundBuilding('way', '31361386');
   expect(global.fetch).toHaveBeenCalledTimes(2);
