@@ -189,7 +189,7 @@ test('Constructor', () => {
   const roofmesh = meshes[0];
   const roofGeometry = roofmesh.geometry;
   expect(roofGeometry.constructor.name).toBe('WedgeGeometry');
-  expect(roofGeometry.toJSON()).toBe('{}');
+  expect(roofGeometry.options.toJSON()).toBe('{}');
 });
 
 window.printError = printError;
