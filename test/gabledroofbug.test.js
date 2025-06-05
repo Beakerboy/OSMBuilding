@@ -8,8 +8,7 @@ import { Building } from '../src/building.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
-const data = `<?xml version='1.0' encoding='UTF-8'?>
-<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2514279 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+const data = `<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2514279 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
   <node id="8091790599" visible="true" version="2" changeset="153088398" timestamp="2024-06-23T22:54:13Z" user="canavan" uid="2603792" lat="50.9208920" lon="7.1707447"/>
   <node id="8091790600" visible="true" version="2" changeset="153088398" timestamp="2024-06-23T22:54:13Z" user="canavan" uid="2603792" lat="50.9208175" lon="7.1706533"/>
   <node id="8091790601" visible="true" version="2" changeset="153088398" timestamp="2024-06-23T22:54:13Z" user="canavan" uid="2603792" lat="50.9208577" lon="7.1708150"/>
@@ -183,15 +182,15 @@ beforeEach(() => {
 
 // compare the object rendered from the requested way data to that rendered
 // from the requested map data to see if one errors and one does not.
-// test('Constructor', () => {
-//  const bldg = new Building('31361386', data);
-//  expect(bldg.parts.length).toBe(1);
-//  const part = bldg.parts[0];
-//  const meshes = part.render();
-//  const roofmesh = meshes[0];
-//  const roofGeometry = roofmesh.geometry;
-//  expect(roofGeometry.constructor.name).toBe('WedgeGeometry');
-// });
+test('Constructor', () => {
+  const bldg = new Building('31361386', data);
+  expect(bldg.parts.length).toBe(1);
+  const part = bldg.parts[0];
+  const meshes = part.render();
+  const roofmesh = meshes[0];
+  const roofGeometry = roofmesh.geometry;
+  expect(roofGeometry.constructor.name).toBe('WedgeGeometry');
+});
 
 window.printError = printError;
 
