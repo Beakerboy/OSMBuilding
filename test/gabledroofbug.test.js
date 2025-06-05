@@ -183,7 +183,7 @@ beforeEach(() => {
 // compare the object rendered from the requested way data to that rendered
 // from the requested map data to see if one errors and one does not.
 test('Constructor', () => {
-  const bldg = new Building('31361386', data);
+  const bldg = new Building('868101951', data);
   expect(bldg.parts.length).toBe(1);
   const part = bldg.parts[0];
   const meshes = part.render();
