@@ -184,9 +184,8 @@ beforeEach(() => {
 // from the requested map data to see if one errors and one does not.
 test('Constructor', () => {
   const bldg = new Building('868101951', data);
-  expect(bldg.parts.length).toBe(1);
-  const part = bldg.parts[0];
-  const meshes = part.render();
+  expect(bldg.parts.length).toBe(0);
+  const meshes = bldg.render();
   const roofmesh = meshes[0];
   const roofGeometry = roofmesh.geometry;
   expect(roofGeometry.constructor.name).toBe('WedgeGeometry');
