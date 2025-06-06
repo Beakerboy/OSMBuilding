@@ -28,7 +28,7 @@ const data = `<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2514279 
     <tag k="addr:street" v="Mühlenweg"/>
     <tag k="building" v="semidetached_house"/>
     <tag k="building:levels" v="2"/>
-    <tag k="roof:direction" v="across"/>
+    <tag k="roof:orientation" v="across"/>
     <tag k="roof:levels" v="1.5"/>
     <tag k="roof:shape" v="gabled"/>
   </way>
