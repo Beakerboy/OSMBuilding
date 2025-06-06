@@ -189,7 +189,7 @@ test('Constructor', () => {
   const sideAngle = BuildingShapeUtils.longestSideAngle(bldg.outerElement.shape);
   // verify this
   // expect(sideAngle).toBe(-2.229783094955044);
-  const sideAngleDeg = BuildingShape.atanRadToCompassDeg(sideAngle);
+  const sideAngleDeg = BuildingPart.atanRadToCompassDeg(sideAngle);
   expect(sideAngleDeg).toBe(300);
   const meshes = bldg.render();
   const roofmesh = meshes[0];
