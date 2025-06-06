@@ -185,6 +185,7 @@ beforeEach(() => {
 test('Constructor', () => {
   const bldg = new Building('868101951', data);
   expect(bldg.parts.length).toBe(0);
+  expect(BuildingParts.getLongestSideAngle(bldg.outerElement)).toBe(90);
   const meshes = bldg.render();
   const roofmesh = meshes[0];
   const roofGeometry = roofmesh.geometry;
