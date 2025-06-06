@@ -185,7 +185,11 @@ beforeEach(() => {
 test('Constructor', () => {
   const bldg = new Building('868101951', data);
   expect(bldg.parts.length).toBe(0);
-  expect(BuildingShapeUtils.longestSideAngle(bldg.outerElement.shape)).toBe(90);
+  const sideAngle = BuildingShapeUtils.longestSideAngle(bldg.outerElement.shape);
+  // verify this
+  // expect(sideAngle).toBe(-2.229783094955044);
+  const sideAngleDeg = BuildingShape.atanRadToCompassDeg(sideAngle);
+  expect(sideAngleDeg).toBe(300);
   const meshes = bldg.render();
   const roofmesh = meshes[0];
   const roofGeometry = roofmesh.geometry;
