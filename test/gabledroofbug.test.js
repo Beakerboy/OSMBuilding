@@ -9,6 +9,21 @@ import { BuildingPart } from '../src/buildingpart.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
+const data1 = `<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (167560 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <way id="285102551" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:20Z" user="okilimu" uid="212111">
+  <nd ref="2887853929"/>
+  <nd ref="2887853752"/>
+  <nd ref="2887853750"/>
+  <nd ref="2887853758"/>
+  <nd ref="2887853757"/>
+  <nd ref="2887853916"/>
+  <nd ref="2887853929"/>
+  <tag k="building" v="yes"/>
+  <tag k="roof:shape" v="gabled"/>
+ </way>
+</osm>`;
+
 const data = `<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2514279 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
   <node id="8091790599" visible="true" version="2" changeset="153088398" timestamp="2024-06-23T22:54:13Z" user="canavan" uid="2603792" lat="50.9208920" lon="7.1707447"/>
   <node id="8091790600" visible="true" version="2" changeset="153088398" timestamp="2024-06-23T22:54:13Z" user="canavan" uid="2603792" lat="50.9208175" lon="7.1706533"/>
