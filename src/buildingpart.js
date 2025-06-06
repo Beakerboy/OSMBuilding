@@ -424,6 +424,7 @@ class BuildingPart {
 
   /**
    * OSM compass degrees are 0-360 clockwise.
+   * 0 degrees is North.
    *
    * @return {number} degrees
    */
