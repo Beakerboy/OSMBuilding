@@ -5,6 +5,7 @@ import {jest} from '@jest/globals';
 import fetchMock from 'jest-fetch-mock';
 fetchMock.enableMocks();
 import { Building } from '../src/building.js';
+import { BuildingPart } from '../src/buildingpart.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
