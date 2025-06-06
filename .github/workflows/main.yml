@@ -13,6 +13,7 @@ jobs:
         wget -P ../pyramid https://beakerboy.github.io/Threejs-Geometries/src/PyramidGeometry.js
         wget -P ../ramp https://beakerboy.github.io/Threejs-Geometries/src/RampGeometry.js
         wget -P ../wedge https://beakerboy.github.io/Threejs-Geometries/src/WedgeGeometry.js
+        wget https://api.openstreetmap.org/api/0.6/way/285102551
         cd ../pyramid
         echo '{"name":"pyramid","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         cd ../ramp
