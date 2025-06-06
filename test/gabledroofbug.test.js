@@ -5,7 +5,6 @@ import {jest} from '@jest/globals';
 import fetchMock from 'jest-fetch-mock';
 fetchMock.enableMocks();
 import { Building } from '../src/building.js';
-import { BuildingPart } from '../src/buildingpart.js';
 import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
@@ -186,7 +185,7 @@ beforeEach(() => {
 test('Constructor', () => {
   const bldg = new Building('868101951', data);
   expect(bldg.parts.length).toBe(0);
-  expect(BuildingPart.getLongestSideAngle(bldg.outerElement)).toBe(90);
+  expect(BuildingShapeUtils.longestSideAngle(bldg.outerElement)).toBe(90);
   const meshes = bldg.render();
   const roofmesh = meshes[0];
   const roofGeometry = roofmesh.geometry;
