@@ -10,7 +10,13 @@ import { BuildingShapeUtils } from '../src/extras/BuildingShapeUtils.js';
 import { TextEncoder } from 'node:util';
 
 const data1 = `<?xml version="1.0" encoding="UTF-8"?>
-<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (167560 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (167573 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <node id="2887853750" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:14Z" user="okilimu" uid="212111" lat="50.9384859" lon="6.9742249"/>
+ <node id="2887853752" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:14Z" user="okilimu" uid="212111" lat="50.9384939" lon="6.9743570"/>
+ <node id="2887853757" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:15Z" user="okilimu" uid="212111" lat="50.9385033" lon="6.9742074"/>
+ <node id="2887853758" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:15Z" user="okilimu" uid="212111" lat="50.9385047" lon="6.9742220"/>
+ <node id="2887853916" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:16Z" user="okilimu" uid="212111" lat="50.9385980" lon="6.9741744"/>
+ <node id="2887853929" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:16Z" user="okilimu" uid="212111" lat="50.9386175" lon="6.9743150"/>
  <way id="285102551" visible="true" version="1" changeset="22625223" timestamp="2014-05-29T19:08:20Z" user="okilimu" uid="212111">
   <nd ref="2887853929"/>
   <nd ref="2887853752"/>
