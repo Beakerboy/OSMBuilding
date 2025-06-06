@@ -205,7 +205,7 @@ beforeEach(() => {
 // compare the object rendered from the requested way data to that rendered
 // from the requested map data to see if one errors and one does not.
 test('Constructor', () => {
-  const bldg = new Building('868101951', data);
+  const bldg = new Building('285102551', data);
   expect(bldg.parts.length).toBe(0);
   expect(bldg.outerElement.getAttribute('roof:direction')).toBe(undefined);
   expect(bldg.outerElement.options.roof.direction).toBe(0);
