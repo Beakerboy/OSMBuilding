@@ -269,8 +269,12 @@ class BuildingPart {
       const options = {
         center: center,
         angle: angle / 180 * Math.PI,
-        depth: this.options.roof.height,
       };
+      if (options.depth === null) {
+        options.pitch = 22.5;
+      } else {
+        options.depth = this.options.roof.height;
+      }
       const geometry = new WedgeGeometry(this.shape, options);
 
       material = BuildingPart.getRoofMaterial(this.way);
