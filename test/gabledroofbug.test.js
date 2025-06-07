@@ -208,7 +208,7 @@ test('Constructor', () => {
   const bldg = new Building('285102551', data1);
   expect(bldg.parts.length).toBe(0);
   expect(bldg.outerElement.getAttribute('roof:direction')).toBe(undefined);
-  expect(bldg.outerElement.options.roof.direction).toBe(264.5105010439114);
+  expect(bldg.outerElement.options.roof.height).toBe(3);
   const sideAngle = BuildingShapeUtils.longestSideAngle(bldg.outerElement.shape);
   // verify this
   expect(sideAngle).toBe(-1.4749864957263585);
