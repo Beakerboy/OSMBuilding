@@ -468,7 +468,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * Return the angle of the longest side of a shape with 90° vertices.
    *
    * @param {THREE.Shape} shape - the shape
-   * @return {number}
+   * @return {number} in radians from Pi > x > -Pi
    */
   static longestSideAngle(shape) {
     const lengths = BuildingShapeUtils.edgeLength(shape);
