@@ -414,7 +414,6 @@ class BuildingShapeUtils extends ShapeUtils {
   static surrounds(shape, point) {
     var count = 0;
     const vecs = shape.extractPoints().shape;
-    vecs.pop();
     var vec;
     var nextvec;
     for (let i = 0; i < vecs.length; i++) {
