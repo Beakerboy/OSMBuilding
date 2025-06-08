@@ -337,7 +337,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     const lengths = [];
     var p1;
     var p2;
