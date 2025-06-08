@@ -287,7 +287,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static combineCoordinates(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     var x = [];
     var y = [];
     var vec;
@@ -337,7 +336,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeLength(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     const lengths = [];
     var p1;
     var p2;
@@ -359,7 +357,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static vertexAngle(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     const angles = [];
     var p0;
     var p1;
@@ -394,7 +391,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static edgeDirection(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     const angles = [];
     var p1;
     var p2;
@@ -418,7 +414,6 @@ class BuildingShapeUtils extends ShapeUtils {
   static surrounds(shape, point) {
     var count = 0;
     const vecs = shape.extractPoints().shape;
-    vecs.pop();
     var vec;
     var nextvec;
     for (let i = 0; i < vecs.length; i++) {
@@ -468,7 +463,7 @@ class BuildingShapeUtils extends ShapeUtils {
    * Return the angle of the longest side of a shape with 90° vertices.
    *
    * @param {THREE.Shape} shape - the shape
-   * @return {number}
+   * @return {number} in radians from Pi > x > -Pi
    */
   static longestSideAngle(shape) {
     const lengths = BuildingShapeUtils.edgeLength(shape);

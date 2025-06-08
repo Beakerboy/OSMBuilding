@@ -115,20 +115,17 @@ const rightTriangle = new Shape();
 rightTriangle.moveTo(1, 1);
 rightTriangle.lineTo(1, -1);
 rightTriangle.lineTo(-1, 1);
-rightTriangle.lineTo(1, 1);
 
 const rightTriangle2 = new Shape();
 rightTriangle2.moveTo(1, 1);
 rightTriangle2.lineTo(-1, 1);
 rightTriangle2.lineTo(1, -1);
-rightTriangle2.lineTo(1, 1);
 
 const rectangle = new Shape();
 rectangle.moveTo(-4.332738077015795, -5.882209888874915);
 rectangle.lineTo(-4.332738077015795, 5.88221335051411);
 rectangle.lineTo(4.332747472106493, 5.88221335051411);
 rectangle.lineTo(4.332747472106493, -5.882209888874915);
-rectangle.lineTo(-4.332738077015795, -5.882209888874915);
 
 test('Extents no Rotation', () => {
   expect(BuildingShapeUtils.extents(rightTriangle)).toStrictEqual([-1, -1, 1, 1]);
