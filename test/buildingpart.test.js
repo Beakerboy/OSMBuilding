@@ -61,7 +61,7 @@ test('Constructor', () => {
   expect(part.options.roof.orientation).toBe('along');
 
   // toDo: Mock BuildingShapeUtils and test options
-  expect(BuildingShapeUtils.edgeDirection(part.shape)).toBe([]);
+  expect(BuildingShapeUtils.edgeDirection(part.shape)).toBe([1.5707963267948966, 0, -1.5707963267948966, 3.141592653589793,]);
   expect(BuildingShapeUtils.longestSideAngle(part.shape)).toBe(0);
   expect(part.options.roof.direction).toBe(90);
   expect(errors.length).toBe(0);
