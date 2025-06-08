@@ -287,7 +287,6 @@ class BuildingShapeUtils extends ShapeUtils {
    */
   static combineCoordinates(shape) {
     const points = shape.extractPoints().shape;
-    points.pop();
     var x = [];
     var y = [];
     var vec;
