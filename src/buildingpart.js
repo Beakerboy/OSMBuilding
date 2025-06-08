@@ -270,7 +270,7 @@ class BuildingPart {
       const options = {
         center: center,
         angle: angle / 180 * Math.PI,
-        depth: this.options.roof.height,
+        depth: this.options.roof.height ?? 3,
       };
       const geometry = new WedgeGeometry(this.shape, options);
 
@@ -434,7 +434,7 @@ class BuildingPart {
 
   /**
    * OSM compass degrees are 0-360 clockwise.
-   *
+   * 0 degrees is North.
    * @return {number} degrees
    */
   static atanRadToCompassDeg(rad) {

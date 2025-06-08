@@ -309,6 +309,10 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   const building = new Building('42', innerData);
   expect(building.id).toBe('42');
   expect(building.outerElement.shape.holes.length).toBe(1);
+  const urlBase = 'https://api.openstreetmap.org/api/0.6/';
+  expect(global.fetch.mock.calls[0][0]).toBe(urlBase + 'relation/42/full');
+  expect(global.fetch.mock.calls[1][0]).toBe(urlBase + 'relation/40/full');
+  expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
 window.printError = printError;
