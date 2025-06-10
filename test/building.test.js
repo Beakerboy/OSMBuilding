@@ -315,6 +315,34 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
+test('Part must be within outline', () => {
+  const data = `<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+ <node id="1" lat="0.001" lon="0.001"/>
+ <node id="2" lat="0.001" lon="0"/>
+ <node id="3" lat="0" lon="0"/>
+ <node id="4" lat="0" lon=".0005"/>
+ <node id="5" lat="0" lon=".001"/>
+ <node id="6" lat=".0001" lon=".001"/>
+ <node id="7" lat=".0001" lon="0.005"/>
+ <way id="1">
+  <nd ref="1"/>
+  <nd ref="2"/>
+  <nd ref="3"/>
+  <tag k="building" v="apartments"/>
+ </way>
+ <way id="2">
+  <nd ref="4"/>
+  <nd ref="5"/>
+  <nd ref="6"/>
+  <nd ref="7"/>
+  <tag k="building:part" v="yes"/>
+ </way>
+</osm>
+`;
+  expect(new Building('1', data).parts.length).toBe(0);
+});
+
 window.printError = printError;
 
 var errors = [];
