@@ -206,10 +206,13 @@ class Building {
     } else {
       // Filter to all ways
       var parts = this.fullXmlData.getElementsByTagName('way');
-      for (let j = 0; j < parts.length; j++) {
-        if (parts[j].querySelector('[k="building:part"]')) {
-          const id = parts[j].getAttribute('id');
-          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+      for (const xmlPart of parts) {
+        if (xmlPart.querySelector('[k="building:part"]')) {
+          const id = xmlPart.getAttribute('id');
+          const part = new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options)
+          if (this.partIsInside(part)) {
+            this.parts.push(part);
+          }
         }
       }
       // Filter all relations
