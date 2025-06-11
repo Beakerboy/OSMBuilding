@@ -418,8 +418,8 @@ class Building {
    */
   partIsInside(part) {
     const shape = part.shape;
-    for(point of shape.extractPoints().shape) {
-      if (BuildingPartUtils.surrounds(this.outerShape(point))) {
+    for (const point of shape.extractPoints().shape) {
+      if (BuildingShapeUtils.surrounds(this.outerShape(point))) {
         return true;
       }
     }
