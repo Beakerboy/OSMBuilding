@@ -58,7 +58,7 @@ test('Hipped Roof Exception', () => {
 <tag k="roof:shape" v="hipped"/>
 </way>
 </osm>`;
-  const bldg = (new Building('88514597', data);
+  const bldg = new Building('88514597', data);
   const meshes = bldg.render();
   expect(meshes.length).toBe(1);
 });
