@@ -378,6 +378,34 @@ test('Multipolygon Part must be within outline', () => {
   expect(new Building('11', data).parts.length).toBe(0);
 });
 
+/** Test partIsInside
+class BldgMock extends Building {
+
+  constructor() {
+    this.shape = new Shape();
+  }
+}
+
+class PartMock {
+  constructor(shape) {
+    this.shape = shape;
+  }
+}
+
+describe.each([
+  [[], false, 'Two Separate Ways'],
+  [[], true, 'Two Ways share edge'],
+  [[], false, 'multipolygon outside'],
+])('partIsInside', (shapePoints, expected, description) => {
+  test(`${description}`, () => {
+    const shape = new Shape(shapePoints.map((point) => new Vector2(...point)));
+    const part = new PartMock(shape);
+    const bldg = new BldgMock();
+    expect(bldg.partIsInside(part)).toBe(expected);
+  });
+});
+*/
+
 window.printError = printError;
 
 var errors = [];
