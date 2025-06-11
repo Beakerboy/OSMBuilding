@@ -414,7 +414,7 @@ class Building {
 
   /**
    * Check if any point in a part is within this building's outline.
-   * It only checknof points are inside, not if crossing events occur, or
+   * It only checks if points are inside, not if crossing events occur, or
    * if the part completly surrounds the building.
    * @param {BuildingPart} part - the part to be tested
    * @returns {bool} is it?
@@ -426,6 +426,8 @@ class Building {
         return true;
       }
     }
+    // @todo
+    // return BuildingShapeUtils.surrounds(this.outerElement.shape, part.center);
     return false;
   }
 }
