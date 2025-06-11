@@ -59,6 +59,7 @@ test('Hipped Roof Exception', () => {
 </way>
 </osm>`;
   const bldg = new Building('88514597', data);
+  expect(bldg.outerElement.shape.extractPoints().shape).toStrictEqual([]);
   const meshes = bldg.render();
   expect(meshes.length).toBe(1);
 });
