@@ -1,3 +1,11 @@
+/**
+ * @jest-environment jsdom
+ */
+
+import {expect, test, beforeEach, describe} from '@jest/globals';
+
+import { Building } from '../src/building.js';
+
 test('Hipped Roof Exception', () => {
   const data = `<osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2514269 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
 <node id="1028052161" visible="true" version="3" changeset="156067245" timestamp="2024-09-01T18:20:50Z" user="masmirnov" uid="16256027" lat="59.9515658" lon="30.7065509"/>
