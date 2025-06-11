@@ -24,7 +24,6 @@ class BuildingShapeUtils extends ShapeUtils {
     const elements = way.getElementsByTagName('nd');
 
     // Get the coordinates of all the nodes and add them to the shape outline.
-
     for (const element of elements) {
       ref = element.getAttribute('ref');
       nodes.push(nodelist[ref]);
