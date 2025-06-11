@@ -329,6 +329,7 @@ test('Part must be within outline', () => {
   <nd ref="1"/>
   <nd ref="2"/>
   <nd ref="3"/>
+  <nd ref="1"/>
   <tag k="building" v="apartments"/>
  </way>
  <way id="22">
@@ -336,6 +337,7 @@ test('Part must be within outline', () => {
   <nd ref="5"/>
   <nd ref="6"/>
   <nd ref="7"/>
+  <nd ref="4"/>
   <tag k="building:part" v="yes"/>
  </way>
 </osm>
