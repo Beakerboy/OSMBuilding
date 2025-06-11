@@ -371,6 +371,7 @@ test('Multipolygon Part must be within outline', () => {
   </way>
   <relation id="40">
     <member type="way" ref="22" role="outer"/>
+    <tag k="building:part" v="yes"/>
   </relation>
 </osm>
 `;
