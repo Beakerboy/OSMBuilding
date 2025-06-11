@@ -408,5 +408,22 @@ class Building {
       }
     }
   }
+
+  /**
+   * Check if any point in a part is within this building's outline.
+   * It only checknof points are inside, not if crossing events occur, or
+   * if the part completly surrounds the building.
+   * @param {BuildingPart} part - the part to be tested
+   * @returns {bool} is it?
+   */
+  partIsInside(part) {
+    const shape = part.shape;
+    for(point of shape.extractPoints().shape) {
+      if (BuildingPartUtils.surrounds(this.outerShape(point))) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 export {Building};
