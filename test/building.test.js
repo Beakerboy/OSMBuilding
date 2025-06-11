@@ -325,13 +325,13 @@ test('Part must be within outline', () => {
  <node id="5" lat="0" lon=".001"/>
  <node id="6" lat=".0001" lon=".001"/>
  <node id="7" lat=".0001" lon="0.005"/>
- <way id="1">
+ <way id="11">
   <nd ref="1"/>
   <nd ref="2"/>
   <nd ref="3"/>
   <tag k="building" v="apartments"/>
  </way>
- <way id="2">
+ <way id="22">
   <nd ref="4"/>
   <nd ref="5"/>
   <nd ref="6"/>
@@ -340,7 +340,7 @@ test('Part must be within outline', () => {
  </way>
 </osm>
 `;
-  expect(new Building('1', data).parts.length).toBe(0);
+  expect(new Building('11', data).parts.length).toBe(0);
 });
 
 window.printError = printError;
