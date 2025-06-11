@@ -206,10 +206,13 @@ class Building {
     } else {
       // Filter to all ways
       var parts = this.fullXmlData.getElementsByTagName('way');
-      for (let j = 0; j < parts.length; j++) {
-        if (parts[j].querySelector('[k="building:part"]')) {
-          const id = parts[j].getAttribute('id');
-          this.parts.push(new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+      for (const xmlPart of parts) {
+        if (xmlPart.querySelector('[k="building:part"]')) {
+          const id = xmlPart.getAttribute('id');
+          const part = new BuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options);
+          if (this.partIsInside(part)) {
+            this.parts.push(part);
+          }
         }
       }
       // Filter all relations
@@ -407,6 +410,23 @@ class Building {
         return part.render();
       }
     }
+  }
+
+  /**
+   * Check if any point in a part is within this building's outline.
+   * It only checknof points are inside, not if crossing events occur, or
+   * if the part completly surrounds the building.
+   * @param {BuildingPart} part - the part to be tested
+   * @returns {bool} is it?
+   */
+  partIsInside(part) {
+    const shape = part.shape;
+    for (const vector of shape.extractPoints().shape) {
+      if (BuildingShapeUtils.surrounds(this.outerElement.shape, [vector.x, vector.y])) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 export {Building};

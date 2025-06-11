@@ -33,12 +33,13 @@ Roof Types:
  * Dome
  * Pyramidal
  * Gabled
+ * Hipped
 
 Examples:
  * Simple building with no parts - [Washington Monument](https://beakerboy.github.io/OSMBuilding/index.html?id=766761337)
  * Glass - [Petronas Towers](https://beakerboy.github.io/OSMBuilding/index.html?id=279944536)
  * Dome roof, Gabled roof, and Skillion ramp - [Jefferson Memorial](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=3461570)
- * Dome, Gabled, and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12286916)
+ * Dome, Gabled, Hipped, and Pyramidal Roof - [US Capitol](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=12286916)
  * [Chrysler Building](https://beakerboy.github.io/OSMBuilding/index.html?id=42500770)
  * Building Relation [Burj Khalifa](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=7584462)
  * Multipolygon with no parts - [Freer Art Gallery](https://beakerboy.github.io/OSMBuilding/index.html?type=relation&id=1029355)
