@@ -315,8 +315,7 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
-test('Part must be within outline', () => {
-  const data = `<?xml version="1.0" encoding="UTF-8"?>
+const nonIntersectingWays = `<?xml version="1.0" encoding="UTF-8"?>
 <osm>
  <node id="1" lat="0.001" lon="0.001"/>
  <node id="2" lat="0.001" lon="0"/>
@@ -342,11 +341,8 @@ test('Part must be within outline', () => {
  </way>
 </osm>
 `;
-  expect(new Building('11', data).parts.length).toBe(0);
-});
 
-test('Multipolygon Part must be within outline', () => {
-  const data = `<?xml version="1.0" encoding="UTF-8"?>
+const nonIntersectingWayAndMulti = `<?xml version="1.0" encoding="UTF-8"?>
 <osm>
  <node id="1" lat="0.001" lon="0.001"/>
  <node id="2" lat="0.001" lon="0"/>
@@ -375,7 +371,14 @@ test('Multipolygon Part must be within outline', () => {
   </relation>
 </osm>
 `;
-  expect(new Building('11', data).parts.length).toBe(0);
+
+describe.each([
+  [nonIntersectingWays, 0, 'ways non-intersecting'],
+  [nonIntersectingWayAndMulti, 0, 'multipolygon non-intersecting'],
+])('Part must be within outline', (data, expected, description) => {
+  test(`${description}`, () => {
+    expect(new Building('11', data).parts.length).toBe(expected);
+  });
 });
 
 /** Test partIsInside
