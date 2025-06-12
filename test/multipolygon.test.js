@@ -46,6 +46,8 @@ test('Test Simple Multipolygon', () => {
   expect(errors.length).toBe(0);
 });
 
+// @todo Test a multipolygon with multiple closed outer ways.
+
 window.printError = printError;
 
 var errors = [];
