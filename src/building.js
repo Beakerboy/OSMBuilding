@@ -219,11 +219,14 @@ class Building {
       }
       // Filter all relations
       parts = this.fullXmlData.getElementsByTagName('relation');
-      for (let i = 0; i < parts.length; i++) {
-        if (parts[i].querySelector('[k="building:part"]')) {
-          const id = parts[i].getAttribute('id');
+      for (const xmlPart of parts) {
+        if (xmlPart.querySelector('[k="building:part"]')) {
+          const id = xmlPart.getAttribute('id');
           try {
-            this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+            const part = new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options);
+            if (this.partIsInside(part)) {
+              this.parts.push(part);
+            }
           } catch (e) {
             window.printError(e);
           }
@@ -416,7 +419,7 @@ class Building {
 
   /**
    * Check if any point in a part is within this building's outline.
-   * It only checknof points are inside, not if crossing events occur, or
+   * It only checks if points are inside, not if crossing events occur, or
    * if the part completly surrounds the building.
    * @param {BuildingPart} part - the part to be tested
    * @returns {bool} is it?
@@ -428,6 +431,8 @@ class Building {
         return true;
       }
     }
+    // @todo
+    // return BuildingShapeUtils.surrounds(this.outerElement.shape, part.center);
     return false;
   }
 }

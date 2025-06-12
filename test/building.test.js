@@ -315,8 +315,7 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
-test('Part must be within outline', () => {
-  const data = `<?xml version="1.0" encoding="UTF-8"?>
+const nonIntersectingWays = `<?xml version="1.0" encoding="UTF-8"?>
 <osm>
  <node id="1" lat="0.001" lon="0.001"/>
  <node id="2" lat="0.001" lon="0"/>
@@ -342,8 +341,73 @@ test('Part must be within outline', () => {
  </way>
 </osm>
 `;
-  expect(new Building('11', data).parts.length).toBe(0);
+
+const nonIntersectingWayAndMulti = `<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+ <node id="1" lat="0.001" lon="0.001"/>
+ <node id="2" lat="0.001" lon="0"/>
+ <node id="3" lat="0" lon="0"/>
+ <node id="4" lat="0" lon=".0005"/>
+ <node id="5" lat="0" lon=".001"/>
+ <node id="6" lat=".0001" lon=".001"/>
+ <node id="7" lat=".0001" lon="0.005"/>
+ <way id="11">
+  <nd ref="1"/>
+  <nd ref="2"/>
+  <nd ref="3"/>
+  <nd ref="1"/>
+  <tag k="building" v="apartments"/>
+ </way>
+ <way id="22">
+  <nd ref="4"/>
+  <nd ref="5"/>
+  <nd ref="6"/>
+  <nd ref="7"/>
+  <nd ref="4"/>
+  </way>
+  <relation id="40">
+    <member type="way" ref="22" role="outer"/>
+    <tag k="building:part" v="yes"/>
+  </relation>
+</osm>
+`;
+
+describe.each([
+  [nonIntersectingWays, 0, 'ways non-intersecting'],
+  [nonIntersectingWayAndMulti, 0, 'multipolygon non-intersecting'],
+])('Part must be within outline', (data, expected, description) => {
+  test(`${description}`, () => {
+    expect(new Building('11', data).parts.length).toBe(expected);
+  });
 });
+
+/** Test partIsInside
+class BldgMock extends Building {
+
+  constructor() {
+    this.shape = new Shape();
+  }
+}
+
+class PartMock {
+  constructor(shape) {
+    this.shape = shape;
+  }
+}
+
+describe.each([
+  [[], false, 'Two Separate Ways'],
+  [[], true, 'Two Ways share edge'],
+  [[], false, 'multipolygon outside'],
+])('partIsInside', (shapePoints, expected, description) => {
+  test(`${description}`, () => {
+    const shape = new Shape(shapePoints.map((point) => new Vector2(...point)));
+    const part = new PartMock(shape);
+    const bldg = new BldgMock();
+    expect(bldg.partIsInside(part)).toBe(expected);
+  });
+});
+*/
 
 window.printError = printError;
 
