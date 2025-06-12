@@ -221,7 +221,7 @@ class Building {
         if (xmlPart.querySelector('[k="building:part"]')) {
           const id = xmlPart.getAttribute('id');
           try {
-            const part = new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options)
+            const part = new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options);
             if (this.partIsInside(part)) {
               this.parts.push(part);
             }
