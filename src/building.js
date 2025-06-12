@@ -62,6 +62,8 @@ class Building {
 
   /**
    * Download data for new building
+   * @param {string} type - way || multipolygon || relation (enum?)
+   * @param {string} id - The OSM id of the object.
    */
   static async downloadDataAroundBuilding(type, id) {
     let data;
