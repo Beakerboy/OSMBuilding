@@ -22,13 +22,13 @@ class BuildingPart {
   // DOM of the building part way
   way;
 
-  // THREE.Shape of the outline.
+  /** @type {THREE.Shape} the outline. */
   shape;
 
-  // THREE.Mesh of the roof
+  /** @type {THREE.Mesh} the roof */
   roof;
 
-  // array of Cartesian coordinates of every node.
+  /** @type {Object.<string, [number, number]>} Cartesian coordinates of every node keyed by refId. */
   nodelist = [];
 
   // Metadata of the building part.
@@ -66,7 +66,7 @@ class BuildingPart {
   /**
    * @param {number} id - the OSM id of the way or multipolygon.
    * @param {XMLDocument} fullXmlData - XML for the region.
-   * @param {[[number, number],...]} nodelist - Cartesian coordinates of each node keyed by node refID
+   * @param {Object.<string, [number, number]>} nodelist - Cartesian coordinates of each node keyed by node refID
    * @param {object} options - default values for the building part.
    */
   constructor(id, fullXmlData, nodelist, defaultOptions = {}) {
