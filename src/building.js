@@ -217,11 +217,14 @@ class Building {
       }
       // Filter all relations
       parts = this.fullXmlData.getElementsByTagName('relation');
-      for (let i = 0; i < parts.length; i++) {
-        if (parts[i].querySelector('[k="building:part"]')) {
-          const id = parts[i].getAttribute('id');
+      for (const xmlPart of parts) {
+        if (xmlPart.querySelector('[k="building:part"]')) {
+          const id = xmlPart.getAttribute('id');
           try {
-            this.parts.push(new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options));
+            const part = new MultiBuildingPart(id, this.fullXmlData, this.nodelist, this.outerElement.options)
+            if (this.partIsInside(part)) {
+              this.parts.push(part);
+            }
           } catch (e) {
             window.printError(e);
           }
