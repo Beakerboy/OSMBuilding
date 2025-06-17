@@ -411,40 +411,36 @@ class BuildingShapeUtils extends ShapeUtils {
    * @return {boolean}
    */
   static surrounds(shape, point) {
-    var count = 0;
+    var inside = false;
     const vecs = shape.extractPoints().shape;
     var vec;
     var nextvec;
     for (let i = 0; i < vecs.length; i++) {
       vec = vecs[i];
       nextvec = vecs[(i + 1) % vecs.length];
+      // If the point is one of the corners, it's inside.
       if (vec.x === point[0] && vec.y === point[1]) {
         return true;
       }
-      if (nextvec.x === vec.x) {
-        // vertical line
-        if (vec.x === point[0]) {
+      // If the edge is horizonal and the point is on the line between the ends it's inside
+      if (nextvec.y === vec.y){
+        const a = vec.x > point[0]
+        const b = nextvec.x > point[0]
+        // xor
+        if (nextvec.y === point[1] && (a || b) && !(a && b)) {
           return true;
         }
-        if (vec.x > point[0] && (vec.y > point[1] || nextvec.y > point[1]) && !(vec.y > point[1] && nextvec.y > point[1])){
-          count++;
-        }
-      } else if (nextvec.y === vec.y) {
-        if (vec.y === point[1] && (vec.x > point[0] || nextvec.x > point[0]) && !(vec.x > point[0] && nextvec.x > point[0])){
+      } else if ((vec.y > point[1] && nextvec.y < point[1]) || (vec.y < point[1] && nextvec.y > point[1])) {
+        const crossing = vec.x + (point[1] - vec.y) * (nextvec.x - vec.x) / (nextvec.y - vec.y);
+        if (point[0] === crossing) {
           return true;
         }
-      } else {
-        const slope = (nextvec.y - vec.y) / (nextvec.x - vec.x);
-        const intercept = vec.y - slope * vec.x;
-        const intersection = (point[1] - intercept) / slope;
-        if (intersection > point[0] && intersection < Math.max(nextvec.x, vec.x) && intersection > Math.min(nextvec.x, vec.x)) {
-          count++;
-        } else if (intersection === point[0]) {
-          return true;
+        if (point[0] < crossing) {
+          inside = !inside;
         }
       }
     }
-    return count % 2 === 1;
+    return inside;
   }
 
   /**
