@@ -166,6 +166,8 @@ describe.each([
 describe.each([
   [[-.5, -.5], false, 'Outside but crossing'],
   [[-1.5, -1.5], false, 'Outside no crossings'],
+  [[1, -2], false, 'Outside but colinear
+   with vertical edge.'],
   [[1, 1], true, 'Share Node'],
   [[.5, .5], true, 'Inside'],
   [[0, 0], true, 'Border'],
