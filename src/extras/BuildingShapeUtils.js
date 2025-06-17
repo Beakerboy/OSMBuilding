@@ -424,8 +424,8 @@ class BuildingShapeUtils extends ShapeUtils {
       }
       // If the edge is horizonal and the point is on the line between the ends it's inside
       if (nextvec.y === vec.y){
-        const a = vec.x > point[0]
-        const b = nextvec.x > point[0]
+        const a = vec.x > point[0];
+        const b = nextvec.x > point[0];
         // xor
         if (nextvec.y === point[1] && (a || b) && !(a && b)) {
           return true;
