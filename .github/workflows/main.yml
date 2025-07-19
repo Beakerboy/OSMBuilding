@@ -25,7 +25,7 @@ jobs:
         echo '{"name":"hipped","type":"module","private":true,"scripts":{"test":"npx jest"}}' > "./package.json" && npm init -y
         cd ../OSMBuilding
         yarn --prod=false
-        ls -al
+        cat yarn.lock
     - name: Lint
       run: yarn run eslint .
     - name: Test
