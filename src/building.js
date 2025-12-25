@@ -107,7 +107,14 @@ class Building {
     } else if (this.type === 'multipolygon') {
       this.outerElement = new MultiBuildingPart(id, this.fullXmlData, this.nodelist);
     } else {
-      const outlineRef = outerElementXml.querySelector('member[role="outline"]').getAttribute('ref');
+      const outlines = outerElementXml.querySelectorAll('member[role="outline"]');
+      if (outlines.length > 1) {
+        throw new Error(`Found multiple outline members in relation ${this.id}`);
+      }
+      if (outlines.length === 0) {
+        throw new Error(`The relation ${this.id} does not contain a member with the outline role`);
+      }
+      const outlineRef = outlines[0].getAttribute('ref');
       const outline = this.fullXmlData.getElementById(outlineRef);
       const outlineType = outline.tagName.toLowerCase();
       if (outlineType === 'way') {
