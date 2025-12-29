@@ -315,6 +315,148 @@ test('Test downloading type=building with multipolygon outline and multiple inne
   expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
 });
 
+const typeBuildingWithoutOutlineMember = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6">
+  <node id="1" lat="59.938127" lon="30.4980057"/>
+  <node id="2" lat="59.9380365" lon="30.4992843"/>
+  <node id="3" lat="59.9384134" lon="30.4993839"/>
+  <node id="4" lat="59.9385087" lon="30.4981066"/>
+  <node id="5" lat="59.9381203" lon="30.4989364"/>
+  <node id="6" lat="59.93838" lon="30.499005"/>
+  <node id="7" lat="59.9384221" lon="30.498439"/>
+  <node id="8" lat="59.9381551" lon="30.4983684"/>
+  <way id="20">
+    <nd ref="4"/>
+    <nd ref="3"/>
+    <nd ref="2"/>
+    <nd ref="1"/>
+  </way>
+  <way id="21">
+    <nd ref="1"/>
+    <nd ref="4"/>
+  </way>
+  <way id="22">
+    <nd ref="6"/>
+    <nd ref="7"/>
+  </way>
+  <way id="23">
+    <nd ref="5"/>
+    <nd ref="6"/>
+  </way>
+  <way id="24">
+    <nd ref="8"/>
+    <nd ref="5"/>
+  </way>
+  <way id="25">
+    <nd ref="7"/>
+    <nd ref="8"/>
+  </way>
+  <relation id="40">
+    <member type="way" ref="20" role="outer"/>
+    <member type="way" ref="21" role="outer"/>
+    <member type="way" ref="22" role="inner"/>
+    <member type="way" ref="23" role="inner"/>
+    <member type="way" ref="24" role="inner"/>
+    <member type="way" ref="25" role="inner"/>
+    <tag k="building" v="school"/>
+    <tag k="building:levels" v="3"/>
+    <tag k="roof:shape" v="flat"/>
+    <tag k="type" v="multipolygon"/>
+  </relation>
+  <relation id="42">
+    <member type="relation" ref="40" role="part"/>
+    <tag k="type" v="building"/>
+  </relation>
+</osm>
+`;
+
+test('Test outline member exist', async() => {
+  fetch.mockResponses(
+    [typeBuildingRelationFullResponse],    // /relation/42/full
+    [outlineRelationFullResponse],         // /relation/40/full
+    [typeBuildingWithoutOutlineMember],    // /map call
+  );
+  const innerData = await Building.downloadDataAroundBuilding('relation', '42');
+  expect(() => new Building('42', innerData))
+    .toThrow(new Error('The relation 42 does not contain a member with the outline role'));
+  const urlBase = 'https://api.openstreetmap.org/api/0.6/';
+  expect(global.fetch.mock.calls[0][0]).toBe(urlBase + 'relation/42/full');
+  expect(global.fetch.mock.calls[1][0]).toBe(urlBase + 'relation/40/full');
+  expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
+});
+
+const typeBuildingWithMultipleOutlineMembers = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6">
+  <node id="1" lat="59.938127" lon="30.4980057"/>
+  <node id="2" lat="59.9380365" lon="30.4992843"/>
+  <node id="3" lat="59.9384134" lon="30.4993839"/>
+  <node id="4" lat="59.9385087" lon="30.4981066"/>
+  <node id="5" lat="59.9381203" lon="30.4989364"/>
+  <node id="6" lat="59.93838" lon="30.499005"/>
+  <node id="7" lat="59.9384221" lon="30.498439"/>
+  <node id="8" lat="59.9381551" lon="30.4983684"/>
+  <way id="20">
+    <nd ref="4"/>
+    <nd ref="3"/>
+    <nd ref="2"/>
+    <nd ref="1"/>
+  </way>
+  <way id="21">
+    <nd ref="1"/>
+    <nd ref="4"/>
+  </way>
+  <way id="22">
+    <nd ref="6"/>
+    <nd ref="7"/>
+  </way>
+  <way id="23">
+    <nd ref="5"/>
+    <nd ref="6"/>
+  </way>
+  <way id="24">
+    <nd ref="8"/>
+    <nd ref="5"/>
+  </way>
+  <way id="25">
+    <nd ref="7"/>
+    <nd ref="8"/>
+  </way>
+  <relation id="40">
+    <member type="way" ref="20" role="outer"/>
+    <member type="way" ref="21" role="outer"/>
+    <member type="way" ref="22" role="inner"/>
+    <member type="way" ref="23" role="inner"/>
+    <member type="way" ref="24" role="inner"/>
+    <member type="way" ref="25" role="inner"/>
+    <tag k="building" v="school"/>
+    <tag k="building:levels" v="3"/>
+    <tag k="roof:shape" v="flat"/>
+    <tag k="type" v="multipolygon"/>
+  </relation>
+  <relation id="42">
+    <member type="relation" ref="40" role="outline"/>
+    <member type="relation" ref="50" role="outline"/>
+    <tag k="type" v="building"/>
+  </relation>
+</osm>
+`;
+
+test('Test that it is checked that there is only one member with outline role', async() => {
+  fetch.mockResponses(
+    [typeBuildingRelationFullResponse],          // /relation/42/full
+    [outlineRelationFullResponse],               // /relation/40/full
+    [typeBuildingWithMultipleOutlineMembers],    // /map call
+  );
+  const innerData = await Building.downloadDataAroundBuilding('relation', '42');
+  expect(() => new Building('42', innerData))
+    .toThrow(new Error('Found multiple outline members in relation 42'));
+  const urlBase = 'https://api.openstreetmap.org/api/0.6/';
+  expect(global.fetch.mock.calls[0][0]).toBe(urlBase + 'relation/42/full');
+  expect(global.fetch.mock.calls[1][0]).toBe(urlBase + 'relation/40/full');
+  expect(global.fetch.mock.calls[2][0]).toBe(urlBase + 'map?bbox=30.4980057,59.9380365,30.4993839,59.9385087');
+});
+
+
 test('Part must be within outline', () => {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
 <osm>
