@@ -70,6 +70,7 @@ test('Constructor', () => {
 test('Normalize Length', () => {
   expect(BuildingPart.normalizeLength('5km')).toBe(5000);
   expect(BuildingPart.normalizeLength('1mi')).toBe(1609.344);
+  expect(BuildingPart.normalizeLength('1nmi')).toBe(1852);
 });
 
 window.printError = printError;
