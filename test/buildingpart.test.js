@@ -67,6 +67,10 @@ test('Constructor', () => {
   expect(errors.length).toBe(0);
 });
 
+test('Normalize Length', () => {
+  expect(BuildingPart.normalizeLength('5km')).toBe(5000);
+});
+
 window.printError = printError;
 
 var errors = [];
