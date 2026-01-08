@@ -360,13 +360,13 @@ class BuildingPart {
         // remove final character.
         return parseFloat(length.substring(0, length.length - 2)) * 1000;
       }
-      if (length.includes('mi')){
-        // remove final character.
-        return parseFloat(length.substring(0, length.length - 2)) * 5280 * 12 * 2.54 / 100;
-      }
       if (length.includes('nmi')){
         // remove final character.
         return parseFloat(length.substring(0, length.length - 3)) * 1852;
+      }
+      if (length.includes('mi')){
+        // remove final character.
+        return parseFloat(length.substring(0, length.length - 2)) * 5280 * 12 * 2.54 / 100;
       }
       if (length.includes('m')){
         // remove final character.
