@@ -596,7 +596,7 @@ test('Diagnose Skillion Issue', async() => {
   const parts = building.parts;
   let found = false;
   for (const part of parts){
-    // Get the building part
+    // Get the building part of interest
     if (part.id === '1426868384'){
       expect(part.options.roof.height).toBe(5.284715476364045);
       found = true;
