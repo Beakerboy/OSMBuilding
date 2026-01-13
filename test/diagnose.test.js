@@ -29,12 +29,12 @@ test('Diagnose Skillion Issue', async() => {
     [initialData],    // /way/1426868383/full
     [mapData],         // /map call
   );
-  let way_id = '1426868383';
-  const innerData = await Building.downloadDataAroundBuilding('way', way_id);
-  const building = new Building(way_id, innerData);
-  expect(building.id).toBe(way_id);
+  let wayId = '1426868383';
+  const innerData = await Building.downloadDataAroundBuilding('way', wayId);
+  const building = new Building(wayId, innerData);
+  expect(building.id).toBe(wayId);
   const urlBase = 'https://api.openstreetmap.org/api/0.6/';
-  expect(global.fetch.mock.calls[0][0]).toBe(urlBase + 'way/' + way_id + '/full');
+  expect(global.fetch.mock.calls[0][0]).toBe(urlBase + 'way/' + wayId + '/full');
   expect(global.fetch.mock.calls[1][0]).toBe(urlBase + 'map?bbox=125.7416897,39.0269534,125.7420811,39.0272423');
   // get building part
   const parts = building.parts;
