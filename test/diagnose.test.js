@@ -53,7 +53,10 @@ const initialData = `<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (1
 `;
 
 // Step 2: get the bounding box data for the buiding from the API
-const mapData = `
+const mapData = `<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (1885089 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="55.8550736" minlon="4.3312518" maxlat="55.8551787" maxlon="4.3313915"/>
+</osm>
 `;
 
 // Describe Issue
