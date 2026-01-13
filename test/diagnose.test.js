@@ -628,21 +628,11 @@ test('Diagnose Skillion Issue', async() => {
   for (const part of parts){
     // Get the building part
     if (part.id === '1426868384'){
-      const shape = part.shape;
-      const points = shape.extractPoints().shape;
-      //const options = {
-      //  angle: (360 - part.options.roof.direction) / 360 * 2 * Math.PI,
-      //  depth: part.options.roof.height,
-      //  pitch: part.options.roof.angle / 180 * Math.PI,
-      //};
-      expect(part.options).toBe({});
-      //expect(points).toBe([]);
-      //expect(shape.toJSON()).toBe('');
+      expect(part.options.roof.height).toBe(5.284715476364045);
       found = true;
     }
   }
   expect(found).toBe(true);
-  // dump outer shape
 });
 
 window.printError = printError;
