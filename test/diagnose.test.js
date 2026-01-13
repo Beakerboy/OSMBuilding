@@ -31,23 +31,8 @@ const initialData = `<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (1
 <nd ref="13116569241"/>
 <nd ref="13116569244"/>
 <nd ref="13116569242"/>
-<tag k="addr:city" v="Glasgow"/>
-<tag k="addr:country" v="GB"/>
-<tag k="addr:housenumber" v="183"/>
-<tag k="addr:postcode" v="G51 4DJ"/>
-<tag k="addr:street" v="Shieldhall Road"/>
-<tag k="amenity" v="fast_food"/>
-<tag k="brand" v="Greggs"/>
-<tag k="brand:wikidata" v="Q3403981"/>
-<tag k="brand:wikipedia" v="en:Greggs"/>
 <tag k="building" v="yes"/>
 <tag k="building:levels" v="2"/>
-<tag k="contact:website" v="https://www.greggs.co.uk/shop-finder?shop-code=1884"/>
-<tag k="cuisine" v="sandwich;bakery"/>
-<tag k="fhrs:id" v="47551"/>
-<tag k="name" v="Greggs"/>
-<tag k="ref:GB:uprn" v="906700381676"/>
-<tag k="takeaway" v="yes"/>
 </way>
 </osm>`;
 
@@ -559,23 +544,8 @@ const mapData = `<?xml version="1.0" encoding="UTF-8"?>
   <nd ref="13116569241"/>
   <nd ref="13116569244"/>
   <nd ref="13116569242"/>
-  <tag k="addr:city" v="Glasgow"/>
-  <tag k="addr:country" v="GB"/>
-  <tag k="addr:housenumber" v="183"/>
-  <tag k="addr:postcode" v="G51 4DJ"/>
-  <tag k="addr:street" v="Shieldhall Road"/>
-  <tag k="amenity" v="fast_food"/>
-  <tag k="brand" v="Greggs"/>
-  <tag k="brand:wikidata" v="Q3403981"/>
-  <tag k="brand:wikipedia" v="en:Greggs"/>
   <tag k="building" v="yes"/>
   <tag k="building:levels" v="2"/>
-  <tag k="contact:website" v="https://www.greggs.co.uk/shop-finder?shop-code=1884"/>
-  <tag k="cuisine" v="sandwich;bakery"/>
-  <tag k="fhrs:id" v="47551"/>
-  <tag k="name" v="Greggs"/>
-  <tag k="ref:GB:uprn" v="906700381676"/>
-  <tag k="takeaway" v="yes"/>
  </way>
  <way id="1426868384" visible="true" version="1" changeset="171414308" timestamp="2025-09-03T15:51:12Z" user="zuzak" uid="237340">
   <nd ref="13116569245"/>
