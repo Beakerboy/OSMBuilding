@@ -624,7 +624,7 @@ test('Diagnose Skillion Issue', async() => {
   expect(global.fetch.mock.calls[1][0]).toBe(urlBase + 'map?bbox=-4.3314236,55.8550736,-4.3312202,55.8551787');
   // get building part
   const parts = building.parts;
-  // let found = false;
+  let found = false;
   for (const part of parts){
     // Get the building part
     if (part.id === '1426868384'){
@@ -636,12 +636,12 @@ test('Diagnose Skillion Issue', async() => {
       //  pitch: part.options.roof.angle / 180 * Math.PI,
       //};
       //expect(options).toBe({});
-      expect(points).toBe([]);
+      //expect(points).toBe([]);
       //expect(shape.toJSON()).toBe('');
-      // found = true;
+      found = true;
     }
   }
-  // expect(found).toBeTrue();
+  expect(found).toBe(true);
   // dump outer shape
 });
 
