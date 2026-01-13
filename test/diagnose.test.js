@@ -635,7 +635,7 @@ test('Diagnose Skillion Issue', async() => {
       //  depth: part.options.roof.height,
       //  pitch: part.options.roof.angle / 180 * Math.PI,
       //};
-      //expect(options).toBe({});
+      expect(part.options).toBe({});
       //expect(points).toBe([]);
       //expect(shape.toJSON()).toBe('');
       found = true;
